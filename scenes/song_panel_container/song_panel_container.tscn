@@ -1,0 +1,228 @@
+[gd_scene load_steps=11 format=3 uid="uid://dio71tarrntlf"]
+
+[ext_resource type="Texture2D" uid="uid://faqv22wj0cw1" path="res://icon.svg" id="1_77by4"]
+[ext_resource type="Script" path="res://scenes/song_panel_container/song_panel_container.gd" id="1_lk34l"]
+[ext_resource type="Texture2D" uid="uid://dcqtgyrr3fac2" path="res://assets/user.svg" id="2_kxsao"]
+[ext_resource type="Texture2D" uid="uid://byeluf85nlgra" path="res://assets/record.svg" id="3_r1y1j"]
+[ext_resource type="Texture2D" uid="uid://beq3xrq55bgua" path="res://assets/Play.svg" id="4_rxd7k"]
+[ext_resource type="Texture2D" uid="uid://dlegkxypq8u32" path="res://assets/Pause.svg" id="5_0esqv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_thsvn"]
+border_width_top = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ngsj1"]
+border_width_top = 3
+border_width_bottom = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qpd7e"]
+bg_color = Color(0, 0, 0, 0.392157)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rnfw6"]
+bg_color = Color(0, 0, 0, 0.392157)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[node name="SongPanelContainer" type="VBoxContainer"]
+theme_override_constants/separation = 16
+alignment = 1
+script = ExtResource("1_lk34l")
+
+[node name="SongPanel" type="PanelContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="SongPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SongPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="MusicImage" type="TextureRect" parent="SongPanel/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(172, 172)
+layout_mode = 2
+texture = ExtResource("1_77by4")
+expand_mode = 4
+stretch_mode = 6
+
+[node name="MarginContainer" type="MarginContainer" parent="SongPanel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SongPanel/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Song Title"
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="ArtistContainer" type="HBoxContainer" parent="SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/ArtistContainer"]
+layout_mode = 2
+texture = ExtResource("2_kxsao")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="ArtistLabel" type="Label" parent="SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/ArtistContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "Artist
+"
+text_overrun_behavior = 3
+
+[node name="AlbumContainer" type="HBoxContainer" parent="SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/AlbumContainer"]
+layout_mode = 2
+texture = ExtResource("3_r1y1j")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="AlbumLabel" type="Label" parent="SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/AlbumContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "Album"
+text_overrun_behavior = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="PlayButton" type="Button" parent="SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+icon = ExtResource("4_rxd7k")
+flat = true
+expand_icon = true
+
+[node name="PauseButton" type="Button" parent="SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+icon = ExtResource("5_0esqv")
+flat = true
+expand_icon = true
+
+[node name="CurrentTimeLabel" type="Label" parent="SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "00:00
+"
+
+[node name="HSeparator" type="HSeparator" parent="SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxFlat_thsvn")
+
+[node name="ProgressLine" type="HSeparator" parent="SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/HSeparator"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_ngsj1")
+
+[node name="EndTimeLabel" type="Label" parent="SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "00:00"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qpd7e")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 4
+
+[node name="PlaylistProgress" type="Label" parent="HBoxContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "1 / 40"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="UpNextLabel" type="Label" parent="HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 18
+text = "Up Next:"
+
+[node name="PanelContainer2" type="PanelContainer" parent="HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_rnfw6")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/HBoxContainer/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 4
+
+[node name="NextSongTitle" type="Label" parent="HBoxContainer/HBoxContainer/PanelContainer2/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Song name here
+"
+visible_characters = 30
+visible_ratio = 2.0
+
+[connection signal="pressed" from="SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/PauseButton" to="." method="_on_pause_button_pressed"]

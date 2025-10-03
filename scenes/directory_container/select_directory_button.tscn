@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0h87f3bb7llk"]
+
+[ext_resource type="Texture2D" uid="uid://n05i3lx2qti" path="res://assets/Add.svg" id="1_366c2"]
+
+[node name="SelectDirectoryButton" type="Button"]
+offset_right = 8.0
+offset_bottom = 8.0
+size_flags_horizontal = 3
+text = "Use this Directory"
+icon = ExtResource("1_366c2")
+alignment = 0

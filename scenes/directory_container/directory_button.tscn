@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2v15u6f0dtjf"]
+
+[ext_resource type="Texture2D" uid="uid://b2f5qjioe80m4" path="res://assets/Folder.svg" id="1_e1kq6"]
+[ext_resource type="Texture2D" uid="uid://cbwv4d0bjr6y1" path="res://assets/folder_nested_line.png" id="2_1ewwh"]
+
+[node name="DirectoryButton" type="Button"]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Directory"
+icon = ExtResource("1_e1kq6")
+alignment = 0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = -23.0
+offset_top = -77.0
+offset_right = 8.0
+offset_bottom = 17.0
+texture = ExtResource("2_1ewwh")
+stretch_mode = 4

@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://df4a822eoewui"]
+
+[ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="1_n52mj"]
+[ext_resource type="Texture2D" uid="uid://cbwv4d0bjr6y1" path="res://assets/folder_nested_line.png" id="2_upa1c"]
+
+[node name="SongButton" type="Button"]
+custom_minimum_size = Vector2(150, 0)
+offset_right = 8.0
+offset_bottom = 8.0
+size_flags_horizontal = 3
+text = "Song Name"
+icon = ExtResource("1_n52mj")
+alignment = 0
+text_overrun_behavior = 3
+expand_icon = true
+
+[node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = -23.0
+offset_top = -77.0
+offset_right = 8.0
+offset_bottom = 17.0
+texture = ExtResource("2_upa1c")
+stretch_mode = 4

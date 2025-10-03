@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://desioof13j6pq"
+path="res://.godot/imported/Cursor 1 (Sine).mp3-99f784288974e477d56a9fb5f3e4880b.mp3str"
+
+[deps]
+
+source_file="res://sound_effects/Cursor 1 (Sine).mp3"
+dest_files=["res://.godot/imported/Cursor 1 (Sine).mp3-99f784288974e477d56a9fb5f3e4880b.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
