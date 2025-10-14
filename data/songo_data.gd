@@ -2,7 +2,7 @@ class_name SongoDataResource extends Resource
 
 signal import_finished
 const SAVE_PATH = "user://songo_data.tres"
-const VERSION = "v0.0.7 Monica"
+const VERSION = "v0.1.1 Erica"
 const THEME_COLORS = [
 	"48486d", # Grayish blue
 	"84233b", # Purpley
@@ -10,7 +10,7 @@ const THEME_COLORS = [
 	"562b90", # Purpley Blue
 ]
 
-@export var music_directory_path = null
+@export var music_directory_path = "No Path"
 @export var mp3_records: Array[Mp3Record] = []
 @export var saved_version = ""
 @export var theme_color = THEME_COLORS[3]
@@ -18,10 +18,12 @@ const THEME_COLORS = [
 @export var albums: Array[AlbumRecord]
 
 var import_progress: float = 0.0
+var import_step: int = 0
 var _import_thread: Thread
 var _stop_flag := false
 var _album_names := {}
 var _song_paths := {}
+var import_notes = []
 
 var artist_count: int:
 	get: return artists.size()
@@ -51,36 +53,17 @@ static func get_instance() -> SongoDataResource:
 		else:
 			_instance = SongoDataResource.new()
 	return _instance
-	
+	 
 func cache_artists():
 	artists = unique_array(mp3_records.map(func(r: Mp3Record): return r.artist))
 
-func cache_albums():
-	var music_meta_obj = MusicMeta.new()
-	albums.clear()
-	var mp3_records_dup = mp3_records.duplicate()
-	var album_names = unique_array(mp3_records_dup.map(func(r: Mp3Record): return r.album))
-	for album_name in album_names:
-		var album_record = AlbumRecord.new()
-		album_record.name = album_name
-		print("albumc thin")
-		print(songs_in_album(album_name).size())
-		for song in songs_in_album(album_name):
-			var stream = load_mp3_as_audio_stream(song.full_path)
-			var meta_data = music_meta_obj.get_mp3_metadata(stream)
-			if meta_data.cover:
-				album_record.cover = meta_data.cover
-				break
-		albums.append(album_record)
-	
 func songs_in_album(album_name):
 	var matches = mp3_records.filter(func(song): return song.album == album_name)
 	return matches
 	
 func cover_for_song(file_path):
-	var song = load_mp3_as_audio_stream(file_path)
-	var music_meta_obj = MusicMeta.new()
-	return music_meta_obj.get_mp3_metadata(song).cover
+	var image_extractor = Mp3ImageExtractor.new()
+	return image_extractor.get_cover_image(file_path)
 	
 func unique_array(arr: Array) -> Array:
 	var dict := {}
@@ -89,6 +72,11 @@ func unique_array(arr: Array) -> Array:
 	return dict.keys()
 	
 func index_mp3s():
+	mp3_records.clear()
+	albums.clear()
+	
+	_song_paths = {}
+	_album_names = {}
 	start_import()
 	
 func formatted_length(length_sec: float):
@@ -99,66 +87,64 @@ func formatted_length(length_sec: float):
 func coalesce(value, default):
 	return value if value != null and value != "" else default
 	
-func get_mp3_paths_OLD(directory_path):
-	if directory_path == null: return []
-	
-	var dir = DirAccess.open(directory_path)
-	var found_mp3s = []
-	
-	if dir:
-		dir.list_dir_begin()
-		var file_name = dir.get_next()
-		dir.list_dir_begin()
-		
-		while file_name != "":
-			if not dir.current_is_dir() and file_name.get_extension().to_lower() == "mp3":
-				var full_path = directory_path + "/" + file_name
-				found_mp3s.append(full_path)
-			file_name = dir.get_next()
-			
-		dir.list_dir_end()
-		print("Found ", found_mp3s.size(), " MP3 files")
-	else:
-		print("Failed to open directory: ", directory_path)
-		
-	return found_mp3s
-	
 func get_mp3_paths(directory_path: String) -> Array:
-	if directory_path == null:
+	if directory_path == null or directory_path == "":
 		return []
 
-	var found_mp3s := []
-	_scan_dir_recursive(directory_path, found_mp3s)
+	var found_mp3s: Array = []
+	var visited: Dictionary = {}
+
+	var dir_test := DirAccess.open(directory_path)
+	if dir_test == null:
+		push_warning("Could not open root directory: %s" % directory_path)
+		return found_mp3s
+
+	_scan_dir_recursive(directory_path, found_mp3s, visited)
 	print("Found ", found_mp3s.size(), " MP3 files")
 	return found_mp3s
 
 
-func _scan_dir_recursive(path: String, result: Array) -> void:
+func _scan_dir_recursive(path: String, result: Array, visited: Dictionary) -> void:
+	if path in visited:
+		return
+	visited[path] = true
+
 	var dir := DirAccess.open(path)
-	if not dir:
+	if dir == null:
 		print("Failed to open directory: ", path)
 		return
 
-	dir.list_dir_begin()
-	var file_name = dir.get_next()
+	dir.list_dir_begin()  # skip . .. and hidden
+	var file_name := dir.get_next()
+
 	while file_name != "":
-		# Skip current/parent directories
-		if file_name != "." and file_name != "..":
-			var full_path = path + "/" + file_name
-			if dir.current_is_dir():
-				# Recurse into subdirectory
-				_scan_dir_recursive(full_path, result)
-			elif file_name.get_extension().to_lower() == "mp3":
+		var full_path := path.path_join(file_name)
+		var is_dir := DirAccess.dir_exists_absolute(full_path)
+		var is_file := FileAccess.file_exists(full_path)
+
+		if is_dir:
+			_scan_dir_recursive(full_path, result, visited)
+		elif is_file:
+			var ext := file_name.get_extension().to_lower()
+			if ext == "mp3":
+				call_deferred("_update_import_progress", result.size())
 				result.append(full_path)
+		else:
+			# Neither dir nor file (broken link, device node, etc.)
+			push_error("Skipping non-file entry:", full_path)
+
 		file_name = dir.get_next()
+
 	dir.list_dir_end()
+
 	
 func load_mp3_as_audio_stream(file_path: String) -> AudioStreamMP3:
 	var file = FileAccess.open(file_path, FileAccess.READ)
 	if not file:
+		import_notes.append("Failure to load audio stream")
 		print("Failed to open MP3 file: ", file_path)
 		return null
-	
+	import_notes.append("Audio stream loaded")
 	var audio_stream = AudioStreamMP3.new()
 	audio_stream.data = file.get_buffer(file.get_length())
 	file.close()
@@ -175,13 +161,37 @@ func save():
 	var error = ResourceSaver.save(self, SAVE_PATH)
 	if error != OK:
 		print("Error saving collection: ", error)
+		import_notes.append("Error saving imported data: %s" % error)
 		return
+		
+func summarized_import_notes() -> String:
+	if import_notes.is_empty():
+		return ""
+	
+	var counts := {}
+	for log in import_notes:
+		counts[log] = counts.get(log, 0) + 1
+	
+	var summary_lines := []
+	for log in counts.keys():
+		var count = counts[log]
+		if count > 1:
+			summary_lines.append("%s (x%d)" % [log, count])
+		else:
+			summary_lines.append(log)
+	
+	return " | ".join(summary_lines)
 
+func fallback_title(mp3_path):
+	var file_name = mp3_path.get_file()
+	if file_name.to_lower().ends_with(".mp3"):
+		file_name = file_name.substr(0, file_name.length() - 4)
+	file_name = file_name.replace("_", " ")
+	return file_name + "*"
+	
 func sanitize_name(name: String) -> String:
 	var regex := RegEx.new()
-	# Match anything NOT A–Z or a–z
 	regex.compile("[^A-Za-z]")
-	# Replace with empty string
 	var result := regex.sub(name, "", true)
 	
 	if result.is_empty():
@@ -195,6 +205,7 @@ static func ensure_dir(path: String) -> void:
 
 # --- threaded import entrypoint ---
 func start_import():
+	import_notes.clear()
 	if _import_thread and _import_thread.is_alive():
 		return  # already running
 	_stop_flag = false
@@ -207,36 +218,43 @@ func stop_import():
 		_import_thread.wait_to_finish()
 
 func _thread_import():
-	var music_meta_obj = MusicMeta.new()
-	mp3_records.clear()
+	import_step = 0
 	import_progress = 0
 
 	var mp3_paths = get_mp3_paths(music_directory_path)
+	call_deferred("_import_step_zero_done")
+	import_progress = 0
 	var count = mp3_paths.size()
+	import_notes.append("Beginning import for %d mp3 files" % count)
 
-	for i in mp3_paths.size():
+	for i in range(mp3_paths.size()):
 		if _stop_flag:
 			break
-
 		var mp3_path = mp3_paths[i]
-		var record = _make_record(mp3_path, music_meta_obj)
+		var record = _make_record(mp3_path)
 		call_deferred("_on_record_imported", record, i/float(count))
 	call_deferred("_on_import_complete")
 	return
-
-
-func _make_record(mp3_path: String, music_meta_obj: MusicMeta) -> Mp3Record:
-	var audio_stream = load_mp3_as_audio_stream(mp3_path)
-	var meta_data = music_meta_obj.get_mp3_metadata(audio_stream)
-
+	
+func _make_record(mp3_path: String) -> Mp3Record:
+	#var audio_stream = load_mp3_as_audio_stream(mp3_path)
+	var tagReader := MP3ID3TagV3.new()
+	tagReader.file_path = mp3_path
 	var rec = Mp3Record.new()
 	rec.full_path = mp3_path
-	rec.title = meta_data.title
-	rec.length = formatted_length(audio_stream.get_length())
-	rec.album = coalesce(meta_data.album, "Unknown Album")
-	rec.artist = meta_data.artist
+	rec.title = coalesce(tagReader.getTrackName(), fallback_title(mp3_path))
+	rec.length = formatted_length(tagReader.getMp3LengthSeconds())
+	#rec.length = formatted_length(audio_stream.get_length())
+	rec.album = coalesce(tagReader.getAlbum(), "Unknown Album")
+	rec.artist = coalesce(tagReader.getArtist(), "Unkown Artist")
 	return rec
-
+	
+func _update_import_progress(file_count: int):
+	import_progress = float(file_count)
+	
+func _import_step_zero_done():
+	import_step = 1
+	
 # --- callbacks executed on main thread ---
 func _on_record_imported(record: Mp3Record, progress: float):
 	if not _song_paths.has(record.full_path):
@@ -255,24 +273,28 @@ func _update_album(record):
 		var album = AlbumRecord.new()
 		album.name = record.album
 		album.artist = record.artist
-		var cover_image = cover_for_song(record.full_path).get_image()
+		var cover_image = cover_for_song(record.full_path)
 		var safe_name = sanitize_name(record.album)
-		
-		var min_size = 164
-		var w = cover_image.get_width()
-		var h = cover_image.get_height()
-		if w > 0 and h > 0:
+
+		if cover_image != null:
+			var min_size = 164
+			var w = cover_image.get_width()
+			var h = cover_image.get_height()
 			var scale = float(min_size) / min(w, h)
-			var new_w = int(w * scale)
-			var new_h = int(h * scale)
-			cover_image.resize(new_w, new_h, Image.INTERPOLATE_LANCZOS)
+			if w > 0 and h > 0:
+				var new_w = int(w * scale)
+				var new_h = int(h * scale)
+				cover_image.resize(new_w, new_h, Image.INTERPOLATE_LANCZOS)
 			
-		cover_image.save_png("user://album_covers/" + safe_name + ".png")
-		album.cover_path = "user://album_covers/" + safe_name + ".png"
+			cover_image.save_png("user://album_covers/" + safe_name + ".png")
+			album.cover_path = "user://album_covers/" + safe_name + ".png"
 		albums.append(album)
 		
 func _on_import_complete():
+	import_step = 0
+	import_notes.append("Import songs finished. (%d)" % mp3_records.size())
 	mp3_records = get_mp3_records_alphabetical()
-	cache_artists()
+	import_notes.append("Imported songs alphabetized. (%d)" % mp3_records.size())
 	save()
+	import_notes.append("Import appears to have saved successfully")
 	import_finished.emit()

@@ -12,8 +12,8 @@ var dark_out
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
-
+	%MusicDirTip.text = DeviceOS.music_dir_tip
+	
 func setup(dark_out_arg: Control):
 	dark_out = dark_out_arg
 	set_initial_path()
@@ -22,8 +22,13 @@ func setup(dark_out_arg: Control):
 func render_ui():
 	%ImportProgressContainer.visible = importing
 	if importing:
-		%ImportProgressLabel.text = "Progress %.1f%%" % (songo_data.import_progress * 100)
-		%ProgressBar.scale.x = songo_data.import_progress
+		if songo_data.import_step == 0:
+			%ImportProgressLabel.text = "MP3's found %d" % int(songo_data.import_progress)
+			%ProgressBar.visible = false
+		if songo_data.import_step == 1:
+			%ProgressBar.visible = true
+			%ImportProgressLabel.text = "Progress %.1f%%" % (songo_data.import_progress * 100)
+			%ProgressBar.scale.x = songo_data.import_progress
 		
 func handle_input(delta: float):
 	if importing == true: return

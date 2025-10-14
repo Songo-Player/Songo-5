@@ -5,7 +5,6 @@ class_name SongPanelContainer
 signal closing_container
 
 var songo_player: SongoPlayer
-var music_meta_obj = MusicMeta.new()
 var current_song_duration
 
 # Called when the node enters the scene tree for the first time.
@@ -17,13 +16,13 @@ func setup(songo_player_arg):
 	songo_player.started_new_song.connect(_on_started_new_song)
 	
 func handle_input(delta: float):
-	if Input.is_action_just_pressed("right"):
+	if Input.is_action_just_pressed("ui_right"):
 		_on_play_button_pressed()
 		songo_player.play_next()
 	
-	if Input.is_action_just_pressed("left"):
+	if Input.is_action_just_pressed("ui_left"):
 		var playback_position: float = songo_player.get_playback_position()
-		display_pause_button()
+		display_play_button()
 		if playback_position >= 3.0:
 			songo_player.play_from_start()
 		else:
@@ -46,15 +45,22 @@ func shuffle_play():
 	songo_player.play_from_start()
 	%PauseButton.grab_focus()
 		
-func setup_display_for(audio_stream: AudioStreamMP3):
-	var meta_data = music_meta_obj.get_mp3_metadata(audio_stream)
+func setup_display_for(mp3_record: Mp3Record):
+	%EndTimeLabel.text = "00:00" # gets updated later
+	%TitleLabel.set_carousel_text(mp3_record.title)
+	%ArtistLabel.set_carousel_text(mp3_record.artist)
+	%AlbumLabel.set_carousel_text(mp3_record.album)
 	
-	reset_stream_display()
-	if meta_data.title: %TitleLabel.text = meta_data.title
-	if meta_data.artist: %ArtistLabel.text = meta_data.artist
-	if meta_data.album: %AlbumLabel.text = meta_data.album
-	if meta_data.cover: %MusicImage.texture = meta_data.cover
-	set_end_time(audio_stream)
+	var image_extractor = Mp3ImageExtractor.new()
+	var image = image_extractor.get_cover_image(mp3_record.full_path)
+	if image == null:
+		%MusicImage.hide()
+	else:
+		%MusicImage.show()
+		%MusicImage.texture = ImageTexture.create_from_image(image)
+	
+func coalesce(value, default):
+	return value if value != null and value != "" else default
 	
 func set_end_time(audio_stream: AudioStreamMP3):
 	var length_sec: float = audio_stream.get_length()
@@ -68,13 +74,6 @@ func set_end_time(audio_stream: AudioStreamMP3):
 	var seconds: int = int(length_sec) % 60
 	%EndTimeLabel.text = "%d:%02d" % [minutes, seconds]
 	
-func reset_stream_display():
-	# %MusicImage.texture = "res://icon.svg"
-	%TitleLabel.text = "Missing title"
-	%ArtistLabel.text = "Unkown artist"
-	%AlbumLabel.text = "Unkown album"
-	%EndTimeLabel.text = "00:00"
-	
 func update_play_time():
 	if songo_player.playing:
 		var pos_sec: float = songo_player.get_playback_position()
@@ -85,11 +84,9 @@ func update_play_time():
 		%ProgressLine.scale.x = progress_ratio
 		
 func setup_playlist_info():
-	var next_song = songo_player.get_next_audio_stream()
-	var next_song_meta = music_meta_obj.get_mp3_metadata(next_song)
-	%NextSongTitle.text = next_song_meta.title
+	var next_song = songo_player.get_next_mp3_record()
+	%NextSongTitle.text = next_song.title
 	%PlaylistProgress.text = "%d / %d" % [songo_player.play_index+1, songo_player.mp3_files.size()]
-	
 
 func display_play_button():
 	%PlayButton.hide()
@@ -101,13 +98,13 @@ func display_pause_button():
 	%PlayButton.show()
 	%PlayButton.grab_focus()
 	
-	
 ##############################
 #           SIGNALS          #
 ##############################
 	
-func _on_started_new_song(audio_stream):
-	setup_display_for(audio_stream)
+func _on_started_new_song(mp3_record: Mp3Record):
+	setup_display_for(mp3_record)
+	set_end_time(songo_player.stream)
 	setup_playlist_info()
 	
 func _on_play_button_pressed() -> void:

@@ -8,11 +8,14 @@ func _ready() -> void:
 	
 func setup(album_record_arg):
 	album_record = album_record_arg
-	print(OS.get_user_data_dir())
-	%AlbumCover.texture = ImageTexture.create_from_image(album_record.cover)
+	#print(OS.get_user_data_dir())
+	if album_record.cover_path != "":
+		%AlbumCover.texture = ImageTexture.create_from_image(album_record.cover)
+		%FallbackCover.hide()
+	else:
+		%AlbumCover.hide()
 	%AlbumName.text = album_record.name
 	%ArtistName.text = album_record.artist
-	#icon.texture = album_record.cover
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

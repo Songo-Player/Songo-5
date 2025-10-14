@@ -1,11 +1,24 @@
-[gd_scene load_steps=11 format=3 uid="uid://dio71tarrntlf"]
+[gd_scene load_steps=16 format=3 uid="uid://dio71tarrntlf"]
 
 [ext_resource type="Texture2D" uid="uid://faqv22wj0cw1" path="res://icon.svg" id="1_77by4"]
 [ext_resource type="Script" path="res://scenes/song_panel_container/song_panel_container.gd" id="1_lk34l"]
 [ext_resource type="Texture2D" uid="uid://dcqtgyrr3fac2" path="res://assets/user.svg" id="2_kxsao"]
+[ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="2_wqlys"]
 [ext_resource type="Texture2D" uid="uid://byeluf85nlgra" path="res://assets/record.svg" id="3_r1y1j"]
 [ext_resource type="Texture2D" uid="uid://beq3xrq55bgua" path="res://assets/Play.svg" id="4_rxd7k"]
 [ext_resource type="Texture2D" uid="uid://dlegkxypq8u32" path="res://assets/Pause.svg" id="5_0esqv"]
+[ext_resource type="Script" path="res://utilities/carousel_label.gd" id="5_2acmr"]
+
+[sub_resource type="Gradient" id="Gradient_3sni6"]
+colors = PackedColorArray(0.584314, 0, 0.286275, 1, 0.435294, 0.741176, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8xhl3"]
+gradient = SubResource("Gradient_3sni6")
+fill_from = Vector2(1, 0)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jpt26"]
+texture = SubResource("GradientTexture2D_8xhl3")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_thsvn"]
 border_width_top = 2
@@ -48,7 +61,17 @@ theme_override_constants/margin_bottom = 8
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="MusicImage" type="TextureRect" parent="SongPanel/MarginContainer/HBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="SongPanel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_jpt26")
+
+[node name="TextureRect" type="TextureRect" parent="SongPanel/MarginContainer/HBoxContainer/PanelContainer"]
+custom_minimum_size = Vector2(172, 172)
+layout_mode = 2
+texture = ExtResource("2_wqlys")
+expand_mode = 3
+
+[node name="MusicImage" type="TextureRect" parent="SongPanel/MarginContainer/HBoxContainer/PanelContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(172, 172)
 layout_mode = 2
@@ -73,6 +96,7 @@ theme_override_font_sizes/font_size = 30
 text = "Song Title"
 clip_text = true
 text_overrun_behavior = 3
+script = ExtResource("5_2acmr")
 
 [node name="ArtistContainer" type="HBoxContainer" parent="SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -91,6 +115,7 @@ theme_override_font_sizes/font_size = 20
 text = "Artist
 "
 text_overrun_behavior = 3
+script = ExtResource("5_2acmr")
 
 [node name="AlbumContainer" type="HBoxContainer" parent="SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -107,7 +132,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 20
 text = "Album"
-text_overrun_behavior = 3
+clip_text = true
+script = ExtResource("5_2acmr")
 
 [node name="PanelContainer" type="PanelContainer" parent="SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2

@@ -9,5 +9,4 @@ var cover:
 	get: 
 		var image = Image.new()
 		image.load(cover_path)
-		print(cover_path)
 		return image
