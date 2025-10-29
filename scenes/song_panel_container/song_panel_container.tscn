@@ -50,6 +50,19 @@ script = ExtResource("1_lk34l")
 layout_mode = 2
 size_flags_vertical = 4
 
+[node name="MarginContainer2" type="MarginContainer" parent="SongPanel"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_top = -30
+
+[node name="FileTypeLabel" type="Label" parent="SongPanel/MarginContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 0.54902)
+theme_override_font_sizes/font_size = 22
+text = "MP3 File"
+
 [node name="MarginContainer" type="MarginContainer" parent="SongPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
@@ -62,21 +75,21 @@ layout_mode = 2
 theme_override_constants/separation = 12
 
 [node name="PanelContainer" type="PanelContainer" parent="SongPanel/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(180, 180)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_jpt26")
 
 [node name="TextureRect" type="TextureRect" parent="SongPanel/MarginContainer/HBoxContainer/PanelContainer"]
-custom_minimum_size = Vector2(172, 172)
 layout_mode = 2
 texture = ExtResource("2_wqlys")
-expand_mode = 3
+expand_mode = 5
+stretch_mode = 6
 
 [node name="MusicImage" type="TextureRect" parent="SongPanel/MarginContainer/HBoxContainer/PanelContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(172, 172)
 layout_mode = 2
 texture = ExtResource("1_77by4")
-expand_mode = 4
+expand_mode = 5
 stretch_mode = 6
 
 [node name="MarginContainer" type="MarginContainer" parent="SongPanel/MarginContainer/HBoxContainer"]

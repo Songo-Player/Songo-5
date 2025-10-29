@@ -3,4 +3,5 @@
 [ext_resource type="FontFile" uid="uid://fhmejhs3d6m0" path="res://fonts/NotoSansCJKjp-Medium.otf" id="1_f8qrc"]
 
 [resource]
+ItemList/fonts/font = ExtResource("1_f8qrc")
 Label/fonts/font = ExtResource("1_f8qrc")

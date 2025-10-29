@@ -1,25 +1,73 @@
-[gd_scene load_steps=3 format=3 uid="uid://df4a822eoewui"]
+[gd_scene load_steps=7 format=3 uid="uid://df4a822eoewui"]
 
+[ext_resource type="Script" path="res://scenes/all_songs_container/song_button.gd" id="1_j72v8"]
 [ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="1_n52mj"]
-[ext_resource type="Texture2D" uid="uid://cbwv4d0bjr6y1" path="res://assets/folder_nested_line.png" id="2_upa1c"]
+[ext_resource type="Texture2D" uid="uid://4lwbxso23g8o" path="res://assets/folder_nested_line_long.png" id="3_423bm"]
 
-[node name="SongButton" type="Button"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7pi62"]
+bg_color = Color(1, 1, 1, 0.196078)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qfcc5"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3xkob"]
+border_width_bottom = 1
+
+[node name="SongButton" type="MarginContainer"]
 custom_minimum_size = Vector2(150, 0)
-offset_right = 8.0
-offset_bottom = 8.0
+offset_right = 150.0
+offset_bottom = 64.0
 size_flags_horizontal = 3
-text = "Song Name"
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 6
+script = ExtResource("1_j72v8")
+
+[node name="Button" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxFlat_7pi62")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_qfcc5")
+text = "Song Name
+"
 icon = ExtResource("1_n52mj")
 alignment = 0
 text_overrun_behavior = 3
 expand_icon = true
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="DirTreeIcon" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = -22
+theme_override_constants/margin_top = -240
+
+[node name="TextureRect" type="TextureRect" parent="DirTreeIcon"]
 texture_filter = 1
-layout_mode = 0
-offset_left = -23.0
-offset_top = -77.0
-offset_right = 8.0
-offset_bottom = 17.0
-texture = ExtResource("2_upa1c")
+layout_mode = 2
+texture = ExtResource("3_423bm")
 stretch_mode = 4
+
+[node name="ButtonSeparator" type="HSeparator" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
+theme_override_constants/separation = 0
+theme_override_styles/separator = SubResource("StyleBoxFlat_3xkob")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_right = 4
+
+[node name="Duration" type="Label" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+text = "00:00"

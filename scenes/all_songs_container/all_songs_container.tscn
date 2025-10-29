@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://tohepsfqkkvr"]
+[gd_scene load_steps=12 format=3 uid="uid://tohepsfqkkvr"]
 
 [ext_resource type="Script" path="res://scenes/all_songs_container/all_songs_container.gd" id="1_3as6r"]
 [ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="1_mcks6"]
-[ext_resource type="Script" path="res://item_list_test.gd" id="3_5vukh"]
-[ext_resource type="PackedScene" uid="uid://dryrkcwh56rym" path="res://scenes/shuffle_button/shuffle_button.tscn" id="3_tx788"]
-[ext_resource type="Texture2D" uid="uid://cbwv4d0bjr6y1" path="res://assets/folder_nested_line.png" id="4_iwi2y"]
+[ext_resource type="Texture2D" uid="uid://dt2pe77pksx87" path="res://assets/shuffle.svg" id="5_5sac8"]
+[ext_resource type="Texture2D" uid="uid://ecyapgsdhese" path="res://assets/XboxSeriesX_X.png" id="6_hoygm"]
+[ext_resource type="Script" path="res://utilities/top_bar_clip_mask.gd" id="6_tppmn"]
+[ext_resource type="Script" path="res://utilities/virtualized_list.gd" id="7_s4to2"]
 
 [sub_resource type="Gradient" id="Gradient_ott0l"]
 colors = PackedColorArray(0.584314, 0, 0.286275, 1, 0.435294, 0.741176, 1, 1)
@@ -17,9 +18,18 @@ fill_to = Vector2(1, 1)
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2pxsb"]
 texture = SubResource("GradientTexture2D_v51hy")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_njo78"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o3h1c"]
+bg_color = Color(1, 1, 1, 0.196078)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ky0ey"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fcstb"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
 
 [node name="AllSongsContainer" type="VBoxContainer"]
 offset_right = 244.0
@@ -47,13 +57,21 @@ layout_mode = 2
 theme_override_constants/separation = 8
 
 [node name="PanelContainer" type="PanelContainer" parent="PanelContainer/PanelContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_2pxsb")
 
 [node name="TextureRect" type="TextureRect" parent="PanelContainer/PanelContainer/MarginContainer/HBoxContainer/PanelContainer"]
 layout_mode = 2
 texture = ExtResource("1_mcks6")
-expand_mode = 3
+expand_mode = 5
+
+[node name="CustomSongListImage" type="TextureRect" parent="PanelContainer/PanelContainer/MarginContainer/HBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+expand_mode = 5
+stretch_mode = 6
 
 [node name="PanelContainer2" type="PanelContainer" parent="PanelContainer/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -83,71 +101,115 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 28
 text = "77"
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="TopBarClipMask" type="TextureRect" parent="."]
+clip_children = 1
 clip_contents = true
 layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("6_tppmn")
+mask_left_margin = 26
+bottom_fade_height = 16
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 40
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_bottom = 16
 
-[node name="HideBottom" type="MarginContainer" parent="MarginContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 8
-theme_override_constants/margin_right = 2
-theme_override_constants/margin_bottom = -16
-
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HideBottom"]
-custom_minimum_size = Vector2(0, 16)
+[node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/MarginContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer"]
-layout_mode = 2
-theme_override_constants/margin_top = -10
-theme_override_constants/margin_right = 2
-
-[node name="ItemListTopHide" type="PanelContainer" parent="MarginContainer/MarginContainer"]
-unique_name_in_owner = true
-z_index = 1
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
-size_flags_vertical = 0
-theme_override_styles/panel = SubResource("StyleBoxFlat_njo78")
-
-[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/margin_right = 2
-
-[node name="SongContainer" type="VBoxContainer" parent="MarginContainer/MarginContainer2"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/MarginContainer2"]
-layout_mode = 2
-
-[node name="ShuffleButton" parent="MarginContainer/MarginContainer2/VBoxContainer" instance=ExtResource("3_tx788")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="SongItemList" type="ItemList" parent="MarginContainer/MarginContainer2/VBoxContainer"]
+[node name="VirtualizedList" type="ScrollContainer" parent="TopBarClipMask/MarginContainer/VBoxContainer" node_paths=PackedStringArray("vbox")]
 unique_name_in_owner = true
 clip_contents = false
 layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+script = ExtResource("7_s4to2")
+vbox = NodePath("MarginContainer/PanelContainer/MarginContainer/VBoxContainer")
+focus_first_item = false
+
+[node name="ShuffleButtonMarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/VBoxContainer/VirtualizedList"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_right = 4
+
+[node name="ShuffleButtonContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/VBoxContainer/VirtualizedList/ShuffleButtonMarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/VBoxContainer/VirtualizedList/ShuffleButtonMarginContainer/ShuffleButtonContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="ShuffleButton" type="Button" parent="TopBarClipMask/MarginContainer/VBoxContainer/VirtualizedList/ShuffleButtonMarginContainer/ShuffleButtonContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxFlat_o3h1c")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_fcstb")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/VBoxContainer/VirtualizedList/ShuffleButtonMarginContainer/ShuffleButtonContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopBarClipMask/MarginContainer/VBoxContainer/VirtualizedList/ShuffleButtonMarginContainer/ShuffleButtonContainer/MarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="TopBarClipMask/MarginContainer/VBoxContainer/VirtualizedList/ShuffleButtonMarginContainer/ShuffleButtonContainer/MarginContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_5sac8")
+expand_mode = 3
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/VBoxContainer/VirtualizedList/ShuffleButtonMarginContainer/ShuffleButtonContainer/MarginContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Shuffle Play (or press"
+
+[node name="TextureRect2" type="TextureRect" parent="TopBarClipMask/MarginContainer/VBoxContainer/VirtualizedList/ShuffleButtonMarginContainer/ShuffleButtonContainer/MarginContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("6_hoygm")
+expand_mode = 3
+
+[node name="Label2" type="Label" parent="TopBarClipMask/MarginContainer/VBoxContainer/VirtualizedList/ShuffleButtonMarginContainer/ShuffleButtonContainer/MarginContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "from anywhere)"
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/VBoxContainer/VirtualizedList"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_constants/v_separation = 8
-theme_override_styles/focus = SubResource("StyleBoxEmpty_ky0ey")
-fixed_icon_size = Vector2i(18, 18)
-script = ExtResource("3_5vukh")
-extra_icon = ExtResource("4_iwi2y")
+theme_override_constants/margin_top = 45
+theme_override_constants/margin_right = 4
 
-[connection signal="focus_entered" from="MarginContainer/MarginContainer2/VBoxContainer/SongItemList" to="." method="_on_song_item_list_focus_entered"]
-[connection signal="focus_exited" from="MarginContainer/MarginContainer2/VBoxContainer/SongItemList" to="." method="_on_song_item_list_focus_exited"]
-[connection signal="item_selected" from="MarginContainer/MarginContainer2/VBoxContainer/SongItemList" to="." method="_on_song_item_list_item_selected"]
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/VBoxContainer/VirtualizedList/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/VBoxContainer/VirtualizedList/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/VBoxContainer/VirtualizedList/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[connection signal="pressed" from="TopBarClipMask/MarginContainer/VBoxContainer/VirtualizedList/ShuffleButtonMarginContainer/ShuffleButtonContainer/MarginContainer/ShuffleButton" to="." method="_on_shuffle_button_pressed"]

@@ -1,0 +1,235 @@
+[gd_scene load_steps=18 format=3 uid="uid://j686wolpd4sc"]
+
+[ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="1_g1mu1"]
+[ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_yqyyl"]
+[ext_resource type="Texture2D" uid="uid://byeluf85nlgra" path="res://assets/record.svg" id="2_6s7i5"]
+[ext_resource type="Texture2D" uid="uid://dcqtgyrr3fac2" path="res://assets/user.svg" id="3_o567r"]
+[ext_resource type="Texture2D" uid="uid://cbi4n1wtrc3dc" path="res://assets/gear.svg" id="4_jfw5h"]
+[ext_resource type="Texture2D" uid="uid://dg08f5rynv8mn" path="res://assets/exit_walk.svg" id="5_5xlpu"]
+
+[sub_resource type="Gradient" id="Gradient_di6jr"]
+colors = PackedColorArray(0.584314, 0, 0.286275, 1, 0.435294, 0.741176, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ing45"]
+gradient = SubResource("Gradient_di6jr")
+fill_from = Vector2(1, 0)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1n2xr"]
+texture = SubResource("GradientTexture2D_ing45")
+
+[sub_resource type="Gradient" id="Gradient_22lyn"]
+colors = PackedColorArray(0.603736, 0.0188367, 1.92523e-07, 1, 1, 0.566063, 0.597837, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8i2qj"]
+gradient = SubResource("Gradient_22lyn")
+fill_from = Vector2(1, 0)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8kwl5"]
+texture = SubResource("GradientTexture2D_8i2qj")
+
+[sub_resource type="Gradient" id="Gradient_fhvge"]
+colors = PackedColorArray(1.92523e-07, 0.552714, 0.878903, 1, 0, 0.382193, 0.177843, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ee2jw"]
+gradient = SubResource("Gradient_fhvge")
+fill_from = Vector2(1, 0)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_u2rs6"]
+texture = SubResource("GradientTexture2D_ee2jw")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ymnbc"]
+bg_color = Color(0.286155, 0.272626, 0.260969, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_grre1"]
+bg_color = Color(0.478859, 0.0503185, 0.0318629, 1)
+
+[node name="MainMenu" type="ScrollContainer"]
+clip_contents = false
+follow_focus = true
+horizontal_scroll_mode = 3
+script = ExtResource("1_yqyyl")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="AllSongsMenuItem" type="PanelContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="AllSongsMenuButton" type="Button" parent="HBoxContainer/AllSongsMenuItem"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/AllSongsMenuItem"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/AllSongsMenuItem/MarginContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/AllSongsMenuItem/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_1n2xr")
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/AllSongsMenuItem/MarginContainer/VBoxContainer/PanelContainer"]
+custom_minimum_size = Vector2(172, 172)
+layout_mode = 2
+texture = ExtResource("1_g1mu1")
+expand_mode = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/AllSongsMenuItem/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "All Songs"
+horizontal_alignment = 1
+
+[node name="AlbumsMenuItem" type="PanelContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="AlbumMenuButton" type="Button" parent="HBoxContainer/AlbumsMenuItem"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/AlbumsMenuItem"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/AlbumsMenuItem/MarginContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/AlbumsMenuItem/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_8kwl5")
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/AlbumsMenuItem/MarginContainer/VBoxContainer/PanelContainer"]
+custom_minimum_size = Vector2(172, 172)
+layout_mode = 2
+texture = ExtResource("2_6s7i5")
+expand_mode = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/AlbumsMenuItem/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Albums"
+horizontal_alignment = 1
+
+[node name="ArtistsMenuItem" type="PanelContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="ArtistMenuButton" type="Button" parent="HBoxContainer/ArtistsMenuItem"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/ArtistsMenuItem"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ArtistsMenuItem/MarginContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/ArtistsMenuItem/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_u2rs6")
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/ArtistsMenuItem/MarginContainer/VBoxContainer/PanelContainer"]
+custom_minimum_size = Vector2(172, 172)
+layout_mode = 2
+texture = ExtResource("3_o567r")
+expand_mode = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/ArtistsMenuItem/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Artists"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="SettingsMenuItem" type="PanelContainer" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SettingsMenuButton" type="Button" parent="HBoxContainer/VBoxContainer/SettingsMenuItem"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/SettingsMenuItem"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/VBoxContainer/SettingsMenuItem/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ymnbc")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/SettingsMenuItem/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/SettingsMenuItem/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("4_jfw5h")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="ExitMenuItem" type="PanelContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ExitMenuButton" type="Button" parent="HBoxContainer/VBoxContainer/ExitMenuItem"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/ExitMenuItem"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/VBoxContainer/ExitMenuItem/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_grre1")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/ExitMenuItem/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/ExitMenuItem/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("5_5xlpu")
+expand_mode = 3
+stretch_mode = 4
+
+[connection signal="pressed" from="HBoxContainer/AllSongsMenuItem/AllSongsMenuButton" to="." method="_on_all_songs_menu_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/AlbumsMenuItem/AlbumMenuButton" to="." method="_on_album_menu_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/ArtistsMenuItem/ArtistMenuButton" to="." method="_on_artist_menu_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/SettingsMenuItem/SettingsMenuButton" to="." method="_on_settings_menu_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/ExitMenuItem/ExitMenuButton" to="." method="_on_exit_menu_button_pressed"]

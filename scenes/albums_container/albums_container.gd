@@ -2,45 +2,25 @@ extends VBoxContainer
 
 class_name AlbumsContainer
 
-signal closing_container
-signal opening_album(album_name)
-
-var songo_data = SongoDataResource.get_instance()
-var songo_player
 var albums
 	
-func setup(songo_player_arg: SongoPlayer):
-	songo_player = songo_player_arg
-	albums = songo_data.albums
-	build_list()
+func setup(albums_arg: Array[AlbumRecord]):
+	albums = albums_arg
+	await %VirtualizedList.ready
+	%VirtualizedList.setup(albums, "res://scenes/albums_container/album_button.tscn")
+	%AlbumCount.text = "%d Total" % albums.size()
 	
 func render_ui():
 	pass
 	
 func handle_input(delta: float):
 	if Input.is_action_just_pressed("back"):
-		closing_container.emit()
+		Controller.nav_back()
 		
-func build_list():
-	var batch_size = 5
-	for i in albums.size():
-		var button = load("res://scenes/albums_container/album_button.tscn").instantiate()
-		%AlbumContainer.add_child(button)
-		button.setup(albums[i])
-		button.get_child(0).pressed.connect(func(): _on_open_album(albums[i].name))
-		if i % batch_size == 0:
-			%AlbumCount.text = "%d Total" % (i+1)
-			await Engine.get_main_loop().process_frame
-		if i == 0:
-			call_deferred("focus_first_album")
-		
-	%AlbumCount.text = "%d Total" % songo_data.album_count
+	if Input.is_action_just_pressed("ui_accept"):
+		var focused_button = get_viewport().gui_get_focus_owner()
+		var target_album = albums[focused_button.get_meta("album_index")]
+		Controller.album_songs_index(target_album)
 	
-	
-func focus_first_album():
-	var first_child = %AlbumContainer.get_child(0)
-	if first_child: first_child.get_child(0).grab_focus()
-	%ScrollContainer.scroll_vertical = 0
-	
-func _on_open_album(album_name):
-	opening_album.emit(album_name)
+func _on_open_album(album):
+	Controller.album_songs_index(album)

@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://1wtvklof0osi"]
+[gd_scene load_steps=7 format=3 uid="uid://1wtvklof0osi"]
 
 [ext_resource type="Script" path="res://scenes/directory_container/directory_container.gd" id="1_e6ecc"]
+[ext_resource type="Script" path="res://utilities/top_bar_clip_mask.gd" id="2_3mvr1"]
 [ext_resource type="Texture2D" uid="uid://hfecxacknhiq" path="res://assets/info.svg" id="2_fmpu7"]
+[ext_resource type="PackedScene" uid="uid://14eycova7gmf" path="res://scenes/directory_container/virtualized_list_directories.tscn" id="4_aw625"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ejm3"]
 border_width_top = 3
@@ -46,80 +48,63 @@ layout_mode = 2
 focus_mode = 0
 selecting_enabled = false
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-clip_contents = true
-custom_minimum_size = Vector2(0, 100)
+[node name="DirectoryList" type="MarginContainer" parent="."]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 16
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
+[node name="ImportProgressContainer" type="MarginContainer" parent="DirectoryList"]
 unique_name_in_owner = true
-clip_contents = false
-layout_mode = 2
-follow_focus = true
-horizontal_scroll_mode = 0
-vertical_scroll_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 8
-
-[node name="DirectoryChildren" type="VBoxContainer" parent="MarginContainer/ScrollContainer/MarginContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 2
-theme_override_constants/separation = 8
-
-[node name="ImportProgressContainer" type="MarginContainer" parent="MarginContainer"]
-unique_name_in_owner = true
+visible = false
 z_index = 3
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/margin_left = 0
-theme_override_constants/margin_right = 40
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/ImportProgressContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="DirectoryList/ImportProgressContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/ImportProgressContainer/PanelContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="DirectoryList/ImportProgressContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/ImportProgressContainer/PanelContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 12
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 4
 
-[node name="Label" type="Label" parent="MarginContainer/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+[node name="Label" type="Label" parent="DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Importing Music"
 horizontal_alignment = 1
 
-[node name="ImportProgressLabel" type="Label" parent="MarginContainer/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="ImportStepLabel" type="Label" parent="DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Step 1/3 Finding audio files"
+horizontal_alignment = 1
+
+[node name="ImportProgressLabel" type="Label" parent="DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 26
@@ -127,11 +112,11 @@ text = "Progress %
 "
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="ProgressBar" type="HSeparator" parent="MarginContainer/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/HSeparator"]
+[node name="ProgressBar" type="HSeparator" parent="DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/HSeparator"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -142,6 +127,37 @@ grow_vertical = 2
 scale = Vector2(1e-05, 1)
 theme_override_constants/separation = 2
 theme_override_styles/separator = SubResource("StyleBoxFlat_4ejm3")
+
+[node name="TopBarClipMask" type="TextureRect" parent="DirectoryList"]
+clip_children = 1
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_3mvr1")
+mask_left_margin = 26
+bottom_fade_height = 16
+
+[node name="MarginContainer" type="MarginContainer" parent="DirectoryList/TopBarClipMask"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 16
+
+[node name="ListVbox" type="VBoxContainer" parent="DirectoryList/TopBarClipMask/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="VirtualizedList" parent="DirectoryList/TopBarClipMask/MarginContainer/ListVbox" instance=ExtResource("4_aw625")]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="DirectoryInfoContainer" type="PanelContainer" parent="."]
 unique_name_in_owner = true
@@ -165,4 +181,5 @@ text = "Looks like you're using MuOs: Try starting in /mnt/mmc/
 icon = ExtResource("2_fmpu7")
 flat = true
 alignment = 0
+text_overrun_behavior = 3
 expand_icon = true

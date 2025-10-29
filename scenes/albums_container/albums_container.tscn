@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://t7iif2m3nyp5"]
+[gd_scene load_steps=8 format=3 uid="uid://t7iif2m3nyp5"]
 
 [ext_resource type="Script" path="res://scenes/albums_container/albums_container.gd" id="1_ldf5y"]
 [ext_resource type="Texture2D" uid="uid://byeluf85nlgra" path="res://assets/record.svg" id="2_wk1tu"]
+[ext_resource type="Script" path="res://utilities/top_bar_clip_mask.gd" id="3_1nlie"]
+[ext_resource type="Script" path="res://utilities/virtualized_list.gd" id="3_6kqae"]
 
 [sub_resource type="Gradient" id="Gradient_ott0l"]
 colors = PackedColorArray(0.603922, 0.0196078, 0, 1, 1, 0.564706, 0.596078, 1)
@@ -40,43 +42,15 @@ layout_mode = 2
 theme_override_constants/separation = 8
 
 [node name="PanelContainer" type="PanelContainer" parent="PanelContainer/PanelContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_2pxsb")
 
 [node name="TextureRect" type="TextureRect" parent="PanelContainer/PanelContainer/MarginContainer/HBoxContainer/PanelContainer"]
 layout_mode = 2
 texture = ExtResource("2_wk1tu")
-expand_mode = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/PanelContainer/MarginContainer/HBoxContainer"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 8
-
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="PanelContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
-text = "Albums"
-
-[node name="AlbumsHeaderLabel" type="Label" parent="PanelContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 16
-text = "8 Albums"
-
-[node name="FillerButtonLabel" type="Button" parent="PanelContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-focus_mode = 0
-theme_override_font_sizes/font_size = 16
-text = "\"Jazz isn't dead. It just smells funny\" ~ Frank Zappa"
-alignment = 0
-expand_icon = true
+expand_mode = 5
+stretch_mode = 6
 
 [node name="PanelContainer2" type="PanelContainer" parent="PanelContainer/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -104,30 +78,54 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 28
 text = "7 Total"
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="TopBarClipMask" type="TextureRect" parent="."]
+clip_children = 1
 clip_contents = true
 layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("3_1nlie")
+bottom_fade_height = 16
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 40
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_bottom = 16
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
+[node name="VirtualizedList" type="ScrollContainer" parent="TopBarClipMask/MarginContainer" node_paths=PackedStringArray("vbox")]
 unique_name_in_owner = true
 clip_contents = false
 layout_mode = 2
-size_flags_vertical = 3
 follow_focus = true
 horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+script = ExtResource("3_6kqae")
+vbox = NodePath("MarginContainer/PanelContainer/MarginContainer/VBoxContainer")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/VirtualizedList"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/margin_right = 8
+theme_override_constants/margin_right = 4
 
-[node name="AlbumContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/MarginContainer"]
-unique_name_in_owner = true
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/VirtualizedList/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/VirtualizedList/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/VirtualizedList/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2

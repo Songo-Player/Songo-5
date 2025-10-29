@@ -1,22 +1,38 @@
-extends PanelContainer
-
-var album_record: AlbumRecord
+extends MarginContainer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
 	
-func setup(album_record_arg):
-	album_record = album_record_arg
-	#print(OS.get_user_data_dir())
-	if album_record.cover_path != "":
-		%AlbumCover.texture = ImageTexture.create_from_image(album_record.cover)
-		%FallbackCover.hide()
-	else:
-		%AlbumCover.hide()
-	%AlbumName.text = album_record.name
-	%ArtistName.text = album_record.artist
+func setup_last_item():
+	%ButtonSeparator.hide()
+	
+func setup(album_record, album_index):
+	if %ButtonSeparator.visible == false: %ButtonSeparator.show()
+	%Button.set_meta("album_index", album_index)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+	%AlbumName.text = album_record.name
+	%ArtistName.text = format_artists(album_record.artists)
+	%FallbackCover.show()
+	%AlbumCover.hide()
+	
+	var loader = AsyncImageLoader.load_async(album_record.cover_path)
+	loader.image_loaded.connect(func(texture):
+		%AlbumCover.texture = texture
+		%AlbumCover.show()
+	)
+	
+func format_artists(artists: Array) -> String:
+	if artists.is_empty():
+		return "Unknown Artist"
+	
+	var count := artists.size()
+	
+	if count == 1:
+		return artists[0]
+	elif count == 2:
+		return "%s and %s" % [artists[0], artists[1]]
+	elif count == 3:
+		return "%s, %s, and %s" % [artists[0], artists[1], artists[2]]
+	else:
+		return "%s, %s, and %d others" % [artists[0], artists[1], count - 2]

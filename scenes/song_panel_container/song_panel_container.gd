@@ -6,6 +6,7 @@ signal closing_container
 
 var songo_player: SongoPlayer
 var current_song_duration
+var songo_data = SongoDataResource.get_instance()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -17,8 +18,8 @@ func setup(songo_player_arg):
 	
 func handle_input(delta: float):
 	if Input.is_action_just_pressed("ui_right"):
-		_on_play_button_pressed()
 		songo_player.play_next()
+		display_play_button()
 	
 	if Input.is_action_just_pressed("ui_left"):
 		var playback_position: float = songo_player.get_playback_position()
@@ -30,7 +31,8 @@ func handle_input(delta: float):
 	
 	if Input.is_action_just_pressed("back"):
 		songo_player.stop()
-		closing_container.emit()
+		Controller.nav_back()
+		#closing_container.emit()
 		
 func render_ui():
 	update_play_time()
@@ -38,32 +40,26 @@ func render_ui():
 func play():
 	songo_player.play_from_start()
 	%PauseButton.grab_focus()
-
-func shuffle_play():
-	songo_player.play_index = 0
-	songo_player.mp3_files.shuffle()
-	songo_player.play_from_start()
-	%PauseButton.grab_focus()
 		
-func setup_display_for(mp3_record: Mp3Record):
+func setup_display_for(music_record: MusicRecord):
 	%EndTimeLabel.text = "00:00" # gets updated later
-	%TitleLabel.set_carousel_text(mp3_record.title)
-	%ArtistLabel.set_carousel_text(mp3_record.artist)
-	%AlbumLabel.set_carousel_text(mp3_record.album)
+	%TitleLabel.set_carousel_text(music_record.title)
+	%ArtistLabel.set_carousel_text(music_record.artist)
+	%AlbumLabel.set_carousel_text(music_record.album)
 	
 	var image_extractor = Mp3ImageExtractor.new()
-	var image = image_extractor.get_cover_image(mp3_record.full_path)
+	var image = image_extractor.get_cover_image(music_record.full_path)
+	if image == null: image = songo_data.get_album_cover(music_record.album)
 	if image == null:
 		%MusicImage.hide()
 	else:
 		%MusicImage.show()
 		%MusicImage.texture = ImageTexture.create_from_image(image)
 	
-func coalesce(value, default):
-	return value if value != null and value != "" else default
-	
-func set_end_time(audio_stream: AudioStreamMP3):
-	var length_sec: float = audio_stream.get_length()
+	%FileTypeLabel.text = music_record.full_path.get_extension().to_upper() + " File"
+
+func set_end_time(music_record: MusicRecord):
+	var length_sec: float = music_record.raw_length
 	
 	if length_sec < 0: 
 		%EndTimeLabel.text = "00:00"
@@ -75,7 +71,7 @@ func set_end_time(audio_stream: AudioStreamMP3):
 	%EndTimeLabel.text = "%d:%02d" % [minutes, seconds]
 	
 func update_play_time():
-	if songo_player.playing:
+	if songo_player.is_playing():
 		var pos_sec: float = songo_player.get_playback_position()
 		var minutes: int = int(pos_sec) / 60
 		var seconds: int = int(pos_sec) % 60
@@ -86,7 +82,7 @@ func update_play_time():
 func setup_playlist_info():
 	var next_song = songo_player.get_next_mp3_record()
 	%NextSongTitle.text = next_song.title
-	%PlaylistProgress.text = "%d / %d" % [songo_player.play_index+1, songo_player.mp3_files.size()]
+	%PlaylistProgress.text = "%d / %d" % [songo_player.play_index+1, songo_player.music_files.size()]
 
 func display_play_button():
 	%PlayButton.hide()
@@ -102,9 +98,9 @@ func display_pause_button():
 #           SIGNALS          #
 ##############################
 	
-func _on_started_new_song(mp3_record: Mp3Record):
-	setup_display_for(mp3_record)
-	set_end_time(songo_player.stream)
+func _on_started_new_song(music_record: MusicRecord):
+	setup_display_for(music_record)
+	set_end_time(music_record)
 	setup_playlist_info()
 	
 func _on_play_button_pressed() -> void:
@@ -114,4 +110,3 @@ func _on_play_button_pressed() -> void:
 func _on_pause_button_pressed() -> void:
 	songo_player.pause()
 	display_pause_button()
-	

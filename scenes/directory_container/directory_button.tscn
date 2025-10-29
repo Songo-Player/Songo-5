@@ -1,21 +1,59 @@
-[gd_scene load_steps=3 format=3 uid="uid://c2v15u6f0dtjf"]
+[gd_scene load_steps=7 format=3 uid="uid://c2v15u6f0dtjf"]
 
 [ext_resource type="Texture2D" uid="uid://b2f5qjioe80m4" path="res://assets/Folder.svg" id="1_e1kq6"]
-[ext_resource type="Texture2D" uid="uid://cbwv4d0bjr6y1" path="res://assets/folder_nested_line.png" id="2_1ewwh"]
+[ext_resource type="Texture2D" uid="uid://4lwbxso23g8o" path="res://assets/folder_nested_line_long.png" id="2_6dw1o"]
+[ext_resource type="Script" path="res://scenes/directory_container/directory_button.gd" id="2_rg6vk"]
 
-[node name="DirectoryButton" type="Button"]
-offset_right = 8.0
-offset_bottom = 8.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c6xam"]
+bg_color = Color(1, 1, 1, 0.196078)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6xmx7"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1lgwx"]
+border_width_bottom = 1
+
+[node name="DirectoryButton" type="MarginContainer"]
+offset_right = 28.0
+offset_bottom = 64.0
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 6
+script = ExtResource("2_rg6vk")
+
+[node name="Button" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxFlat_c6xam")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_6xmx7")
 text = "Directory"
 icon = ExtResource("1_e1kq6")
 alignment = 0
+text_overrun_behavior = 3
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="DirTreeIcon" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = -22
+theme_override_constants/margin_top = -240
+
+[node name="TextureRect" type="TextureRect" parent="DirTreeIcon"]
 texture_filter = 1
-layout_mode = 0
-offset_left = -23.0
-offset_top = -77.0
-offset_right = 8.0
-offset_bottom = 17.0
-texture = ExtResource("2_1ewwh")
+layout_mode = 2
+texture = ExtResource("2_6dw1o")
 stretch_mode = 4
+
+[node name="ButtonSeparator" type="HSeparator" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
+theme_override_constants/separation = 0
+theme_override_styles/separator = SubResource("StyleBoxFlat_1lgwx")

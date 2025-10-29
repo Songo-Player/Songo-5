@@ -4,9 +4,7 @@ class_name MuosCanadaGooseStrategy
 const FUNC_SCRIPT := "/opt/muos/script/var/func.sh"
 const HOTKEY_SCRIPT := "/opt/muos/script/mux/hotkey.sh"
 
-var songo_data = SongoDataResource.get_instance()
 var target_brightness: int = 128
-
 
 var config_values = {
 	"idle_display": MuosConfigItem.new("settings/power/idle_display", "0", "unset"),
@@ -15,18 +13,30 @@ var config_values = {
 }
 
 static func being_used() -> bool:
+	if songo_data.preferred_device_strategy == "MuosCanadaGooseStrategy": return true
 	return OS.get_environment("CFW_NAME") == DeviceOS.CFW_MUOS
 	
 func _init():
 	can_fade_screen = true
-	set_muos_config()
 	set_initial_brightness()
+	set_muos_config()
 	set_input_actions()
 	
 func get_music_dir_tip():
 	return "Looks like you're using MuOs: Try starting in /mnt/mmc/"
 	
-	
+func get_battery_capacity():
+	var location = get_var("device", "battery/capacity")
+	var cmd =  "cat %s" % location
+	var output = []
+	var exit_code = OS.execute("sh", ["-c", cmd], output)
+	var result = output[0].strip_edges() if output.size() > 0 else ""
+	return result
+
+func set_backlight(level: int):
+	var cmd = "source %s && DISPLAY_WRITE lcd0 setbl %d" % [FUNC_SCRIPT, level]
+	OS.execute("sh", ["-c", cmd])
+
 ########################################
 #       MUOS strategy exclusives       #
 ########################################
@@ -73,52 +83,9 @@ func set_muos_config():
 			reset_commands.append(set_var_cmd("config", config_item.path, config_item.og_val))
 	
 	hotkey_reset()
+	reset_commands.append("source %s && DISPLAY_WRITE lcd0 setbl %d" % [FUNC_SCRIPT, target_brightness])
 	reset_commands.append("source %s && HOTKEY restart" % FUNC_SCRIPT)
 	create_reset_script(reset_commands)
-
-# Config
-var initial_delay := 0.5   # seconds to wait before first repeat
-
-# State
-var timer := 0.0
-var held_action := ""
-var idle := true
-
-func translate_inputs(delta):
-	var action_name = ""
-	if Input.is_joy_button_pressed(0, JOY_BUTTON_DPAD_UP):
-		action_name = "ui_up"
-	elif Input.is_joy_button_pressed(0, JOY_BUTTON_DPAD_DOWN):
-		action_name = "ui_down"
-
-	if action_name == "":
-		idle = true
-		held_action = ""
-		timer = 0.0
-		return
-
-	# First input after idle fires immediately
-	if idle or held_action != action_name:
-		held_action = action_name
-		timer = 0.0
-		idle = false
-		return
-
-	# Held input: wait initial delay, then fire every frame
-	timer += delta
-	if timer >= initial_delay:
-		fake_input(action_name)
-	
-func fake_input(action_name):
-	var a = InputEventAction.new()
-	a.action = action_name
-	a.pressed = true
-	Input.parse_input_event(a)
-	
-	var b = InputEventAction.new()
-	b.action = action_name
-	b.pressed = false
-	Input.parse_input_event(b)
 	
 func set_input_actions():
 	var start_event = InputEventJoypadButton.new()
@@ -130,10 +97,13 @@ func set_input_actions():
 	south_event.button_index = JOY_BUTTON_A
 	var north_event = InputEventJoypadButton.new()
 	north_event.button_index = JOY_BUTTON_X
+	var west_event = InputEventJoypadButton.new()
+	west_event.button_index = JOY_BUTTON_Y
 
 	InputMap.action_add_event("ui_accept", south_event)
 	InputMap.action_add_event("back", east_event)
 	InputMap.action_add_event("x", north_event)
+	InputMap.action_add_event("Y", west_event)
 	
 	InputMap.action_add_event("start", start_event)
 
