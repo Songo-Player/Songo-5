@@ -1,18 +1,24 @@
-[gd_scene load_steps=16 format=3 uid="uid://x6a7h67rwoqo"]
+[gd_scene load_steps=20 format=3 uid="uid://x6a7h67rwoqo"]
 
 [ext_resource type="Script" path="res://songo_app.gd" id="1_einrm"]
 [ext_resource type="Texture2D" uid="uid://nqpdbtqncxh4" path="res://assets/clock.svg" id="2_7jnod"]
 [ext_resource type="Texture2D" uid="uid://inruw0c6rdua" path="res://assets/wifi.svg" id="2_crf6x"]
 [ext_resource type="Texture2D" uid="uid://ds1hiniyche5x" path="res://assets/battery.svg" id="3_mqech"]
 [ext_resource type="Texture2D" uid="uid://4xjlhnc8n0vw" path="res://assets/Switch_Dpad_Right.png" id="4_uf3q1"]
-[ext_resource type="Texture2D" uid="uid://bw0rxqtvk4f66" path="res://assets/Switch_Dpad_Left.png" id="5_ci7yt"]
-[ext_resource type="Texture2D" uid="uid://d3d3mtv7v4hhe" path="res://assets/Switch_Dpad_Up.png" id="6_k6kpf"]
+[ext_resource type="Texture2D" uid="uid://d3d3mtv7v4hhe" path="res://assets/Switch_Dpad_Up.png" id="7_1pbtu"]
 [ext_resource type="Texture2D" uid="uid://bfgx846sx2e1x" path="res://assets/pngegg.png" id="8_1v2br"]
+[ext_resource type="PackedScene" uid="uid://b4a176a7whmhc" path="res://scenes/mini_song_panel/mini_song_panel.tscn" id="8_7tnq6"]
+[ext_resource type="Texture2D" uid="uid://btjv8vx32m5y1" path="res://assets/Switch_Dpad_Down.png" id="8_swjqc"]
+[ext_resource type="PackedScene" uid="uid://dpkuxp51tlyqk" path="res://scenes/keyboard/keyboard.tscn" id="8_y4p5t"]
 [ext_resource type="Script" path="res://sfx_player.gd" id="9_0ea3p"]
-[ext_resource type="PackedScene" uid="uid://bddrvwe4ijqap" path="res://scenes/songo_player/songo_player.tscn" id="9_f4343"]
+[ext_resource type="PackedScene" uid="uid://bthtkrg10n8oi" path="res://scenes/app_message/app_message.tscn" id="9_1p8yf"]
+[ext_resource type="PackedScene" uid="uid://dalui65p8m2es" path="res://scenes/flash_message_box/flash_message_box.tscn" id="10_3xlg5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_75gu8"]
+bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i4t4x"]
-bg_color = Color(0.487427, 0.166068, 0, 1)
+bg_color = Color(0.835294, 0.447059, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ndeej"]
 bg_color = Color(0, 0, 0, 0.882353)
@@ -46,6 +52,26 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("1_einrm")
 
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = -8
+theme_override_constants/margin_top = -8
+theme_override_constants/margin_right = -8
+theme_override_constants/margin_bottom = -8
+
+[node name="FadeOutOverlay" type="PanelContainer" parent="MarginContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+z_index = 10
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_75gu8")
+
 [node name="MainColorPanel" type="PanelContainer" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
@@ -57,6 +83,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_i4t4x")
 
 [node name="MarginContainer" type="MarginContainer" parent="MainColorPanel"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 250
 theme_override_constants/margin_top = 50
@@ -143,26 +170,17 @@ layout_mode = 2
 focus_mode = 0
 text = "Scraping %"
 
-[node name="Control" type="Control" parent="MainColorPanel/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="ContentBody" type="MarginContainer" parent="MainColorPanel/VBoxContainer/Control"]
+[node name="ContentBody" type="MarginContainer" parent="MainColorPanel/VBoxContainer"]
 unique_name_in_owner = true
 clip_contents = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 8
 
-[node name="QuickMenu" type="PanelContainer" parent="MainColorPanel/VBoxContainer/Control/ContentBody"]
+[node name="QuickMenu" type="PanelContainer" parent="MainColorPanel/VBoxContainer/ContentBody"]
 unique_name_in_owner = true
 visible = false
 z_index = 2
@@ -171,67 +189,74 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_ndeej")
 
-[node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/Control/ContentBody/QuickMenu"]
+[node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/ContentBody/QuickMenu"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MainColorPanel/VBoxContainer/Control/ContentBody/QuickMenu/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainColorPanel/VBoxContainer/ContentBody/QuickMenu/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MainColorPanel/VBoxContainer/Control/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="MainColorPanel/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Quick Menu
 "
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="MainColorPanel/VBoxContainer/Control/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="MainColorPanel/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxFlat_5oa4s")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainColorPanel/VBoxContainer/Control/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainColorPanel/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="MainColorPanel/VBoxContainer/Control/ContentBody/QuickMenu/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="MainColorPanel/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 texture = ExtResource("4_uf3q1")
 expand_mode = 3
 
-[node name="Label" type="Label" parent="MainColorPanel/VBoxContainer/Control/ContentBody/QuickMenu/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="MainColorPanel/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = " : Lock/Unlock Inputs"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MainColorPanel/VBoxContainer/Control/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+[node name="AddRemoveInPlaylistQuick" type="HBoxContainer" parent="MainColorPanel/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="MainColorPanel/VBoxContainer/Control/ContentBody/QuickMenu/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="TextureRect" type="TextureRect" parent="MainColorPanel/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/AddRemoveInPlaylistQuick"]
 layout_mode = 2
-texture = ExtResource("5_ci7yt")
+texture = ExtResource("7_1pbtu")
 expand_mode = 3
 
-[node name="Label" type="Label" parent="MainColorPanel/VBoxContainer/Control/ContentBody/QuickMenu/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="AddRemoveInPlaylistLabel" type="Label" parent="MainColorPanel/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/AddRemoveInPlaylistQuick"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = " : Toggle Theme Color"
+text = " : Add to / Remove from playlist"
+text_overrun_behavior = 4
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="MainColorPanel/VBoxContainer/Control/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+[node name="QueueSong" type="HBoxContainer" parent="MainColorPanel/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="MainColorPanel/VBoxContainer/Control/ContentBody/QuickMenu/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="TextureRect" type="TextureRect" parent="MainColorPanel/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/QueueSong"]
 layout_mode = 2
-texture = ExtResource("6_k6kpf")
+texture = ExtResource("8_swjqc")
 expand_mode = 3
 
-[node name="Label" type="Label" parent="MainColorPanel/VBoxContainer/Control/ContentBody/QuickMenu/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="AddRemoveInPlaylistLabel" type="Label" parent="MainColorPanel/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/QueueSong"]
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = " : Toggle UI Scale"
+text = " : Queue song"
+text_overrun_behavior = 4
 
-[node name="DarkOut" type="MarginContainer" parent="MainColorPanel/VBoxContainer/Control/ContentBody"]
+[node name="DarkOut" type="MarginContainer" parent="MainColorPanel/VBoxContainer/ContentBody"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -240,63 +265,61 @@ theme_override_constants/margin_top = -8
 theme_override_constants/margin_right = -16
 theme_override_constants/margin_bottom = -8
 
-[node name="DarkOutPanel" type="PanelContainer" parent="MainColorPanel/VBoxContainer/Control/ContentBody/DarkOut"]
+[node name="DarkOutPanel" type="PanelContainer" parent="MainColorPanel/VBoxContainer/ContentBody/DarkOut"]
 z_index = 2
 layout_mode = 2
 
-[node name="DebugInfo" type="PanelContainer" parent="MainColorPanel/VBoxContainer/Control/ContentBody"]
+[node name="DebugInfo" type="PanelContainer" parent="MainColorPanel/VBoxContainer/ContentBody"]
 unique_name_in_owner = true
 visible = false
 z_index = 3
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_gs5fl")
 
-[node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/Control/ContentBody/DebugInfo"]
+[node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/ContentBody/DebugInfo"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MainColorPanel/VBoxContainer/Control/ContentBody/DebugInfo/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainColorPanel/VBoxContainer/ContentBody/DebugInfo/MarginContainer"]
 layout_mode = 2
 
-[node name="OSNameLabel" type="Label" parent="MainColorPanel/VBoxContainer/Control/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
+[node name="OSNameLabel" type="Label" parent="MainColorPanel/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Os Name:"
+
+[node name="ScreenSize" type="Label" parent="MainColorPanel/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Device Resolution:"
+
+[node name="WindowSize" type="Label" parent="MainColorPanel/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="StrategyLabel" type="Label" parent="MainColorPanel/VBoxContainer/Control/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
+[node name="RootSize" type="Label" parent="MainColorPanel/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+text = "Root Size:"
 
-[node name="MusicDirLabel" type="Label" parent="MainColorPanel/VBoxContainer/Control/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
+[node name="DeviceOrientation" type="Label" parent="MainColorPanel/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+text = "Device Orientation:"
 
-[node name="BrightnessLabel" type="Label" parent="MainColorPanel/VBoxContainer/Control/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
+[node name="BrightnessLabel" type="Label" parent="MainColorPanel/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Initial Brightness: N/A"
 
-[node name="SongsImportedLabel" type="Label" parent="MainColorPanel/VBoxContainer/Control/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
+[node name="SongsImportedLabel" type="Label" parent="MainColorPanel/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HSeparator" type="HSeparator" parent="MainColorPanel/VBoxContainer/Control/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="ImportLogHeader" type="Label" parent="MainColorPanel/VBoxContainer/Control/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "Import Log:"
-
-[node name="ImportLog" type="Label" parent="MainColorPanel/VBoxContainer/Control/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 10)
-layout_mode = 2
-autowrap_mode = 3
-
-[node name="ExitingOverlay" type="PanelContainer" parent="MainColorPanel/VBoxContainer/Control/ContentBody"]
+[node name="ExitingOverlay" type="PanelContainer" parent="MainColorPanel/VBoxContainer/ContentBody"]
 unique_name_in_owner = true
 visible = false
 z_index = 3
@@ -305,17 +328,50 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_o7wd5")
 
-[node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/Control/ContentBody/ExitingOverlay"]
+[node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/ContentBody/ExitingOverlay"]
 layout_mode = 2
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 8
 
-[node name="Label" type="Label" parent="MainColorPanel/VBoxContainer/Control/ContentBody/ExitingOverlay/MarginContainer"]
+[node name="Label" type="Label" parent="MainColorPanel/VBoxContainer/ContentBody/ExitingOverlay/MarginContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
 text = "See ya later"
+
+[node name="AppMessage" parent="MainColorPanel/VBoxContainer/ContentBody" instance=ExtResource("9_1p8yf")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Keyboard" parent="MainColorPanel/VBoxContainer/ContentBody" instance=ExtResource("8_y4p5t")]
+unique_name_in_owner = true
+visible = false
+z_index = 2
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MainColorPanel/VBoxContainer/ContentBody"]
+layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="FlashMessageBox" parent="MainColorPanel/VBoxContainer/ContentBody/ScrollContainer" instance=ExtResource("10_3xlg5")]
+unique_name_in_owner = true
+clip_children = 1
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MiniSongPanel" parent="MainColorPanel/VBoxContainer" instance=ExtResource("8_7tnq6")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/margin_top = 0
 
 [node name="FooterMarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer"]
 layout_mode = 2
@@ -385,9 +441,6 @@ script = ExtResource("9_0ea3p")
 [node name="ScreenIdleTimer" type="Timer" parent="."]
 wait_time = 10.0
 one_shot = true
-
-[node name="SongoPlayer" parent="." instance=ExtResource("9_f4343")]
-process_mode = 3
 
 [node name="UiUpdateTimer" type="Timer" parent="."]
 wait_time = 5.0

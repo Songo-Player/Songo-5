@@ -1,20 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://t7iif2m3nyp5"]
+[gd_scene load_steps=6 format=3 uid="uid://t7iif2m3nyp5"]
 
 [ext_resource type="Script" path="res://scenes/albums_container/albums_container.gd" id="1_ldf5y"]
+[ext_resource type="StyleBox" uid="uid://c7l7bkyc4txid" path="res://shared_resources/albums_gradient.tres" id="2_etqfo"]
 [ext_resource type="Texture2D" uid="uid://byeluf85nlgra" path="res://assets/record.svg" id="2_wk1tu"]
 [ext_resource type="Script" path="res://utilities/top_bar_clip_mask.gd" id="3_1nlie"]
 [ext_resource type="Script" path="res://utilities/virtualized_list.gd" id="3_6kqae"]
-
-[sub_resource type="Gradient" id="Gradient_ott0l"]
-colors = PackedColorArray(0.603922, 0.0196078, 0, 1, 1, 0.564706, 0.596078, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_v51hy"]
-gradient = SubResource("Gradient_ott0l")
-fill_from = Vector2(1, 0)
-fill_to = Vector2(1, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2pxsb"]
-texture = SubResource("GradientTexture2D_v51hy")
 
 [node name="AlbumsContainer" type="VBoxContainer"]
 offset_right = 244.0
@@ -44,7 +34,7 @@ theme_override_constants/separation = 8
 [node name="PanelContainer" type="PanelContainer" parent="PanelContainer/PanelContainer/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_2pxsb")
+theme_override_styles/panel = ExtResource("2_etqfo")
 
 [node name="TextureRect" type="TextureRect" parent="PanelContainer/PanelContainer/MarginContainer/HBoxContainer/PanelContainer"]
 layout_mode = 2
@@ -83,6 +73,7 @@ clip_children = 1
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
+expand_mode = 1
 script = ExtResource("3_1nlie")
 bottom_fade_height = 16
 

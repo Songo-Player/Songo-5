@@ -4,41 +4,46 @@ class_name SongPanelContainer
 
 signal closing_container
 
-var songo_player: SongoPlayer
-var current_song_duration
+var current_song_duration = 1
 var songo_data = SongoDataResource.get_instance()
+var songo_settings = SongoSettings.get_instance()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	%NextSongTitle.visible_characters = int(30 * (1.0/songo_settings.ui_scale))
 	pass # Replace with function body.
 	
-func setup(songo_player_arg):
-	songo_player = songo_player_arg
-	songo_player.started_new_song.connect(_on_started_new_song)
+func setup():
+	pass
+	#SongoPlayer.started_new_song.connect(_on_started_new_song)
+	
 	
 func handle_input(delta: float):
 	if Input.is_action_just_pressed("ui_right"):
-		songo_player.play_next()
+		SongoPlayer.play_next()
 		display_play_button()
 	
 	if Input.is_action_just_pressed("ui_left"):
-		var playback_position: float = songo_player.get_playback_position()
+		var playback_position: float = SongoPlayer.get_playback_position()
 		display_play_button()
 		if playback_position >= 3.0:
-			songo_player.play_from_start()
+			SongoPlayer.play_from_start()
 		else:
-			songo_player.play_previous()
+			SongoPlayer.play_previous()
 	
 	if Input.is_action_just_pressed("back"):
-		songo_player.stop()
-		Controller.nav_back()
-		#closing_container.emit()
-		
+		if SongoPlayer.is_playing():
+			Controller.save_state()
+			UiHelper.show_mini_song_panel()
+		Controller.new_nav_back()
+
 func render_ui():
 	update_play_time()
 	
+	
 func play():
-	songo_player.play_from_start()
+	SongoPlayer.play_from_start()
+	_on_started_new_song(SongoPlayer.get_current_music_record())
 	%PauseButton.grab_focus()
 		
 func setup_display_for(music_record: MusicRecord):
@@ -71,8 +76,8 @@ func set_end_time(music_record: MusicRecord):
 	%EndTimeLabel.text = "%d:%02d" % [minutes, seconds]
 	
 func update_play_time():
-	if songo_player.is_playing():
-		var pos_sec: float = songo_player.get_playback_position()
+	if SongoPlayer.is_playing():
+		var pos_sec: float = SongoPlayer.get_playback_position()
 		var minutes: int = int(pos_sec) / 60
 		var seconds: int = int(pos_sec) % 60
 		%CurrentTimeLabel.text = "%d:%02d" % [minutes, seconds]
@@ -80,9 +85,10 @@ func update_play_time():
 		%ProgressLine.scale.x = progress_ratio
 		
 func setup_playlist_info():
-	var next_song = songo_player.get_next_mp3_record()
+	var next_song = SongoPlayer.get_next_mp3_record()
 	%NextSongTitle.text = next_song.title
-	%PlaylistProgress.text = "%d / %d" % [songo_player.play_index+1, songo_player.music_files.size()]
+	#%NextSongTitle.custom_minimum_size = get_combined_minimum_size()
+	%PlaylistProgress.text = "%d / %d" % [SongoPlayer.play_index+1, SongoPlayer.music_files.size()]
 
 func display_play_button():
 	%PlayButton.hide()
@@ -104,9 +110,21 @@ func _on_started_new_song(music_record: MusicRecord):
 	setup_playlist_info()
 	
 func _on_play_button_pressed() -> void:
-	songo_player.resume()
+	SongoPlayer.resume()
 	display_play_button()
 
 func _on_pause_button_pressed() -> void:
-	songo_player.pause()
+	SongoPlayer.pause()
 	display_pause_button()
+
+
+func _on_tree_entered() -> void:
+	UiHelper.hide_mini_song_panel()
+	SongoPlayer.started_new_song.connect(_on_started_new_song)
+	await get_tree().process_frame
+	var song = SongoPlayer.get_current_music_record()
+	if song: _on_started_new_song(song)
+		#call_deferred("_on_started_new_song", song)
+
+func _on_tree_exited() -> void:
+	SongoPlayer.started_new_song.disconnect(_on_started_new_song)

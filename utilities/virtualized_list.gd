@@ -18,6 +18,10 @@ var total_items: int:
 var spacer_top: Control
 var spacer_bottom: Control
 var item_pool: Array[Control] = []
+var focused_item
+var focused_index
+
+static var item_heights = {}
 
 func setup(data_items_arg, item_scene_path_arg):
 	if data_items_arg.size() == 0: return
@@ -51,11 +55,14 @@ func setup(data_items_arg, item_scene_path_arg):
 	vbox.add_child(spacer_bottom)
 	
 	# Measure the first item's height
-	item_height = first_item.get_combined_minimum_size().y
-	
-	await get_tree().process_frame
-	visible_item_count = int(size.y/item_height)+5
-	
+	item_height = item_heights.get(item_scene_path, 0.0)
+	if item_height == 0.0:
+		item_height = first_item.get_combined_minimum_size().y
+		item_heights[item_scene_path] = item_height
+	#print(UiHelper.main_color_panel.size.y)
+	#await get_tree().process_frame
+	#visible_item_count = int(size.y/item_height)+5
+	visible_item_count = int(UiHelper.main_color_panel.size.y/item_height)+5
 	# Now create the rest of the items
 	for i in range(1, visible_item_count):
 		var item = create_item()
@@ -99,6 +106,7 @@ func update_item_content(item: Control, index: int):
 	item.setup(data_items[index], index)
 	if (index == data_items.size()-1) && "setup_last_item" in item:
 		item.setup_last_item()
+	#item.set_meta("item_index", index)
 
 func update_spacers():
 	# Calculate spacer heights
@@ -163,13 +171,100 @@ func _on_scroll_changed(value: float):
 	
 	first_visible_index = new_first_index
 	update_spacers()
-
-func scroll_to_item(index: int):
-	if item_height > 0:
-		var target_scroll = index * item_height
-		scroll_vertical = int(target_scroll)
 		
 func _on_focus_changed(item: Control):
+	if is_inside_tree():
+		if item.has_meta("item_index") && data_items.size() > item.get_meta("item_index"):
+			focused_index = item.get_meta("item_index")
+			focused_item = data_items[focused_index]	
+		else:
+			focused_index = null
+			focused_item = null
+	
 	if scroll_vertical < top_scroll_deadzone:
 		scroll_vertical = 0
+		
+func refresh():
+	UiHelper.fire_focus_next()
+	update_spacers()
+	update_visible_items()
+	_on_scroll_changed(scroll_vertical)
+		
+func remove_focused_item():
+	if focused_item == null:
+		return
 	
+	# If list is now empty, clear everything
+	if data_items.is_empty():
+		focused_item = null
+		for item in item_pool:
+			item.visible = false
+		update_spacers()
+		return
+
+	# Determine new focus index (stay at same position, or last item if at end)
+	var new_focus_index = min(focused_index, data_items.size() - 1)
+	
+	# Check if we need to adjust first_visible_index
+	if first_visible_index >= data_items.size():
+		first_visible_index = max(0, data_items.size() - visible_item_count)
+	
+	# Update spacers with new total count
+	update_spacers()
+	
+	# Update all visible items
+	for i in range(item_pool.size()):
+		var data_index = first_visible_index + i
+		if data_index < total_items:
+			item_pool[i].visible = true
+			update_item_content(item_pool[i], data_index)
+		else:
+			item_pool[i].visible = false
+
+	_on_scroll_changed(scroll_vertical)
+	# Restore focus to the appropriate item
+	if Controller.active_container is SongPanelContainer: return
+	
+	#await get_tree().process_frame
+	for item in item_pool:
+		if item.visible and item.get_meta("item_index") == new_focus_index:
+			if "set_focus" in item:
+				item.set_focus()
+			else:
+				var focus_target = _find_first_focusable(item)
+				if focus_target:
+					focus_target.grab_focus()
+			break
+			
+	# Update focused_item reference
+	focused_item = data_items[new_focus_index]
+	focused_index = new_focus_index
+	
+#func remove_data_item(item):
+#	print("WEOIRDS")
+#	var index = data_items.find(item)
+#	if index == -1:
+#		return  # Item not found
+#	
+#	# Remove the item from data
+#	data_items.erase(item)
+#	
+#	# If we removed an item before the visible area, adjust first_visible_index
+#	if index < first_visible_index:
+#		first_visible_index = max(0, first_visible_index - 1)
+#	
+#	# Clamp first_visible_index to valid range
+#	first_visible_index = clamp(first_visible_index, 0, max(0, total_items - visible_item_count))
+#	
+#	# Update the display
+#	update_spacers()
+#	_on_scroll_changed(scroll_vertical)
+#	#update_visible_items()
+#	#for i in range(item_pool.size()):
+#	#	if item_pool[i].get_meta("item_index") == index:
+#	#		item_pool[i].hide()
+	#	pass
+	
+	# Adjust scroll position if needed
+#	if first_visible_index * item_height < scroll_vertical:
+#		scroll_vertical = first_visible_index * item_height

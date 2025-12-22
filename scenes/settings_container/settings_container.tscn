@@ -1,11 +1,20 @@
-[gd_scene load_steps=6 format=3 uid="uid://c7agqbt2x1duk"]
+[gd_scene load_steps=11 format=3 uid="uid://c7agqbt2x1duk"]
 
 [ext_resource type="Texture2D" uid="uid://cbi4n1wtrc3dc" path="res://assets/gear.svg" id="1_2k38a"]
 [ext_resource type="Script" path="res://scenes/settings_container/settings_container.gd" id="1_6smsf"]
 [ext_resource type="Script" path="res://utilities/top_bar_clip_mask.gd" id="3_k3kot"]
+[ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="4_5tesd"]
+[ext_resource type="PackedScene" uid="uid://0m5yrmj03xdi" path="res://scenes/settings_container/settings_button.tscn" id="4_w3wki"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l51g6"]
 bg_color = Color(0.286275, 0.27451, 0.262745, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rojxh"]
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_size = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ubx3u"]
 bg_color = Color(0.130772, 0.130772, 0.130772, 1)
@@ -14,9 +23,23 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cg40q"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s4gdb"]
+bg_color = Color(0.0646965, 0.0646965, 0.0646965, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
 [node name="SettingsContainer" type="VBoxContainer"]
-offset_right = 244.0
-offset_bottom = 75.0
+offset_right = 310.0
+offset_bottom = 2500.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 0
@@ -93,105 +116,1241 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
-theme_override_constants/margin_top = 8
+theme_override_constants/margin_top = 33
 theme_override_constants/margin_bottom = 16
 
 [node name="ScrollContainer" type="ScrollContainer" parent="TopBarClipMask/MarginContainer"]
+unique_name_in_owner = true
+clip_contents = false
 layout_mode = 2
 follow_focus = true
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_top = -25
+theme_override_constants/margin_bottom = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/separation = 4
+theme_override_constants/separation = 8
 
-[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="DataAndStorageSection" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 25
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 0
 
-[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/VBoxContainer/MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection"]
 layout_mode = 2
 
-[node name="MarginContainer2" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/VBoxContainer/MarginContainer/PanelContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 38
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2"]
 layout_mode = 2
-text = "TESTIBGF"
+theme_override_constants/separation = 8
 
-[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/VBoxContainer/MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-theme_override_constants/margin_left = -10
-theme_override_constants/margin_top = -25
+theme_override_styles/panel = ExtResource("4_5tesd")
 
-[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/VBoxContainer/MarginContainer/MarginContainer"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ubx3u")
-
-[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/VBoxContainer/MarginContainer/MarginContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/VBoxContainer/MarginContainer/MarginContainer/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Music directories ( 1 per SD card recommended )"
+autowrap_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rojxh")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="CurrentMusicDirectories" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DefaultMusicDirsLabel" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/CurrentMusicDirectories"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.136442, 0.129619, 0.122794, 1)
+text = "No Directories Added Yet"
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ReimportDirsButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("4_w3wki")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Re-Import Directories
+"
+
+[node name="AddNewDirButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("4_w3wki")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add New Directory
+"
+
+[node name="PanelContainer3" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("4_5tesd")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Auto Import:"
+
+[node name="AutoImportEnabled" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
+text = "Enabled"
+
+[node name="AutoImportDisabled" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
+text = "Disabled"
+
+[node name="AutoImportToggleButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("4_w3wki")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Disable
+"
+
+[node name="Label2" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "The 'Re-Import Directories' action searches your' music directories and imports any new music you have added, with Auto Import enabled this will instead happen in the background whenever you start the app."
+autowrap_mode = 2
+
+[node name="PanelContainer2" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("4_5tesd")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="DataDeletionList" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="IndexedMusicData" type="HBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/IndexedMusicData"]
+layout_mode = 2
+text = "Indexed Music Data"
+
+[node name="HSeparator" type="HSeparator" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/IndexedMusicData"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DeleteIndexedMusicData" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/IndexedMusicData" instance=ExtResource("4_w3wki")]
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Delete
+"
+
+[node name="ScrapedArtistImageData" type="HBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/ScrapedArtistImageData"]
+layout_mode = 2
+text = "Scraped Artist Images"
+
+[node name="HSeparator" type="HSeparator" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/ScrapedArtistImageData"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DeleteScrapedArtistImageDataButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/ScrapedArtistImageData" instance=ExtResource("4_w3wki")]
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Delete
+"
+
+[node name="GeneratedAlbumImages" type="HBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/GeneratedAlbumImages"]
+layout_mode = 2
+text = "Generated Album Images"
+
+[node name="HSeparator" type="HSeparator" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/GeneratedAlbumImages"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DeleteGeneratedAlbumImagesButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/GeneratedAlbumImages" instance=ExtResource("4_w3wki")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Delete
+"
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -25
+
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ubx3u")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/MarginContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Data and Storage"
 
-[node name="MarginContainer2" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="UserInterfaceSection" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 25
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 0
 
-[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/VBoxContainer/MarginContainer2"]
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection"]
 layout_mode = 2
 
-[node name="MarginContainer2" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/VBoxContainer/MarginContainer2/PanelContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 38
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/VBoxContainer/MarginContainer2/PanelContainer/MarginContainer2"]
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2"]
 layout_mode = 2
-text = "TESTIBGF"
+theme_override_styles/panel = ExtResource("4_5tesd")
 
-[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/VBoxContainer/MarginContainer2"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-theme_override_constants/margin_left = -10
-theme_override_constants/margin_top = -25
-
-[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/VBoxContainer/MarginContainer2/MarginContainer"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ubx3u")
-
-[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/VBoxContainer/MarginContainer2/MarginContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/VBoxContainer/MarginContainer2/MarginContainer/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ThemeColorSetting" type="HBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/ThemeColorSetting"]
+layout_mode = 2
+text = "Theme Color"
+
+[node name="HSeparator" type="HSeparator" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/ThemeColorSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ThemeColorPreview" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/ThemeColorSetting"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_cg40q")
+
+[node name="ThemeColorButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/ThemeColorSetting" instance=ExtResource("4_w3wki")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Cycle
+"
+
+[node name="GlobalScaleSetting" type="HBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/GlobalScaleSetting"]
+layout_mode = 2
+text = "Global UI Scale"
+
+[node name="HSeparator" type="HSeparator" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/GlobalScaleSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GlobalScaleDisplayLabel" type="LineEdit" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/GlobalScaleSetting"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+theme_override_constants/minimum_character_width = 0
+text = "1x"
+alignment = 1
+max_length = 5
+editable = false
+expand_to_text_length = true
+
+[node name="GlobalUiScaleButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/GlobalScaleSetting" instance=ExtResource("4_w3wki")]
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Cycle
+"
+
+[node name="ClockSetting" type="HBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/ClockSetting"]
+layout_mode = 2
+text = "24 Hour Clock"
+
+[node name="HSeparator" type="HSeparator" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/ClockSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Clock24HourEnabled" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/ClockSetting"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
+text = "Enabled"
+
+[node name="Clock24HourDisabled" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/ClockSetting"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
+text = "Disabled"
+
+[node name="Clock24HourButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/ClockSetting" instance=ExtResource("4_w3wki")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Disable
+"
+
+[node name="MainMenuSizeSetting" type="HBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/MainMenuSizeSetting"]
+layout_mode = 2
+text = "Main Menu Size"
+
+[node name="HSeparator" type="HSeparator" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/MainMenuSizeSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MainMenuSizeLabel" type="LineEdit" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/MainMenuSizeSetting"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+theme_override_constants/minimum_character_width = 0
+text = "MD"
+alignment = 1
+max_length = 5
+editable = false
+expand_to_text_length = true
+
+[node name="MainMenuSizeButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/MainMenuSizeSetting" instance=ExtResource("4_w3wki")]
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Cycle
+"
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 12
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="ResetUiButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("4_w3wki")]
+layout_mode = 2
+text = "Reset to Defaults
+"
+
+[node name="ApplyUiButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("4_w3wki")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Apply Changes"
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -25
+
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ubx3u")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/MarginContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "User Interface"
+
+[node name="MiscSection" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 38
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("4_5tesd")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ForceScreenFitSetting" type="HBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ForceScreenFitSetting"]
+layout_mode = 2
+text = "Force Screen Fit"
+
+[node name="HSeparator" type="HSeparator" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ForceScreenFitSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ForceScreenFitEnabled" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ForceScreenFitSetting"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
+text = "Enabled"
+
+[node name="ForceScreenFitDisabled" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ForceScreenFitSetting"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
+text = "Disabled"
+
+[node name="ForceScreenFitButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ForceScreenFitSetting" instance=ExtResource("4_w3wki")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Enable
+"
+
+[node name="SongFollowingSetting" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SongSleepTimerSetting" type="HBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/SongFollowingSetting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/SongFollowingSetting/SongSleepTimerSetting"]
+layout_mode = 2
+text = "Song Following"
+
+[node name="HSeparator" type="HSeparator" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/SongFollowingSetting/SongSleepTimerSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SongFollowingEnabled" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/SongFollowingSetting/SongSleepTimerSetting"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
+text = "Enabled"
+
+[node name="SongFollowingDisabled" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/SongFollowingSetting/SongSleepTimerSetting"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
+text = "Disabled"
+
+[node name="SongFollowingButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/SongFollowingSetting/SongSleepTimerSetting" instance=ExtResource("4_w3wki")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Enable"
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/SongFollowingSetting"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "When enabled, songs will continue playing when you nav out of a song."
+autowrap_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SongSleepTimerSetting" type="HBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/SongSleepTimerSetting"]
+layout_mode = 2
+text = "Song Sleep Timer"
+
+[node name="Label2" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/SongSleepTimerSetting"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.313726, 0.313726, 1, 1)
+text = "CFW"
+
+[node name="HSeparator" type="HSeparator" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/SongSleepTimerSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SongSleepTimerLabel" type="LineEdit" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/SongSleepTimerSetting"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/minimum_character_width = 3
+text = "10s"
+editable = false
+
+[node name="SongSleepTimerButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/SongSleepTimerSetting" instance=ExtResource("4_w3wki")]
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Cycle
+"
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "This fades out the screen and turns it off after (n) seconds of inactivity after selecting a song."
+autowrap_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -25
+
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ubx3u")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Misc Settings"
+
+[node name="PlayListSection" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/PlayListSection"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/PlayListSection/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 38
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/PlayListSection/PanelContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("4_5tesd")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 2
+text = "Editing Playlists:"
+
+[node name="Label2" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "In your playlist page you can enter an \"edit\" mode. Now you can navigate the app and select songs to add them to the playlist. "
+autowrap_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rojxh")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="DefaultPlaylistsLabel" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.136442, 0.129619, 0.122794, 1)
+text = "No Playlists Added"
+
+[node name="CurrentPlaylists" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="NewPlaylistButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_w3wki")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "New Playlist
+"
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/PlayListSection"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -25
+
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/PlayListSection/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ubx3u")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/PlayListSection/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/PlayListSection/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Playlist Settings"
+
+[node name="CFWSection" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/CFWSection"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/CFWSection/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 38
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/CFWSection/PanelContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("4_5tesd")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Device Strategy:"
+
+[node name="DeviceStrategyLabel" type="LineEdit" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+text = "GenericLinuxStrategy"
+editable = false
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Your device strategy is used to execute any feature marked with the blue 'CFW' prefix."
+autowrap_mode = 2
+
+[node name="Label2" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "The Generic strategy is for compatibility. All 'CFW' features will be disabled while using it."
+autowrap_mode = 2
+
+[node name="Label3" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Changing the strategy will force the app to quit. You will need to relaunch after changing."
+autowrap_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 8
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="UseTargetedStrategy" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer2" instance=ExtResource("4_w3wki")]
+layout_mode = 2
+text = "Use Targeted 
+"
+
+[node name="UseGenericStrategy" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer2" instance=ExtResource("4_w3wki")]
+layout_mode = 2
+text = "Use Generic
+"
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/CFWSection"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -25
+
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/CFWSection/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ubx3u")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/CFWSection/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/CFWSection/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "CFW Settings"
+
+[node name="DevelopmentCreditSection" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 38
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Please do not contact any of these people regarding Songo#5 bugs or feature requests."
+autowrap_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("4_5tesd")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Testers:"
+
+[node name="FlowContainer" type="FlowContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s4gdb")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+text = "@Hades-Arcadius"
+
+[node name="PanelContainer3" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s4gdb")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer3"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer3/MarginContainer"]
+layout_mode = 2
+text = "@Matcha"
+
+[node name="PanelContainer6" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s4gdb")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer6"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer6/MarginContainer"]
+layout_mode = 2
+text = "@Yuki"
+
+[node name="PanelContainer7" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s4gdb")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer7"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer7/MarginContainer"]
+layout_mode = 2
+text = "@Kneeanderthul"
+
+[node name="PanelContainer2" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("4_5tesd")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Technical Assistance:"
+
+[node name="FlowContainer" type="FlowContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s4gdb")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+text = "@ben16w"
+
+[node name="PanelContainer3" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s4gdb")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer3"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer3/MarginContainer"]
+layout_mode = 2
+text = "@IncognitoMan"
+
+[node name="PanelContainer4" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s4gdb")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer4"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer4/MarginContainer"]
+layout_mode = 2
+text = "@Aris Valdez"
+
+[node name="PanelContainer5" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s4gdb")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer5"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer5/MarginContainer"]
+layout_mode = 2
+text = "Portmaster Team"
+
+[node name="PanelContainer6" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s4gdb")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer6"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer6/MarginContainer"]
+layout_mode = 2
+text = "MustardOS Team"
+
+[node name="PanelContainer7" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s4gdb")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer7"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer7/MarginContainer"]
+layout_mode = 2
+text = "Knulli Team"
+
+[node name="PanelContainer8" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s4gdb")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer8"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer8/MarginContainer"]
+layout_mode = 2
+text = "NextUI Team"
+
+[node name="PanelContainer9" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s4gdb")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer9"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer9/MarginContainer"]
+layout_mode = 2
+text = "Rocknix Team"
+
+[node name="PanelContainer3" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("4_5tesd")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Special Thanks: "
+autowrap_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+focus_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PanelContainer2" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_s4gdb")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
+text = "Finn McCool"
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "For lending me his rg35xxh for testing"
+autowrap_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PanelContainer2" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_s4gdb")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer2/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer2/PanelContainer2/MarginContainer"]
+layout_mode = 2
+text = "Mr. Sujano"
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "For keeping me up-to-date on the news"
+autowrap_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PanelContainer2" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_s4gdb")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer3/PanelContainer2"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer3/PanelContainer2/MarginContainer"]
+layout_mode = 2
+text = "Retro Game Corps"
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "For giving me confidence in my purchase decisions in this hobby"
+autowrap_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -25
+
+[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ubx3u")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevelopmentCreditSection/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Development Credit"
+
+[node name="DevCredit" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 0.392157)
+text = "App developed and ported by Riley"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/ReimportDirsButton" to="." method="_on_reimport_dirs_button_pressed"]
+[connection signal="focus_entered" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/AddNewDirButton" to="." method="_on_add_new_dir_button_focus_entered"]
+[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/AddNewDirButton" to="." method="_on_add_new_dir_button_pressed"]
+[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer/AutoImportToggleButton" to="." method="_on_auto_import_toggle_button_pressed"]
+[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/IndexedMusicData/DeleteIndexedMusicData" to="." method="_on_delete_indexed_music_data_pressed"]
+[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/ScrapedArtistImageData/DeleteScrapedArtistImageDataButton" to="." method="_on_delete_scraped_artist_image_data_button_pressed"]
+[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/GeneratedAlbumImages/DeleteGeneratedAlbumImagesButton" to="." method="_on_delete_generated_album_images_button_pressed"]
+[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/ThemeColorSetting/ThemeColorButton" to="." method="_on_theme_color_button_pressed"]
+[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/GlobalScaleSetting/GlobalUiScaleButton" to="." method="_on_global_ui_scale_button_pressed"]
+[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/ClockSetting/Clock24HourButton" to="." method="_on_clock_24_hour_button_pressed"]
+[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/MainMenuSizeSetting/MainMenuSizeButton" to="." method="_on_main_menu_size_button_pressed"]
+[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/ResetUiButton" to="." method="_on_reset_ui_button_pressed"]
+[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/ApplyUiButton" to="." method="_on_apply_ui_button_pressed"]
+[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ForceScreenFitSetting/ForceScreenFitButton" to="." method="_on_force_screen_fit_button_pressed"]
+[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/SongFollowingSetting/SongSleepTimerSetting/SongFollowingButton" to="." method="_on_song_following_button_pressed"]
+[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/SongSleepTimerSetting/SongSleepTimerButton" to="." method="_on_song_sleep_timer_button_pressed"]
+[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/NewPlaylistButton" to="." method="_on_new_playlist_button_pressed"]
+[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer2/UseTargetedStrategy" to="." method="_on_use_targeted_strategy_pressed"]
+[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer2/UseGenericStrategy" to="." method="_on_use_generic_strategy_pressed"]
+[connection signal="focus_entered" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/DevCredit" to="." method="_on_dev_credit_focus_entered"]

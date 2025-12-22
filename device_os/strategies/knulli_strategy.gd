@@ -4,7 +4,6 @@ class_name KnulliStrategy
 var target_brightness: int = 255
 
 static func being_used() -> bool:
-	if songo_data.preferred_device_strategy == "KnulliStrategy": return true
 	return OS.get_environment("CFW_NAME") == DeviceOS.CFW_KNULLI
 	
 func _init():

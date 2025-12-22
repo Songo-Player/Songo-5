@@ -5,7 +5,6 @@ var target_brightness: int = 50 # Rocknix uses percent
 const FUNC_SCRIPT := "/etc/profile.d/001-functions"
 
 static func being_used() -> bool:
-	if songo_data.preferred_device_strategy == "RocknixStrategy": return true
 	return OS.get_environment("CFW_NAME") == DeviceOS.CFW_ROCKNIX
 	
 func _init():

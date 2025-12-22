@@ -13,7 +13,6 @@ var config_values = {
 }
 
 static func being_used() -> bool:
-	if songo_data.preferred_device_strategy == "MuosCanadaGooseStrategy": return true
 	return OS.get_environment("CFW_NAME") == DeviceOS.CFW_MUOS
 	
 func _init():

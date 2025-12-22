@@ -3,9 +3,12 @@ extends MarginContainer
 func setup_last_item():
 	%ButtonSeparator.hide()
 	
+func set_focus():
+	%Button.grab_focus()
+	
 func setup(artist_record, artist_index):
 	if %ButtonSeparator.visible == false: %ButtonSeparator.show()
-	%Button.set_meta("artist_index", artist_index)
+	%Button.set_meta("item_index", artist_index)
 	%ArtistName.text = artist_record.name
 	%ArtistSummary.text = get_song_summary(artist_record.music_records)
 	%FallbackCover.show()

@@ -1,0 +1,246 @@
+[gd_scene load_steps=7 format=3 uid="uid://es64vgg2fucj"]
+
+[ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="1_ieslp"]
+[ext_resource type="Script" path="res://scenes/settings_container/v2/sub_containers/misc_feature_settings_sub_container.gd" id="1_ktpad"]
+[ext_resource type="PackedScene" uid="uid://0m5yrmj03xdi" path="res://scenes/settings_container/settings_button.tscn" id="2_if6m3"]
+[ext_resource type="Texture2D" uid="uid://cugg5pnrtgmxg" path="res://assets/arrowLeft.svg" id="4_06yt1"]
+[ext_resource type="Texture2D" uid="uid://c8jp7o8xasf1x" path="res://assets/arrowRight.svg" id="5_www0p"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fn5hl"]
+bg_color = Color(0.130772, 0.130772, 0.130772, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="MiscFeatureSettingsSubContainer" type="MarginContainer"]
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 29
+script = ExtResource("1_ktpad")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+unique_name_in_owner = true
+clip_contents = false
+layout_mode = 2
+follow_focus = true
+
+[node name="MiscSection" type="MarginContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/MiscSection"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="ScrollContainer/MiscSection/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 38
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_ieslp")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="SongFollowingSetting" type="VBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SongSleepTimerSetting" type="HBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting/SongSleepTimerSetting"]
+layout_mode = 2
+text = "Song Following"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting/SongSleepTimerSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SongFollowingEnabled" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting/SongSleepTimerSetting"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
+text = "Enabled"
+
+[node name="SongFollowingDisabled" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting/SongSleepTimerSetting"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
+text = "Disabled"
+
+[node name="SongFollowingButton" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting/SongSleepTimerSetting" instance=ExtResource("2_if6m3")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Enable"
+
+[node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "When enabled, songs will continue playing when you nav out of a song."
+autowrap_mode = 2
+
+[node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_ieslp")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="SongSleepAllSettings" type="VBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
+
+[node name="SongSleepTimerSection" type="VBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="SongSleepFadeSetting" type="VBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox"]
+layout_mode = 2
+text = "Screen Fade Type"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SongSleepFadeTypeLabel" type="LineEdit" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 3
+text = "Black Fade"
+expand_to_text_length = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="SongSleepFadeTypeDown" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox/HBoxContainer" instance=ExtResource("2_if6m3")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("4_06yt1")
+
+[node name="SongSleepFadeTypeUp" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox/HBoxContainer" instance=ExtResource("2_if6m3")]
+layout_mode = 2
+text = ""
+icon = ExtResource("5_www0p")
+
+[node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "The method in which fade is applied, 'Black Fade' is ideal for OLED/AMOLED screens. For best results try out each of these and use what you like."
+autowrap_mode = 2
+
+[node name="SongSleepTimerSetting" type="VBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection"]
+layout_mode = 2
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox"]
+layout_mode = 2
+text = "Song Sleep Timer"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SongSleepTimerLabel" type="LineEdit" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 3
+text = "10s"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="SongSleepTimerDown" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox/HBoxContainer" instance=ExtResource("2_if6m3")]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+icon = ExtResource("4_06yt1")
+
+[node name="SongSleepTimerUp" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox/HBoxContainer" instance=ExtResource("2_if6m3")]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+icon = ExtResource("5_www0p")
+
+[node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "This fades out the screen and turns it off after (n) seconds of inactivity after selecting a song."
+autowrap_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/MiscSection"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -25
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/MiscSection/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_fn5hl")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/MiscSection/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PageLabel" type="Label" parent="ScrollContainer/MiscSection/MarginContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Misc Feature Settings"
+
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
+[connection signal="pressed" from="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting/SongSleepTimerSetting/SongFollowingButton" to="." method="_on_song_following_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox/HBoxContainer/SongSleepFadeTypeDown" to="." method="_on_song_sleep_fade_type_down_pressed"]
+[connection signal="pressed" from="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox/HBoxContainer/SongSleepFadeTypeUp" to="." method="_on_song_sleep_fade_type_up_pressed"]
+[connection signal="pressed" from="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox/HBoxContainer/SongSleepTimerDown" to="." method="_on_song_sleep_timer_down_pressed"]
+[connection signal="pressed" from="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox/HBoxContainer/SongSleepTimerUp" to="." method="_on_song_sleep_timer_up_pressed"]

@@ -11,15 +11,15 @@ var _mask_texture: ImageTexture
 
 func _ready():
 	_update_mask()
-
+	
 func _notification(what):
 	if what == NOTIFICATION_RESIZED:
-		_update_mask()
+		call_deferred("_update_mask")
 
 func _update_mask():
 	if size.x <= 0 or size.y <= 0:
 		return
-
+	
 	# Create an empty image for the mask texture
 	var img := Image.create(int(size.x), int(size.y), false, Image.FORMAT_RGBA8)
 	img.fill(fill_color)

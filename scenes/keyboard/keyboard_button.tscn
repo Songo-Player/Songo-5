@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bwic3edhh0hc4"]
+
+[node name="KeyboardButton" type="Button"]
+custom_minimum_size = Vector2(30, 35)
+offset_right = 8.0
+offset_bottom = 8.0
+text = "A"

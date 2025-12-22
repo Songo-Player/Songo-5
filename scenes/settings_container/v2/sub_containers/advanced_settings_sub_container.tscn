@@ -1,0 +1,150 @@
+[gd_scene load_steps=5 format=3 uid="uid://b680qxnrn55nl"]
+
+[ext_resource type="Script" path="res://scenes/settings_container/v2/sub_containers/advanced_settings_sub_container.gd" id="1_1dait"]
+[ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="1_fmdwp"]
+[ext_resource type="PackedScene" uid="uid://0m5yrmj03xdi" path="res://scenes/settings_container/settings_button.tscn" id="2_cba7n"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5dm3t"]
+bg_color = Color(0.130772, 0.130772, 0.130772, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="AdvancedSettingsSubContainer" type="MarginContainer"]
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 29
+script = ExtResource("1_1dait")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+clip_contents = false
+layout_mode = 2
+follow_focus = true
+
+[node name="CFWSection" type="MarginContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/CFWSection"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="ScrollContainer/CFWSection/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 38
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_fmdwp")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="DeviceStrategySetting" type="VBoxContainer" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/DeviceStrategySetting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/DeviceStrategySetting/Hbox"]
+layout_mode = 2
+text = "Strategy"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/DeviceStrategySetting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DeviceStrategyLabel" type="LineEdit" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/DeviceStrategySetting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 3
+text = "GenericLinuxStrategy"
+expand_to_text_length = true
+
+[node name="StrategySwapButton" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/DeviceStrategySetting/Hbox" instance=ExtResource("2_cba7n")]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Swap
+"
+
+[node name="Label" type="Label" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/DeviceStrategySetting"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Do not change this unless you know what you're doing. The device strategy is responsible for a lot of subtle quality of life features. If you use the 'GenericLinuxStrategy' you get none of these. "
+autowrap_mode = 2
+
+[node name="StrategySaveQuitSection" type="MarginContainer" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/margin_top = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StrategySaveQuitSection"]
+layout_mode = 2
+alignment = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StrategySaveQuitSection/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "Strategy change detected"
+
+[node name="SaveAndQuitButton" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StrategySaveQuitSection/HBoxContainer" instance=ExtResource("2_cba7n")]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Save & Quit
+"
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/CFWSection"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -25
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/CFWSection/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5dm3t")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/CFWSection/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PageLabel" type="Label" parent="ScrollContainer/CFWSection/MarginContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Advanced Settings"
+
+[connection signal="pressed" from="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/DeviceStrategySetting/Hbox/StrategySwapButton" to="." method="_on_strategy_swap_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StrategySaveQuitSection/HBoxContainer/SaveAndQuitButton" to="." method="_on_save_and_quit_button_pressed"]

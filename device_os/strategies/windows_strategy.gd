@@ -3,7 +3,6 @@ class_name WindowsStrategy
 # Windows Strategy
 
 static func being_used():
-	if songo_data.preferred_device_strategy == "WindowsStrategy": return true
 	var os_name = OS.get_name()
 	return os_name == "Windows"
 	

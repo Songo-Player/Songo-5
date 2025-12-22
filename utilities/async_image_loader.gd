@@ -24,6 +24,7 @@ static func load_async(image_path: String) -> AsyncImageLoader:
 
 
 func cancel() -> void:
+	print("Image load cancelled")
 	if _cancelled:
 		return
 	_cancelled = true
@@ -81,6 +82,7 @@ func _on_load_complete(texture: ImageTexture) -> void:
 
 
 func _on_load_failed(error: String) -> void:
+	print("Image load failed")
 	if not _cancelled:
 		load_failed.emit(error)
 	_cleanup()

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dalui65p8m2es"]
+
+[ext_resource type="Script" path="res://scenes/flash_message_box/flash_message_box.gd" id="1_xwac4"]
+
+[node name="FlashMessageBox" type="VBoxContainer"]
+z_index = 2
+alignment = 2
+script = ExtResource("1_xwac4")

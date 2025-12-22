@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=3 uid="uid://bthtkrg10n8oi"]
+
+[ext_resource type="PackedScene" uid="uid://0m5yrmj03xdi" path="res://scenes/settings_container/settings_button.tscn" id="1_tf2q5"]
+[ext_resource type="Script" path="res://scenes/app_message/app_message.gd" id="1_u7ce0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o64cl"]
+bg_color = Color(0.129412, 0.129412, 0.129412, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="SettingsMessageContainer" type="PanelContainer"]
+z_index = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -83.0
+offset_top = -27.5
+offset_right = 83.0
+offset_bottom = 27.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_o64cl")
+script = ExtResource("1_u7ce0")
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="SettingsMessageLabel" type="Label" parent="MarginContainer2/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Settings  Message"
+
+[node name="DismissMessage" parent="MarginContainer2/VBoxContainer" instance=ExtResource("1_tf2q5")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+text = "Dismiss
+"
+
+[connection signal="pressed" from="MarginContainer2/VBoxContainer/DismissMessage" to="." method="_on_dismiss_message_pressed"]

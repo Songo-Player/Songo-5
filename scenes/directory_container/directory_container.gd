@@ -12,14 +12,19 @@ var dark_out
 func _ready() -> void:
 	%MusicDirTip.text = DeviceOS.music_dir_tip
 	
-func setup(dark_out_arg: Control):
+func setup(dark_out_arg: Control, path_array_arg = []):
 	dark_out = dark_out_arg
-	set_initial_path()
+	path_array = path_array_arg
+	if path_array == []: set_initial_path()
 	var initial_directories = get_children_directories("".join(path_array))
 	await %VirtualizedList.ready
 	virtualized_list = %VirtualizedList
 	virtualized_list.setup(initial_directories, "res://scenes/directory_container/directory_button.tscn")
 	display_current_path()
+	if path_array.size() == 1:
+		%DirectoryInfoContainer.show()
+	else:
+		%DirectoryInfoContainer.hide()
 
 func get_children_directories(path):
 	var results = []
@@ -56,16 +61,17 @@ func handle_input(delta: float):
 	if importing == true: return
 	
 	if Input.is_action_just_pressed("back"):
-		if path_array.size() == 1:
-			Controller.nav_back()
-		else:
-			path_array.pop_back()
-			enter_dir()
+		Controller.new_nav_back()
 	
 	if Input.is_action_just_pressed("ui_accept"):
 		var focused_button = get_viewport().gui_get_focus_owner()
 		var target_dir = focused_button.get_meta("dir_path")
-		if target_dir: enter_dir(target_dir)
+		if target_dir: 
+			#path_array.append(target_dir)
+			var new_path = path_array.duplicate()
+			new_path.append(target_dir)
+			Controller.settings_directory_select(new_path)
+			#enter_dir(target_dir)
 		else: _on_select_directory_button_pressed()
 	
 func set_initial_path():
@@ -107,18 +113,26 @@ func enter_dir(dir_name = null):
 	virtualized_list.setup(child_directories, "res://scenes/directory_container/directory_button.tscn")
 	display_current_path()
 	
-
-func _on_select_directory_button_pressed() -> void:
+func reimport():
 	importing = true
 	dark_out.show()
-	var path = "".join(path_array)
-	print("SELECTING: ", path)
-	
-	songo_data.music_directory_path = path
-	songo_data.save()
-	await get_tree().process_frame
-	
 	songo_data.index_mp3s()
 	await songo_data.import_finished
 	dark_out.hide()
-	Controller.nav_back()
+	Controller.nav_back_to_settings()
+	
+func _on_select_directory_button_pressed() -> void:
+	var path = "".join(path_array)
+	if songo_data.add_music_directory_path(path):
+		importing = true
+		dark_out.show()
+		songo_data.save()
+		await get_tree().process_frame
+		songo_data.index_mp3s()
+		await songo_data.import_finished
+		dark_out.hide()
+		Controller.nav_back_to_settings()
+	else:
+		var message = songo_data.path_error
+		if (message == null || message == ""): message = "Unkown Error"
+		UiHelper.app_message.show_message(message)

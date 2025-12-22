@@ -1,0 +1,274 @@
+[gd_scene load_steps=6 format=3 uid="uid://cnawl38hxdw8j"]
+
+[ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="1_6a2je"]
+[ext_resource type="Script" path="res://scenes/settings_container/v2/sub_containers/data_and_storage_sub_container.gd" id="1_ftlit"]
+[ext_resource type="PackedScene" uid="uid://0m5yrmj03xdi" path="res://scenes/settings_container/settings_button.tscn" id="2_ekkat"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0bs7f"]
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uwp12"]
+bg_color = Color(0.130772, 0.130772, 0.130772, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="DataAndStorageSubContainer" type="MarginContainer"]
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 29
+script = ExtResource("1_ftlit")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+unique_name_in_owner = true
+clip_contents = false
+layout_mode = 2
+follow_focus = true
+
+[node name="DataAndStorageSection" type="MarginContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/DataAndStorageSection"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="ScrollContainer/DataAndStorageSection/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 38
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_6a2je")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Music directories ( 1 per SD card recommended )"
+autowrap_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0bs7f")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="CurrentMusicDirectories" type="VBoxContainer" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DefaultMusicDirsLabel" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/CurrentMusicDirectories"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.136442, 0.129619, 0.122794, 1)
+text = "No Directories Added Yet"
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ReimportDirsButton" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("2_ekkat")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Re-Import Directories
+"
+
+[node name="AddNewDirButton" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("2_ekkat")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add New Directory
+"
+
+[node name="PanelContainer3" type="PanelContainer" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_6a2je")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Auto Import:"
+
+[node name="AutoImportEnabled" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
+text = "Enabled"
+
+[node name="AutoImportDisabled" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
+text = "Disabled"
+
+[node name="AutoImportToggleButton" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_ekkat")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Disable
+"
+
+[node name="Label2" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "The 'Re-Import Directories' action searches your' music directories and imports any new music you have added, with Auto Import enabled this will instead happen in the background whenever you start the app."
+autowrap_mode = 2
+
+[node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_6a2je")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="DataDeletionList" type="VBoxContainer" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="IndexedMusicData" type="HBoxContainer" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/IndexedMusicData"]
+layout_mode = 2
+text = "Indexed Music Data"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/IndexedMusicData"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DeleteIndexedMusicData" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/IndexedMusicData" instance=ExtResource("2_ekkat")]
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Delete
+"
+
+[node name="ScrapedArtistImageData" type="HBoxContainer" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/ScrapedArtistImageData"]
+layout_mode = 2
+text = "Scraped Artist Images"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/ScrapedArtistImageData"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DeleteScrapedArtistImageDataButton" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/ScrapedArtistImageData" instance=ExtResource("2_ekkat")]
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Delete
+"
+
+[node name="GeneratedAlbumImages" type="HBoxContainer" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/GeneratedAlbumImages"]
+layout_mode = 2
+text = "Generated Album Images"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/GeneratedAlbumImages"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DeleteGeneratedAlbumImagesButton" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/GeneratedAlbumImages" instance=ExtResource("2_ekkat")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Delete
+"
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/DataAndStorageSection"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -25
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/DataAndStorageSection/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_uwp12")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/DataAndStorageSection/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PageLabel" type="Label" parent="ScrollContainer/DataAndStorageSection/MarginContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Data and Storage"
+
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
+[connection signal="pressed" from="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/ReimportDirsButton" to="." method="_on_reimport_dirs_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/AddNewDirButton" to="." method="_on_add_new_dir_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer/AutoImportToggleButton" to="." method="_on_auto_import_toggle_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/IndexedMusicData/DeleteIndexedMusicData" to="." method="_on_delete_indexed_music_data_pressed"]
+[connection signal="pressed" from="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/ScrapedArtistImageData/DeleteScrapedArtistImageDataButton" to="." method="_on_delete_scraped_artist_image_data_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/DataDeletionList/GeneratedAlbumImages/DeleteGeneratedAlbumImagesButton" to="." method="_on_delete_generated_album_images_button_pressed"]

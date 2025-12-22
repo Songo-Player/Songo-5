@@ -3,6 +3,8 @@ class_name DeviceOsStrategy
 
 var music_dir_tip: String: get = get_music_dir_tip
 var can_fade_screen: bool
+var strategy_name:
+	get: return get_script().get_global_name()
 
 static var songo_data = SongoDataResource.get_instance()
 

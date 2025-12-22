@@ -1,0 +1,302 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpkuxp51tlyqk"]
+
+[ext_resource type="Script" path="res://scenes/keyboard/keyboard.gd" id="1_nvk1k"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ltsb4"]
+bg_color = Color(0.221902, 0.221902, 0.221902, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.523781, 0.523781, 0.52378, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="Keyboard" type="PanelContainer"]
+offset_right = 264.0
+offset_bottom = 101.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ltsb4")
+script = ExtResource("1_nvk1k")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="KeyboardTitle" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enter your value"
+
+[node name="KeyboardText" type="LineEdit" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 1
+caret_blink = true
+caret_force_displayed = true
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="ButtonQ" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_left = NodePath("../DeleteButton")
+focus_neighbor_top = NodePath("../../HBoxContainer3/CapsButton")
+focus_neighbor_right = NodePath("../ButtonW")
+focus_neighbor_bottom = NodePath("../../HBoxContainer2/ButtonA")
+focus_next = NodePath("../ButtonW")
+focus_previous = NodePath("../DeleteButton")
+text = "q"
+
+[node name="ButtonW" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_top = NodePath("../../HBoxContainer3/CapsButton")
+text = "w
+"
+
+[node name="ButtonE" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_top = NodePath("../../HBoxContainer3/ButtonZ")
+text = "e
+"
+
+[node name="ButtonR" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_top = NodePath("../../HBoxContainer3/ButtonX")
+text = "r
+"
+
+[node name="ButtonT" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_top = NodePath("../../HBoxContainer3/ButtonC")
+text = "t
+"
+
+[node name="ButtonY" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_top = NodePath("../../HBoxContainer3/ButtonV")
+text = "y"
+
+[node name="ButtonU" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_top = NodePath("../../HBoxContainer3/ButtonB")
+text = "u
+"
+
+[node name="ButtonI" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_top = NodePath("../../HBoxContainer3/ButtonN")
+text = "i
+"
+
+[node name="ButtonO" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_top = NodePath("../../HBoxContainer3/ButtonM")
+text = "o"
+
+[node name="ButtonP" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_top = NodePath("../../HBoxContainer3/SpaceButton")
+text = "p
+"
+
+[node name="DeleteButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 35)
+layout_mode = 2
+focus_neighbor_top = NodePath("../../HBoxContainer3/SpaceButton")
+focus_neighbor_right = NodePath("../ButtonQ")
+text = "DEL"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="ButtonA" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_left = NodePath("../EnterButton")
+focus_neighbor_top = NodePath("../../HBoxContainer/ButtonQ")
+focus_neighbor_right = NodePath("../ButtonS")
+focus_neighbor_bottom = NodePath("../../HBoxContainer3/CapsButton")
+text = "a"
+
+[node name="ButtonS" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_left = NodePath("../ButtonA")
+focus_neighbor_top = NodePath("../../HBoxContainer/ButtonW")
+focus_neighbor_right = NodePath("../ButtonD")
+focus_neighbor_bottom = NodePath("../../HBoxContainer3/CapsButton")
+text = "s"
+
+[node name="ButtonD" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_left = NodePath("../ButtonS")
+focus_neighbor_top = NodePath("../../HBoxContainer/ButtonE")
+focus_neighbor_right = NodePath("../ButtonF")
+focus_neighbor_bottom = NodePath("../../HBoxContainer3/ButtonZ")
+text = "d
+"
+
+[node name="ButtonF" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_left = NodePath("../ButtonD")
+focus_neighbor_top = NodePath("../../HBoxContainer/ButtonR")
+focus_neighbor_right = NodePath("../ButtonG")
+focus_neighbor_bottom = NodePath("../../HBoxContainer3/ButtonX")
+text = "f"
+
+[node name="ButtonG" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_left = NodePath("../ButtonF")
+focus_neighbor_top = NodePath("../../HBoxContainer/ButtonT")
+focus_neighbor_right = NodePath("../ButtonH")
+focus_neighbor_bottom = NodePath("../../HBoxContainer3/ButtonC")
+text = "g"
+
+[node name="ButtonH" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_left = NodePath("../ButtonG")
+focus_neighbor_top = NodePath("../../HBoxContainer/ButtonY")
+focus_neighbor_right = NodePath("../ButtonI")
+focus_neighbor_bottom = NodePath("../../HBoxContainer3/ButtonV")
+text = "h"
+
+[node name="ButtonI" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_left = NodePath("../ButtonH")
+focus_neighbor_top = NodePath("../../HBoxContainer/ButtonU")
+focus_neighbor_right = NodePath("../ButtonJ")
+focus_neighbor_bottom = NodePath("../../HBoxContainer3/ButtonB")
+text = "i"
+
+[node name="ButtonJ" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_left = NodePath("../ButtonI")
+focus_neighbor_top = NodePath("../../HBoxContainer/ButtonI")
+focus_neighbor_right = NodePath("../ButtonK")
+focus_neighbor_bottom = NodePath("../../HBoxContainer3/ButtonN")
+text = "j"
+
+[node name="ButtonK" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_left = NodePath("../ButtonJ")
+focus_neighbor_top = NodePath("../../HBoxContainer/ButtonO")
+focus_neighbor_right = NodePath("../ButtonL")
+focus_neighbor_bottom = NodePath("../../HBoxContainer3/ButtonM")
+text = "k"
+
+[node name="ButtonL" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_left = NodePath("../ButtonK")
+focus_neighbor_top = NodePath("../../HBoxContainer/ButtonP")
+focus_neighbor_right = NodePath("../EnterButton")
+focus_neighbor_bottom = NodePath("../../HBoxContainer3/SpaceButton")
+text = "l"
+
+[node name="EnterButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_left = NodePath("../ButtonL")
+focus_neighbor_top = NodePath("../../HBoxContainer/DeleteButton")
+focus_neighbor_right = NodePath("../ButtonA")
+focus_neighbor_bottom = NodePath("../../HBoxContainer3/SpaceButton")
+text = "Enter"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="CapsButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 35)
+layout_mode = 2
+focus_neighbor_left = NodePath("../SpaceButton")
+focus_neighbor_bottom = NodePath("../../HBoxContainer/ButtonQ")
+text = "CAPS"
+
+[node name="ButtonZ" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../../HBoxContainer/ButtonE")
+text = "z"
+
+[node name="ButtonX" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../../HBoxContainer/ButtonR")
+text = "x"
+
+[node name="ButtonC" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../../HBoxContainer/ButtonT")
+text = "c
+"
+
+[node name="ButtonV" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../../HBoxContainer/ButtonY")
+text = "v"
+
+[node name="ButtonB" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../../HBoxContainer/ButtonU")
+text = "b"
+
+[node name="ButtonN" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../../HBoxContainer2/ButtonI")
+text = "n"
+
+[node name="ButtonM" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3" groups=["characterKey"]]
+custom_minimum_size = Vector2(25, 35)
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../../HBoxContainer/ButtonO")
+text = "m"
+
+[node name="SpaceButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(73, 35)
+layout_mode = 2
+focus_neighbor_top = NodePath("../../HBoxContainer2/EnterButton")
+focus_neighbor_right = NodePath("../CapsButton")
+focus_neighbor_bottom = NodePath("../../HBoxContainer/DeleteButton")
+text = "SPACE"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/DeleteButton" to="." method="_on_delete_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/EnterButton" to="." method="_on_enter_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer3/CapsButton" to="." method="_on_caps_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer3/SpaceButton" to="." method="_on_space_button_pressed"]

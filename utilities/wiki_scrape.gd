@@ -217,3 +217,74 @@ static func fetch_dicebear_avatar(artist_name: String) -> String:
 	else:
 		push_error("Failed to save SVG for %s" % artist_name)
 		return ""
+
+static func fetch_dicebear_collection_img(type, name, dicebear_style = "bottts-neutral") -> String:
+	
+	var save_path := "user://%s/%s.svg" % [type, name]
+
+	var dir := DirAccess.open("user://")
+	if dir.dir_exists(type) and FileAccess.file_exists(save_path):
+		return save_path
+
+	if not dir.dir_exists(type):
+		dir.make_dir(type)
+
+	var encoded_seed = name.uri_encode()
+	var dicebear_url = "https://api.dicebear.com/9.x/%s/svg?seed=%s" % [dicebear_style, encoded_seed]
+
+	# --- Fetch SVG bytes using HTTPS ---
+	var use_ssl := true
+	var url_prefix_len := 8  # for "https://"
+	var rest := dicebear_url.substr(url_prefix_len)
+	var slash_idx := rest.find("/")
+	var host := rest.substr(0, slash_idx)
+	var path := rest.substr(slash_idx)
+	var port := 443
+
+	var client := HTTPClient.new()
+	var tls_opts := TLSOptions.client()
+
+	var err := client.connect_to_host(host, port, tls_opts)
+	if err != OK:
+		push_error("Failed to connect to DiceBear: %s" % err)
+		return ""
+
+	while client.get_status() in [HTTPClient.STATUS_CONNECTING, HTTPClient.STATUS_RESOLVING]:
+		client.poll()
+		await Engine.get_main_loop().process_frame
+
+	if client.get_status() != HTTPClient.STATUS_CONNECTED:
+		push_error("Connection failed for: %s" % dicebear_url)
+		return ""
+
+	client.request(HTTPClient.METHOD_GET, path, [], "")
+
+	while client.get_status() == HTTPClient.STATUS_REQUESTING:
+		client.poll()
+		await Engine.get_main_loop().process_frame
+
+	if client.get_status() != HTTPClient.STATUS_BODY:
+		push_error("Invalid response for: %s" % dicebear_url)
+		return ""
+
+	var body := PackedByteArray()
+	while client.get_status() == HTTPClient.STATUS_BODY:
+		client.poll()
+		var chunk := client.read_response_body_chunk()
+		if chunk.size() > 0:
+			body += chunk
+		await Engine.get_main_loop().process_frame
+
+	if body.is_empty():
+		push_error("Failed to download image for %s" % name)
+		return ""
+
+	# --- Save SVG file ---
+	var file := FileAccess.open(save_path, FileAccess.WRITE)
+	if file:
+		file.store_buffer(body)
+		file.close()
+		return save_path
+	else:
+		push_error("Failed to save SVG for %s" % name)
+		return ""

@@ -1,0 +1,185 @@
+[gd_scene load_steps=6 format=3 uid="uid://ys06hth56t3w"]
+
+[ext_resource type="Script" path="res://scenes/settings_container/v2/sub_containers/playlist_settings_sub_container.gd" id="1_egycj"]
+[ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="2_uuyk4"]
+[ext_resource type="PackedScene" uid="uid://0m5yrmj03xdi" path="res://scenes/settings_container/settings_button.tscn" id="3_51sbn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q8b65"]
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5na7v"]
+bg_color = Color(0.130772, 0.130772, 0.130772, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="PlaylistSettingsSubContainer" type="MarginContainer"]
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 29
+script = ExtResource("1_egycj")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+unique_name_in_owner = true
+clip_contents = false
+layout_mode = 2
+follow_focus = true
+
+[node name="PlayListSection" type="MarginContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/PlayListSection"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="ScrollContainer/PlayListSection/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 38
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_uuyk4")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Managing Playlists:"
+
+[node name="NewPlaylistButton" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_51sbn")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "New Playlist
+"
+
+[node name="Label2" type="Label" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Open your quick menu while any song, album, or artist is focused with the cursor. From here you can add or remove the song(s) from your most recently edited playlist."
+autowrap_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_q8b65")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="DefaultPlaylistsLabel" type="Label" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.136442, 0.129619, 0.122794, 1)
+text = "No Playlists Added"
+
+[node name="CurrentPlaylists" type="VBoxContainer" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_uuyk4")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Playlist Cover Images:"
+
+[node name="Label2" type="Label" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "To use a custom image navigate to the path below and replace/add the playlist image with your own. Any image type is fine, just ensure the base file name is the same as the playlist."
+autowrap_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_q8b65")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="PlaylistPathLabel" type="Label" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 2
+theme_override_colors/font_color = Color(0.136442, 0.129619, 0.122794, 1)
+text = "No Playlists Added"
+autowrap_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/PlayListSection"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -25
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/PlayListSection/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5na7v")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/PlayListSection/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PageLabel" type="Label" parent="ScrollContainer/PlayListSection/MarginContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Playlist Settings"
+
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
+[connection signal="pressed" from="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/NewPlaylistButton" to="." method="_on_new_playlist_button_pressed"]

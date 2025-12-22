@@ -1,44 +1,16 @@
-[gd_scene load_steps=18 format=3 uid="uid://j686wolpd4sc"]
+[gd_scene load_steps=14 format=3 uid="uid://j686wolpd4sc"]
 
 [ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="1_g1mu1"]
 [ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_yqyyl"]
 [ext_resource type="Texture2D" uid="uid://byeluf85nlgra" path="res://assets/record.svg" id="2_6s7i5"]
+[ext_resource type="StyleBox" uid="uid://c3n7vb3lajyx1" path="res://shared_resources/all_songs_gradient_v2.tres" id="2_inht6"]
 [ext_resource type="Texture2D" uid="uid://dcqtgyrr3fac2" path="res://assets/user.svg" id="3_o567r"]
+[ext_resource type="StyleBox" uid="uid://c7l7bkyc4txid" path="res://shared_resources/albums_gradient.tres" id="4_eugyn"]
 [ext_resource type="Texture2D" uid="uid://cbi4n1wtrc3dc" path="res://assets/gear.svg" id="4_jfw5h"]
 [ext_resource type="Texture2D" uid="uid://dg08f5rynv8mn" path="res://assets/exit_walk.svg" id="5_5xlpu"]
-
-[sub_resource type="Gradient" id="Gradient_di6jr"]
-colors = PackedColorArray(0.584314, 0, 0.286275, 1, 0.435294, 0.741176, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_ing45"]
-gradient = SubResource("Gradient_di6jr")
-fill_from = Vector2(1, 0)
-fill_to = Vector2(1, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1n2xr"]
-texture = SubResource("GradientTexture2D_ing45")
-
-[sub_resource type="Gradient" id="Gradient_22lyn"]
-colors = PackedColorArray(0.603736, 0.0188367, 1.92523e-07, 1, 1, 0.566063, 0.597837, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_8i2qj"]
-gradient = SubResource("Gradient_22lyn")
-fill_from = Vector2(1, 0)
-fill_to = Vector2(1, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8kwl5"]
-texture = SubResource("GradientTexture2D_8i2qj")
-
-[sub_resource type="Gradient" id="Gradient_fhvge"]
-colors = PackedColorArray(1.92523e-07, 0.552714, 0.878903, 1, 0, 0.382193, 0.177843, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_ee2jw"]
-gradient = SubResource("Gradient_fhvge")
-fill_from = Vector2(1, 0)
-fill_to = Vector2(1, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_u2rs6"]
-texture = SubResource("GradientTexture2D_ee2jw")
+[ext_resource type="Texture2D" uid="uid://md788wp04yb1" path="res://assets/layergroup.svg" id="5_qcdvd"]
+[ext_resource type="StyleBox" uid="uid://crkrkhbpqrcwl" path="res://shared_resources/artists_gradient.tres" id="6_bnyqd"]
+[ext_resource type="StyleBox" uid="uid://d2sx58pf8pij1" path="res://shared_resources/playlists_gradient.tres" id="8_pow7i"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ymnbc"]
 bg_color = Color(0.286155, 0.272626, 0.260969, 1)
@@ -58,6 +30,24 @@ size_flags_horizontal = 6
 size_flags_vertical = 6
 theme_override_constants/separation = 16
 alignment = 1
+
+[node name="FlameContainer" type="PanelContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 228)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/FlameContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="HBoxContainer/FlameContainer/MarginContainer"]
+layout_mode = 2
+text = "Are you proud of yourself?
+I like minimalism too but come on dude"
+horizontal_alignment = 1
 
 [node name="AllSongsMenuItem" type="PanelContainer" parent="HBoxContainer"]
 unique_name_in_owner = true
@@ -79,9 +69,10 @@ layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/AllSongsMenuItem/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_1n2xr")
+theme_override_styles/panel = ExtResource("2_inht6")
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/AllSongsMenuItem/MarginContainer/VBoxContainer/PanelContainer"]
+[node name="AllSongsTextureRect" type="TextureRect" parent="HBoxContainer/AllSongsMenuItem/MarginContainer/VBoxContainer/PanelContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(172, 172)
 layout_mode = 2
 texture = ExtResource("1_g1mu1")
@@ -113,9 +104,10 @@ layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/AlbumsMenuItem/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_8kwl5")
+theme_override_styles/panel = ExtResource("4_eugyn")
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/AlbumsMenuItem/MarginContainer/VBoxContainer/PanelContainer"]
+[node name="AlbumsTextureRect" type="TextureRect" parent="HBoxContainer/AlbumsMenuItem/MarginContainer/VBoxContainer/PanelContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(172, 172)
 layout_mode = 2
 texture = ExtResource("2_6s7i5")
@@ -147,9 +139,10 @@ layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/ArtistsMenuItem/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_u2rs6")
+theme_override_styles/panel = ExtResource("6_bnyqd")
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/ArtistsMenuItem/MarginContainer/VBoxContainer/PanelContainer"]
+[node name="ArtistsTextureRect" type="TextureRect" parent="HBoxContainer/ArtistsMenuItem/MarginContainer/VBoxContainer/PanelContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(172, 172)
 layout_mode = 2
 texture = ExtResource("3_o567r")
@@ -159,6 +152,41 @@ expand_mode = 3
 layout_mode = 2
 theme_override_font_sizes/font_size = 26
 text = "Artists"
+horizontal_alignment = 1
+
+[node name="PlaylistsMenuItem" type="PanelContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="PlaylistsMenuButton" type="Button" parent="HBoxContainer/PlaylistsMenuItem"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/PlaylistsMenuItem"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PlaylistsMenuItem/MarginContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/PlaylistsMenuItem/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("8_pow7i")
+
+[node name="PlaylistsTextureRect" type="TextureRect" parent="HBoxContainer/PlaylistsMenuItem/MarginContainer/VBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(172, 172)
+layout_mode = 2
+texture = ExtResource("5_qcdvd")
+expand_mode = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/PlaylistsMenuItem/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Playlists"
 horizontal_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
@@ -228,8 +256,11 @@ texture = ExtResource("5_5xlpu")
 expand_mode = 3
 stretch_mode = 4
 
+[connection signal="resized" from="." to="." method="_on_resized"]
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
 [connection signal="pressed" from="HBoxContainer/AllSongsMenuItem/AllSongsMenuButton" to="." method="_on_all_songs_menu_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/AlbumsMenuItem/AlbumMenuButton" to="." method="_on_album_menu_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/ArtistsMenuItem/ArtistMenuButton" to="." method="_on_artist_menu_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/PlaylistsMenuItem/PlaylistsMenuButton" to="." method="_on_playlists_menu_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/SettingsMenuItem/SettingsMenuButton" to="." method="_on_settings_menu_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/ExitMenuItem/ExitMenuButton" to="." method="_on_exit_menu_button_pressed"]

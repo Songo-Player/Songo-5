@@ -1,24 +1,18 @@
 class_name SongoDataResource extends Resource
 
 signal import_finished
+
 const SAVE_PATH = "user://songo_data.tres"
-const VERSION = "v0.2.5 Rita"
-const THEME_COLORS = [
-	"48486d", # Grayish blue
-	"84233b", # Purpley
-	"215a30", # Emerald Green
-	"562b90", # Purpley Blue
-	"7c2a00" # Burnt Orange
-]
+const VERSION = "v0.4.0 RC2 Santa"
+const DATA_VERSION = "30Tina"
 
 @export var music_directory_path = "No Path"
+@export var music_directory_paths = []
 @export var music_records: Array[MusicRecord] = []
-@export var saved_version = ""
-@export var theme_color = THEME_COLORS[3]
+@export var data_version = ""
 @export var artists: Array[ArtistRecord] = []
 @export var albums: Array[AlbumRecord] = []
-@export var preferred_device_strategy = "DeviceOsStrategy"
-@export var ui_scale = 1.0
+@export var recent_playlist_name = ""
 
 var scraping: float = 0.0
 var import_progress: float = 0.0
@@ -29,6 +23,12 @@ var _albums := {}
 var _artists := {}
 var _song_paths := {}
 var import_notes = []
+var path_error = null
+var existing_song_paths = []
+var scale_components = []
+var importing: bool = false
+var playlists: Array[M3uCollection] = []
+var import_start_time = 0
 
 var artist_count: int:
 	get: return artists.size()
@@ -36,8 +36,13 @@ var artist_count: int:
 var album_count: int:
 	get: return albums.size()
 
+# RYE TODO: This may not be used anymore
 var music_records_alphabetical: 
 	get: return get_music_records_alphabetical()
+	
+var recent_playlist:
+	get: return get_recent_playlist()
+
 
 static var _instance : SongoDataResource = null
 
@@ -49,23 +54,32 @@ func _init():
 static func get_instance() -> SongoDataResource:
 	ensure_dir("album_covers")
 	
-	
 	if _instance == null:
 		if ResourceLoader.exists(SAVE_PATH):
 			_instance = ResourceLoader.load(SAVE_PATH)
-			if _instance == null || _instance.saved_version != VERSION:
+			if _instance == null || _instance.data_version != DATA_VERSION:
 				_instance = SongoDataResource.new()
 				print("Busting saved data")
+			else:
+				#for playlist in _instance.playlists:
+				#	playlist.load_music_records()
+				#_instance.playlists = PlaylistRecord.load_playlists("user://playlists")
+				_instance.playlists = M3uCollection.load_collection_type("playlists")
+				M3uCollection.build_lookup(_instance.music_records)
+				for playlist in _instance.playlists:
+					playlist.music_records = playlist.get_music_records_from_lookup()
 		else:
 			_instance = SongoDataResource.new()
 	return _instance
 	 
-func apply_next_theme():
-	var index = THEME_COLORS.find(theme_color)
-	var new_index = (index+1) % THEME_COLORS.size()
-	theme_color = THEME_COLORS[new_index]
-	save()
-	
+func get_recent_playlist():
+	var target = playlists.filter(func(playlist): return recent_playlist_name == playlist.name)
+	if target.size() == 0: 
+		if playlists.size() == 0: return null
+		else: recent_playlist_name = playlists[0].name
+		return playlists[0]
+	else: return target[0]
+		
 func songs_in_album(album_name):
 	var albums = albums.filter(func(album): return album.name == album_name)
 	if albums.size() == 1: return albums[0].music_records
@@ -83,13 +97,18 @@ func unique_array(arr: Array) -> Array:
 	return dict.keys()
 	
 func index_mp3s():
-	music_records.clear()
-	albums.clear()
-	artists.clear()
+	importing = true
+	existing_song_paths = music_records.map(func(r: MusicRecord): return r.full_path)
 	_artists.clear()
 	_albums.clear()
 	_song_paths = {}
 	start_import()
+
+func clear_music_data():
+	music_records.clear()
+	albums.clear()
+	artists.clear()
+	save()
 
 func get_mp3_paths(directory_path: String) -> Array:
 	if directory_path == null or directory_path == "":
@@ -147,18 +166,18 @@ func _scan_dir_recursive(path: String, result: Array, visited: Dictionary, file_
 			var ext := file_name.get_extension().to_lower()
 			if file_types.has(ext):
 				if file_name.ends_with("GENERATED.png"): 
-					print("Ignoring generated image: %s" % file_name)
+					pass
+					#print("Ignoring generated image: %s" % file_name)
+				elif existing_song_paths.has(full_path):
+					pass
+					#print("Ignoring already imported file: %s" % file_name)
 				else:
 					call_deferred("_update_import_progress", float(result.size()))
 					result.append(full_path)
-					if result.size() % 13 == 0:
-						OS.delay_msec(10)
 		else:
 			# Neither dir nor file (broken link, device node, etc.)
 			push_error("Skipping non-file entry:", full_path)
-
 		file_name = dir.get_next()
-
 	dir.list_dir_end()
 	
 func get_music_records_alphabetical():
@@ -166,17 +185,12 @@ func get_music_records_alphabetical():
 	sorted.sort_custom(func(a: MusicRecord, b: MusicRecord): return a.title < b.title)
 	return sorted
 	
-func get_albums_alphabeticalOLD():
-	var sorted = albums.duplicate()
-	sorted.sort_custom(func(a: AlbumRecord, b: AlbumRecord): return a.name < b.name)
-	return sorted
-	
 func get_albums_alphabetical():
 	var sorted = albums.duplicate()
 	sorted.sort_custom(func(a: AlbumRecord, b: AlbumRecord):
 		var a_unknown := a.name == "Unknown Album"
 		var b_unknown := b.name == "Unknown Album"
-
+#
 		if a_unknown and not b_unknown:
 			return true
 		elif b_unknown and not a_unknown:
@@ -192,13 +206,13 @@ func get_artists_sorted_song_count():
 	
 func save():
 	print("Saving")
-	saved_version = VERSION
+	data_version = DATA_VERSION
 	var error = ResourceSaver.save(self, SAVE_PATH)
 	if error != OK:
 		print("Error saving collection: ", error)
 		import_notes.append("Error saving imported data: %s" % error)
 		return
-		
+
 func summarized_import_notes() -> String:
 	if import_notes.is_empty():
 		return ""
@@ -249,24 +263,42 @@ func stop_import():
 func _thread_import():
 	import_step = 0
 	import_progress = 0
-
-	var mp3_paths = get_mp3_paths(music_directory_path)
+	var music_paths = []
+	
+	for path in music_directory_paths:
+		music_paths.append_array(get_mp3_paths(path))
+	print(music_paths.size())
+	if music_paths.size() == 0:
+		call_deferred("_add_flash_message", "No new music discovered, skipping import.")
+		stop_import()
+		call_deferred("_on_import_early_exit")
+		return
+	else:
+		import_start_time = Time.get_unix_time_from_system()
+		call_deferred("_add_flash_message", "Found %d music files, beginning import." % music_paths.size())
+		
 	call_deferred("_import_step_set", 1)
 	import_progress = 0
-	var count = mp3_paths.size()
-	import_notes.append("Beginning import for %d mp3 files" % count)
+	var count = music_paths.size()
+	import_notes.append("Beginning import for %d music files" % count)
 
-	for i in range(mp3_paths.size()):
+	for i in range(music_paths.size()):
 		if _stop_flag:
 			break
-		var mp3_path = mp3_paths[i]
-		_make_record(mp3_path)
+		var music_path = music_paths[i]
+		_make_record(music_path)
 		call_deferred("_on_record_imported", i/float(count))
 	import_progress = 0
 	call_deferred("_import_step_set", 2)
-	albums.assign(_albums.values())
+
+	var new_albums: Array[AlbumRecord]
+	new_albums.assign(_albums.values())
+	albums = AlbumRecord.merge_albums(albums, new_albums)
 	build_album_images()
-	artists.assign(_artists.values())
+
+	var new_artists: Array[ArtistRecord]
+	new_artists.assign(_artists.values())
+	artists = ArtistRecord.merge_artists(artists, new_artists)
 	call_deferred("_on_import_complete")
 	return
 	
@@ -293,7 +325,7 @@ func _create_or_update_album_from_music_record(record: MusicRecord):
 		var new_album = AlbumRecord.new()
 		new_album.name = record.album
 		_albums[record.album] = new_album
-	
+
 	if not _albums[record.album].music_records.has(record):
 		_albums[record.album].music_records.append(record)
 	
@@ -311,6 +343,9 @@ func _create_or_update_artist_from_music_record(record: MusicRecord):
 		if not _artists[artist_name].music_records.has(record):
 			_artists[artist_name].music_records.append(record)
 
+func _add_flash_message(message: String):
+	UiHelper.flash_message(message)
+	
 func _update_import_progress(progress: float):
 	import_progress = progress
 	
@@ -322,25 +357,29 @@ func _on_record_imported(progress: float):
 	import_progress = progress
 	
 func build_artist_images():
+	#print(artists)
 	for i in range(artists.size()):	
 		#var img_path = await WikiScrape.fetch_artist_image(artists[i].name)
 		#if img_path == null || img_path == "":
 		var img_path = await WikiScrape.fetch_dicebear_avatar(artists[i].name)
 		artists[i].img_path = img_path
 		scraping = float(i)/float(artists.size())
-		print(scraping)
 	call_deferred("save")
 	scraping = 0.0
-	
 			
 func build_album_images():
-	var all_image_paths = get_image_paths(music_directory_path)
+	var all_image_paths = []
+	for path in music_directory_paths:
+		all_image_paths.append_array(get_image_paths(path))
 	
 	var image_extractor = Mp3ImageExtractor.new()
 	var allowed_exts = ["png", "jpg", "jpeg", "webp"]
 	for i in range(albums.size()):
 		call_deferred("_update_import_progress", i/float(albums.size()))
 		#OS.delay_msec(100)
+		if not _albums.keys().has(albums[i].name):
+			#print("Skipping album image gen that wasnt updated: %s", albums[i].name )
+			continue
 		
 		var album = albums[i]
 		var album_song_paths = album.music_records.map(func(r: MusicRecord): return r.full_path)
@@ -417,9 +456,11 @@ func build_album_images():
 				
 				album.cover_path = cover_path#.to_utf8_buffer().get_string_from_utf8()
 			else:
-				print("Failed to save cover for album %s" % album.name)
+				pass
+				#print("Failed to save cover for album %s" % album.name)
 		else:
-			print("No cover found for album %s" % album.name)
+			pass
+			#print("No cover found for album %s" % album.name)
 		
 func safe_load_image(path: String) -> Image:
 	var img := Image.new()
@@ -450,13 +491,38 @@ func safe_load_image(path: String) -> Image:
 
 	return img
 	
-func _on_import_complete():
+	
+func _on_import_early_exit():
 	import_step = 0
-	import_notes.append("Import songs finished. (%d)" % music_records.size())
+	importing = false
+	import_finished.emit()
+	
+func _on_import_complete():
+	print("ENDED")
+	import_step = 0
 	music_records = get_music_records_alphabetical()
 	albums = get_albums_alphabetical()
 	artists = get_artists_sorted_song_count()
 	save()
 	build_artist_images()
-	import_notes.append("Import appears to have saved successfully")
+	var elapsed = Time.get_unix_time_from_system() - import_start_time
+	UiHelper.flash_message("Import finished. Duration: %.2f seconds" % elapsed)
+	importing = false
+	M3uCollection.build_lookup(music_records)
 	import_finished.emit()
+	
+func add_music_directory_path(path):
+	if music_directory_paths.has(path): 
+		path_error = "This directory is already added."
+		return false
+	
+	for existing_path in music_directory_paths:
+		var a = existing_path.rstrip("/")
+		var b = path
+		
+		if b.begins_with(a + "/") or a.begins_with(b + "/"):
+			path_error = "This Directory is a child of a directory you are already importing."
+			return false
+			
+	music_directory_paths.append(path)
+	return true

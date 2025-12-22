@@ -5,7 +5,6 @@ var target_brightness: int = 4
 var bin_path = OS.get_environment("SONGO_BINARIES_DIR")
 
 static func being_used() -> bool:
-	if songo_data.preferred_device_strategy == "TrimUIStrategy": return true
 	return OS.get_environment("CFW_NAME") == DeviceOS.CFW_TRIM_UI
 	
 func _init():

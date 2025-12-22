@@ -2,9 +2,7 @@ extends DeviceOsStrategy
 class_name GenericLinuxStrategy
 
 static func being_used() -> bool:
-	if songo_data.preferred_device_strategy == "GenericLinuxStrategy": return true
-	return false
-	#return OS.get_environment("CFW_NAME") == DeviceOS.CFW_MUOS
+	return true
 	
 func _init():
 	can_fade_screen = false

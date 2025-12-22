@@ -13,18 +13,27 @@ config_version=5
 config/name="Songo #5"
 run/main_scene="res://songo_app.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
+run/low_processor_mode=true
 config/icon="res://icon.svg"
 
 [autoload]
 
 DeviceOS="*res://device_os/device_os.gd"
 Controller="*res://utilities/controller.gd"
+UiHelper="*res://utilities/ui_helper.gd"
+SongoPlayer="*res://scenes/songo_player/songo_player.gd"
 
 [display]
 
 window/size/viewport_width=640
 window/size/viewport_height=480
 window/size/always_on_top=true
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
+[global_group]
+
+ClipMask=""
 
 [input]
 

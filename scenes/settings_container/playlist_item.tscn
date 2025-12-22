@@ -1,0 +1,50 @@
+[gd_scene load_steps=4 format=3 uid="uid://bm2ohfpqwbee3"]
+
+[ext_resource type="Script" path="res://scenes/settings_container/playlist_item.gd" id="1_br7hg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pls1h"]
+bg_color = Color(1, 0, 0, 0.392157)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.137255, 0.129412, 0.121569, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7p1lq"]
+content_margin_left = 10.0
+content_margin_top = 2.0
+content_margin_right = 10.0
+content_margin_bottom = 3.0
+bg_color = Color(1, 0, 0, 0.392157)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="PlaylistItem" type="HBoxContainer"]
+script = ExtResource("1_br7hg")
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
+text = "Playlist Name"
+
+[node name="SongCount" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
+text = "x Songs"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+theme_override_colors/font_focus_color = Color(0.137255, 0.129412, 0.121569, 1)
+theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
+theme_override_styles/focus = SubResource("StyleBoxFlat_pls1h")
+theme_override_styles/normal = SubResource("StyleBoxFlat_7p1lq")
+text = "Remove"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

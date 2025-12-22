@@ -8,4 +8,3 @@ func setup(directory_path, index):
 	%Button.text = "/"+directory_path
 	%Button.set_meta("dir_path", directory_path+"/")
 	
-	print(directory_path)
