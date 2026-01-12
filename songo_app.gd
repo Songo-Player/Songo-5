@@ -1,6 +1,5 @@
 extends Control
 
-@onready var my_label = $Label
 @onready var sfx_player = $SfxPlayer
 @onready var dark_out = %DarkOut
 
@@ -98,6 +97,8 @@ func _input(event: InputEvent) -> void:
 		for action_event in InputMap.action_get_events("ui_down"):
 			if event.is_match(action_event) and event.is_pressed():
 				handle_queue_music()
+				if Controller.active_container is SongPanelContainer:
+					DeviceOS.keep_screen_awake = not DeviceOS.keep_screen_awake
 				break  # Stop after finding a match
 	
 	if locked_inputs:
@@ -117,6 +118,7 @@ func _process(delta: float) -> void:
 		showing_quick_menu = false
 	%QuickMenu.visible = showing_quick_menu
 	%LockedInputsLabel.visible = locked_inputs
+	%KeepScreenAwakeLabel.visible = DeviceOS.keep_screen_awake && Controller.active_container is SongPanelContainer
 	
 	# Clean this up with signals
 	if songo_data.scraping > 0.1 || (songo_data.importing && songo_data.import_step > 0):
@@ -164,7 +166,7 @@ func get_playlist_target_collection():
 	
 func update_quick_menu_vals():
 	var target_song = get_playlist_target_song()
-	if target_song != null:
+	if target_song && songo_data.recent_playlist:
 		%AddRemoveInPlaylistQuick.show()
 		var new_text = ""
 		if target_song in songo_data.recent_playlist.music_records:
@@ -174,7 +176,7 @@ func update_quick_menu_vals():
 		%AddRemoveInPlaylistLabel.text = new_text
 	
 	var target_collection = get_playlist_target_collection()
-	if target_collection != null:
+	if target_collection && songo_data.recent_playlist:
 		var overlap = songo_data.recent_playlist.get_collection_overlap(target_collection.music_records)
 		%AddRemoveInPlaylistQuick.show()
 		var collection_type = "album"
@@ -188,17 +190,26 @@ func update_quick_menu_vals():
 			new_text = ": Add %s to %s" % [collection_type, songo_data.recent_playlist_name]	
 		%AddRemoveInPlaylistLabel.text = new_text
 
-	if target_collection == null && target_song == null:
+	if (target_collection == null && target_song == null) || songo_data.recent_playlist == null:
 		%AddRemoveInPlaylistQuick.hide()
 		
 	if Controller.active_container is AllSongsContainer && target_song && UiHelper.mini_song_panel.visible:
 		%QueueSong.show()
 	else:
 		%QueueSong.hide()
+		
+	if Controller.active_container is SongPanelContainer:
+		%KeepScreenAwake.show()
+		if DeviceOS.keep_screen_awake:
+			%KeepScreenAwakeActionLabel.text = ": Allow screen sleep"
+		else:
+			%KeepScreenAwakeActionLabel.text = ": Keep screen awake"
+	else:
+		%KeepScreenAwake.hide()
 
 func handle_playlist_quick_edit():
 	var target_collection = get_playlist_target_collection()
-	if target_collection:
+	if target_collection && songo_data.recent_playlist:
 		var overlap = songo_data.recent_playlist.get_collection_overlap(target_collection.music_records)
 		var handled_song_count = 0
 		if overlap >= 0.5:
@@ -209,7 +220,7 @@ func handle_playlist_quick_edit():
 			UiHelper.flash_message("%d songs added to %s" % [handled_song_count, songo_data.recent_playlist.name])
 
 	var target_song = get_playlist_target_song()
-	if target_song:
+	if target_song && songo_data.recent_playlist:
 		if target_song in songo_data.recent_playlist.music_records:
 			songo_data.recent_playlist.remove_track(target_song.full_path)
 			UiHelper.flash_message("Song removed from %s" % songo_data.recent_playlist.name)
@@ -258,8 +269,11 @@ func string_screen_orientation():
 	
 func _on_screen_idle_timer_timeout() -> void:
 	if Controller.active_container is SongPanelContainer:
-		DeviceOS.start_screen_fade()
-		$ScreenIdleTimer.stop()
+		if DeviceOS.keep_screen_awake:
+			$ScreenIdleTimer.start()
+		else:
+			DeviceOS.start_screen_fade()
+			$ScreenIdleTimer.stop()
 
 func _on_focus_changed(control):
 	UiHelper.register_focus_change(control)

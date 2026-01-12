@@ -51,6 +51,16 @@ func _on_new_playlist_button_pressed() -> void:
 func _keyboard_playlist_entered(new_playlist_name):
 		var keyboard = UiHelper.keyboard
 		keyboard.keyboard_result.disconnect(_keyboard_playlist_entered)
+		
+		if new_playlist_name.strip_edges() == "":
+			UiHelper.flash_message("A playlist name can't be blank")
+			return
+		if new_playlist_name.strip_edges().to_lower() == "blank":
+			UiHelper.flash_message("Haha very funny. Playlist name can't be empty")
+			return
+		if new_playlist_name.strip_edges().to_lower() == "empty":
+			UiHelper.flash_message("Fine. You win. Call your playlist 'empty'. I hope you're happy")
+			
 		var new_playlist = M3uCollection.create_collection("playlists", new_playlist_name)
 		if new_playlist:
 			songo_data.playlists.append(new_playlist)

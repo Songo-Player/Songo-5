@@ -14,7 +14,9 @@ config/name="Songo #5"
 run/main_scene="res://songo_app.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 run/low_processor_mode=true
+boot_splash/image="res://assets/SongoSplash.png"
 config/icon="res://icon.svg"
+boot_splash/minimum_display_time=750
 
 [autoload]
 

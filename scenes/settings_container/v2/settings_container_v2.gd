@@ -2,6 +2,8 @@ extends VBoxContainer
 
 class_name SettingsV2Container
 
+var songo_data = SongoDataResource.get_instance()
+
 func setup():
 	%VersionLabel.text = SongoDataResource.VERSION
 	
@@ -9,6 +11,8 @@ func _ready():
 	await get_tree().process_frame
 	%DataAndStorageButton.set_focus()
 	%ScrollContainer.scroll_vertical = 0
+	if songo_data.music_directory_paths.size() == 0:
+		UiHelper.app_message.show_message("Start by adding your music directory in 'Data and Storage'")
 
 func render_ui():
 	pass
@@ -34,3 +38,14 @@ func _on_advanced_settings_button_pressed() -> void:
 
 func _on_development_credit_button_pressed() -> void:
 	Controller.settings_development_credit()
+
+
+func _on_tree_entered() -> void:
+	if songo_data.music_directory_paths.size() == 0:
+		%StartHereLabel.show()
+	else:
+		%StartHereLabel.hide()
+
+
+func _on_contact_me_button_pressed() -> void:
+	Controller.contact_me()

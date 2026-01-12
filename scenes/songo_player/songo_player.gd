@@ -2,13 +2,15 @@ extends UniversalStreamer
 
 signal started_new_song(mp3_record)
 
+var songo_settings = SongoSettings.get_instance()
 var music_files = [MusicRecord]
+
 var play_index = 0
 var current_song
 var last_queued = 0
 
 func _ready():
-	buffer_length_ms = 150
+	buffer_length_ms = songo_settings.stream_buffer_length
 	finished.connect(_on_finished)
 	
 func play_next(): play_music_record(play_index + 1)

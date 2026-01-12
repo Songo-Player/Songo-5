@@ -48,6 +48,9 @@ const THEME_COLORS = [
 # --- Data Settings --- #
 @export var auto_import: bool = true
 
+# --- Advanced Settings --- #
+@export var stream_buffer_length: int = 100
+
 # --- CFW Settings --- #
 @export var use_generic_strategy = false
 @export var song_sleep_timer_index = 2 # 10s

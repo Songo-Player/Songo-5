@@ -29,6 +29,7 @@ const MISC_FEATURE_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/v2/
 const PLAYLIST_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/playlist_settings_sub_container.tscn"
 const ADVANCED_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/advanced_settings_sub_container.tscn"
 const DEVELOPMENT_CREDIT_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/development_credit_sub_container.tscn"
+const CONTACT_ME_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/contact_me_sub_container.tscn"
 
 func songs_index(music_records):
 	if music_records.size() == 0:
@@ -197,6 +198,14 @@ func settings_development_credit():
 	active_container = load(DEVELOPMENT_CREDIT_SUB_CONTAINER).instantiate()
 	active_container.setup()
 	nav_label = ["Main Menu", "Settings", "Development Credit"]
+	finish_up_nav()
+	
+	
+func contact_me():
+	clean_up_old_container()
+	active_container = load(CONTACT_ME_SUB_CONTAINER).instantiate()
+	active_container.setup()
+	nav_label = ["Main Menu", "Settings", "Contact Me"]
 	finish_up_nav()
 	
 func main_menu():

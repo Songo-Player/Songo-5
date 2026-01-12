@@ -126,6 +126,12 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Data and Storage"
 
+[node name="StartHereLabel" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/DataAndStorageButton"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "<-- Start Here"
+horizontal_alignment = 2
+
 [node name="UiAndCustomizationButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
 layout_mode = 2
 text = "UI and Customization"
@@ -145,11 +151,17 @@ text = "Advanced Settings"
 [node name="DevelopmentCreditButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
 layout_mode = 2
 text = "Development Credit"
+
+[node name="ContactMeButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
+layout_mode = 2
+text = "Contact Me / Report a bug"
 hide_bottom_separator = true
 
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
 [connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/DataAndStorageButton" to="." method="_on_data_and_storage_button_pressed"]
 [connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/UiAndCustomizationButton" to="." method="_on_ui_and_customization_button_pressed"]
 [connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/MiscFeatureSettingsButton" to="." method="_on_misc_feature_settings_button_pressed"]
 [connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/PlaylistSettingsButton" to="." method="_on_playlist_settings_button_pressed"]
 [connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/AdvancedSettingsButton" to="." method="_on_advanced_settings_button_pressed"]
 [connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/DevelopmentCreditButton" to="." method="_on_development_credit_button_pressed"]
+[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ContactMeButton" to="." method="_on_contact_me_button_pressed"]

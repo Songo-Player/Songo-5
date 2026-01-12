@@ -141,6 +141,12 @@ func _on_reset_to_defaults_button_pressed() -> void:
 	songo_settings.theme_color_index = 0
 	songo_settings.clock_24_hour = false
 	songo_settings.main_menu_size = 1
+	songo_settings.main_menu_visible = {
+		"all_songs": true,
+		"albums": true,
+		"artists": true,
+		"playlists": true
+	}
 	songo_settings.save()
 	
 	UiHelper.update_os_time()
@@ -151,6 +157,10 @@ func _on_reset_to_defaults_button_pressed() -> void:
 	update_theme_color_preview()
 	update_clock_setting_ui()
 	update_main_menu_size_ui()
+	update_all_songs_menu_nav_ui()
+	update_albums_menu_nav_ui()
+	update_artists_menu_nav_ui()
+	update_playlists_menu_nav_ui()
 
 func _on_tree_entered() -> void:
 	get_viewport().gui_focus_changed.connect(_on_focus_changed)

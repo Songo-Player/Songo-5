@@ -249,11 +249,29 @@ layout_mode = 2
 texture = ExtResource("8_swjqc")
 expand_mode = 3
 
-[node name="AddRemoveInPlaylistLabel" type="Label" parent="MainColorPanel/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/QueueSong"]
+[node name="QueueSongLabel" type="Label" parent="MainColorPanel/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/QueueSong"]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = " : Queue song"
+text_overrun_behavior = 4
+
+[node name="KeepScreenAwake" type="HBoxContainer" parent="MainColorPanel/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MainColorPanel/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/KeepScreenAwake"]
+layout_mode = 2
+texture = ExtResource("8_swjqc")
+expand_mode = 3
+
+[node name="KeepScreenAwakeActionLabel" type="Label" parent="MainColorPanel/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/KeepScreenAwake"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = " : Keep screen awake
+"
 text_overrun_behavior = 4
 
 [node name="DarkOut" type="MarginContainer" parent="MainColorPanel/VBoxContainer/ContentBody"]
@@ -396,7 +414,10 @@ layout_mode = 2
 theme_override_constants/margin_top = -40
 theme_override_constants/margin_bottom = 0
 
-[node name="LockedInputsLabel" type="PanelContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="LockedInputsLabel" type="PanelContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 visible = false
 z_index = 2
@@ -404,16 +425,35 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/MarginContainer/LockedInputsLabel"]
+[node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/MarginContainer/HBoxContainer/LockedInputsLabel"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 4
 
-[node name="Label" type="Label" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/MarginContainer/LockedInputsLabel/MarginContainer"]
+[node name="Label" type="Label" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/MarginContainer/HBoxContainer/LockedInputsLabel/MarginContainer"]
 layout_mode = 2
 text = "Inputs Locked"
+
+[node name="KeepScreenAwakeLabel" type="PanelContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+z_index = 2
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/MarginContainer/HBoxContainer/KeepScreenAwakeLabel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/MarginContainer/HBoxContainer/KeepScreenAwakeLabel/MarginContainer"]
+layout_mode = 2
+text = "Keeping Screen Awake"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer"]
 layout_mode = 2

@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://b680qxnrn55nl"]
+[gd_scene load_steps=7 format=3 uid="uid://b680qxnrn55nl"]
 
 [ext_resource type="Script" path="res://scenes/settings_container/v2/sub_containers/advanced_settings_sub_container.gd" id="1_1dait"]
 [ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="1_fmdwp"]
 [ext_resource type="PackedScene" uid="uid://0m5yrmj03xdi" path="res://scenes/settings_container/settings_button.tscn" id="2_cba7n"]
+[ext_resource type="Texture2D" uid="uid://cugg5pnrtgmxg" path="res://assets/arrowLeft.svg" id="4_vuqi2"]
+[ext_resource type="Texture2D" uid="uid://c8jp7o8xasf1x" path="res://assets/arrowRight.svg" id="5_uw5em"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5dm3t"]
 bg_color = Color(0.130772, 0.130772, 0.130772, 1)
@@ -121,6 +123,71 @@ size_flags_horizontal = 8
 text = "Save & Quit
 "
 
+[node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_fmdwp")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BufferLengthSetting" type="VBoxContainer" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/BufferLengthSetting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox"]
+layout_mode = 2
+text = "Stream Buffer Length"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BufferLengthLabel" type="LineEdit" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 0
+text = "100ms"
+alignment = 1
+max_length = 5
+expand_to_text_length = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="BufferLengthDown" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox/HBoxContainer" instance=ExtResource("2_cba7n")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("4_vuqi2")
+
+[node name="BufferLengthUp" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox/HBoxContainer" instance=ExtResource("2_cba7n")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("5_uw5em")
+
+[node name="Label" type="Label" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/BufferLengthSetting"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "If this is too low your music may pop, crackle, or stutter. If this is too high then you will have noticeable delay when quickly skipping songs. 100ms should be ideal."
+autowrap_mode = 2
+
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/CFWSection"]
 layout_mode = 2
 size_flags_horizontal = 0
@@ -148,3 +215,7 @@ text = "Advanced Settings"
 
 [connection signal="pressed" from="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/DeviceStrategySetting/Hbox/StrategySwapButton" to="." method="_on_strategy_swap_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StrategySaveQuitSection/HBoxContainer/SaveAndQuitButton" to="." method="_on_save_and_quit_button_pressed"]
+[connection signal="focus_entered" from="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox/HBoxContainer/BufferLengthDown" to="." method="_on_buffer_length_down_focus_entered"]
+[connection signal="pressed" from="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox/HBoxContainer/BufferLengthDown" to="." method="_on_buffer_length_down_pressed"]
+[connection signal="button_up" from="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox/HBoxContainer/BufferLengthUp" to="." method="_on_buffer_length_up_button_up"]
+[connection signal="focus_entered" from="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox/HBoxContainer/BufferLengthUp" to="." method="_on_buffer_length_up_focus_entered"]

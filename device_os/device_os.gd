@@ -15,6 +15,7 @@ var songo_settings = SongoSettings.get_instance()
 var fade_val: float
 var fade_tween = null
 var sleeping: bool = false
+var keep_screen_awake = false
 
 func _init():
 	set_device_os_strategy()
