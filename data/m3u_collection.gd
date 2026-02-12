@@ -7,7 +7,8 @@ var name: String
 var m3u_path: String
 var music_records: Array[MusicRecord]
 var img_path:
-	get: return get_img_path()
+	get: return _get_playlist_image_path()
+	#get: return get_img_path()
 	
 static var lookup = {}
 	
@@ -22,6 +23,19 @@ func get_img_path():
 		var potential_path = base_path + "." + ext
 		if FileAccess.file_exists(potential_path):
 			return potential_path
+	return ""
+	
+func _get_playlist_image_path():
+	var base_path = "user://playlist_images"
+	var image_extensions = ["png", "svg", "webp", "jpeg", "jpg"]
+	for ext in image_extensions:
+		var file_path = "%s/%s-override.%s" % [base_path, name, ext]
+		if FileAccess.file_exists(file_path): return file_path
+
+	for ext in image_extensions:
+		var file_path = "%s/%s.%s" % [base_path, name, ext]
+		if FileAccess.file_exists(file_path): return file_path
+	
 	return ""
 
 var img:
@@ -57,7 +71,7 @@ static func create_collection(collection_type: String, name: String) -> M3uColle
 	file.store_line("")  # blank line for readability
 	file.close()
 	
-	WikiScrape.fetch_dicebear_collection_img(collection_type, name, "shapes")
+	#WikiScrape.fetch_dicebear_collection_img(collection_type, name, "shapes")
 	# Return initialized instance
 	var instance := M3uCollection.new()
 	instance.name = name
@@ -297,3 +311,31 @@ static func load_collection_type(type: String) -> Array[M3uCollection]:
 		file_name = dir.get_next()
 	dir.list_dir_end()
 	return collections
+	
+func set_dicebear_image():
+	var source_img_path = "res://assets/dicebear/shapes/shapes-%d.svg" % randi_range(0, 199)
+	#var save_path = m3u_path.get_basename()+".svg"
+	
+	var save_path := "user://playlist_images/%s.svg" % name
+
+	var dir := DirAccess.open("user://")
+	if dir.dir_exists("playlist_images") and FileAccess.file_exists(save_path):
+		return false
+
+	if not dir.dir_exists("playlist_images"):
+		dir.make_dir("playlist_images")
+	
+	
+	if not FileAccess.file_exists(source_img_path):
+		print("Trying to load non-existant image: %s" % source_img_path)
+		return false
+
+	var src := FileAccess.open(source_img_path, FileAccess.READ)
+	var data := src.get_buffer(src.get_length())
+	src.close()
+
+	var dst := FileAccess.open(save_path, FileAccess.WRITE)
+	dst.store_buffer(data)
+	dst.close()
+
+	return true

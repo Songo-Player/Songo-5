@@ -5,11 +5,13 @@ var app_message: Control
 var main_color_panel: Control
 var mini_song_panel: Control
 var content_body: Control
+var content_margin_container: Control
 var keyboard: Control
 var flash_message_box: Control
 var current_os_time: Control
 #var debug_info: Control
 var songo_settings = SongoSettings.get_instance()
+var vol_container: Control
 
 var focus_chain = []
 var original_size = null
@@ -32,6 +34,12 @@ func apply_theme_color(color):
 func apply_scale(new_scale: float):
 	var window = get_tree().get_root().get_window()
 	window.content_scale_factor = new_scale
+	
+func apply_content_margin(new_margin: int):
+	UiHelper.content_margin_container.add_theme_constant_override("margin_left", new_margin)
+	UiHelper.content_margin_container.add_theme_constant_override("margin_right", new_margin)
+
+	
 
 #func apply_screen_fit():
 #	var root = get_node("/root")
@@ -43,16 +51,17 @@ func show_mini_song_panel():
 	if songo_settings.song_following:
 		mini_song_panel.show()
 	else:
-		SongoPlayer.stop()
+		SongoPlayerV2.stop()
 	
 func hide_mini_song_panel():
+	Controller.stored_state = null
 	Controller.stored_state = null
 	mini_song_panel.hide()
 	
 func dismiss_mini_song_panel():
 	Controller.stored_state = null
 	mini_song_panel.hide()
-	SongoPlayer.stop()
+	SongoPlayerV2.stop()
 	
 func route_inputs(active_container, delta):
 	if Input.is_action_just_pressed("start"):
@@ -69,6 +78,16 @@ func route_inputs(active_container, delta):
 	if Input.is_action_just_pressed("select"):
 		if mini_song_panel.visible:
 			Controller.restore_state()
+	
+	if mini_song_panel.visible:	
+		if Input.is_action_just_pressed("L1"):
+			var playback_position: float = SongoPlayerV2.get_playback_position()
+			if playback_position >= 3.0:
+				SongoPlayerV2.play_from_start()
+			else:
+				SongoPlayerV2.play_previous()
+		if Input.is_action_just_pressed("R1"):
+			SongoPlayerV2.play_next()
 			
 	if is_instance_valid(active_container): active_container.handle_input(delta)
 

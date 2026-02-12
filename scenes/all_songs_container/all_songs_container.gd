@@ -3,7 +3,6 @@ extends VBoxContainer
 class_name AllSongsContainer
 
 var songo_data = SongoDataResource.get_instance()
-var sfx_player
 var music_records
 var album
 var artist
@@ -19,9 +18,8 @@ func get_focused_song():
 	return %VirtualizedList.focused_item
 
 	
-func setup(music_records_arg: Array[MusicRecord], sfx_player_arg):
+func setup(music_records_arg: Array[MusicRecord]):
 	music_records = music_records_arg
-	sfx_player = sfx_player_arg
 	
 	%SongsListLabel.text = "All Songs"
 	%SongCount.text = "%d Total" % music_records.size()
@@ -38,7 +36,13 @@ func set_as_album(album_arg):
 	%SongsListLabel.text = album.name
 	var image = album.cover
 	if image: %CustomSongListImage.texture = ImageTexture.create_from_image(image)
+	var sorted = music_records.duplicate()
+	sorted.sort_custom(func(a: MusicRecord, b: MusicRecord):
+		return a.track < b.track
+	)
+	music_records = sorted
 
+	
 func set_as_playlist(playlist_arg):
 	playlist = playlist_arg
 	%CustomSongListImage.show()
@@ -76,14 +80,11 @@ func handle_input(delta: float):
 		var focused_button = get_viewport().gui_get_focus_owner()
 		if focused_button.has_meta("item_index"):
 			var target_index = focused_button.get_meta("item_index")
-			#%VirtualizedList.remove_data_item(music_records[target_index])
-			Controller.songs_panel(music_records, target_index, "Playing")
+			Controller.songs_panel(music_records, target_index)
 		
 func kick_off_shuffle():
 	if music_records.size() == 0: return
-	var shuffled_music = music_records.duplicate()
-	shuffled_music.shuffle()
-	Controller.songs_panel(shuffled_music, 0, "Shuffle Play")
+	Controller.songs_panel(music_records, 0, SongoPlayerV2.MODE.SHUFFLE)
 
 func truncate_with_ellipsis(text: String, limit: int) -> String:
 	if text.length() <= limit:

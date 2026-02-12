@@ -16,7 +16,9 @@ const THEME_COLOR_NAMES = [
 	"Purpley Blue",
 	"Burnt Orange",
 	"Another Blue",
-	"Pumpkin Spice"
+	"Pumpkin Spice",
+	"Voice Chat Color",
+	"Red-bernic"
 ]
 
 const THEME_COLORS = [
@@ -26,18 +28,24 @@ const THEME_COLORS = [
 	"562b90", # Purpley Blue
 	"7c2a00", # Burnt Orange
 	"004988", # Another Blue
-	"d57200"  # Pumpkin Spice
+	"d57200",  # Pumpkin Spice
+	"5865F2", # Voice Chat Color
+	"#cc1111" # Red-bernic
 ]
 
+enum AB_LAYOUTS {XBOX, NINTENDO}
 # --- Generic Settings ---
 @export var settings_version = ""
 
 # --- UI Settings --- #
 @export var ui_scale: float = 1.0
+@export var content_margin: int = 16
+@export var sfx_volume: float = 1.5
 @export var theme_color_index = 0
 @export var clock_24_hour = false
 @export var main_menu_size = 1
 @export var song_following = true
+@export var ab_layout : AB_LAYOUTS = AB_LAYOUTS.NINTENDO
 @export var main_menu_visible = {
 	"all_songs": true,
 	"albums": true,

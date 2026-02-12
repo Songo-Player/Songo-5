@@ -18,11 +18,12 @@ func setup(album_record, album_index):
 	%FallbackCover.show()
 	%AlbumCover.hide()
 	
-	var loader = AsyncImageLoader.load_async(album_record.cover_path)
-	loader.image_loaded.connect(func(texture):
-		%AlbumCover.texture = texture
-		%AlbumCover.show()
-	)
+	if album_record.img_path != "":
+		var loader = AsyncImageLoader.load_async(album_record.img_path)
+		loader.image_loaded.connect(func(texture):
+			%AlbumCover.texture = texture
+			%AlbumCover.show()
+		)
 	
 func format_artists(artists: Array) -> String:
 	if artists.is_empty():

@@ -216,6 +216,86 @@ layout_mode = 2
 text = ""
 icon = ExtResource("5_f48ei")
 
+[node name="ContentMarginSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ContentMarginSetting"]
+layout_mode = 2
+text = "Main Content Margin"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ContentMarginSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ContentMarginDisplayLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ContentMarginSetting"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 0
+text = "16px"
+alignment = 1
+max_length = 5
+expand_to_text_length = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ContentMarginSetting"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="ContentMarginDown" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ContentMarginSetting/HBoxContainer" instance=ExtResource("2_wluk6")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("4_r2o7y")
+
+[node name="ContentMarginUp" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ContentMarginSetting/HBoxContainer" instance=ExtResource("2_wluk6")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("5_f48ei")
+
+[node name="SfxVolumeSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/SfxVolumeSetting"]
+layout_mode = 2
+text = "SFX Volume"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/SfxVolumeSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SfxVolumeDisplayLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/SfxVolumeSetting"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 0
+text = "120%"
+alignment = 1
+max_length = 5
+expand_to_text_length = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/SfxVolumeSetting"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="SfxVolumeDown" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/SfxVolumeSetting/HBoxContainer" instance=ExtResource("2_wluk6")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("4_r2o7y")
+
+[node name="SfxVolumeUp" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/SfxVolumeSetting/HBoxContainer" instance=ExtResource("2_wluk6")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("5_f48ei")
+
 [node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("1_vjm6x")
@@ -413,6 +493,10 @@ text = "Reset to Defaults
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ClockSetting/Clock24HourButton" to="." method="_on_clock_24_hour_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MainMenuSizeSetting/HBoxContainer/MainMenuSizeDown" to="." method="_on_main_menu_size_down_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MainMenuSizeSetting/HBoxContainer/MainMenuSizeUp" to="." method="_on_main_menu_size_up_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ContentMarginSetting/HBoxContainer/ContentMarginDown" to="." method="_on_content_margin_down_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ContentMarginSetting/HBoxContainer/ContentMarginUp" to="." method="_on_content_margin_up_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/SfxVolumeSetting/HBoxContainer/SfxVolumeDown" to="." method="_on_sfx_volume_down_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/SfxVolumeSetting/HBoxContainer/SfxVolumeUp" to="." method="_on_sfx_volume_up_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/AllSongsMenuNavSetting/AllSongsMenuNavButton" to="." method="_on_all_songs_menu_nav_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/AlbumsMenuNavSetting/AlbumsMenuNavButton" to="." method="_on_albums_menu_nav_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/ArtistsMenuNavSetting/ArtistsMenuNavButton" to="." method="_on_artists_menu_nav_button_pressed"]

@@ -2,13 +2,14 @@ extends MarginContainer
 
 var songo_data = SongoDataResource.get_instance()
 var current_song_duration = 100
+var loaded_song = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
 
 func setup():
-	SongoPlayer.started_new_song.connect(_on_song_started)
+	SongoPlayerV2.started_new_song.connect(_on_song_started)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -16,8 +17,8 @@ func _process(delta: float) -> void:
 	pass
 
 func update_play_time():
-	if SongoPlayer.is_playing():
-		var pos_sec: float = SongoPlayer.get_playback_position()
+	if SongoPlayerV2.is_playing():
+		var pos_sec: float = SongoPlayerV2.get_playback_position()
 		var minutes: int = int(pos_sec) / 60
 		var seconds: int = int(pos_sec) % 60
 		%CurrentTimeLabel.text = "%d:%02d" % [minutes, seconds]
@@ -30,11 +31,36 @@ func _on_song_started(music_record: MusicRecord):
 	var song_title = "%s ~ %s" % [music_record.title, music_record.artist]
 	%SongTitle.set_carousel_text(song_title)
 	
-	var image_extractor = Mp3ImageExtractor.new()
-	var image = image_extractor.get_cover_image(music_record.full_path)
-	if image == null: image = songo_data.get_album_cover(music_record.album)
-	if image == null:
-		%CoverImage.hide()
-	else:
+	#var image_extractor = Mp3ImageExtractor.new()
+	#var image = image_extractor.get_cover_image(music_record.full_path)
+	#if image == null: image = songo_data.get_album_cover(music_record.album)
+	#if image == null:
+	#	%CoverImage.hide()
+	#else:
+	#	%CoverImage.show()
+	#	%CoverImage.texture = ImageTexture.create_from_image(image)
+	
+	if loaded_song == music_record.full_path: return
+	var image_texture = null
+	if false && music_record.full_path.get_extension() == "mp3":
+		image_texture = music_record.image_texture
+		if image_texture == null:
+			var image = songo_data.get_album_cover(music_record.album)
+			if image != null:
+				image_texture = ImageTexture.create_from_image(image)
+	else:	
+		var image = songo_data.get_album_cover(music_record.album)
+		if image != null:
+			print("Not mp3, trying album")
+			image_texture = ImageTexture.create_from_image(image)
+		if image_texture == null:
+			print("OOPS")
+			image_texture = music_record.image_texture
+			
+	if image_texture:
 		%CoverImage.show()
-		%CoverImage.texture = ImageTexture.create_from_image(image)
+		%CoverImage.texture = image_texture
+	else:
+		%CoverImage.hide()
+		
+	loaded_song = music_record.full_path

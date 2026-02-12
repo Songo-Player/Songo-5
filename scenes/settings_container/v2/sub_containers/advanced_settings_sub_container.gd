@@ -10,6 +10,7 @@ func setup():
 func _ready():
 	await get_tree().process_frame
 	%PageLabel.grab_focus()
+	$ScrollContainer.scroll_vertical = 0
 	temp_strategy_name = DeviceOS.device_strategy.strategy_name
 	update_device_strategy_ui()
 	update_stream_buffer_length_ui()

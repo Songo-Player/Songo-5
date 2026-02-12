@@ -3,8 +3,8 @@ class_name SongoDataResource extends Resource
 signal import_finished
 
 const SAVE_PATH = "user://songo_data.tres"
-const VERSION = "v0.4.1 Sandra"
-const DATA_VERSION = "30Tina"
+const VERSION = "v0.5.0 Mary"
+const DATA_VERSION = "43Sandra"
 
 @export var music_directory_path = "No Path"
 @export var music_directory_paths = []
@@ -17,11 +17,15 @@ const DATA_VERSION = "30Tina"
 var scraping: float = 0.0
 var import_progress: float = 0.0
 var import_step: int = 0
+var images_rebuilt: int = 0
 var _import_thread: Thread
+var _rebuild_thread: Thread
 var _stop_flag := false
+var _rebuild_stop_flag := false
 var _albums := {}
 var _artists := {}
 var _song_paths := {}
+var _artist_sequence = 0
 var import_notes = []
 var path_error = null
 var existing_song_paths = []
@@ -102,7 +106,16 @@ func index_mp3s():
 	_artists.clear()
 	_albums.clear()
 	_song_paths = {}
+	images_rebuilt = 0
 	start_import()
+	
+func rebuild_album_images():
+	importing = true
+	_artists.clear()
+	_albums.clear()
+	_song_paths = {}
+	images_rebuilt = 0
+	start_album_rebuild()
 
 func clear_music_data():
 	music_records.clear()
@@ -122,7 +135,7 @@ func get_mp3_paths(directory_path: String) -> Array:
 		push_warning("Could not open root directory: %s" % directory_path)
 		return found_mp3s
 
-	_scan_dir_recursive(directory_path, found_mp3s, visited, ["mp3", "flac"])
+	_scan_dir_recursive(directory_path, found_mp3s, visited, ["mp3", "flac", "ogg", "m4a", "m4b", "aiff", "aif", "wav", "opus", "aac", "wma"])
 	print("Found ", found_mp3s.size(), " Music files")
 	return found_mp3s
 	
@@ -246,7 +259,13 @@ static func ensure_dir(path: String) -> void:
 		dir.make_dir_recursive(path)
 
 # --- threaded import entrypoint ---
-
+func start_album_rebuild():
+	if _rebuild_thread and _rebuild_thread.is_alive():
+		return  # already running
+	_rebuild_stop_flag = false
+	_rebuild_thread = Thread.new()
+	_rebuild_thread.start(Callable(self, "_thread_rebuild"))
+	
 func start_import():
 	import_notes.clear()
 	if _import_thread and _import_thread.is_alive():
@@ -260,6 +279,12 @@ func stop_import():
 	if _import_thread and _import_thread.is_alive():
 		_import_thread.wait_to_finish()
 
+func _thread_rebuild():
+	import_progress = 0
+	call_deferred("_import_step_set", 2)
+	build_album_images(true)
+	call_deferred("_on_album_image_rebuild_complete")
+	
 func _thread_import():
 	import_step = 0
 	import_progress = 0
@@ -305,12 +330,14 @@ func _thread_import():
 func _make_record(file_path: String):
 	var rec = MusicRecord.new()
 	var meta_data = MetaDataHandler.get_basic_metadata(file_path)
+	#var meta_data = MetaDataHandlerFFprobe.get_basic_metadata(file_path)
 	
 	rec.full_path = file_path
 	rec.album = meta_data.album
 	rec.artist = meta_data.artist
 	rec.title = meta_data.title
 	rec.raw_length = meta_data.duration
+	rec.track = meta_data.track
 	
 	if not is_instance_valid(rec): return 
 	if not _song_paths.has(rec.full_path):
@@ -324,6 +351,7 @@ func _create_or_update_album_from_music_record(record: MusicRecord):
 	if not _albums.has(record.album):
 		var new_album = AlbumRecord.new()
 		new_album.name = record.album
+		new_album.build_asset()
 		_albums[record.album] = new_album
 
 	if not _albums[record.album].music_records.has(record):
@@ -338,6 +366,7 @@ func _create_or_update_artist_from_music_record(record: MusicRecord):
 		if not _artists.has(artist_name):
 			var new_artist = ArtistRecord.new()
 			new_artist.name = artist_name
+			new_artist.build_asset()
 			_artists[artist_name] = new_artist
 			
 		if not _artists[artist_name].music_records.has(record):
@@ -356,6 +385,9 @@ func _import_step_set(step: int):
 func _on_record_imported(progress: float):
 	import_progress = progress
 	
+func _increment_images_rebuilt():
+	images_rebuilt += 1
+	
 func build_artist_images():
 	#print(artists)
 	for i in range(artists.size()):	
@@ -367,27 +399,36 @@ func build_artist_images():
 	call_deferred("save")
 	scraping = 0.0
 			
-func build_album_images():
+func build_album_images(rebuild: bool = false):
 	var all_image_paths = []
 	for path in music_directory_paths:
 		all_image_paths.append_array(get_image_paths(path))
+		
+	var dir := DirAccess.open("user://")
+	if not dir.dir_exists("album_images"):
+		dir.make_dir("album_images")
 	
-	var image_extractor = Mp3ImageExtractor.new()
 	var allowed_exts = ["png", "jpg", "jpeg", "webp"]
 	for i in range(albums.size()):
 		call_deferred("_update_import_progress", i/float(albums.size()))
 		#OS.delay_msec(100)
-		if not _albums.keys().has(albums[i].name):
-			#print("Skipping album image gen that wasnt updated: %s", albums[i].name )
-			continue
+		if rebuild == false:
+			if not _albums.keys().has(albums[i].name):
+				#print("Skipping album image gen that wasnt updated: %s", albums[i].name )
+				continue
 		
 		var album = albums[i]
 		var album_song_paths = album.music_records.map(func(r: MusicRecord): return r.full_path)
-		album.cover_path = ""
+		#album.cover_path = ""
 		var cover_image: Image = null
 		var cover_path: String = ""
 		var is_extracted := false
-
+		
+		cover_path = "user://album_images/%s.png" % album.asset_id
+		
+		if album.img_path != "":
+			continue
+			
 		# --- Method 1: Look for image in same folder as any album song
 		for song_path in album_song_paths:
 			var song_dir = song_path.get_base_dir().simplify_path().to_utf8_buffer()
@@ -399,7 +440,6 @@ func build_album_images():
 					img = safe_load_image(image_path)
 					if img != null:
 						cover_image = img
-						cover_path = image_path.get_basename() + "GENERATED.png"
 						break
 						
 			if cover_image:
@@ -416,31 +456,39 @@ func build_album_images():
 						var img = Image.new()
 						if img.load(image_path) == OK:
 							cover_image = img
-							cover_path = image_path.get_basename() + "GENERATED.png"
+							#cover_path = image_path.get_basename() + "GENERATED.png"
 							break
 
 		# --- Method 3: Extract embedded cover art and save to user://album_covers
 		if not cover_image:
 			for music_record in album.music_records:
-				var img = image_extractor.get_cover_image(music_record.full_path)
-				if img != null:
-					cover_image = img
+				var img = music_record.image_texture
+				if img:
+					#print("Here for: %s" % music_record.full_path)
+					cover_image = img.get_image()
 					is_extracted = true
 					break
-
-			if is_extracted:
-				var base_dir = "user://album_covers"
-				var album_dir = base_dir.path_join(sanitize_name(album.name))
-				var dir = DirAccess.open("user://")
-				if not dir.dir_exists(base_dir):
-					dir.make_dir(base_dir)
-				if not dir.dir_exists(album_dir):
-					dir.make_dir(album_dir)
-				cover_path = album_dir.path_join("cover.png")
+				#else:
+					#img = MetaDataHandlerFFprobe.get_embedded_image(music_record.full_path)
+					#print("Using new image thing")
+					#if img:
+					#	cover_image = img
+					#	is_extracted = true
+					#	break
+						
+			#if is_extracted:
+			#	var base_dir = "user://album_covers"
+			#	var album_dir = base_dir.path_join(sanitize_name(album.name))
+			#	var dir = DirAccess.open("user://")
+			#	if not dir.dir_exists(base_dir):
+			#		dir.make_dir(base_dir)
+			#	if not dir.dir_exists(album_dir):
+			#		dir.make_dir(album_dir)
+			#	cover_path = album_dir.path_join("cover.png")
 
 		# --- Resize and Save (for all methods) ---
 		if cover_image:
-			var min_size = 180
+			var min_size = 300
 			var w = cover_image.get_width()
 			var h = cover_image.get_height()
 			if w > 0 and h > 0:
@@ -452,15 +500,16 @@ func build_album_images():
 			# Always save — if existing image, overwrite in place
 			#cover_path = "user://album_covers/"+sanitize_name(album.name)+".png"
 			var err = cover_image.save_png(cover_path)
-			if err == OK:
-				
-				album.cover_path = cover_path#.to_utf8_buffer().get_string_from_utf8()
-			else:
-				pass
+			
+			#if err == OK:
+			#	album.cover_path = cover_path#.to_utf8_buffer().get_string_from_utf8()
+			#else:
+			#	pass
 				#print("Failed to save cover for album %s" % album.name)
 		else:
-			pass
-			#print("No cover found for album %s" % album.name)
+			album.set_dicebear_image()
+		call_deferred("_increment_images_rebuilt")
+
 		
 func safe_load_image(path: String) -> Image:
 	var img := Image.new()
@@ -497,6 +546,13 @@ func _on_import_early_exit():
 	importing = false
 	import_finished.emit()
 	
+func _on_album_image_rebuild_complete():
+	import_step = 0
+	save()
+	UiHelper.flash_message("Album images rebuilt (%d images added)" % images_rebuilt)
+	importing = false
+	import_finished.emit()
+	
 func _on_import_complete():
 	print("ENDED")
 	import_step = 0
@@ -504,7 +560,7 @@ func _on_import_complete():
 	albums = get_albums_alphabetical()
 	artists = get_artists_sorted_song_count()
 	save()
-	build_artist_images()
+	#build_artist_images()
 	var elapsed = Time.get_unix_time_from_system() - import_start_time
 	UiHelper.flash_message("Import finished. Duration: %.2f seconds" % elapsed)
 	importing = false

@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://0m5yrmj03xdi"]
+[gd_scene load_steps=4 format=3 uid="uid://0m5yrmj03xdi"]
+
+[ext_resource type="Script" path="res://scenes/settings_container/settings_button.gd" id="1_yf4hl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5wy8n"]
 bg_color = Color(1, 1, 1, 0.196078)
@@ -27,3 +29,6 @@ text = "Settings Button
 "
 icon_alignment = 1
 expand_icon = true
+script = ExtResource("1_yf4hl")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

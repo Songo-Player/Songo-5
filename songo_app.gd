@@ -1,6 +1,5 @@
 extends Control
 
-@onready var sfx_player = $SfxPlayer
 @onready var dark_out = %DarkOut
 
 var directory_container
@@ -20,14 +19,14 @@ func _ready() -> void:
 	var my_theme := load("res://songo_base_theme.tres")
 	get_tree().root.theme = my_theme
 
-	Engine.physics_ticks_per_second = 0
+	Engine.physics_ticks_per_second = 1
 	
 	#if songo_settings.force_screen_fit == true:
 		#UiHelper.apply_screen_fit()
 	%VersionLabel.text = SongoDataResource.VERSION
 	get_viewport().gui_focus_changed.connect(_on_focus_changed)
 
-	#add_debug_info()
+	add_debug_info()
 	
 	get_tree().paused = false
 	Engine.set_time_scale(1.0)
@@ -39,24 +38,30 @@ func _ready() -> void:
 	UiHelper.main_color_panel = %MainColorPanel
 	UiHelper.mini_song_panel = %MiniSongPanel
 	UiHelper.content_body = %ContentBody
+	UiHelper.content_margin_container = %ContentMargin
 	UiHelper.keyboard = %Keyboard
 	UiHelper.flash_message_box = %FlashMessageBox
 	UiHelper.current_os_time = %CurrentOsTime
+	UiHelper.vol_container = %VolumeContainer
 	#UiHelper.debug_info = %DebugInfo
 	_update_widgets()
 	UiHelper.apply_theme_color(songo_settings.theme_color)
 	UiHelper.apply_scale(songo_settings.ui_scale)
+	UiHelper.apply_content_margin(songo_settings.content_margin)
+
 	DeviceOS.fade_out_overlay = %FadeOutOverlay
+	DeviceOS.setup_device()
 
 	Controller.content_body_node = %ContentBody
 	Controller.nav_label_node = %NavLabel
-	#Controller.exiting_overlay_node = %ExitingOverlay
-	Controller.sfx_player = sfx_player
+	SfxPlayer.set_vol(songo_settings.sfx_volume)
 	
 	Controller.main_menu()
 	call_deferred("network_check_display")
 	if songo_settings.auto_import && songo_data.music_directory_paths.size() > 0:
 		songo_data.index_mp3s()
+	if songo_settings.ab_layout == songo_settings.AB_LAYOUTS.XBOX:
+		DeviceOS.swap_input_actions("back", "ui_accept")
 	%MiniSongPanel.setup()
 	
 func network_check_display():
@@ -100,6 +105,11 @@ func _input(event: InputEvent) -> void:
 				if Controller.active_container is SongPanelContainer:
 					DeviceOS.keep_screen_awake = not DeviceOS.keep_screen_awake
 				break  # Stop after finding a match
+				
+		for action_event in InputMap.action_get_events("ui_left"):
+			if event.is_match(action_event) and event.is_pressed():
+				handle_song_repeat()
+				break  # Stop after finding a match
 	
 	if locked_inputs:
 		if _is_any_target_action_pressed():
@@ -134,6 +144,7 @@ func _process(delta: float) -> void:
 	
 	if _is_any_target_action_pressed():
 		debug_press_count += 1
+		
 		var pref_timer = songo_settings.song_sleep_timer
 		if pref_timer > 0:
 			if $ScreenIdleTimer.wait_time != pref_timer:
@@ -142,20 +153,40 @@ func _process(delta: float) -> void:
 		DeviceOS.wake_screen()
 		
 	if locked_inputs || showing_quick_menu: return
+
+	if Input.is_action_just_pressed("L2") && SongoPlayerV2.is_playing():
+		var target_playback = SongoPlayerV2.get_playback_position() - 10.0
+		SongoPlayerV2.ffmpeg_audio_playback.seek_to(target_playback)
+		
+	if Input.is_action_just_pressed("R2") && SongoPlayerV2.is_playing():
+		var target_playback = SongoPlayerV2.get_playback_position() + 10.0
+		var song_length = SongoPlayerV2.current_song.raw_length
+		if song_length > 0.0: target_playback = min(target_playback, song_length)
+		SongoPlayerV2.ffmpeg_audio_playback.seek_to(target_playback)
+		
+	if Input.is_action_just_pressed("L2") && Input.is_action_just_pressed("R2"):
+		%DebugInfo.visible = not %DebugInfo.visible
+		if %DebugInfo.visible:
+			add_debug_info()
+
 	UiHelper.route_inputs(Controller.active_container, delta)
 
 func handle_queue_music():
 	if UiHelper.mini_song_panel.visible == false: return
 	if Controller.active_container is AllSongsContainer:
 		var queue_song = Controller.active_container.focused_song
-		SongoPlayer.queue_music(queue_song)
+		SongoPlayerV2.queue_music(queue_song)
 		UiHelper.flash_message("Queued %s" % queue_song.title)
 
+func handle_song_repeat():
+	if Controller.active_container is not SongPanelContainer: return null
+	SongoPlayerV2.setRepeating(!SongoPlayerV2.repeating)
+	
 func get_playlist_target_song():
 	if Controller.active_container is AllSongsContainer:
 		return Controller.active_container.focused_song
 	if Controller.active_container is SongPanelContainer:
-		return SongoPlayer.get_current_music_record()
+		return SongoPlayerV2.get_current_music_record()
 	return null
 	
 func get_playlist_target_collection():
@@ -206,6 +237,15 @@ func update_quick_menu_vals():
 			%KeepScreenAwakeActionLabel.text = ": Keep screen awake"
 	else:
 		%KeepScreenAwake.hide()
+	
+	if Controller.active_container is SongPanelContainer:
+		%RepeatSong.show()
+		if SongoPlayerV2.repeating:
+			%RepeatSongActionLabel.text = " : Resume song list (stop repeating)"
+		else:	
+			%RepeatSongActionLabel.text = " : Set song to repeat"
+	else:
+		%RepeatSong.hide()
 
 func handle_playlist_quick_edit():
 	var target_collection = get_playlist_target_collection()
@@ -229,7 +269,10 @@ func handle_playlist_quick_edit():
 			UiHelper.flash_message("Song added to %s" % songo_data.recent_playlist.name)
 
 func _is_any_target_action_pressed() -> bool:
-	var target_actions = ["ui_accept", "ui_left", "ui_right", "ui_up", "ui_down", "back", "Y", "select"]
+	if locked_inputs:
+		return Input.is_action_just_pressed("Y")
+		
+	var target_actions = ["ui_accept", "ui_left", "ui_right", "ui_up", "ui_down", "back", "Y", "select", "L1", "R1", "L2", "R2"]
 	for action in target_actions:
 		if Input.is_action_pressed(action):
 			return true
@@ -244,14 +287,15 @@ func get_time_string() -> String:
 	var minute = str(now.minute).pad_zeros(2)
 	return "%s:%s" % [hour, minute]
 	
-#func add_debug_info():
-#	%OSNameLabel.text = "OS name: %s" % DeviceOS.get_os_name()
-#	%ScreenSize.text = "Screen Size: %s" % str(DisplayServer.screen_get_size())
-#	%WindowSize.text = "Window Size: %s" % str(DisplayServer.window_get_size())
-#	%DeviceOrientation.text = "Device Orientation: %s" % string_screen_orientation()
-#	%RootSize.text = "Root Size: %s" % str(get_parent().size)
-#	if DeviceOS.device_strategy.can_fade_screen:
-#		%BrightnessLabel.text = "Initial Brightness: %d" % DeviceOS.device_strategy.target_brightness
+func add_debug_info():
+	%OSNameLabel.text = "OS name: %s" % DeviceOS.get_os_name()
+	%DeviceIdLabel.text = "Device ID: %s" % OS.get_environment("DEVICE_NAME")
+	%ScreenSize.text = "Screen Size: %s" % str(DisplayServer.screen_get_size())
+	%WindowSize.text = "Window Size: %s" % str(DisplayServer.window_get_size())
+	%DeviceOrientation.text = "Device Orientation: %s" % string_screen_orientation()
+	%RootSize.text = "Root Size: %s" % str(get_parent().size)
+	if DeviceOS.device_strategy.can_fade_screen:
+		%BrightnessLabel.text = "Initial Brightness: %d" % DeviceOS.device_strategy.target_brightness
 
 	
 func string_screen_orientation():
@@ -277,19 +321,38 @@ func _on_screen_idle_timer_timeout() -> void:
 
 func _on_focus_changed(control):
 	UiHelper.register_focus_change(control)
-	sfx_player.play_nav_sfx()
+	SfxPlayer.play_nav_sfx()
 
 func update_battery_async() -> void:
 	var thread := Thread.new()
 	thread.start(Callable(self, "_thread_get_battery"))
 	
 func _thread_get_battery():
-	var result := ""
-	result = str(DeviceOS.device_strategy.get_battery_capacity()) + "%"
-	call_deferred("_update_battery_ui", result)
+	var capacity = DeviceOS.get_battery_info('capacity')
+	var status = DeviceOS.get_battery_info('status')
+	call_deferred("_update_battery_ui", capacity, status)
 	
-func _update_battery_ui(text: String) -> void:
-	%BatteryPercent.text = text
+func _update_battery_ui(capacity, status) -> void:
+	%BatteryPercent.text = str(capacity)+"%"
+	if int(capacity) >= 90: 
+		%BatteryPercent.icon = preload("res://assets/battery-full.svg")
+	elif int(capacity) >= 70:
+		%BatteryPercent.icon = preload("res://assets/battery-threequarters.svg")
+	elif int(capacity) >= 45:
+		%BatteryPercent.icon = preload("res://assets/battery-half.svg")
+	elif int(capacity) >= 20:
+		%BatteryPercent.icon = preload("res://assets/battery-quarter.svg")
+	else:
+		%BatteryPercent.icon = preload("res://assets/battery.svg")
+	
+	if status.to_lower() == "charging":
+		%BatteryPercent.add_theme_color_override("font_color", Color(0, 1, 0, 1))
+		%BatteryPercent.add_theme_color_override("icon_normal_color", Color(0, 1, 0, 1))
+	else:
+		%BatteryPercent.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+		%BatteryPercent.add_theme_color_override("icon_normal_color", Color(1, 1, 1, 1))
+
+		
 
 func _on_ui_update_timer_timeout() -> void:
 	_update_widgets()
@@ -297,7 +360,8 @@ func _on_ui_update_timer_timeout() -> void:
 func _update_widgets():
 	#%CurrentOsTime.text = get_time_string()
 	UiHelper.update_os_time()
-	if "get_battery_capacity" in DeviceOS.device_strategy:
+	
+	if DeviceOS.battery_info_path != "":
 		update_battery_async()
 	else:
 		%BatteryPercent.text = "N/A*"

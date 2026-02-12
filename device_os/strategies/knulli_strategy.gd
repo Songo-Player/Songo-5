@@ -12,7 +12,7 @@ func _init():
 	set_knulli_config()
 	
 func get_music_dir_tip():
-	return "Looks like you're using Knulli: Try starting in /userdata/music/"
+	return "Looks like you're using Knulli: Try starting in /userdata/"
 
 func set_backlight(level: int):
 	var cmd := "brightness set %d" % level

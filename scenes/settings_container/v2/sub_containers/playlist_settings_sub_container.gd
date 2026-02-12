@@ -9,7 +9,9 @@ func setup():
 func _ready():
 	await get_tree().process_frame
 	%PageLabel.grab_focus()
-	%PlaylistPathLabel.text = ProjectSettings.globalize_path("user://playlists")
+	%ScrollContainer.scroll_vertical = 0
+	%PlaylistPathLabel.text = ProjectSettings.globalize_path("user://playlist_images/")
+
 func render_ui():
 	pass
 	
@@ -63,6 +65,7 @@ func _keyboard_playlist_entered(new_playlist_name):
 			
 		var new_playlist = M3uCollection.create_collection("playlists", new_playlist_name)
 		if new_playlist:
+			new_playlist.set_dicebear_image()
 			songo_data.playlists.append(new_playlist)
 			songo_data.recent_playlist_name = new_playlist.name
 			songo_data.save()

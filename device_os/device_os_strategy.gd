@@ -3,6 +3,7 @@ class_name DeviceOsStrategy
 
 var music_dir_tip: String: get = get_music_dir_tip
 var can_fade_screen: bool
+var dynamic_brightness: bool = false
 var strategy_name:
 	get: return get_script().get_global_name()
 

@@ -13,11 +13,13 @@ func setup(artist_record, artist_index):
 	%ArtistSummary.text = get_song_summary(artist_record.music_records)
 	%FallbackCover.show()
 	%AlbumCover.hide()
-	var loader = AsyncImageLoader.load_async(artist_record.img_path)
-	loader.image_loaded.connect(func(texture):
-		%AlbumCover.texture = texture
-		%AlbumCover.show()
-	)
+	
+	if artist_record.img_path:
+		var loader = AsyncImageLoader.load_async(artist_record.img_path)
+		loader.image_loaded.connect(func(texture):
+			%AlbumCover.texture = texture
+			%AlbumCover.show()
+		)
 
 func get_song_summary(songs: Array) -> String:
 	if songs.is_empty():

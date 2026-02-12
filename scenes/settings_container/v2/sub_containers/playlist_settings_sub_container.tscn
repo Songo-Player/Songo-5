@@ -132,8 +132,16 @@ text = "Playlist Cover Images:"
 
 [node name="Label2" type="Label" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
 layout_mode = 2
+focus_mode = 2
 theme_override_font_sizes/font_size = 14
-text = "To use a custom image navigate to the path below and replace/add the playlist image with your own. Any image type is fine, just ensure the base file name is the same as the playlist."
+text = "To use a custom image navigate to the path below and find the image with a matching playlist name. Put your new image in this directory and give it the same name with \"-override\" at the end."
+autowrap_mode = 2
+
+[node name="Label3" type="Label" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "File type of your new image doesn't matter. If you want to set a custom image to override \"lofi_jamz.svg\" you will name your new image \"lofi_jamz-override.png\" for example."
 autowrap_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/PlayListSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
@@ -152,7 +160,7 @@ unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 2
 theme_override_colors/font_color = Color(0.136442, 0.129619, 0.122794, 1)
-text = "No Playlists Added"
+text = "Path to Playlist Images"
 autowrap_mode = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/PlayListSection"]

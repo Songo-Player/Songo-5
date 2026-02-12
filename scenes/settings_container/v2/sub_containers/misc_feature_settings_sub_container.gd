@@ -6,10 +6,12 @@ func setup():
 	update_song_following_ui()
 	update_song_sleep_ui()
 	update_song_sleep_type_ui()
+	update_ab_layout_ui()
 	
 func _ready():
 	await get_tree().process_frame
 	%PageLabel.grab_focus()
+	%ScrollContainer.scroll_vertical = 0
 
 func render_ui():
 	pass
@@ -23,6 +25,13 @@ func update_song_sleep_type_ui():
 		
 func update_song_sleep_ui():
 	%SongSleepTimerLabel.text = "%ds" % songo_settings.song_sleep_timer
+	
+func update_ab_layout_ui():
+	if songo_settings.ab_layout == songo_settings.AB_LAYOUTS.XBOX:
+		%ABLayoutLabel.text = "Xbox"
+	else:
+		%ABLayoutLabel.text = "Nintendo"
+	
 	
 func update_song_following_ui():
 	if songo_settings.song_following:
@@ -79,5 +88,17 @@ func _on_tree_exiting() -> void:
 	get_viewport().gui_focus_changed.disconnect(_on_focus_changed)
 
 func _on_focus_changed(item: Control):
+	if item == %ABLayoutButton:
+		%ScrollContainer.scroll_vertical = 0
 	if item == %SongSleepTimerDown || item == %SongSleepTimerUp:
 		%ScrollContainer.scroll_vertical = 999
+
+
+func _on_ab_layout_button_pressed() -> void:
+	if songo_settings.ab_layout == songo_settings.AB_LAYOUTS.XBOX:
+		songo_settings.ab_layout = songo_settings.AB_LAYOUTS.NINTENDO
+	else:
+		songo_settings.ab_layout = songo_settings.AB_LAYOUTS.XBOX
+	songo_settings.save()
+	DeviceOS.swap_input_actions("back", "ui_accept")
+	update_ab_layout_ui()

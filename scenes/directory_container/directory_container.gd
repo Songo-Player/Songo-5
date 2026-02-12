@@ -6,14 +6,12 @@ var path_array = []
 var importing: bool = false
 var songo_data = SongoDataResource.get_instance()
 var virtualized_list
-var dark_out
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	%MusicDirTip.text = DeviceOS.music_dir_tip
 	
-func setup(dark_out_arg: Control, path_array_arg = []):
-	dark_out = dark_out_arg
+func setup(path_array_arg = []):
 	path_array = path_array_arg
 	if path_array == []: set_initial_path()
 	var initial_directories = get_children_directories("".join(path_array))
@@ -43,7 +41,7 @@ func render_ui():
 	%ImportProgressContainer.visible = importing
 	if importing:
 		if songo_data.import_step == 0:
-			%ImportProgressLabel.text = "MP3's found %d" % int(songo_data.import_progress)
+			%ImportProgressLabel.text = "Files found %d" % int(songo_data.import_progress)
 			%ProgressBar.visible = false
 			%ImportStepLabel.text = "Step 1/3 Finding audio files"
 		if songo_data.import_step == 1:
@@ -115,24 +113,28 @@ func enter_dir(dir_name = null):
 	
 func reimport():
 	importing = true
-	dark_out.show()
+	UiHelper.dark_out.show()
 	songo_data.index_mp3s()
 	await songo_data.import_finished
-	dark_out.hide()
+	UiHelper.dark_out.hide()
 	Controller.nav_back_to_settings()
 	
 func _on_select_directory_button_pressed() -> void:
+	if path_array.size() == 1:
+		UiHelper.app_message.show_message("Cannot select root directory.")
+		return
+		
 	var path = "".join(path_array)
 	if songo_data.add_music_directory_path(path):
 		importing = true
-		dark_out.show()
+		UiHelper.dark_out.show()
 		songo_data.save()
 		await get_tree().process_frame
 		songo_data.index_mp3s()
 		await songo_data.import_finished
-		dark_out.hide()
+		UiHelper.dark_out.hide()
 		Controller.nav_back_to_settings()
 	else:
 		var message = songo_data.path_error
-		if (message == null || message == ""): message = "Unkown Error"
+		if (message == null || message == ""): message = "Unknown Error"
 		UiHelper.app_message.show_message(message)

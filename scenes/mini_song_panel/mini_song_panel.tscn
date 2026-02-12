@@ -178,8 +178,8 @@ text = "Press"
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/HBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2/HBoxContainer2"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
-theme_override_constants/margin_top = -8
-theme_override_constants/margin_bottom = -8
+theme_override_constants/margin_top = -12
+theme_override_constants/margin_bottom = -12
 
 [node name="TextureRect" type="TextureRect" parent="PanelContainer/HBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2/HBoxContainer2/MarginContainer"]
 layout_mode = 2
@@ -202,8 +202,8 @@ text = "Press"
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/HBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2/HBoxContainer3"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
-theme_override_constants/margin_top = -8
-theme_override_constants/margin_bottom = -8
+theme_override_constants/margin_top = -12
+theme_override_constants/margin_bottom = -12
 
 [node name="TextureRect" type="TextureRect" parent="PanelContainer/HBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2/HBoxContainer3/MarginContainer"]
 layout_mode = 2

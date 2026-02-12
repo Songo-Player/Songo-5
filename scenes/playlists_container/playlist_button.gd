@@ -16,11 +16,12 @@ func setup(playlist_record: M3uCollection, playlist_index):
 	%PlaylistSummary.text = get_song_summary(playlist.music_records)
 	%FallbackCover.show()
 	%PlaylistCover.hide()
-	var loader = AsyncImageLoader.load_async(playlist_record.img_path)
-	loader.image_loaded.connect(func(texture):
-		%PlaylistCover.texture = texture
-		%PlaylistCover.show()
-	)
+	if playlist_record.img_path != "":
+		var loader = AsyncImageLoader.load_async(playlist_record.img_path)
+		loader.image_loaded.connect(func(texture):
+			%PlaylistCover.texture = texture
+			%PlaylistCover.show()
+		)
 
 func get_song_summary(songs: Array) -> String:
 	if songs.is_empty():

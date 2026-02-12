@@ -1,0 +1,528 @@
+[gd_scene load_steps=21 format=3 uid="uid://x6a7h67rwoqo"]
+
+[ext_resource type="Script" path="res://songo_app.gd" id="1_einrm"]
+[ext_resource type="Texture2D" uid="uid://nqpdbtqncxh4" path="res://assets/clock.svg" id="2_7jnod"]
+[ext_resource type="Texture2D" uid="uid://inruw0c6rdua" path="res://assets/wifi.svg" id="2_crf6x"]
+[ext_resource type="Texture2D" uid="uid://ds1hiniyche5x" path="res://assets/battery.svg" id="3_mqech"]
+[ext_resource type="Texture2D" uid="uid://4xjlhnc8n0vw" path="res://assets/Switch_Dpad_Right.png" id="4_uf3q1"]
+[ext_resource type="Texture2D" uid="uid://d3d3mtv7v4hhe" path="res://assets/Switch_Dpad_Up.png" id="7_1pbtu"]
+[ext_resource type="Texture2D" uid="uid://bfgx846sx2e1x" path="res://assets/pngegg.png" id="8_1v2br"]
+[ext_resource type="PackedScene" uid="uid://b4a176a7whmhc" path="res://scenes/mini_song_panel/mini_song_panel.tscn" id="8_7tnq6"]
+[ext_resource type="Texture2D" uid="uid://btjv8vx32m5y1" path="res://assets/Switch_Dpad_Down.png" id="8_swjqc"]
+[ext_resource type="PackedScene" uid="uid://dpkuxp51tlyqk" path="res://scenes/keyboard/keyboard.tscn" id="8_y4p5t"]
+[ext_resource type="Script" path="res://sfx_player.gd" id="9_0ea3p"]
+[ext_resource type="PackedScene" uid="uid://bthtkrg10n8oi" path="res://scenes/app_message/app_message.tscn" id="9_1p8yf"]
+[ext_resource type="Texture2D" uid="uid://bw0rxqtvk4f66" path="res://assets/Switch_Dpad_Left.png" id="9_nmfcn"]
+[ext_resource type="PackedScene" uid="uid://dalui65p8m2es" path="res://scenes/flash_message_box/flash_message_box.tscn" id="10_3xlg5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_75gu8"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i4t4x"]
+bg_color = Color(0.835294, 0.447059, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ndeej"]
+bg_color = Color(0, 0, 0, 0.882353)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5oa4s"]
+border_width_top = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gs5fl"]
+bg_color = Color(5.53504e-07, 0.19923, 0.271238, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o7wd5"]
+bg_color = Color(0, 0, 0, 0.729412)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="SongoApp" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_einrm")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = -8
+theme_override_constants/margin_top = -8
+theme_override_constants/margin_right = -8
+theme_override_constants/margin_bottom = -8
+
+[node name="FadeOutOverlay" type="PanelContainer" parent="MarginContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+z_index = 10
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_75gu8")
+
+[node name="MainColorPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_i4t4x")
+
+[node name="MarginContainer" type="MarginContainer" parent="MainColorPanel"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 250
+theme_override_constants/margin_top = 50
+
+[node name="TextureRect" type="TextureRect" parent="MainColorPanel/MarginContainer"]
+self_modulate = Color(1, 1, 1, 0.392157)
+layout_mode = 2
+texture = ExtResource("8_1v2br")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainColorPanel"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HeaderMarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = -4
+theme_override_constants/margin_right = -4
+
+[node name="Header" type="PanelContainer" parent="MainColorPanel/VBoxContainer/HeaderMarginContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MainColorPanel/VBoxContainer/HeaderMarginContainer/Header"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/HeaderMarginContainer/Header/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainColorPanel/VBoxContainer/HeaderMarginContainer/Header/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="MainColorPanel/VBoxContainer/HeaderMarginContainer/Header/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+text = "Songo #5"
+
+[node name="NetworkConnection" type="PanelContainer" parent="MainColorPanel/VBoxContainer/HeaderMarginContainer/Header/PanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/HeaderMarginContainer/Header/PanelContainer/MarginContainer/HBoxContainer/NetworkConnection"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="TextureRect" type="TextureRect" parent="MainColorPanel/VBoxContainer/HeaderMarginContainer/Header/PanelContainer/MarginContainer/HBoxContainer/NetworkConnection/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("2_crf6x")
+expand_mode = 3
+
+[node name="CurrentOsTime" type="Button" parent="MainColorPanel/VBoxContainer/HeaderMarginContainer/Header/PanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(85, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+text = "00:00"
+icon = ExtResource("2_7jnod")
+expand_icon = true
+
+[node name="BatteryPercent" type="Button" parent="MainColorPanel/VBoxContainer/HeaderMarginContainer/Header/PanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+text = "N/A"
+icon = ExtResource("3_mqech")
+expand_icon = true
+
+[node name="ScrapingLabel" type="Button" parent="MainColorPanel/VBoxContainer/HeaderMarginContainer/Header/PanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "Scraping %"
+
+[node name="BodyMarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="AppMessage" parent="MainColorPanel/VBoxContainer/BodyMarginContainer" instance=ExtResource("9_1p8yf")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="DarkOut" type="MarginContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="DarkOutPanel" type="PanelContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/DarkOut"]
+z_index = 2
+layout_mode = 2
+
+[node name="FlashMessageMargin" type="MarginContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer"]
+clip_contents = true
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/FlashMessageMargin"]
+layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="FlashMessageBox" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/FlashMessageMargin/ScrollContainer" instance=ExtResource("10_3xlg5")]
+unique_name_in_owner = true
+clip_children = 1
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ContentMargin" type="MarginContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin"]
+layout_mode = 2
+
+[node name="ContentBody" type="MarginContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="QuickMenu" type="PanelContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody"]
+unique_name_in_owner = true
+visible = false
+z_index = 2
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_ndeej")
+
+[node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Quick Menu
+"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_5oa4s")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_uf3q1")
+expand_mode = 3
+
+[node name="Label" type="Label" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = " : Lock/Unlock Inputs"
+
+[node name="AddRemoveInPlaylistQuick" type="HBoxContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/AddRemoveInPlaylistQuick"]
+layout_mode = 2
+texture = ExtResource("7_1pbtu")
+expand_mode = 3
+
+[node name="AddRemoveInPlaylistLabel" type="Label" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/AddRemoveInPlaylistQuick"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = " : Add to / Remove from playlist"
+text_overrun_behavior = 4
+
+[node name="QueueSong" type="HBoxContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/QueueSong"]
+layout_mode = 2
+texture = ExtResource("8_swjqc")
+expand_mode = 3
+
+[node name="QueueSongLabel" type="Label" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/QueueSong"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = " : Queue song"
+text_overrun_behavior = 4
+
+[node name="KeepScreenAwake" type="HBoxContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/KeepScreenAwake"]
+layout_mode = 2
+texture = ExtResource("8_swjqc")
+expand_mode = 3
+
+[node name="KeepScreenAwakeActionLabel" type="Label" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/KeepScreenAwake"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = " : Keep screen awake
+"
+text_overrun_behavior = 4
+
+[node name="RepeatSong" type="HBoxContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/RepeatSong"]
+layout_mode = 2
+texture = ExtResource("9_nmfcn")
+expand_mode = 3
+
+[node name="RepeatSongActionLabel" type="Label" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/RepeatSong"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = " : Set song to repeat"
+text_overrun_behavior = 4
+
+[node name="DebugInfo" type="PanelContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody"]
+unique_name_in_owner = true
+visible = false
+z_index = 3
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gs5fl")
+
+[node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer"]
+layout_mode = 2
+
+[node name="OSNameLabel" type="Label" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Os Name:"
+
+[node name="ScreenSize" type="Label" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Device Resolution:"
+
+[node name="WindowSize" type="Label" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="RootSize" type="Label" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Root Size:"
+
+[node name="DeviceOrientation" type="Label" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Device Orientation:"
+
+[node name="BrightnessLabel" type="Label" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Initial Brightness: N/A"
+
+[node name="SongsImportedLabel" type="Label" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ExitingOverlay" type="PanelContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody"]
+unique_name_in_owner = true
+visible = false
+z_index = 3
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_o7wd5")
+
+[node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/ExitingOverlay"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/ExitingOverlay/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "See ya later"
+
+[node name="Keyboard" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody" instance=ExtResource("8_y4p5t")]
+unique_name_in_owner = true
+visible = false
+z_index = 2
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="MiniSongPanel" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer" instance=ExtResource("8_7tnq6")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+
+[node name="FooterMarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = -4
+theme_override_constants/margin_right = -4
+
+[node name="Footer" type="PanelContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = -40
+theme_override_constants/margin_bottom = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="LockedInputsLabel" type="PanelContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+z_index = 2
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/MarginContainer/HBoxContainer/LockedInputsLabel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/MarginContainer/HBoxContainer/LockedInputsLabel/MarginContainer"]
+layout_mode = 2
+text = "Inputs Locked"
+
+[node name="KeepScreenAwakeLabel" type="PanelContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+z_index = 2
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/MarginContainer/HBoxContainer/KeepScreenAwakeLabel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/MarginContainer/HBoxContainer/KeepScreenAwakeLabel/MarginContainer"]
+layout_mode = 2
+text = "Keeping Screen Awake"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="NavLabel" type="Label" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+text = "Main menu > All Songs > Shuffle Play"
+text_overrun_behavior = 3
+
+[node name="VersionLabel" type="Label" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 18
+text = "version here"
+
+[node name="SfxPlayer" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+volume_db = 5.0
+script = ExtResource("9_0ea3p")
+
+[node name="ScreenIdleTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[node name="UiUpdateTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[connection signal="timeout" from="ScreenIdleTimer" to="." method="_on_screen_idle_timer_timeout"]
+[connection signal="timeout" from="UiUpdateTimer" to="." method="_on_ui_update_timer_timeout"]

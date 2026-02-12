@@ -6,6 +6,7 @@ func setup():
 func _ready():
 	await get_tree().process_frame
 	%PageLabel.grab_focus()
+	$ScrollContainer.scroll_vertical = 0
 
 func render_ui():
 	pass

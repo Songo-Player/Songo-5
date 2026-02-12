@@ -46,6 +46,9 @@ func update_display_text():
 	text = text.replace("\n", "").replace("\r", "")
 	%KeyboardText.text = text
 	%KeyboardText.caret_column = text.length()
+	if caps_mode:
+		caps_mode = false
+		update_mode()
 
 func _on_caps_button_pressed() -> void:
 	caps_mode = not caps_mode

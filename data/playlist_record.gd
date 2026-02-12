@@ -3,11 +3,21 @@ class_name PlaylistRecord extends Resource
 var full_path: String
 var title: String
 var img_path:
-	get: return full_path.get_basename()+".svg"
-
+	get: _get_playlist_image_path()
+	#get: return full_path.get_basename()+".svg"
 
 var music_records: Array[MusicRecord]
 
+func _get_playlist_image_path():
+	var image_extensions = ["png", "svg", "webp", "jpeg", "jpg"]
+	for ext in image_extensions:
+		var file_path = "%s-override.%s" % [full_path.get_basename(), ext]
+		if FileAccess.file_exists(file_path): return file_path
+
+	for ext in image_extensions:
+		var file_path = "%s.%s" % [full_path.get_basename(), ext]
+		if FileAccess.file_exists(file_path): return file_path
+		
 # RYETODO: make this have better safety
 static func build_from_name(playlist_name):
 	var record = PlaylistRecord.new()
@@ -115,3 +125,4 @@ static func load_playlists(directory_path: String) -> Array[PlaylistRecord]:
 	dir.list_dir_end()
 	
 	return playlists
+	

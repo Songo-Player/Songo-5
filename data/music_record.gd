@@ -5,14 +5,39 @@ class_name MusicRecord extends Resource
 @export var raw_length: float
 @export var album: String
 @export var artist: String
+@export var track: int
 
 var length: String:
 	get: return formatted_duration(raw_length)
+	
+var title_with_track: String:
+	get: return _title_with_track()
 	
 func formatted_duration(length_sec: float):
 	var minutes: int = int(length_sec) / 60
 	var seconds: int = int(length_sec) % 60
 	return "%d:%02d" % [minutes, seconds]
+	
+var image_texture: 
+	get: return _get_image_texture()
+	
+func _get_image_texture():
+	return AudioMetadata.get_cover_image(full_path)
+	#var file_type = full_path.get_extension()
+	#if file_type == "mp3":
+	#	return AudioMetadata.get_mp3_image(full_path)
+	#elif file_type == "flac":
+	#	return AudioMetadata.get_flac_image(full_path)
+	#elif file_type == "ogg":
+	#	return AudioMetadata.get_ogg_image(full_path)
+	#else:
+	#	print("Unkown file type")
+	#	return false
+	
+func _title_with_track():
+	if track == 0: return title
+
+	return "%02d. %s" % [track, title]
 
 # Adds this song to an .m3u playlist, creating it if needed
 func add_to_playlist(playlist: PlaylistRecord) -> void:

@@ -46,6 +46,15 @@ func _on_tree_entered() -> void:
 	else:
 		%StartHereLabel.hide()
 
-
 func _on_contact_me_button_pressed() -> void:
 	Controller.contact_me()
+
+func _on_support_me_button_pressed() -> void:
+	Controller.support_me()
+
+
+func _on_data_and_storage_button_focused() -> void:
+	%ScrollContainer.scroll_vertical = 0
+
+func _on_support_me_button_focused() -> void:
+	%ScrollContainer.scroll_vertical = 9999

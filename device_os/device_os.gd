@@ -11,14 +11,29 @@ var device_strategy_name: get = get_device_strategy_name
 var music_dir_tip: get = get_music_dir_tip
 var songo_data = SongoDataResource.get_instance()
 var songo_settings = SongoSettings.get_instance()
+var battery_info_path = ""
 # Screen Brightness Adjustments
 var fade_val: float
 var fade_tween = null
 var sleeping: bool = false
 var keep_screen_awake = false
+var device_name = ""
+var hallkey_path = false
+var bin_path = ""
+
+const HALLKEY_PATHS = {
+	"/boot/boot/batocera.board.capability": "/batocera_board_capability_override",
+	"/sys/class/power_supply/axp2202-battery/hallkey": "/hall_override/hallkey", # Rg35xx-SP, RG34xx-SP (muos Confirmed)
+	"/sys/devices/platform/hall-mh248/hallvalue": "/hall_override/hallkey" # Miyoo Flip
+}
 
 func _init():
+	#Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	set_device_os_strategy()
+	set_battery_info_path()
+	device_name = OS.get_environment("DEVICE_NAME")
+	bin_path = OS.get_environment("SONGO_BINARIES_DIR")
+	
 	
 func _process(delta: float) -> void:
 	if fade_tween != null && songo_settings.song_sleep_type == 0:
@@ -47,14 +62,14 @@ func get_os_name():
 func get_valid_os_strategy():
 	if WindowsStrategy.being_used():
 		return WindowsStrategy
-	elif MuosCanadaGooseStrategy.being_used():
-		return MuosCanadaGooseStrategy
+	elif MuosStrategy.being_used():
+		return MuosStrategy
 	elif KnulliStrategy.being_used():
 		return KnulliStrategy
 	elif RocknixStrategy.being_used():
 		return RocknixStrategy
-	elif TrimUIStrategy.being_used():
-		return TrimUIStrategy
+	elif NextUIStrategy.being_used():
+		return NextUIStrategy
 	return null
 	
 func set_device_os_strategy():
@@ -66,7 +81,21 @@ func set_device_os_strategy():
 	if valid_strategy: device_strategy = valid_strategy
 	else: device_strategy = GenericLinuxStrategy.new()
 	
+func setup_device():
+	for target_path in HALLKEY_PATHS.keys():
+		if FileAccess.file_exists(target_path):
+			hallkey_path = target_path
+			break
+			
+	if hallkey_path:
+		SongoPlayerV2.music_started.connect(_on_music_started)
+		SongoPlayerV2.music_stopped.connect(_on_music_stopped)
+
 func start_screen_fade():
+	if device_strategy.dynamic_brightness:
+		device_strategy.set_initial_brightness()
+		await Engine.get_main_loop().process_frame
+		
 	match songo_settings.song_sleep_type:
 		0:
 			if device_strategy.can_fade_screen == false:
@@ -111,3 +140,65 @@ func wake_screen():
 			
 		fade_out_overlay.modulate.a = 0.0
 		sleeping = false
+		
+func set_battery_info_path():
+	var likely_paths = [
+		"/sys/class/power_supply/axp2202-battery/",
+		"/sys/class/power_supply/battery/",
+	]
+	for path in likely_paths:
+		if DirAccess.dir_exists_absolute(path):
+			battery_info_path = path
+			break
+	
+func get_battery_info(info_key: String):
+	if battery_info_path == "" && info_key == "capacity" && !(device_strategy is WindowsStrategy): 
+		return device_strategy.get_battery_capacity()
+		
+	if !['status', 'capacity'].has(info_key): 
+		print("Unkown battery info key: %s" % info_key)
+		return ""
+		
+	var output = []
+	var cmd = "%s/%s" % [battery_info_path, info_key]
+	var exit_code = OS.execute("cat", [cmd], output)
+	var result = output[0].strip_edges() if output.size() > 0 else ""
+	return result
+	
+func swap_input_actions(action_a: String, action_b: String) -> void:
+	# Get current events
+	var events_a := InputMap.action_get_events(action_a)
+	var events_b := InputMap.action_get_events(action_b)
+
+	# Clear both actions
+	InputMap.action_erase_events(action_a)
+	InputMap.action_erase_events(action_b)
+
+	# Reassign swapped events (duplicate to avoid shared references)
+	for event in events_a:
+		InputMap.action_add_event(action_b, event.duplicate(true))
+
+	for event in events_b:
+		InputMap.action_add_event(action_a, event.duplicate(true))
+
+func _on_music_started():
+	var override_path = "%s%s" % [bin_path, HALLKEY_PATHS[hallkey_path]]
+	var target_path = hallkey_path
+	
+	var args := ["--bind", override_path, target_path]
+	var output := []
+	var exit_code := OS.execute("mount", args, output, true)
+
+	if exit_code != 0:
+		push_error("Failed to bind mount hallkey: %s" % output)
+	
+func _on_music_stopped():
+	# Only attempt unmount if the file exists
+	if not FileAccess.file_exists(hallkey_path):
+		return
+
+	# Lazy unmount to handle busy sysfs files
+	var exit_code := OS.execute("umount", ["-l", hallkey_path], [], true)
+
+	if exit_code != 0:
+		push_error("Failed to unmount hallkey override at %s" % hallkey_path)

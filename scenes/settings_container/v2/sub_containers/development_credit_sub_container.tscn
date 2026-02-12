@@ -1,7 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://c4h5kdh7vvnrs"]
+[gd_scene load_steps=8 format=3 uid="uid://c4h5kdh7vvnrs"]
 
 [ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="1_cvyup"]
 [ext_resource type="Script" path="res://scenes/settings_container/v2/sub_containers/development_credit_sub_container.gd" id="1_r6js8"]
+[ext_resource type="Texture2D" uid="uid://bto3cdnmrap1x" path="res://assets/Sparkles.svg" id="3_sbe0u"]
+[ext_resource type="Texture2D" uid="uid://cquysexdmp80s" path="res://assets/Emerald.svg" id="4_in31b"]
+[ext_resource type="Texture2D" uid="uid://dm344f20bvdte" path="res://assets/Anbernic_logo.png" id="5_h1agt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j2n4i"]
 bg_color = Color(0.0646965, 0.0646965, 0.0646965, 1)
@@ -151,6 +154,90 @@ theme_override_constants/margin_bottom = 2
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer7/MarginContainer"]
 layout_mode = 2
 text = "@Kneeanderthul"
+
+[node name="PanelContainer8" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_j2n4i")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer8"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer8/MarginContainer"]
+layout_mode = 2
+text = "@DimerHunton"
+
+[node name="PanelContainer11" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_j2n4i")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer11"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer11/MarginContainer"]
+layout_mode = 2
+text = "@SummerStarlight"
+
+[node name="PanelContainer9" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_j2n4i")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer9"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer9/MarginContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer9/MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("3_sbe0u")
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer9/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "@BunBun328"
+
+[node name="TextureRect2" type="TextureRect" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer9/MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("3_sbe0u")
+flip_h = true
+
+[node name="PanelContainer10" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_j2n4i")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer10"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer10/MarginContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer10/MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_in31b")
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer10/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Emerald_Elephas"
+
+[node name="TextureRect2" type="TextureRect" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer10/MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_in31b")
+flip_h = true
 
 [node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer"]
 layout_mode = 2
@@ -314,6 +401,35 @@ layout_mode = 2
 text = "Special Thanks: "
 autowrap_mode = 2
 
+[node name="HBoxContainer4" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+focus_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_j2n4i")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer4/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer4/PanelContainer2/MarginContainer"]
+layout_mode = 2
+text = "@Hades-Arcadius"
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "For being an early adopter and the sole Q/A"
+autowrap_mode = 2
+
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
@@ -397,7 +513,38 @@ text = "Retro Game Corps"
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "For giving me confidence in my purchase decisions in this hobby"
+text = "For making me grab my favorite snack and drink"
+autowrap_mode = 2
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_j2n4i")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer5/PanelContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="TextureRect" type="TextureRect" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer5/PanelContainer2/MarginContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+texture = ExtResource("5_h1agt")
+expand_mode = 3
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "For sending me a unit to test with"
 autowrap_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection"]

@@ -66,7 +66,12 @@ theme_override_styles/separator = SubResource("StyleBoxFlat_3xkob")
 layout_mode = 2
 theme_override_constants/margin_right = 4
 
-[node name="Duration" type="Label" parent="MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/separation = 12
+
+[node name="Duration" type="Label" parent="MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8

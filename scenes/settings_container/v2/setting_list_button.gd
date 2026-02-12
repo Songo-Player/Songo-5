@@ -1,5 +1,6 @@
 extends MarginContainer
 signal pressed
+signal focused
 
 @export var text: String = "Setting Title"
 @export var hide_bottom_separator: bool = false
@@ -10,6 +11,9 @@ func _ready() -> void:
 	%ButtonSeparator.visible = not hide_bottom_separator
 	$Button.pressed.connect(func():
 		pressed.emit()
+		)
+	$Button.focus_entered.connect(func():
+		focused.emit()
 		)
 		
 func set_focus():
