@@ -68,7 +68,7 @@ func _on_song_sleep_fade_type_up_pressed() -> void:
 	_apply_song_sleep_type(initial_type)
 
 func _apply_song_sleep_type(initial_type: int):
-	if DeviceOS.device_strategy.can_fade_screen == false:
+	if DeviceOS.no_bright_fade_available == true:
 		if initial_type == 1: songo_settings.song_sleep_type = 2
 		else: songo_settings.song_sleep_type = 1
 		UiHelper.flash_message("Your CFW lacks advanced support, 'Black Fade' or 'Disabled' allowed.")

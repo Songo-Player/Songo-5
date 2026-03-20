@@ -51,10 +51,8 @@ func _on_song_started(music_record: MusicRecord):
 	else:	
 		var image = songo_data.get_album_cover(music_record.album)
 		if image != null:
-			print("Not mp3, trying album")
 			image_texture = ImageTexture.create_from_image(image)
 		if image_texture == null:
-			print("OOPS")
 			image_texture = music_record.image_texture
 			
 	if image_texture:

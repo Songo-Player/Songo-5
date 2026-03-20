@@ -1,23 +1,16 @@
 extends DeviceOsStrategy
 class_name KnulliStrategy
 
-var target_brightness: int = 255
-
 static func being_used() -> bool:
 	return OS.get_environment("CFW_NAME") == DeviceOS.CFW_KNULLI
 	
 func _init():
-	can_fade_screen = true
-	set_target_brightness()
 	set_knulli_config()
 	
 func get_music_dir_tip():
 	return "Looks like you're using Knulli: Try starting in /userdata/"
 
-func set_backlight(level: int):
-	var cmd := "brightness set %d" % level
-	OS.execute("sh", ["-c", cmd])  # non-blocking
-	
+
 func get_battery_capacity():
 	var cmd =  "batocera-info | grep Battery"
 	var output = []
@@ -30,14 +23,6 @@ func get_battery_capacity():
 ########################################
 #       Knulli strategy exclusives     #
 ########################################
-
-func set_target_brightness():
-	#var cmd =  "source %s && DISPLAY_READ lcd0 getbl" % FUNC_SCRIPT
-	var output = []
-	var exit_code = OS.execute("sh", ["-c", "brightness get"], output)
-	var result = output[0].strip_edges() if output.size() > 0 else ""
-	if result != "":
-		target_brightness = int(result)
 		
 func set_knulli_config():
 	var reset_commands = []
@@ -45,7 +30,7 @@ func set_knulli_config():
 	
 	OS.execute("sh", ["-c", "touch /var/run/battery-saver/songo.pause"])
 	reset_commands.append("rm /var/run/battery-saver/songo.pause")
-	reset_commands.append("batocera-brightness %d" % target_brightness)
+	#reset_commands.append("batocera-brightness %d" % target_brightness)
 	create_reset_script(reset_commands)
 	
 func set_input_actions():

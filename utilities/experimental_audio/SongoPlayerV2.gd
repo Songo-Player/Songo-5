@@ -10,7 +10,8 @@ enum MODE {
 	SHUFFLE
 }
 
-var ffmpeg_audio_playback: FFmpegAudioPlaybackV2
+#var ffmpeg_audio_playback: FFmpegAudioPlaybackV2
+var ffmpeg_audio_playback: FFmpegAudioPlaybackV4
 var songo_settings = SongoSettings.get_instance()
 var music_files = [MusicRecord]
 
@@ -19,12 +20,13 @@ var current_song
 var last_queued = 0
 var play_mode: MODE = MODE.LINEAR
 var repeating: bool = false
-
+var played_from_stop: bool = true
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	ffmpeg_audio_playback = FFmpegAudioPlaybackV2.new()
+	#ffmpeg_audio_playback = FFmpegAudioPlaybackV2.new()
+	ffmpeg_audio_playback = FFmpegAudioPlaybackV4.new()
 	add_child(ffmpeg_audio_playback)
-	ffmpeg_audio_playback.setup()
+	ffmpeg_audio_playback.setup() 
 	ffmpeg_audio_playback.stream_finished.connect(_on_finished)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -64,16 +66,18 @@ func get_current_song_path():
 	return music_files[play_index]
 	
 func play_music_record(music_index: int):
-	if is_playing() == false:
+	if played_from_stop:
+		played_from_stop = false
 		music_started.emit()
-		#print("STARTING MUSIC")
 		
 	if music_index < 0: music_index = music_files.size()-1
 	
 	if repeating == false:
 		play_index = music_index % music_files.size()
 	var music_record = music_files[play_index]
-	ffmpeg_audio_playback.stop()
+	if (is_playing()):
+		ffmpeg_audio_playback.stop()
+		await get_tree().process_frame
 	ffmpeg_audio_playback.play(music_record.full_path)
 	current_song = music_record
 	started_new_song.emit(music_record)
@@ -85,7 +89,7 @@ func get_next_mp3_record():
 func stop():
 	ffmpeg_audio_playback.stop()
 	music_stopped.emit()
-	#print("MUSIC STOPPED")
+	played_from_stop = true
 	
 func _on_finished() -> void:
 	play_next()
@@ -96,14 +100,12 @@ func get_playback_position():
 	return ffmpeg_audio_playback.get_actual_playback_position()
 	
 func is_playing():
-	return ffmpeg_audio_playback.player.is_playing()
+	return ffmpeg_audio_playback.is_playing()
 	
 func pause():
-	ffmpeg_audio_playback.player.stream_paused = true
+	ffmpeg_audio_playback.pause()
 	music_stopped.emit()
-	#print("MUSIC PAUSED")
 	
 func resume():
-	ffmpeg_audio_playback.player.stream_paused = false
+	ffmpeg_audio_playback.resume()
 	music_started.emit()
-	print("MUSIC RESUMED")

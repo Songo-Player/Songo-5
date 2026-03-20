@@ -1,33 +1,18 @@
 extends DeviceOsStrategy
 class_name RocknixStrategy
 
-var target_brightness: int = 50 # Rocknix uses percent
 const FUNC_SCRIPT := "/etc/profile.d/001-functions"
 
 static func being_used() -> bool:
 	return OS.get_environment("CFW_NAME") == DeviceOS.CFW_ROCKNIX
 	
 func _init():
-	can_fade_screen = true
 	set_input_actions()
-	set_initial_brightness()
 	set_rocknix_config()
 	
 func get_music_dir_tip():
 	return "You're using Rocknix: Try starting in /storage/roms/music"
-	
-func set_initial_brightness():
-	var cmd =  "source %s && get_setting display.brightness" % FUNC_SCRIPT
-	var output = []
-	var exit_code = OS.execute("sh", ["-c", cmd], output)
-	var result = output[0].strip_edges() if output.size() > 0 else ""
-	if result != "":
-		target_brightness = int(result)
 		
-func set_backlight(level: int):
-	var cmd = "source %s && brightness set %d" % [FUNC_SCRIPT, level]
-	OS.execute("sh", ["-c", cmd])
-
 func get_battery_capacity():
 	var cmd =  "source %s && battery_percent" % FUNC_SCRIPT
 	var output = []
@@ -37,7 +22,7 @@ func get_battery_capacity():
 
 func set_rocknix_config():
 	var reset_commands = []
-	reset_commands.append("source %s && brightness set %d" % [FUNC_SCRIPT, target_brightness])
+	reset_commands.append("source %s && brightness set %d" % [FUNC_SCRIPT, 50])
 	create_reset_script(reset_commands)
 
 func set_input_actions():

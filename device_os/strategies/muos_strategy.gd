@@ -4,21 +4,15 @@ class_name MuosStrategy
 const FUNC_SCRIPT := "/opt/muos/script/var/func.sh"
 const HOTKEY_SCRIPT := "/opt/muos/script/mux/hotkey.sh"
 
-var target_brightness: int = 128
-
 var config_values = {
 	"idle_display": MuosConfigItem.new("settings/power/idle_display", "0", "unset"),
 	"idle_sleep": MuosConfigItem.new("settings/power/idle_sleep", "0", "unset"),
-	#"lid_switch": MuosConfigItem.new("settings/advanced/lidswitch", "0", "unset")
 }
 
 static func being_used() -> bool:
 	return OS.get_environment("CFW_NAME") == DeviceOS.CFW_MUOS
 	
 func _init():
-	can_fade_screen = true
-	dynamic_brightness = true
-	set_initial_brightness()
 	set_muos_config()
 	set_input_actions()
 	
@@ -33,22 +27,9 @@ func get_battery_capacity():
 	var result = output[0].strip_edges() if output.size() > 0 else ""
 	return result
 
-func set_backlight(level: int):
-	var cmd = "source %s && DISPLAY_WRITE lcd0 setbl %d" % [FUNC_SCRIPT, level]
-	OS.execute("sh", ["-c", cmd])
-
 ########################################
 #       MUOS strategy exclusives       #
 ########################################
-
-
-func set_initial_brightness():
-	var cmd =  "source %s && DISPLAY_READ lcd0 getbl" % FUNC_SCRIPT
-	var output = []
-	var exit_code = OS.execute("sh", ["-c", cmd], output)
-	var result = output[0].strip_edges() if output.size() > 0 else ""
-	if result != "":
-		target_brightness = int(result)
 
 func get_var(path_pt_1, path_pt_2):
 	var cmd =  "source %s && GET_VAR %s %s" % [FUNC_SCRIPT, path_pt_1, path_pt_2]

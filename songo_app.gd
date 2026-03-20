@@ -18,7 +18,6 @@ var debug_press_count = 0
 func _ready() -> void:
 	var my_theme := load("res://songo_base_theme.tres")
 	get_tree().root.theme = my_theme
-
 	Engine.physics_ticks_per_second = 1
 	
 	#if songo_settings.force_screen_fit == true:
@@ -156,13 +155,13 @@ func _process(delta: float) -> void:
 
 	if Input.is_action_just_pressed("L2") && SongoPlayerV2.is_playing():
 		var target_playback = SongoPlayerV2.get_playback_position() - 10.0
-		SongoPlayerV2.ffmpeg_audio_playback.seek_to(target_playback)
+		SongoPlayerV2.ffmpeg_audio_playback.seek(max(target_playback, 0.0))
 		
 	if Input.is_action_just_pressed("R2") && SongoPlayerV2.is_playing():
 		var target_playback = SongoPlayerV2.get_playback_position() + 10.0
 		var song_length = SongoPlayerV2.current_song.raw_length
 		if song_length > 0.0: target_playback = min(target_playback, song_length)
-		SongoPlayerV2.ffmpeg_audio_playback.seek_to(target_playback)
+		SongoPlayerV2.ffmpeg_audio_playback.seek(target_playback)
 		
 	if Input.is_action_just_pressed("L2") && Input.is_action_just_pressed("R2"):
 		%DebugInfo.visible = not %DebugInfo.visible

@@ -3,7 +3,7 @@ class_name SongoDataResource extends Resource
 signal import_finished
 
 const SAVE_PATH = "user://songo_data.tres"
-const VERSION = "v0.5.0 Mary"
+const VERSION = "v0.5.1 RC-2"
 const DATA_VERSION = "43Sandra"
 
 @export var music_directory_path = "No Path"
