@@ -22,7 +22,6 @@ boot_splash/minimum_display_time=750
 DeviceOS="*res://device_os/device_os.gd"
 Controller="*res://utilities/controller.gd"
 UiHelper="*res://utilities/ui_helper.gd"
-SongoPlayer="*res://scenes/songo_player/songo_player.gd"
 SfxPlayer="*res://sfx_player.gd"
 SongoPlayerV2="*res://utilities/experimental_audio/SongoPlayerV2.gd"
 VolumeTcpListener="*res://utilities/volume_tcp_listener/volume_tcp_listener.gd"
@@ -44,6 +43,7 @@ ClipMask=""
 back={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":66,"key_label":0,"unicode":98,"location":0,"echo":false,"script":null)
+, Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(177, 14),"global_position":Vector2(184, 50),"factor":1.0,"button_index":2,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
 start={
@@ -95,8 +95,3 @@ R2={
 [input_devices]
 
 pointing/emulate_mouse_from_touch=false
-
-[rendering]
-
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"

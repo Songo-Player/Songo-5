@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b7wuaejkyqg1i"]
+[gd_scene load_steps=8 format=3 uid="uid://b7wuaejkyqg1i"]
 
 [ext_resource type="Texture2D" uid="uid://cbi4n1wtrc3dc" path="res://assets/gear.svg" id="1_3hada"]
 [ext_resource type="Script" path="res://scenes/settings_container/v2/setting_list_button.gd" id="1_fn40d"]
@@ -10,6 +10,12 @@ corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4ngnk"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qfcc5"]
 content_margin_left = 4.0
@@ -30,8 +36,10 @@ theme_override_constants/margin_right = 6
 script = ExtResource("1_fn40d")
 
 [node name="Button" type="Button" parent="."]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/focus = SubResource("StyleBoxFlat_7pi62")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_4ngnk")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_qfcc5")
 text = "Song Name
 "
@@ -60,3 +68,5 @@ size_flags_vertical = 8
 mouse_filter = 2
 theme_override_constants/separation = 0
 theme_override_styles/separator = SubResource("StyleBoxFlat_3xkob")
+
+[connection signal="mouse_entered" from="Button" to="." method="_on_button_mouse_entered"]

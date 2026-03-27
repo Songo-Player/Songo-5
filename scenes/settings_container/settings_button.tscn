@@ -1,9 +1,25 @@
-[gd_scene load_steps=4 format=3 uid="uid://0m5yrmj03xdi"]
+[gd_scene load_steps=5 format=3 uid="uid://0m5yrmj03xdi"]
 
 [ext_resource type="Script" path="res://scenes/settings_container/settings_button.gd" id="1_yf4hl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5wy8n"]
 bg_color = Color(1, 1, 1, 0.196078)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wjhlm"]
+content_margin_left = 10.0
+content_margin_top = 3.0
+content_margin_right = 10.0
+content_margin_bottom = 3.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wuyae"]
 content_margin_left = 10.0
@@ -22,8 +38,10 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [node name="SettingsButton" type="Button"]
+process_mode = 1
 size_flags_horizontal = 3
 theme_override_styles/focus = SubResource("StyleBoxFlat_5wy8n")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wjhlm")
 theme_override_styles/normal = SubResource("StyleBoxFlat_wuyae")
 text = "Settings Button
 "
@@ -31,4 +49,5 @@ icon_alignment = 1
 expand_icon = true
 script = ExtResource("1_yf4hl")
 
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="pressed" from="." to="." method="_on_pressed"]

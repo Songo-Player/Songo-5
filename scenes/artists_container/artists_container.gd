@@ -24,8 +24,3 @@ func render_ui():
 func handle_input(delta: float):
 	if Input.is_action_just_pressed("back"):
 		Controller.new_nav_back()
-		
-	if Input.is_action_just_pressed("ui_accept"):
-		var focused_button = get_viewport().gui_get_focus_owner()
-		var target_artist = artists[focused_button.get_meta("item_index")]
-		Controller.artist_songs_index(target_artist)

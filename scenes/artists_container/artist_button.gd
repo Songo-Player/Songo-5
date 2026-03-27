@@ -1,12 +1,15 @@
 extends MarginContainer
 
+var artist_record
+
 func setup_last_item():
 	%ButtonSeparator.hide()
 	
 func set_focus():
 	%Button.grab_focus()
 	
-func setup(artist_record, artist_index):
+func setup(artist_record_arg, artist_index):
+	artist_record = artist_record_arg
 	if %ButtonSeparator.visible == false: %ButtonSeparator.show()
 	%Button.set_meta("item_index", artist_index)
 	%ArtistName.text = artist_record.name
@@ -20,7 +23,12 @@ func setup(artist_record, artist_index):
 			%AlbumCover.texture = texture
 			%AlbumCover.show()
 		)
+	if !%Button.pressed.is_connected(_artist_button_pressed):
+		%Button.pressed.connect(_artist_button_pressed)
 
+func _artist_button_pressed():
+	Controller.artist_songs_index(artist_record)
+	
 func get_song_summary(songs: Array) -> String:
 	if songs.is_empty():
 		return "No songs"
@@ -47,3 +55,7 @@ func get_song_summary(songs: Array) -> String:
 		time_str = minute_str
 
 	return "%d song%s totaling %s" % [total_songs, "s" if total_songs != 1 else "", time_str]
+
+
+func _on_button_mouse_entered() -> void:
+	%Button.grab_focus()

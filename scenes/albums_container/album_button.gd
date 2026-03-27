@@ -1,5 +1,6 @@
 extends MarginContainer
 
+var album_record
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -10,7 +11,8 @@ func set_focus():
 func setup_last_item():
 	%ButtonSeparator.hide()
 	
-func setup(album_record, album_index):
+func setup(album_record_arg, album_index):
+	album_record = album_record_arg
 	if %ButtonSeparator.visible == false: %ButtonSeparator.show()
 	%Button.set_meta("item_index", album_index)
 	%AlbumName.text = album_record.name
@@ -24,6 +26,11 @@ func setup(album_record, album_index):
 			%AlbumCover.texture = texture
 			%AlbumCover.show()
 		)
+	if !%Button.pressed.is_connected(_album_pressed): 
+		%Button.pressed.connect(_album_pressed)
+	
+func _album_pressed():
+	Controller.album_songs_index(album_record)
 	
 func format_artists(artists: Array) -> String:
 	if artists.is_empty():
@@ -39,3 +46,7 @@ func format_artists(artists: Array) -> String:
 		return "%s, %s, and %s" % [artists[0], artists[1], artists[2]]
 	else:
 		return "%s, %s, and %d others" % [artists[0], artists[1], count - 2]
+
+
+func _on_button_mouse_entered() -> void:
+	%Button.grab_focus()

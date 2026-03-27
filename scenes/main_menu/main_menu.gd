@@ -16,6 +16,18 @@ func setup():
 	tex_panels.append(%PlaylistsTextureRect)
 	update_main_menu_size()
 	
+	var hover_behavior_tweaks = [
+		%AllSongsMenuItem,
+		%AlbumsMenuItem,
+		%ArtistsMenuItem,
+		%PlaylistsMenuItem,
+		%SettingsMenuItem,
+		%ExitMenuItem
+	]
+	for item in hover_behavior_tweaks:
+		var child: Control = item.get_child(0)
+		child.mouse_entered.connect(func(): child.grab_focus())
+	
 	#var menu_tex_panels = get_tree().get_nodes_in_group("menu_tex_panel")
 	#for tex_panel in menu_tex_panels:
 	#	var size_index = songo_settings.main_menu_size
@@ -91,3 +103,9 @@ func _on_resized() -> void:
 		
 func _on_playlists_menu_button_pressed() -> void:
 	Controller.playlists_index(songo_data.playlists)
+
+func _on_all_songs_menu_button_mouse_entered() -> void:
+	%AllSongsMenuItem.get_child(0).grab_focus()
+
+func _on_all_songs_menu_button_mouse_exited() -> void:
+	%AllSongsMenuItem.get_child(0).release_focus()

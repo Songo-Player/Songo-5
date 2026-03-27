@@ -47,8 +47,8 @@ func build_playlists_list():
 
 func _on_new_playlist_button_pressed() -> void:
 	var keyboard = UiHelper.keyboard
-	keyboard.setup("New Playlist Name", %NewPlaylistButton)
 	keyboard.keyboard_result.connect(_keyboard_playlist_entered)
+	keyboard.setup("New Playlist Name", %NewPlaylistButton)
 	
 func _keyboard_playlist_entered(new_playlist_name):
 		var keyboard = UiHelper.keyboard

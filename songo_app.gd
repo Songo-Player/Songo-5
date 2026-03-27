@@ -15,6 +15,7 @@ var showing_quick_menu: bool = false
 
 var debug_press_count = 0
 
+
 func _ready() -> void:
 	var my_theme := load("res://songo_base_theme.tres")
 	get_tree().root.theme = my_theme
@@ -40,7 +41,7 @@ func _ready() -> void:
 	UiHelper.content_margin_container = %ContentMargin
 	UiHelper.keyboard = %Keyboard
 	UiHelper.flash_message_box = %FlashMessageBox
-	UiHelper.current_os_time = %CurrentOsTime
+	UiHelper.current_os_time = %CurrentOsTimeLabel
 	UiHelper.vol_container = %VolumeContainer
 	#UiHelper.debug_info = %DebugInfo
 	_update_widgets()
@@ -83,8 +84,26 @@ func _notification(what):
 		get_tree().root.set_process(true)
 		get_tree().root.set_process_input(true)
 		Engine.time_scale = 1.0
-		
+	
+func print_tree_path(node: Node):
+	var path := []
+	var current := node
+	while current:
+		path.push_front(current.name)
+		current = current.get_parent()
+	print("Path:", "/".join(path))
+	
 func _input(event: InputEvent) -> void:
+	
+	if event is InputEventMouseButton and event.pressed:
+		var hovered := get_viewport().gui_get_hovered_control()
+
+		if hovered:
+			print("Clicked UI element:", hovered.name, " (", hovered.get_class(), ")")
+			print_tree_path(hovered)
+		else:
+			print("Clicked: nothing")
+			
 	if showing_quick_menu:
 		for action_event in InputMap.action_get_events("ui_right"):
 			if event.is_match(action_event) and event.is_pressed():
@@ -357,7 +376,6 @@ func _on_ui_update_timer_timeout() -> void:
 	_update_widgets()
 
 func _update_widgets():
-	#%CurrentOsTime.text = get_time_string()
 	UiHelper.update_os_time()
 	
 	if DeviceOS.battery_info_path != "":

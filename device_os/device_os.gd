@@ -104,7 +104,7 @@ func get_valid_os_strategy():
 		return RocknixStrategy
 	elif NextUIStrategy.being_used():
 		return NextUIStrategy
-	return null
+	return GenericLinuxStrategy
 	
 func set_device_os_strategy():
 	if songo_settings.use_generic_strategy == true:

@@ -72,15 +72,8 @@ func render_ui():
 func handle_input(delta: float):
 	if Input.is_action_just_pressed("back"):
 		Controller.new_nav_back()
-	
 	if Input.is_action_pressed("x"):
 		kick_off_shuffle()
-		
-	if Input.is_action_just_pressed("ui_accept"):
-		var focused_button = get_viewport().gui_get_focus_owner()
-		if focused_button.has_meta("item_index"):
-			var target_index = focused_button.get_meta("item_index")
-			Controller.songs_panel(music_records, target_index)
 		
 func kick_off_shuffle():
 	if music_records.size() == 0: return
@@ -106,3 +99,6 @@ func _on_tree_entered() -> void:
 		await get_tree().process_frame
 		call_deferred("default_focus")
 		
+func _on_shuffle_button_mouse_entered() -> void:
+	%ShuffleButton.grab_focus()
+	pass # Replace with function body.

@@ -18,3 +18,7 @@ func _ready() -> void:
 		
 func set_focus():
 	$Button.grab_focus()
+
+
+func _on_button_mouse_entered() -> void:
+	%Button.grab_focus()

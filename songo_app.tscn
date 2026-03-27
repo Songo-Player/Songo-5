@@ -51,6 +51,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+mouse_filter = 1
 script = ExtResource("1_einrm")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -70,7 +71,7 @@ unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0)
 z_index = 10
 layout_mode = 2
-mouse_filter = 2
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_75gu8")
 
 [node name="MainColorPanel" type="PanelContainer" parent="."]
@@ -81,6 +82,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_i4t4x")
 
 [node name="MarginContainer" type="MarginContainer" parent="MainColorPanel"]
@@ -145,15 +147,30 @@ layout_mode = 2
 texture = ExtResource("2_crf6x")
 expand_mode = 3
 
-[node name="CurrentOsTime" type="Button" parent="MainColorPanel/VBoxContainer/HeaderMarginContainer/Header/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="CurrentOsTimeContainer" type="PanelContainer" parent="MainColorPanel/VBoxContainer/HeaderMarginContainer/Header/PanelContainer/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(85, 0)
 layout_mode = 2
-size_flags_horizontal = 8
-focus_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/HeaderMarginContainer/Header/PanelContainer/MarginContainer/HBoxContainer/CurrentOsTimeContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainColorPanel/VBoxContainer/HeaderMarginContainer/Header/PanelContainer/MarginContainer/HBoxContainer/CurrentOsTimeContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TextureRect" type="TextureRect" parent="MainColorPanel/VBoxContainer/HeaderMarginContainer/Header/PanelContainer/MarginContainer/HBoxContainer/CurrentOsTimeContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_7jnod")
+expand_mode = 3
+
+[node name="CurrentOsTimeLabel" type="Label" parent="MainColorPanel/VBoxContainer/HeaderMarginContainer/Header/PanelContainer/MarginContainer/HBoxContainer/CurrentOsTimeContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
 text = "00:00"
-icon = ExtResource("2_7jnod")
-expand_icon = true
 
 [node name="BatteryPercent" type="Button" parent="MainColorPanel/VBoxContainer/HeaderMarginContainer/Header/PanelContainer/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
@@ -174,20 +191,6 @@ text = "Scraping %"
 [node name="BodyMarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-
-[node name="AppMessage" parent="MainColorPanel/VBoxContainer/BodyMarginContainer" instance=ExtResource("9_1p8yf")]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-
-[node name="DarkOut" type="MarginContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-
-[node name="DarkOutPanel" type="PanelContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/DarkOut"]
-z_index = 2
-layout_mode = 2
 
 [node name="FlashMessageMargin" type="MarginContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer"]
 clip_contents = true
@@ -225,6 +228,7 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 2
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 0
@@ -417,14 +421,6 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 48
 text = "See ya later"
 
-[node name="Keyboard" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody" instance=ExtResource("8_y4p5t")]
-unique_name_in_owner = true
-visible = false
-z_index = 2
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
 [node name="MiniSongPanel" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer" instance=ExtResource("8_7tnq6")]
 unique_name_in_owner = true
 visible = false
@@ -434,23 +430,54 @@ theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 0
 
+[node name="DarkOut" type="MarginContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_filter = 2
+
+[node name="DarkOutPanel" type="PanelContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/DarkOut"]
+z_index = 2
+layout_mode = 2
+mouse_filter = 1
+
+[node name="Keyboard" parent="MainColorPanel/VBoxContainer/BodyMarginContainer" instance=ExtResource("8_y4p5t")]
+unique_name_in_owner = true
+visible = false
+z_index = 2
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 0
+
+[node name="AppMessage" parent="MainColorPanel/VBoxContainer/BodyMarginContainer" instance=ExtResource("9_1p8yf")]
+unique_name_in_owner = true
+process_mode = 3
+visible = false
+layout_mode = 2
+mouse_filter = 1
+
 [node name="VolumeContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer" instance=ExtResource("14_ur3pi")]
 unique_name_in_owner = true
 layout_mode = 2
 
 [node name="FooterMarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = -4
 theme_override_constants/margin_right = -4
 
 [node name="Footer" type="PanelContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 12
@@ -458,11 +485,13 @@ theme_override_constants/margin_bottom = 4
 
 [node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_top = -40
 theme_override_constants/margin_bottom = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="LockedInputsLabel" type="PanelContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true

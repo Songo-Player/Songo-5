@@ -15,8 +15,10 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [node name="Keyboard" type="PanelContainer"]
+process_mode = 3
 offset_right = 264.0
 offset_bottom = 101.0
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_ltsb4")
 script = ExtResource("1_nvk1k")
 
@@ -225,6 +227,7 @@ focus_neighbor_bottom = NodePath("../../HBoxContainer3/SpaceButton")
 text = "l"
 
 [node name="EnterButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(25, 35)
 layout_mode = 2
 focus_neighbor_left = NodePath("../ButtonL")
@@ -289,6 +292,7 @@ focus_neighbor_bottom = NodePath("../../HBoxContainer/ButtonO")
 text = "m"
 
 [node name="SpaceButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(73, 35)
 layout_mode = 2
 focus_neighbor_top = NodePath("../../HBoxContainer2/EnterButton")

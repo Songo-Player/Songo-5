@@ -30,6 +30,7 @@ corner_radius_bottom_left = 4
 
 [node name="VolumeContainer" type="MarginContainer"]
 size_flags_horizontal = 8
+mouse_filter = 2
 theme_override_constants/margin_top = 100
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 100
@@ -37,10 +38,12 @@ script = ExtResource("1_xq60c")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 2
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_8n611")
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
@@ -48,27 +51,32 @@ theme_override_constants/margin_bottom = 8
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="TextureRect" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 4
+mouse_filter = 2
 texture = ExtResource("2_u5k53")
 expand_mode = 3
 
 [node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_h5mh1")
 
 [node name="VolBar" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/PanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 10
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_p8h1r")
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = -8
 theme_override_constants/margin_right = -8
 

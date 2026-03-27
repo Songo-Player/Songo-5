@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://c2v15u6f0dtjf"]
+[gd_scene load_steps=8 format=3 uid="uid://c2v15u6f0dtjf"]
 
 [ext_resource type="Texture2D" uid="uid://b2f5qjioe80m4" path="res://assets/Folder.svg" id="1_e1kq6"]
 [ext_resource type="Texture2D" uid="uid://4lwbxso23g8o" path="res://assets/folder_nested_line_long.png" id="2_6dw1o"]
@@ -10,6 +10,12 @@ corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_syngd"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6xmx7"]
 content_margin_left = 4.0
@@ -31,6 +37,7 @@ script = ExtResource("2_rg6vk")
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/focus = SubResource("StyleBoxFlat_c6xam")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_syngd")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_6xmx7")
 text = "Directory"
 icon = ExtResource("1_e1kq6")
@@ -57,3 +64,6 @@ size_flags_vertical = 8
 mouse_filter = 2
 theme_override_constants/separation = 0
 theme_override_styles/separator = SubResource("StyleBoxFlat_1lgwx")
+
+[connection signal="mouse_entered" from="Button" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

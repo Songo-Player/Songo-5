@@ -23,6 +23,8 @@ func setup(path_array_arg = []):
 		%DirectoryInfoContainer.show()
 	else:
 		%DirectoryInfoContainer.hide()
+	var select_dir_button = virtualized_list.find_child("SelectDirectoryButton", true)
+	select_dir_button.pressed.connect(_on_select_directory_button_pressed)
 
 func get_children_directories(path):
 	var results = []
@@ -61,6 +63,7 @@ func handle_input(delta: float):
 	if Input.is_action_just_pressed("back"):
 		Controller.new_nav_back()
 	
+	return
 	if Input.is_action_just_pressed("ui_accept"):
 		var focused_button = get_viewport().gui_get_focus_owner()
 		var target_dir = focused_button.get_meta("dir_path")
@@ -70,7 +73,7 @@ func handle_input(delta: float):
 			new_path.append(target_dir)
 			Controller.settings_directory_select(new_path)
 			#enter_dir(target_dir)
-		else: _on_select_directory_button_pressed()
+		#else: _on_select_directory_button_pressed()
 	
 func set_initial_path():
 	var root_path: String

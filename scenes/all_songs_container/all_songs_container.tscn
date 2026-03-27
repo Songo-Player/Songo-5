@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://tohepsfqkkvr"]
+[gd_scene load_steps=11 format=3 uid="uid://tohepsfqkkvr"]
 
 [ext_resource type="Script" path="res://scenes/all_songs_container/all_songs_container.gd" id="1_3as6r"]
 [ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="1_mcks6"]
@@ -14,6 +14,8 @@ corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7qtpt"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fcstb"]
 content_margin_left = 4.0
@@ -149,10 +151,12 @@ theme_override_constants/margin_bottom = 4
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/focus = SubResource("StyleBoxFlat_o3h1c")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_7qtpt")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_fcstb")
 
 [node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/VirtualizedListContainer/VirtualizedList/ShuffleButtonMarginContainer/ShuffleButtonContainer/MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 6
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 6
@@ -160,9 +164,11 @@ theme_override_constants/margin_bottom = 4
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TopBarClipMask/VirtualizedListContainer/VirtualizedList/ShuffleButtonMarginContainer/ShuffleButtonContainer/MarginContainer/MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="TextureRect" type="TextureRect" parent="TopBarClipMask/VirtualizedListContainer/VirtualizedList/ShuffleButtonMarginContainer/ShuffleButtonContainer/MarginContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("5_5sac8")
 expand_mode = 3
 
@@ -172,6 +178,7 @@ text = "Shuffle Play (or press"
 
 [node name="TextureRect2" type="TextureRect" parent="TopBarClipMask/VirtualizedListContainer/VirtualizedList/ShuffleButtonMarginContainer/ShuffleButtonContainer/MarginContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("6_hoygm")
 expand_mode = 3
 
@@ -183,6 +190,7 @@ text = "from anywhere)"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 theme_override_constants/margin_top = 45
 theme_override_constants/margin_right = 4
 
@@ -190,9 +198,11 @@ theme_override_constants/margin_right = 4
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/VirtualizedListContainer/VirtualizedList/MarginContainer/PanelContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 2
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 2
@@ -202,6 +212,7 @@ theme_override_constants/margin_bottom = 4
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
@@ -210,6 +221,7 @@ theme_override_constants/margin_bottom = 8
 [node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/VirtualizedListContainer/VirtualizedList/MarginContainer/PanelContainer/MarginContainer/PlaylistGuide"]
 layout_mode = 2
 size_flags_vertical = 4
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="TopBarClipMask/VirtualizedListContainer/VirtualizedList/MarginContainer/PanelContainer/MarginContainer/PlaylistGuide/VBoxContainer"]
 layout_mode = 2
@@ -226,4 +238,5 @@ autowrap_mode = 2
 layout_mode = 2
 
 [connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="mouse_entered" from="TopBarClipMask/VirtualizedListContainer/VirtualizedList/ShuffleButtonMarginContainer/ShuffleButtonContainer/MarginContainer/ShuffleButton" to="." method="_on_shuffle_button_mouse_entered"]
 [connection signal="pressed" from="TopBarClipMask/VirtualizedListContainer/VirtualizedList/ShuffleButtonMarginContainer/ShuffleButtonContainer/MarginContainer/ShuffleButton" to="." method="_on_shuffle_button_pressed"]

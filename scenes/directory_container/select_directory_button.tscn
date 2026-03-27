@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://c0h87f3bb7llk"]
+[gd_scene load_steps=6 format=3 uid="uid://c0h87f3bb7llk"]
 
 [ext_resource type="Texture2D" uid="uid://n05i3lx2qti" path="res://assets/Add.svg" id="1_366c2"]
+[ext_resource type="Script" path="res://scenes/directory_container/select_directory_button.gd" id="2_62fft"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rvgrk"]
 bg_color = Color(1, 1, 1, 0.196078)
@@ -8,6 +9,12 @@ corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j5c2x"]
+content_margin_left = 4.0
+content_margin_top = 2.0
+content_margin_right = 4.0
+content_margin_bottom = 2.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u7pip"]
 content_margin_left = 4.0
@@ -20,7 +27,11 @@ offset_right = 8.0
 offset_bottom = 8.0
 size_flags_horizontal = 3
 theme_override_styles/focus = SubResource("StyleBoxFlat_rvgrk")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_j5c2x")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_u7pip")
 text = "Use this Directory"
 icon = ExtResource("1_366c2")
 alignment = 0
+script = ExtResource("2_62fft")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

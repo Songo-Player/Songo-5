@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bddrvwe4ijqap"]
-
-[ext_resource type="Script" path="res://scenes/songo_player/songo_player.gd" id="1_3dc61"]
-
-[node name="SongoPlayer" type="UniversalStreamer"]
-script = ExtResource("1_3dc61")
-
-[connection signal="finished" from="." to="." method="_on_finished"]

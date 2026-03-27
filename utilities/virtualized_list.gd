@@ -15,6 +15,7 @@ var total_items: int:
 	get: return data_items.size()
 # Nodes
 #var vbox: VBoxContainer
+var v_scroll_bar
 var spacer_top: Control
 var spacer_bottom: Control
 var item_pool: Array[Control] = []
@@ -78,6 +79,22 @@ func setup(data_items_arg, item_scene_path_arg):
 	get_v_scroll_bar().value_changed.connect(_on_scroll_changed)
 	if focus_first_item: focus_first()
 	get_viewport().gui_focus_changed.connect(_on_focus_changed)
+	v_scroll_bar = get_v_scroll_bar()
+	v_scroll_bar.focus_mode = Control.FOCUS_ALL
+	
+	v_scroll_bar.focus_neighbor_bottom = v_scroll_bar.get_path()
+	v_scroll_bar.focus_neighbor_top = v_scroll_bar.get_path()
+	
+	var normal_grabber = v_scroll_bar.get_theme_stylebox("grabber")
+	var focused_grabber = normal_grabber.duplicate()
+	focused_grabber.bg_color = Color("8d0000")
+	v_scroll_bar.focus_entered.connect(func(): 
+		v_scroll_bar.add_theme_stylebox_override("grabber", focused_grabber)
+	)
+	v_scroll_bar.focus_exited.connect(func(): 
+		v_scroll_bar.add_theme_stylebox_override("grabber", normal_grabber)
+	)
+	scroll_vertical_custom_step = (item_height*data_items.size())/50.0
 	
 func focus_first():
 	if item_pool.is_empty():

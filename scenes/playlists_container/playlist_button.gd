@@ -22,7 +22,12 @@ func setup(playlist_record: M3uCollection, playlist_index):
 			%PlaylistCover.texture = texture
 			%PlaylistCover.show()
 		)
+	if !%Button.pressed.is_connected(_playlist_button_pressed):
+		%Button.pressed.connect(_playlist_button_pressed)
 
+func _playlist_button_pressed():
+	Controller.playlist_songs_index(playlist)
+	
 func get_song_summary(songs: Array) -> String:
 	if songs.is_empty():
 		return "No songs"
@@ -54,3 +59,7 @@ func get_song_summary(songs: Array) -> String:
 func _on_tree_entered() -> void:
 	if playlist:
 		%PlaylistSummary.text = get_song_summary(playlist.music_records)
+
+
+func _on_button_mouse_entered() -> void:
+	%Button.grab_focus()
