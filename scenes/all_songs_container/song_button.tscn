@@ -45,7 +45,7 @@ layout_mode = 2
 theme_override_styles/focus = SubResource("StyleBoxFlat_7pi62")
 theme_override_styles/hover = SubResource("StyleBoxFlat_rda2l")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_qfcc5")
-text = "Song Name
+text = "
 "
 icon = ExtResource("1_n52mj")
 alignment = 0
@@ -78,13 +78,19 @@ theme_override_styles/separator = SubResource("StyleBoxFlat_3xkob")
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
 mouse_filter = 2
+theme_override_constants/margin_left = 32
 theme_override_constants/margin_right = 4
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-size_flags_horizontal = 8
 mouse_filter = 2
 theme_override_constants/separation = 12
+
+[node name="SongName" type="Label" parent="MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text_overrun_behavior = 3
 
 [node name="Duration" type="Label" parent="MarginContainer/HBoxContainer"]
 unique_name_in_owner = true

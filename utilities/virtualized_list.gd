@@ -88,6 +88,10 @@ func setup(data_items_arg, item_scene_path_arg):
 	var normal_grabber = v_scroll_bar.get_theme_stylebox("grabber")
 	var focused_grabber = normal_grabber.duplicate()
 	focused_grabber.bg_color = Color("8d0000")
+	focused_grabber.expand_margin_left = 2
+	focused_grabber.expand_margin_right = 2
+	focused_grabber.expand_margin_top = 2
+	focused_grabber.expand_margin_bottom = 2
 	v_scroll_bar.focus_entered.connect(func(): 
 		v_scroll_bar.add_theme_stylebox_override("grabber", focused_grabber)
 	)

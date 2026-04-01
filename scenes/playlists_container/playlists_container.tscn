@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cgwylravm5n6m"]
+[gd_scene load_steps=5 format=3 uid="uid://cgwylravm5n6m"]
 
-[ext_resource type="StyleBox" uid="uid://d2sx58pf8pij1" path="res://shared_resources/playlists_gradient.tres" id="1_quqp0"]
-[ext_resource type="Texture2D" uid="uid://md788wp04yb1" path="res://assets/layergroup.svg" id="1_r1v25"]
 [ext_resource type="Script" path="res://scenes/playlists_container/playlists_container.gd" id="1_rxivp"]
+[ext_resource type="PackedScene" uid="uid://div1pu4vi16ih" path="res://scenes/collection_header/collection_header.tscn" id="2_flbxs"]
 [ext_resource type="Script" path="res://utilities/top_bar_clip_mask.gd" id="3_srit6"]
 [ext_resource type="Script" path="res://utilities/virtualized_list.gd" id="4_ey2pr"]
 
@@ -14,61 +13,16 @@ size_flags_vertical = 3
 theme_override_constants/separation = 0
 script = ExtResource("1_rxivp")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="CollectionHeader" parent="." instance=ExtResource("2_flbxs")]
 layout_mode = 2
+default_type = 3
 
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_right = -3
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/PanelContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/PanelContainer/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/PanelContainer/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_styles/panel = ExtResource("1_quqp0")
-
-[node name="TextureRect" type="TextureRect" parent="PanelContainer/PanelContainer/MarginContainer/HBoxContainer/PanelContainer"]
-layout_mode = 2
-texture = ExtResource("1_r1v25")
-expand_mode = 5
-stretch_mode = 6
-
-[node name="PanelContainer2" type="PanelContainer" parent="PanelContainer/PanelContainer/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/PanelContainer/MarginContainer/HBoxContainer/PanelContainer2"]
-layout_mode = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 4
-
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/PanelContainer/MarginContainer/HBoxContainer/PanelContainer2/MarginContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="PanelContainer/PanelContainer/MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 28
-text = "Playlists"
-
-[node name="PlaylistCount" type="Label" parent="PanelContainer/PanelContainer/MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 28
-text = "7 Total"
-
-[node name="TopBarClipMask" type="TextureRect" parent="."]
+[node name="TopBarClipMask" type="TextureRect" parent="MarginContainer"]
 clip_children = 1
 layout_mode = 2
 size_flags_vertical = 3
@@ -76,7 +30,7 @@ expand_mode = 1
 script = ExtResource("3_srit6")
 bottom_fade_height = 16
 
-[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/TopBarClipMask"]
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
@@ -86,10 +40,11 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 8
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 16
 
-[node name="VirtualizedList" type="ScrollContainer" parent="TopBarClipMask/MarginContainer" node_paths=PackedStringArray("vbox")]
+[node name="VirtualizedList" type="ScrollContainer" parent="MarginContainer/TopBarClipMask/MarginContainer" node_paths=PackedStringArray("vbox")]
 unique_name_in_owner = true
 clip_contents = false
 layout_mode = 2
@@ -99,25 +54,25 @@ vertical_scroll_mode = 2
 script = ExtResource("4_ey2pr")
 vbox = NodePath("MarginContainer/PanelContainer/MarginContainer/VBoxContainer")
 
-[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/VirtualizedList"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/TopBarClipMask/MarginContainer/VirtualizedList"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_right = 4
 
-[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/VirtualizedList/MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/TopBarClipMask/MarginContainer/VirtualizedList/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/VirtualizedList/MarginContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/TopBarClipMask/MarginContainer/VirtualizedList/MarginContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 2
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 4
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/VirtualizedList/MarginContainer/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/TopBarClipMask/MarginContainer/VirtualizedList/MarginContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 
 [connection signal="tree_entered" from="." to="." method="_on_tree_entered"]

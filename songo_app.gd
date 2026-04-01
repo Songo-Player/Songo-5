@@ -95,7 +95,7 @@ func print_tree_path(node: Node):
 	
 func _input(event: InputEvent) -> void:
 	
-	if event is InputEventMouseButton and event.pressed:
+	if false && event is InputEventMouseButton and event.pressed:
 		var hovered := get_viewport().gui_get_hovered_control()
 
 		if hovered:

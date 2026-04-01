@@ -63,25 +63,8 @@ func _on_song_started(music_record: MusicRecord):
 		
 	loaded_song = music_record.full_path
 
-
-
 func _on_stop_music_button_pressed() -> void:
-	var event = InputEventAction.new()
-	event.action = "start"
-	event.pressed = true
-	Input.parse_input_event(event)
-	await get_tree().process_frame
-	event.pressed = false
-	Input.parse_input_event(event)
-	pass # Replace with function body.
-
+	UiHelper.dismiss_mini_song_panel()
 
 func _on_return_to_music_button_pressed() -> void:
-	var event = InputEventAction.new()
-	event.action = "select"
-	event.pressed = true
-	Input.parse_input_event(event)
-	await get_tree().process_frame
-	event.pressed = false
-	Input.parse_input_event(event)
-	pass # Replace with function body.
+	Controller.restore_state()
