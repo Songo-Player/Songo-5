@@ -9,7 +9,13 @@ var virtualized_list
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	%MusicDirTip.text = DeviceOS.music_dir_tip
+	var music_dir_tip_text := "I suggest making a 'MUSIC' folder next to 'ROMS'."
+	
+	var env_tip := OS.get_environment("SONGO_DIR_TIP")
+	if env_tip != null and env_tip.strip_edges() != "":
+		music_dir_tip_text = env_tip
+	
+	%MusicDirTip.text = music_dir_tip_text
 	
 func setup(path_array_arg = []):
 	path_array = path_array_arg
@@ -37,6 +43,8 @@ func get_children_directories(path):
 				results.append(entry_name)
 			entry_name = dir_access.get_next()
 		dir_access.list_dir_end()
+		
+	results.sort_custom(func(a, b): return a.naturalnocasecmp_to(b) < 0)
 	return results
 	
 func render_ui():

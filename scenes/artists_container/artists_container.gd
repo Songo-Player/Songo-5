@@ -24,6 +24,8 @@ func setup(artists_arg: Array[ArtistRecord]):
 	$CollectionHeader.collection_label = "Artists"
 	$CollectionHeader.record_count = artists.size()
 	$CollectionHeader.sort_label_key = sort_options[sort_index]
+	var scroll_bar = %VirtualizedList.get_v_scroll_bar()
+	scroll_bar.focus_entered.connect(func(): bar_scrolling = true )
 	
 	
 func render_ui():
@@ -41,7 +43,7 @@ func handle_input(delta: float):
 			Callable(SongoSort, sort_key).call(artists)
 			%VirtualizedList.data_items = artists
 			%VirtualizedList.update_visible_items()
-			$CollectionHeader.fade_sort_label(SongoSort.TYPES[sort_key])
+			$CollectionHeader.fade_sort_label(sort_key)
 			%VirtualizedList.scroll_vertical = 0
 			await get_tree().process_frame
 			%VirtualizedList.focus_first()

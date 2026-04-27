@@ -28,6 +28,7 @@ func _ready() -> void:
 	add_child(ffmpeg_audio_playback)
 	ffmpeg_audio_playback.setup() 
 	ffmpeg_audio_playback.stream_finished.connect(_on_finished)
+	set_vol(songo_settings.music_volume)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -109,3 +110,6 @@ func pause():
 func resume():
 	ffmpeg_audio_playback.resume()
 	music_started.emit()
+	
+func set_vol(new_vol: float = 1.0):
+	ffmpeg_audio_playback.song_player.player.volume_db = linear_to_db(new_vol)

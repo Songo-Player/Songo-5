@@ -15,17 +15,17 @@ var showing_quick_menu: bool = false
 
 var debug_press_count = 0
 
-
 func _ready() -> void:
 	var my_theme := load("res://songo_base_theme.tres")
 	get_tree().root.theme = my_theme
 	Engine.physics_ticks_per_second = 1
+	Engine.max_fps = 60
 	
 	#if songo_settings.force_screen_fit == true:
 		#UiHelper.apply_screen_fit()
 	%VersionLabel.text = SongoDataResource.VERSION
 	get_viewport().gui_focus_changed.connect(_on_focus_changed)
-
+	if OS.get_environment("HIDE_MOUSE"): Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	add_debug_info()
 	
 	get_tree().paused = false
@@ -43,6 +43,9 @@ func _ready() -> void:
 	UiHelper.flash_message_box = %FlashMessageBox
 	UiHelper.current_os_time = %CurrentOsTimeLabel
 	UiHelper.vol_container = %VolumeContainer
+	UiHelper.oops_no_color_overlay = %OopsNoColorOverlay
+	UiHelper.crt_overlay = %CrtOverlay
+	UiHelper.the_grid_overlay = %TheGridOverlay
 	#UiHelper.debug_info = %DebugInfo
 	_update_widgets()
 	UiHelper.apply_theme_color(songo_settings.theme_color)
@@ -50,7 +53,7 @@ func _ready() -> void:
 	UiHelper.apply_content_margin(songo_settings.content_margin)
 
 	DeviceOS.fade_out_overlay = %FadeOutOverlay
-	DeviceOS.setup_device()
+	DeviceOS.setup_device_hallkey()
 
 	Controller.content_body_node = %ContentBody
 	Controller.nav_label_node = %NavLabel
@@ -60,8 +63,10 @@ func _ready() -> void:
 	call_deferred("network_check_display")
 	if songo_settings.auto_import && songo_data.music_directory_paths.size() > 0:
 		songo_data.index_mp3s()
-	if songo_settings.ab_layout == songo_settings.AB_LAYOUTS.XBOX:
+	if songo_settings.ab_layout_swapped:
 		DeviceOS.swap_input_actions("back", "ui_accept")
+	if songo_settings.xy_layout_swapped:
+		DeviceOS.swap_input_actions("x", "Y")
 	%MiniSongPanel.setup()
 	
 func network_check_display():
@@ -103,14 +108,17 @@ func _input(event: InputEvent) -> void:
 			print_tree_path(hovered)
 		else:
 			print("Clicked: nothing")
+		
+	if DeviceOS.sleeping && songo_settings.lock_inputs_on_sleep:
+		get_viewport().set_input_as_handled()
 			
 	if showing_quick_menu:
-		for action_event in InputMap.action_get_events("ui_right"):
-			if event.is_match(action_event) and event.is_pressed():
-				locked_inputs = not locked_inputs
-				if locked_inputs == false:
-					get_viewport().set_input_as_handled()
-				break  # Stop after finding a match
+		#for action_event in InputMap.action_get_events("ui_right"):
+		#	if event.is_match(action_event) and event.is_pressed():
+		#		locked_inputs = not locked_inputs
+		#		if locked_inputs == false:
+		#			get_viewport().set_input_as_handled()
+		#		break  # Stop after finding a match
 				
 		for action_event in InputMap.action_get_events("ui_up"):
 			if event.is_match(action_event) and event.is_pressed():
@@ -129,13 +137,15 @@ func _input(event: InputEvent) -> void:
 				handle_song_repeat()
 				break  # Stop after finding a match
 	
-	if locked_inputs:
-		if _is_any_target_action_pressed():
-			$ScreenIdleTimer.start()
-			DeviceOS.wake_screen()
+	#if locked_inputs:
+	#	if _is_any_target_action_pressed():
+	#		$ScreenIdleTimer.start()
+	#		DeviceOS.wake_screen()
 			
 	if locked_inputs || showing_quick_menu:
 		get_viewport().set_input_as_handled()
+	
+
 		
 func _process(delta: float) -> void:
 	DeviceOS.device_strategy.translate_inputs(delta)
@@ -170,14 +180,24 @@ func _process(delta: float) -> void:
 			$ScreenIdleTimer.start()
 		DeviceOS.wake_screen()
 		
-	if locked_inputs || showing_quick_menu: return
+	if Input.is_action_just_pressed("start"):
+		if DeviceOS.sleeping:
+			DeviceOS.wake_screen()
+			$ScreenIdleTimer.start()
+		else:
+			if SongoPlayerV2.is_playing() && !UiHelper.mini_song_panel.visible:
+				DeviceOS.start_screen_fade()
+				$ScreenIdleTimer.stop()
+				
+	if DeviceOS.sleeping && songo_settings.lock_inputs_on_sleep: return
+	if showing_quick_menu == true: return
 
 	if Input.is_action_just_pressed("L2") && SongoPlayerV2.is_playing():
-		var target_playback = SongoPlayerV2.get_playback_position() - 10.0
+		var target_playback = SongoPlayerV2.get_playback_position() - float(songo_settings.seek_backward_time)
 		SongoPlayerV2.ffmpeg_audio_playback.seek(max(target_playback, 0.0))
 		
 	if Input.is_action_just_pressed("R2") && SongoPlayerV2.is_playing():
-		var target_playback = SongoPlayerV2.get_playback_position() + 10.0
+		var target_playback = SongoPlayerV2.get_playback_position() + float(songo_settings.seek_forward_time)
 		var song_length = SongoPlayerV2.current_song.raw_length
 		if song_length > 0.0: target_playback = min(target_playback, song_length)
 		SongoPlayerV2.ffmpeg_audio_playback.seek(target_playback)
@@ -287,8 +307,8 @@ func handle_playlist_quick_edit():
 			UiHelper.flash_message("Song added to %s" % songo_data.recent_playlist.name)
 
 func _is_any_target_action_pressed() -> bool:
-	if locked_inputs:
-		return Input.is_action_just_pressed("Y")
+	if DeviceOS.sleeping && songo_settings.lock_inputs_on_sleep:
+		return false #Input.is_action_just_pressed("start")
 		
 	var target_actions = ["ui_accept", "ui_left", "ui_right", "ui_up", "ui_down", "back", "Y", "select", "L1", "R1", "L2", "R2"]
 	for action in target_actions:
@@ -330,7 +350,7 @@ func string_screen_orientation():
 	return strings[orientation]
 	
 func _on_screen_idle_timer_timeout() -> void:
-	if Controller.active_container is SongPanelContainer:
+	if Controller.active_container is SongPanelContainer && SongoPlayerV2.is_playing():
 		if DeviceOS.keep_screen_awake:
 			$ScreenIdleTimer.start()
 		else:

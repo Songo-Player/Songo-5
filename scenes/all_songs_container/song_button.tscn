@@ -60,7 +60,8 @@ mouse_filter = 2
 theme_override_constants/margin_left = -22
 theme_override_constants/margin_top = -240
 
-[node name="TextureRect" type="TextureRect" parent="DirTreeIcon"]
+[node name="TheTail" type="TextureRect" parent="DirTreeIcon"]
+unique_name_in_owner = true
 texture_filter = 1
 layout_mode = 2
 mouse_filter = 2

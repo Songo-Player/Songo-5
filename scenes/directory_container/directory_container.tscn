@@ -176,10 +176,10 @@ theme_override_constants/margin_bottom = 4
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
-text = "Looks like you're using MuOs: Try starting in /mnt/mmc/
+text = "I suggest making a 'MUSIC' folder next to 'ROMS'
 "
 icon = ExtResource("2_fmpu7")
 flat = true
 alignment = 0
-text_overrun_behavior = 3
+autowrap_mode = 2
 expand_icon = true

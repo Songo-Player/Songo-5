@@ -1,6 +1,7 @@
 extends MarginContainer
 
 var index
+var songo_settings
 
 func setup_last_item():
 	%ButtonSeparator.hide()
@@ -19,6 +20,9 @@ func setup(music_record, index_arg):
 		%SongName.text = music_record.title
 	%Duration.text = music_record.length
 	%Button.set_meta("item_index", index)
+	songo_settings = SongoSettings.get_instance()
+	if songo_settings.theme_color == "fff":
+		%TheTail.modulate = Color("444")
 	
 	if !%Button.pressed.is_connected(_song_button_pressed):
 		%Button.pressed.connect(_song_button_pressed)

@@ -58,3 +58,9 @@ func _on_data_and_storage_button_focused() -> void:
 
 func _on_support_me_button_focused() -> void:
 	%ScrollContainer.scroll_vertical = 9999
+
+func _on_controller_settings_button_pressed() -> void:
+	Controller.controller_settings()
+
+func _on_sound_settings_button_pressed() -> void:
+	Controller.sound_settings()

@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://b470in10sc3w8"]
+[gd_scene load_steps=7 format=3 uid="uid://b470in10sc3w8"]
 
 [ext_resource type="Script" path="res://scenes/settings_container/v2/settings_container_v2.gd" id="1_a6i35"]
 [ext_resource type="Texture2D" uid="uid://cbi4n1wtrc3dc" path="res://assets/gear.svg" id="2_4qlqp"]
 [ext_resource type="Script" path="res://utilities/top_bar_clip_mask.gd" id="3_iey6g"]
 [ext_resource type="PackedScene" uid="uid://b7wuaejkyqg1i" path="res://scenes/settings_container/v2/setting_list_button.tscn" id="4_lyi1m"]
+[ext_resource type="Texture2D" uid="uid://hfecxacknhiq" path="res://assets/info.svg" id="5_k6o8t"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l51g6"]
 bg_color = Color(0.286275, 0.27451, 0.262745, 1)
@@ -145,21 +146,33 @@ layout_mode = 2
 text = "Playlist Settings"
 
 [node name="AdvancedSettingsButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
+visible = false
 layout_mode = 2
 text = "Advanced Settings"
+
+[node name="ControllerSettingsButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
+layout_mode = 2
+text = "Controller Settings"
+
+[node name="SoundSettingsButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
+layout_mode = 2
+text = "Sound Settings"
 
 [node name="DevelopmentCreditButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
 layout_mode = 2
 text = "Development Credit"
+icon = ExtResource("5_k6o8t")
 
 [node name="ContactMeButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
 layout_mode = 2
 text = "Contact Me / Report a bug"
+icon = ExtResource("5_k6o8t")
 
 [node name="SupportMeButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
 layout_mode = 2
 text = "Support Me / Dev Roadmap"
 hide_bottom_separator = true
+icon = ExtResource("5_k6o8t")
 
 [connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
 [connection signal="focused" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/DataAndStorageButton" to="." method="_on_data_and_storage_button_focused"]
@@ -168,6 +181,8 @@ hide_bottom_separator = true
 [connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/MiscFeatureSettingsButton" to="." method="_on_misc_feature_settings_button_pressed"]
 [connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/PlaylistSettingsButton" to="." method="_on_playlist_settings_button_pressed"]
 [connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/AdvancedSettingsButton" to="." method="_on_advanced_settings_button_pressed"]
+[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ControllerSettingsButton" to="." method="_on_controller_settings_button_pressed"]
+[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/SoundSettingsButton" to="." method="_on_sound_settings_button_pressed"]
 [connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/DevelopmentCreditButton" to="." method="_on_development_credit_button_pressed"]
 [connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ContactMeButton" to="." method="_on_contact_me_button_pressed"]
 [connection signal="focused" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/SupportMeButton" to="." method="_on_support_me_button_focused"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dio71tarrntlf"]
+[gd_scene load_steps=22 format=3 uid="uid://dio71tarrntlf"]
 
 [ext_resource type="Texture2D" uid="uid://faqv22wj0cw1" path="res://icon.svg" id="1_77by4"]
 [ext_resource type="Script" path="res://scenes/song_panel_container/song_panel_container.gd" id="1_lk34l"]
@@ -14,6 +14,12 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uxjyg"]
 bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xhv31"]
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="Gradient" id="Gradient_3sni6"]
 colors = PackedColorArray(0.584314, 0, 0.286275, 1, 0.435294, 0.741176, 1, 1)
@@ -105,22 +111,29 @@ theme_override_constants/margin_bottom = 8
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/SongPanel/MarginContainer/HBoxContainer"]
+[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/SongPanel/MarginContainer/HBoxContainer"]
+clip_children = 1
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xhv31")
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/SongPanel/MarginContainer/HBoxContainer/PanelContainer2"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(180, 180)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_jpt26")
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/SongPanel/MarginContainer/HBoxContainer/PanelContainer"]
+[node name="DefaultSongImage" type="TextureRect" parent="MarginContainer/SongPanel/MarginContainer/HBoxContainer/PanelContainer2/PanelContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("2_wqlys")
 expand_mode = 5
 stretch_mode = 6
 
-[node name="MusicImage" type="TextureRect" parent="MarginContainer/SongPanel/MarginContainer/HBoxContainer/PanelContainer"]
+[node name="MusicImage" type="TextureRect" parent="MarginContainer/SongPanel/MarginContainer/HBoxContainer/PanelContainer2/PanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("1_77by4")
-expand_mode = 5
+expand_mode = 2
 stretch_mode = 6
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/SongPanel/MarginContainer/HBoxContainer"]
@@ -285,6 +298,7 @@ size_flags_horizontal = 3
 [node name="UpNextLabel" type="Label" parent="HBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_colors/font_color = Color(0, 0, 0, 0.54902)
 theme_override_font_sizes/font_size = 18
 text = "Up Next"
 

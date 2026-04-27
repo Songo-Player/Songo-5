@@ -1,0 +1,330 @@
+[gd_scene load_steps=7 format=3 uid="uid://d32ge8vgvrg6v"]
+
+[ext_resource type="Script" path="res://scenes/settings_container/v2/sub_containers/controller_settings_sub_container.gd" id="1_khiq0"]
+[ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="2_oahca"]
+[ext_resource type="PackedScene" uid="uid://0m5yrmj03xdi" path="res://scenes/settings_container/settings_button.tscn" id="3_w8b5a"]
+[ext_resource type="Texture2D" uid="uid://cugg5pnrtgmxg" path="res://assets/arrowLeft.svg" id="4_g3ggg"]
+[ext_resource type="Texture2D" uid="uid://c8jp7o8xasf1x" path="res://assets/arrowRight.svg" id="5_mrvw8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fn5hl"]
+bg_color = Color(0.130772, 0.130772, 0.130772, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="ControllerSettingsSubContainer" type="MarginContainer"]
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 29
+script = ExtResource("1_khiq0")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+unique_name_in_owner = true
+clip_contents = false
+layout_mode = 2
+follow_focus = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MainSection" type="MarginContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MainSection"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 38
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="ButtonMappingsContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_oahca")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="ABLayoutSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/ABLayoutSetting"]
+layout_mode = 2
+text = "A/B Button Layout"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/ABLayoutSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ABLayoutLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/ABLayoutSetting"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 3
+text = "Default"
+expand_to_text_length = true
+
+[node name="ABLayoutButton" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/ABLayoutSetting" instance=ExtResource("3_w8b5a")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Swap"
+
+[node name="XYLayoutSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/XYLayoutSetting"]
+layout_mode = 2
+text = "X/Y Button Layout"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/XYLayoutSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="XYLayoutLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/XYLayoutSetting"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 3
+text = "Default"
+expand_to_text_length = true
+
+[node name="XYLayoutButton" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/XYLayoutSetting" instance=ExtResource("3_w8b5a")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Swap"
+
+[node name="SeekSettingsContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_oahca")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="SeekingSettings" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox"]
+layout_mode = 2
+text = "Seek forward"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SeekForwardTimerLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 3
+text = "10s"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="SeekForwardTimerDown" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox/HBoxContainer" instance=ExtResource("3_w8b5a")]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+icon = ExtResource("4_g3ggg")
+
+[node name="SeekForwardTimerUp" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox/HBoxContainer" instance=ExtResource("3_w8b5a")]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+icon = ExtResource("5_mrvw8")
+
+[node name="Hbox2" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox2"]
+layout_mode = 2
+text = "Seek backward"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SeekBackwardTimerLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox2"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 3
+text = "10s"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox2"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="SeekBackwardTimerDown" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox2/HBoxContainer" instance=ExtResource("3_w8b5a")]
+layout_mode = 2
+text = ""
+icon = ExtResource("4_g3ggg")
+
+[node name="SeekBackwardTimerUp" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox2/HBoxContainer" instance=ExtResource("3_w8b5a")]
+layout_mode = 2
+text = ""
+icon = ExtResource("5_mrvw8")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings"]
+layout_mode = 2
+theme_override_constants/margin_top = 6
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "L1 and R1 can be used  at any time to seek. Up and down can be used as well in the primary song view. (Helpful for devices lacking L1/R1 buttons)"
+autowrap_mode = 2
+
+[node name="PanelContainer3" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_oahca")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "Lock inputs on sleep"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LockInputsSleepEnabled" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
+text = "Enabled"
+
+[node name="LockInputsSleepDisabled" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
+text = "Disabled"
+
+[node name="LockInputsSleepSettingToggleButton" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_w8b5a")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Disable
+"
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 6
+
+[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "When enabled, all inputs are locked when song sleep begins. Press 'start' to wake up the device after song sleep has started. If this is disabled, any input will wake the device."
+autowrap_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -25
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MainSection/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_fn5hl")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PageLabel" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/MarginContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Controller Settings"
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 4
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="ResetToDefaultsButton" parent="ScrollContainer/VBoxContainer/MarginContainer/PanelContainer" instance=ExtResource("3_w8b5a")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Reset to Defaults
+"
+
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/ABLayoutSetting/ABLayoutButton" to="." method="_on_ab_layout_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/XYLayoutSetting/XYLayoutButton" to="." method="_on_xy_layout_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox/HBoxContainer/SeekForwardTimerDown" to="." method="_on_seek_forward_timer_down_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox/HBoxContainer/SeekForwardTimerUp" to="." method="_on_seek_forward_timer_up_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox2/HBoxContainer/SeekBackwardTimerDown" to="." method="_on_seek_backward_timer_down_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox2/HBoxContainer/SeekBackwardTimerUp" to="." method="_on_seek_backward_timer_up_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer/LockInputsSleepSettingToggleButton" to="." method="_on_lock_inputs_sleep_setting_toggle_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MarginContainer/PanelContainer/ResetToDefaultsButton" to="." method="_on_reset_to_defaults_button_pressed"]

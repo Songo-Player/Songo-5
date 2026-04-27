@@ -13,8 +13,8 @@ config_version=5
 config/name="Songo #5"
 run/main_scene="res://songo_app.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
-run/low_processor_mode=true
-boot_splash/image="res://assets/SongoSplash.png"
+run/low_processor_mode_sleep_usec=16000
+boot_splash/image="res://assets/SongoSplashupdated.png"
 config/icon="res://icon.svg"
 boot_splash/minimum_display_time=750
 
@@ -34,6 +34,7 @@ window/size/viewport_height=480
 window/size/always_on_top=true
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+window/vsync/vsync_mode=2
 
 [global_group]
 

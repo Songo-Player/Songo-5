@@ -39,7 +39,7 @@ func handle_input(delta: float):
 			Callable(SongoSort, sort_key).call(albums)
 			%VirtualizedList.data_items = albums
 			%VirtualizedList.update_visible_items()
-			$CollectionHeader.fade_sort_label(SongoSort.TYPES[sort_key])
+			$CollectionHeader.fade_sort_label(sort_key)
 			%VirtualizedList.scroll_vertical = 0
 			await get_tree().process_frame
 			%VirtualizedList.focus_first()

@@ -1,6 +1,7 @@
 extends MarginContainer
 
 var artist_record
+var songo_settings
 
 func setup_last_item():
 	%ButtonSeparator.hide()
@@ -16,6 +17,10 @@ func setup(artist_record_arg, artist_index):
 	%ArtistSummary.text = get_song_summary(artist_record.music_records)
 	%FallbackCover.show()
 	%AlbumCover.hide()
+	
+	songo_settings = SongoSettings.get_instance()
+	if songo_settings.theme_color == "fff":
+		%TheTail.modulate = Color("444")
 	
 	if artist_record.img_path:
 		var loader = AsyncImageLoader.load_async(artist_record.img_path)

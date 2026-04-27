@@ -1,0 +1,280 @@
+[gd_scene load_steps=7 format=3 uid="uid://baxqre4t8cm6"]
+
+[ext_resource type="Script" path="res://scenes/settings_container/v2/sub_containers/sound_settings_sub_container.gd" id="1_8q3vs"]
+[ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="2_rm64k"]
+[ext_resource type="PackedScene" uid="uid://0m5yrmj03xdi" path="res://scenes/settings_container/settings_button.tscn" id="3_1t4tl"]
+[ext_resource type="Texture2D" uid="uid://cugg5pnrtgmxg" path="res://assets/arrowLeft.svg" id="4_pby56"]
+[ext_resource type="Texture2D" uid="uid://c8jp7o8xasf1x" path="res://assets/arrowRight.svg" id="5_q46vm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fn5hl"]
+bg_color = Color(0.130772, 0.130772, 0.130772, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="SoundSettingsSubContainer" type="MarginContainer"]
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 29
+script = ExtResource("1_8q3vs")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+unique_name_in_owner = true
+clip_contents = false
+layout_mode = 2
+follow_focus = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MainSection" type="MarginContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MainSection"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 38
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="ButtonMappingsContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_rm64k")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SfxVolumeSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/SfxVolumeSetting"]
+layout_mode = 2
+text = "SFX Volume"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/SfxVolumeSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SfxVolumeDisplayLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/SfxVolumeSetting"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 0
+text = "100%"
+alignment = 1
+max_length = 5
+expand_to_text_length = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/SfxVolumeSetting"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="SfxVolumeDown" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/SfxVolumeSetting/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("4_pby56")
+
+[node name="SfxVolumeUp" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/SfxVolumeSetting/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("5_q46vm")
+
+[node name="MusicVolumeSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MusicVolumeSetting"]
+layout_mode = 2
+text = "Music Volume"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MusicVolumeSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MusicVolumeDisplayLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MusicVolumeSetting"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 0
+text = "100%"
+alignment = 1
+max_length = 5
+expand_to_text_length = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MusicVolumeSetting"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="MusicVolumeDown" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MusicVolumeSetting/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("4_pby56")
+
+[node name="MusicVolumeUp" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MusicVolumeSetting/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("5_q46vm")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/margin_top = 6
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Both of these are relative to your devices main volume. Adjust as needed."
+autowrap_mode = 2
+
+[node name="StreamBufferLengthSettingContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_rm64k")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StreamBufferLengthSettingContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StreamBufferLengthSettingContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BufferLengthSetting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StreamBufferLengthSettingContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StreamBufferLengthSettingContainer/MarginContainer/VBoxContainer/BufferLengthSetting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StreamBufferLengthSettingContainer/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox"]
+layout_mode = 2
+text = "Stream Buffer Length"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StreamBufferLengthSettingContainer/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BufferLengthLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StreamBufferLengthSettingContainer/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 0
+text = "100ms"
+alignment = 1
+max_length = 5
+expand_to_text_length = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StreamBufferLengthSettingContainer/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="BufferLengthDown" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StreamBufferLengthSettingContainer/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("4_pby56")
+
+[node name="BufferLengthUp" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StreamBufferLengthSettingContainer/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("5_q46vm")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StreamBufferLengthSettingContainer/MarginContainer/VBoxContainer/BufferLengthSetting"]
+layout_mode = 2
+theme_override_constants/margin_top = 6
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StreamBufferLengthSettingContainer/MarginContainer/VBoxContainer/BufferLengthSetting/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "If this is too low your music may pop, crackle, or stutter. If this is too high then you will have noticeable delay when quickly skipping songs. 100ms should be ideal."
+autowrap_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -25
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MainSection/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_fn5hl")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PageLabel" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/MarginContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Sound Settings"
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 4
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="ResetToDefaultsButton" parent="ScrollContainer/VBoxContainer/MarginContainer/PanelContainer" instance=ExtResource("3_1t4tl")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Reset to Defaults
+"
+
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/SfxVolumeSetting/HBoxContainer/SfxVolumeDown" to="." method="_on_sfx_volume_down_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/SfxVolumeSetting/HBoxContainer/SfxVolumeUp" to="." method="_on_sfx_volume_up_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MusicVolumeSetting/HBoxContainer/MusicVolumeDown" to="." method="_on_music_volume_down_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MusicVolumeSetting/HBoxContainer/MusicVolumeUp" to="." method="_on_music_volume_up_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StreamBufferLengthSettingContainer/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox/HBoxContainer/BufferLengthDown" to="." method="_on_buffer_length_down_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StreamBufferLengthSettingContainer/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox/HBoxContainer/BufferLengthUp" to="." method="_on_buffer_length_up_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MarginContainer/PanelContainer/ResetToDefaultsButton" to="." method="_on_reset_to_defaults_button_pressed"]

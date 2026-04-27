@@ -13,7 +13,7 @@ static func being_used() -> bool:
 	return OS.get_environment("CFW_NAME") == DeviceOS.CFW_MUOS
 	
 func _init():
-	set_muos_config()
+	#set_muos_config()
 	set_input_actions()
 	
 func get_music_dir_tip():

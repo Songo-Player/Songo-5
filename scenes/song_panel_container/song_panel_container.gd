@@ -16,11 +16,12 @@ var loaded_song = null
 var spectrum: AudioEffectSpectrumAnalyzerInstance
 var min_values := [] # Used for smoothing
 var max_values := []
-
+var panel_style
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	%NextSongTitle.visible_characters = int(30 * (1.0/songo_settings.ui_scale))
-	pass # Replace with function body.
+	panel_style = %PanelContainer.get_theme_stylebox("panel")
+
 	
 func setup():
 	pass
@@ -90,6 +91,16 @@ func handle_input(delta: float):
 		else:
 			SongoPlayerV2.stop()
 		Controller.new_nav_back()
+	
+	if Input.is_action_just_pressed("ui_up") && SongoPlayerV2.is_playing():
+		var target_playback = SongoPlayerV2.get_playback_position() - float(songo_settings.seek_backward_time)
+		SongoPlayerV2.ffmpeg_audio_playback.seek(max(target_playback, 0.0))
+		
+	if Input.is_action_just_pressed("ui_down") && SongoPlayerV2.is_playing():
+		var target_playback = SongoPlayerV2.get_playback_position() + float(songo_settings.seek_forward_time)
+		var song_length = SongoPlayerV2.current_song.raw_length
+		if song_length > 0.0: target_playback = min(target_playback, song_length)
+		SongoPlayerV2.ffmpeg_audio_playback.seek(target_playback)
 
 func render_ui():
 	update_play_time()
@@ -124,12 +135,16 @@ func setup_display_for(music_record: MusicRecord):
 			image_texture = ImageTexture.create_from_image(image)
 		if image_texture == null:
 			image_texture = music_record.image_texture
-			
+
 	if image_texture:
 		%MusicImage.show()
 		%MusicImage.texture = image_texture
+		%PanelContainer.remove_theme_stylebox_override("panel")
+		%DefaultSongImage.hide()
 	else:
+		%DefaultSongImage.show()
 		%MusicImage.hide()
+		%PanelContainer.add_theme_stylebox_override("panel", panel_style)
 		
 	
 	loaded_song = music_record.full_path

@@ -30,6 +30,8 @@ const ADVANCED_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_
 const DEVELOPMENT_CREDIT_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/development_credit_sub_container.tscn"
 const CONTACT_ME_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/contact_me_sub_container.tscn"
 const SUPPORT_ME_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/support_me_sub_container.tscn"
+const CONTROLLER_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/controller_settings_sub_container.tscn"
+const SOUND_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/sound_settings_sub_container.tscn"
 
 
 func songs_index(music_records):
@@ -55,7 +57,7 @@ func album_songs_index(album):
 	active_container = load(ALL_SONGS_CONTAINER).instantiate()
 	active_container.setup(music_records)
 	active_container.set_as_album(album)
-	nav_label = ["Main Menu", "Albums", short_name(album.name, 30)]
+	nav_label = ["Main Menu", "Albums", album.name]
 	finish_up_nav()
 	
 func albums_index(albums):
@@ -99,7 +101,7 @@ func playlist_songs_index(playlist):
 	active_container = load(ALL_SONGS_CONTAINER).instantiate()
 	active_container.setup(music_records)
 	active_container.set_as_playlist(playlist)
-	nav_label = ["Main Menu", "Playlists", short_name(playlist.name, 30)]
+	nav_label = ["Main Menu", "Playlists", playlist.name]
 	finish_up_nav()
 	
 func artist_songs_index(artist):
@@ -113,20 +115,11 @@ func artist_songs_index(artist):
 	active_container = load(ALL_SONGS_CONTAINER).instantiate()
 	active_container.setup(music_records)
 	active_container.set_as_artist(artist)
-	nav_label = ["Main Menu", "Artists", short_name(artist.name, 30)]
+	nav_label = ["Main Menu", "Artists", artist.name]
 	finish_up_nav()
 	
 func songs_panel(music_records, play_index, play_mode = SongoPlayerV2.MODE.LINEAR):
 	clean_up_old_container()
-	nav_label = ["Main Menu", "All Songs", "Playing"]
-	
-	# RYE TODO: Clean this up, its yucky
-	if "album" in active_container && active_container.album != null:
-		nav_label = ["Main Menu", "Albums", short_name(active_container.album.name, 20), "Playing"]
-	if "artist" in active_container && active_container.artist != null:
-		nav_label = ["Main Menu", "Artists", short_name(active_container.artist.name, 20), "Playing"]
-	if "playlist" in active_container && active_container.playlist != null:
-		nav_label = ["Main Menu", "Playlists", short_name(active_container.playlist.name, 20), "Playing"]
 
 	SongoPlayerV2.play_index = play_index
 	SongoPlayerV2.set_music_records(music_records)
@@ -222,6 +215,20 @@ func support_me():
 	nav_label = ["Main Menu", "Settings", "Support Me"]
 	finish_up_nav()
 	
+func controller_settings():
+	clean_up_old_container()
+	active_container = load(CONTROLLER_SETTINGS_SUB_CONTAINER).instantiate()
+	active_container.setup()
+	nav_label = ["Main Menu", "Settings", "Controller Settings"]
+	finish_up_nav()
+	
+func sound_settings():
+	clean_up_old_container()
+	active_container = load(SOUND_SETTINGS_SUB_CONTAINER).instantiate()
+	active_container.setup()
+	nav_label = ["Main Menu", "Settings", "Sound Settings"]
+	finish_up_nav()
+	
 func main_menu():
 	clean_up_old_container()
 	active_container = load(MAIN_MENU).instantiate()
@@ -300,11 +307,6 @@ func clean_up_old_container():
 func finish_up_nav():
 	content_body_node.add_child(active_container)
 	nav_label_node.text = " > ".join(nav_label)
-
-func short_name(name: String, limit: int):
-	var shortened_name = name
-	if name.length() > limit: shortened_name = name.left(limit-3)+"..."
-	return shortened_name
 
 func save_state():
 	var new_state = {}

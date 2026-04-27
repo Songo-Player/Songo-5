@@ -21,7 +21,6 @@ func setup():
 	update_artists_menu_nav_ui()
 	update_playlists_menu_nav_ui()
 	update_content_margin_ui()
-	update_sfx_volume_ui()
 	
 func render_ui():
 	pass
@@ -37,9 +36,6 @@ func handle_input(delta: float):
 
 func update_content_margin_ui():
 	%ContentMarginDisplayLabel.text = "%dpx" % songo_settings.content_margin
-	
-func update_sfx_volume_ui():
-	%SfxVolumeDisplayLabel.text = "%d%%" % int(round(songo_settings.sfx_volume * 100))
 	
 func update_global_scale_ui():
 	%GlobalScaleDisplayLabel.text = "%.2fx" % songo_settings.ui_scale 
@@ -154,7 +150,6 @@ func _on_reset_to_defaults_button_pressed() -> void:
 	songo_settings.clock_24_hour = false
 	songo_settings.main_menu_size = 1
 	songo_settings.content_margin = 16
-	songo_settings.sfx_volume = 1.5
 	songo_settings.main_menu_visible = {
 		"all_songs": true,
 		"albums": true,
@@ -177,7 +172,6 @@ func _on_reset_to_defaults_button_pressed() -> void:
 	update_artists_menu_nav_ui()
 	update_playlists_menu_nav_ui()
 	update_content_margin_ui()
-	update_sfx_volume_ui()
 
 func _on_tree_entered() -> void:
 	get_viewport().gui_focus_changed.connect(_on_focus_changed)
@@ -231,16 +225,3 @@ func _apply_content_margin():
 	songo_settings.save()
 	UiHelper.apply_content_margin(songo_settings.content_margin)
 	update_content_margin_ui()
-
-
-func _on_sfx_volume_down_pressed() -> void:
-	songo_settings.sfx_volume = clamp(songo_settings.sfx_volume - 0.1, 0, 2.0)
-	songo_settings.save()
-	SfxPlayer.set_vol(songo_settings.sfx_volume)
-	update_sfx_volume_ui()
-
-func _on_sfx_volume_up_pressed() -> void:
-	songo_settings.sfx_volume = clamp(songo_settings.sfx_volume + 0.1, 0, 2.0)
-	songo_settings.save()
-	SfxPlayer.set_vol(songo_settings.sfx_volume)
-	update_sfx_volume_ui()

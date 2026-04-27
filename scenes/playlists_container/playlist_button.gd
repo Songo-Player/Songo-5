@@ -1,6 +1,7 @@
 extends MarginContainer
 
 var playlist
+var songo_settings
 
 func setup_last_item():
 	%ButtonSeparator.hide()
@@ -16,6 +17,11 @@ func setup(playlist_record: M3uCollection, playlist_index):
 	%PlaylistSummary.text = get_song_summary(playlist.music_records)
 	%FallbackCover.show()
 	%PlaylistCover.hide()
+	
+	songo_settings = SongoSettings.get_instance()
+	if songo_settings.theme_color == "fff":
+		%TheTail.modulate = Color("444")
+		
 	if playlist_record.img_path != "":
 		var loader = AsyncImageLoader.load_async(playlist_record.img_path)
 		loader.image_loaded.connect(func(texture):

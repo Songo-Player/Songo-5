@@ -7,6 +7,11 @@ var change_attempted: bool = false
 func setup():
 	pass
 	
+	
+############################
+## THIS IS DEPRECATED
+############################
+
 func _ready():
 	await get_tree().process_frame
 	%PageLabel.grab_focus()

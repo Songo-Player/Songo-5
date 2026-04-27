@@ -1,9 +1,13 @@
-[gd_scene load_steps=21 format=3 uid="uid://x6a7h67rwoqo"]
+[gd_scene load_steps=30 format=3 uid="uid://x6a7h67rwoqo"]
 
 [ext_resource type="Script" path="res://songo_app.gd" id="1_einrm"]
 [ext_resource type="Texture2D" uid="uid://nqpdbtqncxh4" path="res://assets/clock.svg" id="2_7jnod"]
 [ext_resource type="Texture2D" uid="uid://inruw0c6rdua" path="res://assets/wifi.svg" id="2_crf6x"]
+[ext_resource type="Shader" path="res://oopsNoColor.gdshader" id="2_xf85y"]
+[ext_resource type="Shader" path="res://crt.gdshader" id="2_yqef3"]
 [ext_resource type="Texture2D" uid="uid://ds1hiniyche5x" path="res://assets/battery.svg" id="3_mqech"]
+[ext_resource type="FontFile" uid="uid://ckx8hptr33csi" path="res://fonts/CourierPrime-Bold.ttf" id="3_vy0gi"]
+[ext_resource type="Shader" path="res://theGrid.gdshader" id="4_ain8k"]
 [ext_resource type="Texture2D" uid="uid://4xjlhnc8n0vw" path="res://assets/Switch_Dpad_Right.png" id="4_uf3q1"]
 [ext_resource type="Texture2D" uid="uid://d3d3mtv7v4hhe" path="res://assets/Switch_Dpad_Up.png" id="7_1pbtu"]
 [ext_resource type="Texture2D" uid="uid://bfgx846sx2e1x" path="res://assets/pngegg.png" id="8_1v2br"]
@@ -19,7 +23,42 @@
 bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i4t4x"]
-bg_color = Color(0.835294, 0.447059, 0, 1)
+bg_color = Color(0.882353, 0.541176, 0.666667, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hb3wi"]
+shader = ExtResource("2_yqef3")
+shader_parameter/intensity = 0.2
+shader_parameter/glitch_frequency = 2.0
+shader_parameter/glitch_duration = 0.1
+shader_parameter/red_displacement = 0.01
+shader_parameter/green_displacement = 0.01
+shader_parameter/blue_displacement = 0.01
+shader_parameter/scanline_intensity = 0.5
+shader_parameter/noise_intensity = 0.2
+shader_parameter/slice_intensity = 1.0
+shader_parameter/ghost_intensity = 0.1
+shader_parameter/negative_intensity = 0.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dfwxj"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y1qt2"]
+shader = ExtResource("2_xf85y")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_56ra3"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f7lsk"]
+shader = ExtResource("4_ain8k")
+shader_parameter/brightness = 0.7
+shader_parameter/darkness = 1.0
+shader_parameter/anchor = -0.5
+shader_parameter/speed_scale = 0.5
+shader_parameter/fov = 0.15
+shader_parameter/line_count = 1.0
+shader_parameter/background_color = Color(0.235497, 0.488333, 1, 1)
+shader_parameter/grid_color = Color(1, 0.5, 1, 1)
+shader_parameter/rainbow_intensity = 0.4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ndeej"]
 bg_color = Color(0, 0, 0, 0.882353)
@@ -85,6 +124,31 @@ grow_vertical = 2
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_i4t4x")
 
+[node name="CrtOverlay" type="PanelContainer" parent="MainColorPanel"]
+unique_name_in_owner = true
+visible = false
+z_index = 5
+material = SubResource("ShaderMaterial_hb3wi")
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dfwxj")
+
+[node name="OopsNoColorOverlay" type="PanelContainer" parent="MainColorPanel"]
+unique_name_in_owner = true
+visible = false
+z_index = 5
+material = SubResource("ShaderMaterial_y1qt2")
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_56ra3")
+
+[node name="TheGridOverlay" type="PanelContainer" parent="MainColorPanel"]
+unique_name_in_owner = true
+visible = false
+material = SubResource("ShaderMaterial_f7lsk")
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_56ra3")
+
 [node name="MarginContainer" type="MarginContainer" parent="MainColorPanel"]
 visible = false
 layout_mode = 2
@@ -124,11 +188,17 @@ theme_override_constants/margin_bottom = 4
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Label" type="Label" parent="MainColorPanel/VBoxContainer/HeaderMarginContainer/Header/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/HeaderMarginContainer/Header/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/margin_bottom = -4
+
+[node name="Label" type="Label" parent="MainColorPanel/VBoxContainer/HeaderMarginContainer/Header/PanelContainer/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_vy0gi")
 theme_override_font_sizes/font_size = 24
-text = "Songo #5"
+text = "Songo#5"
 
 [node name="NetworkConnection" type="PanelContainer" parent="MainColorPanel/VBoxContainer/HeaderMarginContainer/Header/PanelContainer/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
@@ -265,6 +335,7 @@ layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxFlat_5oa4s")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="MainColorPanel/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/HBoxContainer"]
@@ -542,7 +613,11 @@ theme_override_font_sizes/font_size = 18
 text = "Main menu > All Songs > Shuffle Play"
 text_overrun_behavior = 3
 
-[node name="VersionLabel" type="Label" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+
+[node name="VersionLabel" type="Label" parent="MainColorPanel/VBoxContainer/FooterMarginContainer/Footer/PanelContainer/MarginContainer/HBoxContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8

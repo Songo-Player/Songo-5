@@ -3,6 +3,8 @@ class_name MainMenu
 var songo_data = SongoDataResource.get_instance()
 var songo_settings = SongoSettings.get_instance()
 var tex_panels = []
+var default_focus
+var red_focus
 
 
 const TEX_PANEL_SIZES=[Vector2(124, 124), Vector2(172, 172), Vector2(220, 220)]
@@ -26,6 +28,21 @@ func setup():
 	]
 	for item in hover_behavior_tweaks:
 		var child: Control = item.get_child(0)
+		if default_focus == null:
+			default_focus = child.get_theme_stylebox("focus").duplicate()
+			red_focus = default_focus.duplicate()
+			red_focus.border_color = Color("8d0000")
+			red_focus.border_width_bottom = 4
+			red_focus.border_width_top = 4
+			red_focus.border_width_left = 4
+			red_focus.border_width_right = 4
+			red_focus.draw_center = false 
+		
+		if songo_settings.theme_color == "fff":
+			child.add_theme_stylebox_override("focus", red_focus)
+		else:
+			child.add_theme_stylebox_override("focus", default_focus)
+			
 		child.mouse_entered.connect(func(): child.grab_focus())
 	
 	#var menu_tex_panels = get_tree().get_nodes_in_group("menu_tex_panel")
@@ -92,7 +109,22 @@ func _on_tree_entered() -> void:
 	for value in songo_settings.main_menu_visible.values():
 		if value:
 			%FlameContainer.hide()
-
+			
+	var button_containers = [
+		%AllSongsMenuItem,
+		%AlbumsMenuItem,
+		%ArtistsMenuItem,
+		%PlaylistsMenuItem,
+		%SettingsMenuItem,
+		%ExitMenuItem
+	]
+	for item in button_containers:
+		var child: Control = item.get_child(0)
+		if songo_settings.theme_color == "fff":
+			child.add_theme_stylebox_override("focus", red_focus)
+		else:
+			child.add_theme_stylebox_override("focus", default_focus)
+			
 func _on_resized() -> void:
 	var target_size = songo_settings.main_menu_size
 	if UiHelper.mini_song_panel.visible == true && target_size == 2:

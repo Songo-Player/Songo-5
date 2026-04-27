@@ -22,6 +22,8 @@ var hallkey_path = false
 var bin_path = ""
 var set_brightness_path = ""
 var get_brightness_path = ""
+var set_playback_suppressions_path = ""
+var remove_playback_suppressions_path = ""
 var no_bright_fade_available = false
 var target_brightness = 155
 
@@ -38,26 +40,10 @@ func _init():
 
 	device_name = OS.get_environment("DEVICE_NAME")
 	bin_path = OS.get_environment("SONGO_BINARIES_DIR")
-	set_backlight_info_new()
+	set_backlight_info()
 	
-# RYE CLEAN UP
-func set_backlight_info():
-	var songo_cfw_name = OS.get_environment("SONGO_CFW_NAME")
-	var get_path = "%s/brightness/%s/get_brightness" % [bin_path, songo_cfw_name]
-	get_brightness_path = "%s/brightness/default/get_brightness" % bin_path
-	if FileAccess.file_exists(get_path):
-		get_brightness_path = get_path
-		
-	var bl_type = OS.get_environment("BL_TYPE")
-	var cfw_set_brightness_path = "%s/brightness/%s/set_brightness" % [bin_path, songo_cfw_name]
-	set_brightness_path = "%s/brightness/default/set_brightness" % bin_path
-	if bl_type == "UNKNOWN" || bl_type == "":
-		if FileAccess.file_exists(cfw_set_brightness_path):
-			set_brightness_path = cfw_set_brightness_path
-		else:
-			no_bright_fade_available = true
 
-func set_backlight_info_new():
+func set_backlight_info():
 	set_brightness_path = OS.get_environment("SONGO_SET_BRIGHTNESS_PATH")
 	get_brightness_path = OS.get_environment("SONGO_GET_BRIGHTNESS_PATH")
 	var env_no_fade = OS.get_environment("NO_BRIGHT_FADE_AVAILABLE")
@@ -115,17 +101,26 @@ func set_device_os_strategy():
 	if valid_strategy: device_strategy = valid_strategy
 	else: device_strategy = GenericLinuxStrategy.new()
 	
-func setup_device():
+func setup_device_hallkey():
 	for target_path in HALLKEY_PATHS.keys():
 		if FileAccess.file_exists(target_path):
 			hallkey_path = target_path
 			break
-			
+	set_playback_suppressions_path = OS.get_environment("SET_PLAYBACK_SUPPRESSIONS_PATH")
+	remove_playback_suppressions_path = OS.get_environment("REMOVE_PLAYBACK_SUPPRESSIONS_PATH")
+	
+	printerr("INFO: Supression paths: [%s, %s]" % [set_playback_suppressions_path, remove_playback_suppressions_path])
+	SongoPlayerV2.music_started.connect(_on_music_started)
+	SongoPlayerV2.music_stopped.connect(_on_music_stopped)
+	
 	if hallkey_path:
-		SongoPlayerV2.music_started.connect(_on_music_started)
-		SongoPlayerV2.music_stopped.connect(_on_music_stopped)
+		printerr("INFO: Hallkey set to %s | %s" % [hallkey_path, HALLKEY_PATHS[hallkey_path]])
+	else:
+		printerr("INFO: No hallkey path found")
 
 func start_screen_fade():
+	if sleeping: return #Possibly manually put to sleep
+	
 	var output = []
 	var exit_code = OS.execute("sh", ["-c", get_brightness_path], output)
 	var result = output[0].strip_edges() if output.size() > 0 else ""
@@ -156,11 +151,10 @@ func _on_tween_fade_finished():
 	fade_tween.kill()
 	fade_tween = null
 	sleeping = true
-	if no_bright_fade_available == false:
+	await get_tree().process_frame
+	if songo_settings.song_sleep_type == 0:
 		set_backlight(0)
-		fade_out_overlay.modulate.a = 0.0
-	else:
-		fade_out_overlay.modulate.a = 1.0
+	fade_out_overlay.modulate.a = 1.0
 	
 func set_backlight(level: int):
 	if songo_settings.song_sleep_type == 0:
@@ -220,25 +214,30 @@ func swap_input_actions(action_a: String, action_b: String) -> void:
 		InputMap.action_add_event(action_a, event.duplicate(true))
 	
 func _on_music_started():
-	print("Music Started")
-	var override_path = "%s%s" % [bin_path, HALLKEY_PATHS[hallkey_path]]
-	var target_path = hallkey_path
+	# print("Music Started")
+	if hallkey_path:
+		var override_path = "%s%s" % [bin_path, HALLKEY_PATHS[hallkey_path]]
+		var target_path = hallkey_path
+		var args := ["--bind", override_path, target_path]
+		var output := []
+		var exit_code := OS.execute("mount", args, output, true)
+		if exit_code != 0:
+			push_error("Failed to bind mount hallkey: %s" % output)
 	
-	var args := ["--bind", override_path, target_path]
-	var output := []
-	var exit_code := OS.execute("mount", args, output, true)
-
-	if exit_code != 0:
-		push_error("Failed to bind mount hallkey: %s" % output)
-	
+	if set_playback_suppressions_path != "" && set_playback_suppressions_path != null:
+		#OS.execute("sh", ["-c", set_playback_suppressions_path])
+		OS.create_process(set_playback_suppressions_path, [])
+		
 func _on_music_stopped():
-	print("Music Stopped")
-	# Only attempt unmount if the file exists
-	if not FileAccess.file_exists(hallkey_path):
-		return
-
-	# Lazy unmount to handle busy sysfs files
-	var exit_code := OS.execute("umount", ["-l", hallkey_path], [], true)
-
-	if exit_code != 0:
-		push_error("Failed to unmount hallkey override at %s" % hallkey_path)
+	# print("Music Stopped")
+	
+	if hallkey_path:
+		if FileAccess.file_exists(hallkey_path):
+			# Lazy unmount to handle busy sysfs files
+			var exit_code := OS.execute("umount", ["-l", hallkey_path], [], true)
+			if exit_code != 0:
+				push_error("Failed to unmount hallkey override at %s" % hallkey_path)
+	
+	if remove_playback_suppressions_path != "" && remove_playback_suppressions_path != null:
+		#OS.execute("sh", ["-c", remove_playback_suppressions_path])
+		OS.create_process(remove_playback_suppressions_path, [])

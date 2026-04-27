@@ -17,6 +17,9 @@ func setup(playlists_arg: Array[M3uCollection]):
 	$CollectionHeader.collection_label = "Playlists"
 	$CollectionHeader.record_count = playlists.size()
 	$CollectionHeader.sort_label_key = sort_options[sort_index]
+	var scroll_bar = %VirtualizedList.get_v_scroll_bar()
+	scroll_bar.focus_entered.connect(func(): bar_scrolling = true )
+	
 	
 func render_ui():
 	pass
@@ -33,7 +36,7 @@ func handle_input(delta: float):
 			Callable(SongoSort, sort_key).call(playlists)
 			%VirtualizedList.data_items = playlists
 			%VirtualizedList.update_visible_items()
-			$CollectionHeader.fade_sort_label(SongoSort.TYPES[sort_key])
+			$CollectionHeader.fade_sort_label(sort_key)
 			%VirtualizedList.scroll_vertical = 0
 			await get_tree().process_frame
 			%VirtualizedList.focus_first()

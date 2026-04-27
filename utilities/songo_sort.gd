@@ -2,18 +2,18 @@ extends Node
 class_name SongoSort
 
 const TYPES = {
-	"song_alpha_asc": "Sorted alphabetically (Asc)",
-	"song_alpha_desc": "Sorted alphabetically (Desc)",
-	"song_track_asc": "Sorted by track number (Asc)",
-	"song_track_desc": "Sorted by track number (Desc)",
-	"album_alpha_asc": "Sorted alphabetically (Asc)",
-	"album_alpha_desc": "Sorted alphabetically (Desc)",
-	"artist_alpha_asc": "Sorted alphabetically (Asc)",
-	"artist_alpha_desc": "Sorted alphabetically (Desc)",
-	"music_record_count_asc": "Sorted by song count (Asc)",
-	"music_record_count_desc": "Sorted by song count (Desc)",
-	"playlist_alpha_asc": "Sorted alphabetically (Asc)",
-	"playlist_alpha_desc": "Sorted alphabetically (Desc)"
+	"song_alpha_asc": "Sorted alphabetically",
+	"song_alpha_desc": "Sorted alphabetically",
+	"song_track_asc": "Sorted by track number",
+	"song_track_desc": "Sorted by track number",
+	"album_alpha_asc": "Sorted alphabetically",
+	"album_alpha_desc": "Sorted alphabetically",
+	"artist_alpha_asc": "Sorted alphabetically",
+	"artist_alpha_desc": "Sorted alphabetically",
+	"music_record_count_asc": "Sorted by song count",
+	"music_record_count_desc": "Sorted by song count",
+	"playlist_alpha_asc": "Sorted alphabetically",
+	"playlist_alpha_desc": "Sorted alphabetically"
 }
 
 static func song_alpha_asc(music_records):

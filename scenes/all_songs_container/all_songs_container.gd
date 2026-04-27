@@ -36,7 +36,7 @@ func setup(music_records_arg: Array[MusicRecord]):
 	var scroll_bar = virtualized_list.get_v_scroll_bar()
 	print(scroll_bar)
 	scroll_bar.focus_entered.connect(func(): bar_scrolling = true )
-
+	
 func set_as_album(album_arg):
 	album = album_arg
 	$CollectionHeader.collection_label = album.name
@@ -54,6 +54,7 @@ func set_as_playlist(playlist_arg):
 	var image = playlist.img
 	if image: $CollectionHeader.custom_image_texture = ImageTexture.create_from_image(image)
 	playlist.item_removed.connect(_on_item_removed)
+	Callable(SongoSort, "song_alpha_asc").call(music_records)
 
 func _on_item_removed(music_record):
 	#%SongCount.text = "%d Total" % music_records.size()
@@ -71,6 +72,9 @@ func set_as_artist(artist_arg):
 	var image = artist.artist_image
 	#if image: %CustomSongListImage.texture = ImageTexture.create_from_image(image)
 	if image: $CollectionHeader.custom_image_texture = ImageTexture.create_from_image(image)
+	Callable(SongoSort, "song_alpha_asc").call(music_records)
+
+	
 func render_ui():
 	if playlist:
 		%PlaylistGuide.visible = music_records.size() == 0
@@ -96,8 +100,8 @@ func handle_input(delta: float):
 			virtualized_list.data_items = music_records
 			virtualized_list.update_visible_items()
 			default_focus()
-			$CollectionHeader.fade_sort_label(SongoSort.TYPES[sort_key])
-		
+			$CollectionHeader.fade_sort_label(sort_key)
+	
 func kick_off_shuffle():
 	if music_records.size() == 0: return
 	Controller.songs_panel(music_records, 0, SongoPlayerV2.MODE.SHUFFLE)
@@ -116,35 +120,6 @@ func _on_top_bar_clip_mask_tree_entered() -> void:
 func default_focus():
 	%ShuffleButton.grab_focus()
 
-func fade_sort_label(new_text):
-	var label: Label = %SortTypeLabel
-	
-	if %SortTypeContainer.has_meta("tween"):
-		var old_tween = %SortTypeContainer.get_meta("tween")
-		if old_tween and old_tween.is_running(): old_tween.kill()
-	
-	var tween = create_tween()
-	%SortTypeContainer.set_meta("tween", tween)
-	var offset = 10
-
-	tween.parallel().tween_property(label, "modulate:a", 0.0, 0.3)
-	tween.parallel().tween_method(
-		func(value): %SortTypeContainer.add_theme_constant_override("margin_left", value),
-		0, -offset, 0.3
-	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-
-
-	tween.tween_callback(func():
-		label.text = new_text
-		label.modulate.a = 0.0
-		%SortTypeContainer.add_theme_constant_override("margin_left", offset)
-	)
-
-	tween.parallel().tween_property(label, "modulate:a", 1.0, 0.3)
-	tween.parallel().tween_method(
-		func(value): %SortTypeContainer.add_theme_constant_override("margin_left", value),
-		offset, 0, 0.3
-	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	
 func _on_tree_entered() -> void:
 	if Controller.skip_refocus:

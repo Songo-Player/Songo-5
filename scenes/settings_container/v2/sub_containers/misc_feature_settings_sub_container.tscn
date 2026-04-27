@@ -50,55 +50,6 @@ theme_override_constants/margin_bottom = 8
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2"]
 layout_mode = 2
 
-[node name="ABSwap" type="PanelContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer"]
-layout_mode = 2
-theme_override_styles/panel = ExtResource("1_ieslp")
-
-[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/ABSwap"]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="ABLayoutSetting" type="VBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/ABSwap/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 4
-
-[node name="ABLayoutSetting" type="HBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/ABSwap/MarginContainer/ABLayoutSetting"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/ABSwap/MarginContainer/ABLayoutSetting/ABLayoutSetting"]
-layout_mode = 2
-text = "A/B Button Layout"
-
-[node name="HSeparator" type="HSeparator" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/ABSwap/MarginContainer/ABLayoutSetting/ABLayoutSetting"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ABLayoutLabel" type="LineEdit" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/ABSwap/MarginContainer/ABLayoutSetting/ABLayoutSetting"]
-unique_name_in_owner = true
-layout_mode = 2
-focus_mode = 0
-mouse_filter = 2
-theme_override_constants/minimum_character_width = 3
-text = "Xbox"
-expand_to_text_length = true
-
-[node name="ABLayoutButton" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/ABSwap/MarginContainer/ABLayoutSetting/ABLayoutSetting" instance=ExtResource("2_if6m3")]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(80, 0)
-layout_mode = 2
-size_flags_horizontal = 1
-text = "Swap"
-
-[node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/ABSwap/MarginContainer/ABLayoutSetting"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 14
-text = "Swaps A/B buttons to match xbox or nintendo style preference"
-autowrap_mode = 2
-
 [node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("1_ieslp")
@@ -258,7 +209,7 @@ icon = ExtResource("5_www0p")
 [node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
-text = "This fades out the screen and turns it off after (n) seconds of inactivity after selecting a song."
+text = "This fades out the screen and turns it off after (n) seconds of inactivity after selecting a song. Sleep can be started manually with 'start' in the currently playing song view."
 autowrap_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/MiscSection"]
@@ -288,7 +239,6 @@ text = "Misc Feature Settings"
 
 [connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
-[connection signal="pressed" from="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/ABSwap/MarginContainer/ABLayoutSetting/ABLayoutSetting/ABLayoutButton" to="." method="_on_ab_layout_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting/SongSleepTimerSetting/SongFollowingButton" to="." method="_on_song_following_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox/HBoxContainer/SongSleepFadeTypeDown" to="." method="_on_song_sleep_fade_type_down_pressed"]
 [connection signal="pressed" from="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox/HBoxContainer/SongSleepFadeTypeUp" to="." method="_on_song_sleep_fade_type_up_pressed"]

@@ -76,9 +76,10 @@ var record_count:
 		
 var sort_label_key:
 	set(value):
-		fade_sort_label(SongoSort.TYPES[value])
+		fade_sort_label(value)
 
-func fade_sort_label(new_text):
+func fade_sort_label(sort_key):
+	var new_text = SongoSort.TYPES[sort_key]
 	if _record_count == 1 && %SortTypeLabel.text != "":
 		UiHelper.flash_message("... there's only one here. Sorting anyways")
 	var label: Label = %SortTypeLabel
@@ -102,6 +103,10 @@ func fade_sort_label(new_text):
 		label.text = new_text
 		label.modulate.a = 0.0
 		%SortTypeContainer.add_theme_constant_override("margin_left", offset)
+		%SortAscImg.hide()
+		%SortDescImg.hide()
+		if "_asc" in sort_key: %SortAscImg.show()
+		if "_desc" in sort_key: %SortDescImg.show()
 	)
 
 	tween.parallel().tween_property(label, "modulate:a", 1.0, 0.3)
