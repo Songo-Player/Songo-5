@@ -8,13 +8,13 @@ var content_body: Control
 var content_margin_container: Control
 var keyboard: Control
 var flash_message_box: Control
-var current_os_time: Control
 #var debug_info: Control
 var songo_settings = SongoSettings.get_instance()
 var vol_container: Control
 var oops_no_color_overlay: Control
 var crt_overlay: Control
 var the_grid_overlay: Control
+#var background_video: VideoStreamPlayer
 
 var focus_chain = []
 var original_size = null
@@ -36,6 +36,11 @@ func apply_theme_color(color):
 	oops_no_color_overlay.visible = (color == "777")
 	crt_overlay.visible = (color == "48486c")
 	the_grid_overlay.visible = (color == "111")
+	#background_video.visible = (color == "eee")
+	#if color == "eee":
+	#	background_video.play()
+	#else:
+	#	background_video.stop()
 	
 func apply_scale(new_scale: float):
 	var window = get_tree().get_root().get_window()
@@ -113,15 +118,3 @@ func fire_focus_next():
 	# Optionally, release the key immediately to avoid continuous focusing
 	event.pressed = false
 	Input.parse_input_event(event)
-	
-func get_time_string() -> String:
-	var now = Time.get_datetime_dict_from_system()
-	var hour_12 = now.hour % 12
-	if hour_12 == 0: hour_12 = 12
-	var hour = str(hour_12)
-	if songo_settings.clock_24_hour: hour = now.hour
-	var minute = str(now.minute).pad_zeros(2)
-	return "%s:%s" % [hour, minute]
-
-func update_os_time():
-	if current_os_time: current_os_time.text = get_time_string()

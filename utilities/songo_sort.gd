@@ -13,7 +13,9 @@ const TYPES = {
 	"music_record_count_asc": "Sorted by song count",
 	"music_record_count_desc": "Sorted by song count",
 	"playlist_alpha_asc": "Sorted alphabetically",
-	"playlist_alpha_desc": "Sorted alphabetically"
+	"playlist_alpha_desc": "Sorted alphabetically",
+	"album_artist_alpha_asc": "Sorted by Artist",
+	"album_artist_alpha_desc": "Sorted by Artist"
 }
 
 static func song_alpha_asc(music_records):
@@ -51,3 +53,9 @@ static func playlist_alpha_asc(playlists):
 
 static func playlist_alpha_desc(playlists):
 	playlists.sort_custom(func(a: M3uCollection, b: M3uCollection): return a.name > b.name)	
+
+static func album_artist_alpha_asc(collection):
+	collection.sort_custom(func(a, b): return a.artists[0] < b.artists[0])
+
+static func album_artist_alpha_desc(collection):
+	collection.sort_custom(func(a, b): return a.artists[0] > b.artists[0])

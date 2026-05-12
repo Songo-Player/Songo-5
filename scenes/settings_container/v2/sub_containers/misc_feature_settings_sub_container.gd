@@ -1,6 +1,14 @@
 extends MarginContainer
 
 var songo_settings = SongoSettings.get_instance()
+var detonate_count = 0
+const DETONATE_MSGS = [
+	"Why would you click that? Next time it'll be for real",
+	"Trying to call my bluff huh? You're lucky I'm in a good mood",
+	"I'm running out of patience with these fake explosions",
+	"Why do you want me to blow up your handheld?",
+	"You know what nevermind, this isnt fun for me anymore, you win"
+]
 
 func setup():
 	update_song_following_ui()
@@ -85,5 +93,16 @@ func _on_tree_exiting() -> void:
 func _on_focus_changed(item: Control):
 	if item == %SongFollowingButton:
 		%ScrollContainer.scroll_vertical = 0
-	if item == %SongSleepTimerDown || item == %SongSleepTimerUp:
+	if item == %DetonateButton:
 		%ScrollContainer.scroll_vertical = 999
+
+
+func _on_detonate_button_pressed() -> void:
+	UiHelper.flash_message("BOOOOM!!!")
+	%DetonateButton.disabled = true
+	await get_tree().create_timer(1.5).timeout
+	UiHelper.flash_message(DETONATE_MSGS[detonate_count])
+	%DetonateButton.disabled = false
+	detonate_count += 1
+	if detonate_count >= DETONATE_MSGS.size():
+		%DetonatePanel.hide()

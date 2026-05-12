@@ -1,0 +1,356 @@
+[gd_scene load_steps=13 format=3 uid="uid://dhv7ry8e4unf8"]
+
+[ext_resource type="Script" path="res://internal_themes/IsekaiMe/main_menu/main_menu.gd" id="1_jwyav"]
+[ext_resource type="StyleBox" uid="uid://b1g84jn4br3bq" path="res://internal_themes/IsekaiMe/main_menu/focus_main_menu_button.tres" id="2_6lvds"]
+[ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="2_qu3au"]
+[ext_resource type="Texture2D" uid="uid://byeluf85nlgra" path="res://assets/record.svg" id="3_r5y14"]
+[ext_resource type="Texture2D" uid="uid://dcqtgyrr3fac2" path="res://assets/user.svg" id="4_316iw"]
+[ext_resource type="Texture2D" uid="uid://md788wp04yb1" path="res://assets/layergroup.svg" id="5_v2705"]
+[ext_resource type="Texture2D" uid="uid://cbi4n1wtrc3dc" path="res://assets/gear.svg" id="6_q6kkf"]
+[ext_resource type="Texture2D" uid="uid://dg08f5rynv8mn" path="res://assets/exit_walk.svg" id="7_4o82r"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v7nvc"]
+bg_color = Color(0.15967, 0.15967, 0.15967, 1)
+border_width_left = 2
+border_color = Color(0.217101, 0.217101, 0.217101, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cjw8o"]
+bg_color = Color(1, 0.332764, 0.355709, 1)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wdw4q"]
+bg_color = Color(0.2, 0.2, 0.2, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_egfs0"]
+bg_color = Color(0.197937, 0.197937, 0.197937, 1)
+
+[node name="MainMenu" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jwyav")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = -40
+
+[node name="VBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = -20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = -32
+
+[node name="HourLabel" type="Label" parent="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 72
+text = "02"
+
+[node name="MinuteLabel" type="Label" parent="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 72
+text = "45"
+
+[node name="AmPmLabel" type="Label" parent="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 52
+text = "pm
+"
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+theme_override_styles/separator = SubResource("StyleBoxFlat_v7nvc")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/margin_top = -6
+
+[node name="CurrentMenuItemLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 45
+text = "All songs"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="AllSongs" type="PanelContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cjw8o")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer/AllSongs"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer/AllSongs/MarginContainer"]
+clip_children = 1
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wdw4q")
+
+[node name="AllSongsButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer/AllSongs/MarginContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/focus = ExtResource("2_6lvds")
+theme_override_styles/normal = SubResource("StyleBoxFlat_egfs0")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer/AllSongs/MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer/AllSongs/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_qu3au")
+expand_mode = 1
+
+[node name="Albums" type="PanelContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cjw8o")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer/Albums"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer/Albums/MarginContainer"]
+clip_children = 1
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wdw4q")
+
+[node name="AlbumsButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer/Albums/MarginContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/focus = ExtResource("2_6lvds")
+theme_override_styles/normal = SubResource("StyleBoxFlat_egfs0")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer/Albums/MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer/Albums/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_r5y14")
+expand_mode = 1
+
+[node name="Artists" type="PanelContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cjw8o")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer/Artists"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer/Artists/MarginContainer"]
+clip_children = 1
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wdw4q")
+
+[node name="ArtistsButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer/Artists/MarginContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/focus = ExtResource("2_6lvds")
+theme_override_styles/normal = SubResource("StyleBoxFlat_egfs0")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer/Artists/MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer/Artists/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_316iw")
+expand_mode = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Playlists" type="PanelContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cjw8o")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3/Playlists"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3/Playlists/MarginContainer"]
+clip_children = 1
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wdw4q")
+
+[node name="PlaylistsButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3/Playlists/MarginContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/focus = ExtResource("2_6lvds")
+theme_override_styles/normal = SubResource("StyleBoxFlat_egfs0")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3/Playlists/MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3/Playlists/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_v2705")
+expand_mode = 1
+
+[node name="Settings" type="PanelContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cjw8o")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3/Settings"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3/Settings/MarginContainer"]
+clip_children = 1
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wdw4q")
+
+[node name="SettingsButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3/Settings/MarginContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/focus = ExtResource("2_6lvds")
+theme_override_styles/normal = SubResource("StyleBoxFlat_egfs0")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3/Settings/MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3/Settings/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("6_q6kkf")
+expand_mode = 1
+
+[node name="Exit" type="PanelContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cjw8o")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3/Exit"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3/Exit/MarginContainer"]
+clip_children = 1
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wdw4q")
+
+[node name="ExitButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3/Exit/MarginContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/focus = ExtResource("2_6lvds")
+theme_override_styles/normal = SubResource("StyleBoxFlat_egfs0")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3/Exit/MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3/Exit/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("7_4o82r")
+expand_mode = 1
+
+[node name="ClockTimer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[connection signal="focus_entered" from="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer/AllSongs/MarginContainer/PanelContainer/AllSongsButton" to="." method="_on_all_songs_button_focus_entered"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer/AllSongs/MarginContainer/PanelContainer/AllSongsButton" to="." method="_on_all_songs_button_pressed"]
+[connection signal="focus_entered" from="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer/Albums/MarginContainer/PanelContainer/AlbumsButton" to="." method="_on_albums_button_focus_entered"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer/Albums/MarginContainer/PanelContainer/AlbumsButton" to="." method="_on_albums_button_pressed"]
+[connection signal="focus_entered" from="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer/Artists/MarginContainer/PanelContainer/ArtistsButton" to="." method="_on_artists_button_focus_entered"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer/Artists/MarginContainer/PanelContainer/ArtistsButton" to="." method="_on_artists_button_pressed"]
+[connection signal="focus_entered" from="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3/Playlists/MarginContainer/PanelContainer/PlaylistsButton" to="." method="_on_playlists_button_focus_entered"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3/Playlists/MarginContainer/PanelContainer/PlaylistsButton" to="." method="_on_playlists_button_pressed"]
+[connection signal="focus_entered" from="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3/Settings/MarginContainer/PanelContainer/SettingsButton" to="." method="_on_settings_button_focus_entered"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3/Settings/MarginContainer/PanelContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="focus_entered" from="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3/Exit/MarginContainer/PanelContainer/ExitButton" to="." method="_on_exit_button_focus_entered"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer3/Exit/MarginContainer/PanelContainer/ExitButton" to="." method="_on_exit_button_pressed"]
+[connection signal="timeout" from="ClockTimer" to="." method="_on_clock_timer_timeout"]

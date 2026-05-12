@@ -4,6 +4,7 @@ class_name CarouselLabel
 @export var carousel_speed: float = 40.0  # pixels per second
 @export var pause_duration: float = 2.5   # seconds to pause at each end
 @export var gap: float = 50.0             # space between repeated texts
+@export var font_color: Color = Color(1,1,1,1)
 
 var _full_text: String = ""
 var _text_width: float = 0.0
@@ -40,13 +41,13 @@ func _draw() -> void:
 	var font_size := get_theme_font_size("font_size")
 
 	# Draw original text and repeated copy
-	font.draw_string(get_canvas_item(), Vector2(-_offset, font_size + 5), _full_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, modulate)
-	font.draw_string(get_canvas_item(), Vector2(_text_width + gap - _offset, font_size + 5), _full_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, modulate)
+	font.draw_string(get_canvas_item(), Vector2(-_offset, font_size + 5), _full_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, font_color)
+	font.draw_string(get_canvas_item(), Vector2(_text_width + gap - _offset, font_size + 5), _full_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, font_color)
 
 func set_carousel_text(new_text: String) -> void:
 	text = new_text
 	_full_text = new_text
-	await get_tree().process_frame
+	#await get_tree().process_frame
 	_check_scroll_needed()
 
 func _check_scroll_needed_old() -> void:

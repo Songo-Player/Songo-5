@@ -6,6 +6,7 @@ class_name MusicRecord extends Resource
 @export var album: String
 @export var artist: String
 @export var track: int
+var album_cover_texture #Set this manually before access
 
 var length: String:
 	get: return formatted_duration(raw_length)

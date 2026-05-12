@@ -155,6 +155,7 @@ func _on_tween_fade_finished():
 	if songo_settings.song_sleep_type == 0:
 		set_backlight(0)
 	fade_out_overlay.modulate.a = 1.0
+	if songo_settings.theme_color == "eee": UiHelper.background_video.stop()
 	
 func set_backlight(level: int):
 	if songo_settings.song_sleep_type == 0:
@@ -162,6 +163,7 @@ func set_backlight(level: int):
 		OS.execute("sh", ["-c", cmd])
 
 func wake_screen():
+	if sleeping && songo_settings.theme_color == "eee": UiHelper.background_video.play()
 	if sleeping == true || fade_tween != null:
 		if fade_tween != null: 
 			fade_tween.kill()

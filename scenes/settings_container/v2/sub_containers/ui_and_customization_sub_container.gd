@@ -3,6 +3,8 @@ extends MarginContainer
 var songo_settings = SongoSettings.get_instance()
 var original_scale: float
 var max_content_margin: int
+var theme_options = []
+var theme_index = 0
 
 func _ready():
 	await get_tree().process_frame
@@ -10,8 +12,19 @@ func _ready():
 	%ScrollContainer.scroll_vertical = 0
 	original_scale = songo_settings.ui_scale
 	max_content_margin = int(UiHelper.content_body.size.x / 4.0)
+	update_theme_options_ui()
+	update_current_theme_ui()
 
+func _on_theme_setting_value_updated(new_value, key):
+	print("Updating: %s, %s" % [key, new_value])
+
+	ThemeManager.settings[key] = new_value
+	ThemeManager.save_theme_settings()
+	
 func setup():
+	theme_options = get_theme_options()
+	var possible_index = theme_options.find(songo_settings.theme_path)
+	if possible_index >= 0: theme_index = possible_index
 	update_global_scale_ui()
 	update_theme_color_preview()
 	update_main_menu_size_ui()
@@ -25,6 +38,27 @@ func setup():
 func render_ui():
 	pass
 
+func get_theme_options():
+	var dirs: Array[String] = []
+	var path = "res://internal_themes"
+
+	var dir := DirAccess.open(path)
+	if dir == null:
+		push_error("Failed to open directory: " + path)
+		return dirs
+
+	dir.list_dir_begin()
+	var name := dir.get_next()
+
+	while name != "":
+		if dir.current_is_dir() and name != "." and name != "..":
+			dirs.append(path + "/" + name)
+		name = dir.get_next()
+
+	dir.list_dir_end()
+	print(dirs)
+	return dirs
+	
 func handle_input(delta: float):
 	if Input.is_action_just_pressed("back"):
 		if songo_settings.ui_scale == original_scale:
@@ -33,7 +67,45 @@ func handle_input(delta: float):
 			print("Ui Scale change, force reload settings")
 			Controller.nav_back_to_settings()
 		
-
+func update_theme_options_ui():
+	var displayed_theme = theme_options[theme_index]
+	var theme_info = ThemeManager.parse_theme_json(displayed_theme)
+	%ThemePreviewImage.texture = load(displayed_theme+"/preview.png")
+	%ThemeNameWithVersion.text = "%s (v%s)" % [theme_info['name'], theme_info['version']]
+	%ThemeAuthor.text = "Created by %s" % theme_info["author"]
+	%ThemeDescription.text = theme_info["description"]
+	
+	for child in %ThemeTagContainer.get_children():
+		child.queue_free()
+		
+	await get_tree().process_frame
+	
+	if theme_info.has("tags"):
+		for tag in theme_info["tags"]:
+			var theme_tag = load("res://scenes/settings_container/theme_tag.tscn").instantiate()
+			theme_tag.setup(tag)
+			%ThemeTagContainer.add_child(theme_tag)
+	
+func update_current_theme_ui():
+	var theme_info = ThemeManager.parse_theme_json(songo_settings.theme_path)
+	%ThemeDisplayLabel.text = theme_info["name"]
+	
+	print(theme_options)
+	for child in %ThemeSettings.get_children():
+		child.queue_free()
+	await get_tree().process_frame
+	if ThemeManager.settings != {}:
+		%ThemeSettingsContainer.show()
+		for key in ThemeManager.settings.keys():
+			var info = ThemeManager.settings_info[key]
+			var value = ThemeManager.settings[key]
+			var setting_line_item = load("res://scenes/settings_container/setting_line_item/setting_line_item.tscn").instantiate()
+			setting_line_item.setup(info, value)
+			%ThemeSettings.add_child(setting_line_item)
+			setting_line_item.value_updated.connect(_on_theme_setting_value_updated.bind(key))
+	else:
+		%ThemeSettingsContainer.hide()
+	
 func update_content_margin_ui():
 	%ContentMarginDisplayLabel.text = "%dpx" % songo_settings.content_margin
 	
@@ -225,3 +297,20 @@ func _apply_content_margin():
 	songo_settings.save()
 	UiHelper.apply_content_margin(songo_settings.content_margin)
 	update_content_margin_ui()
+
+
+func _on_apply_theme_pressed() -> void:
+	songo_settings.theme_path = theme_options[theme_index]
+	songo_settings.save()
+	ThemeManager.set_current_theme(theme_options[theme_index])
+	update_current_theme_ui()
+
+func _on_theme_down_pressed() -> void:
+	theme_index = theme_index-1
+	if theme_index < 0: theme_index = theme_options.size()-1
+	update_theme_options_ui()
+
+func _on_theme_up_pressed() -> void:
+	theme_index = theme_index+1
+	if theme_index >= theme_options.size(): theme_index = 0
+	update_theme_options_ui()

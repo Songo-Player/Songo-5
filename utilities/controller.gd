@@ -12,9 +12,11 @@ var navigating_back = false
 var stored_state = null
 var skip_refocus: bool = false
 
-const MAIN_MENU = "res://scenes/main_menu/main_menu.tscn"
+#const MAIN_MENU = "res://scenes/main_menu/main_menu.tscn"
+const MAIN_MENU = "res://scenes/theme_injections/theme_main_menu/theme_main_menu.tscn"
 const ALL_SONGS_CONTAINER = "res://scenes/all_songs_container/all_songs_container.tscn"
-const SONG_PANEL_CONTAINER = "res://scenes/song_panel_container/song_panel_container.tscn"
+#const SONG_PANEL_CONTAINER = "res://scenes/song_panel_container/song_panel_container.tscn"
+const SONG_PANEL_CONTAINER = "res://scenes/theme_injections/theme_main_song_view/theme_main_song_view.tscn"
 const ALBUMS_CONTAINER = "res://scenes/albums_container/albums_container.tscn"
 const SETTINGS_DIRECTORY_SELECT = "res://scenes/directory_container/directory_container.tscn"
 const ARTISTS_CONTAINER = "res://scenes/artists_container/artists_container.tscn"
@@ -34,7 +36,8 @@ const CONTROLLER_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/v2/su
 const SOUND_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/sound_settings_sub_container.tscn"
 
 
-func songs_index(music_records):
+func songs_index():
+	var music_records = songo_data.music_records
 	if music_records.size() == 0:
 		UiHelper.app_message.show_message("You need to import music first, go to Settings.")
 		return
@@ -60,7 +63,8 @@ func album_songs_index(album):
 	nav_label = ["Main Menu", "Albums", album.name]
 	finish_up_nav()
 	
-func albums_index(albums):
+func albums_index():
+	var albums = songo_data.albums
 	if albums.size() == 0:
 		UiHelper.app_message.show_message("You need to import music first, go to Settings.")
 		return
@@ -71,7 +75,8 @@ func albums_index(albums):
 	nav_label = ["Main Menu", "Albums"]
 	finish_up_nav()
 	
-func artists_index(artists):
+func artists_index():
+	var artists = songo_data.artists
 	if artists.size() == 0:
 		UiHelper.app_message.show_message("You need to import music first, go to Settings.")
 		return
@@ -82,7 +87,8 @@ func artists_index(artists):
 	nav_label = ["Main Menu", "Artists"]
 	finish_up_nav()
 	
-func playlists_index(playlists):
+func playlists_index():
+	var playlists = songo_data.playlists
 	if playlists.size() == 0:
 		UiHelper.app_message.show_message("You need to create a playlist first, go to Settings.")
 		return
@@ -126,12 +132,15 @@ func songs_panel(music_records, play_index, play_mode = SongoPlayerV2.MODE.LINEA
 	SongoPlayerV2.repeating = false
 	SongoPlayerV2.setMode(play_mode)
 	
+	if SongoPlayerV2.is_playing() == false || SongoPlayerV2.get_current_music_record() != music_records[play_index]:
+		SongoPlayerV2.play_from_start()
+		
 	active_container = load(SONG_PANEL_CONTAINER).instantiate()
 	active_container.setup()
 
 	finish_up_nav()
-	if SongoPlayerV2.is_playing() == false || SongoPlayerV2.get_current_music_record() != music_records[play_index]:
-		active_container.play()
+
+	#	active_container.play()
 	
 func settings_directory_select(path_array = []):
 

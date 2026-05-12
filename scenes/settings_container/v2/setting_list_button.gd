@@ -30,7 +30,7 @@ func _ready() -> void:
 		focused.emit()
 		)
 	songo_settings = SongoSettings.get_instance()
-	if songo_settings.theme_color == "fff":
+	if ["fff", "eee"].has(songo_settings.theme_color):
 		%TheTail.modulate = Color("444")
 		
 func set_focus():
@@ -43,7 +43,7 @@ func _on_button_mouse_entered() -> void:
 
 func _on_the_tail_tree_entered() -> void:
 	songo_settings = SongoSettings.get_instance()
-	if songo_settings.theme_color == "fff":
+	if ["fff", "eee"].has(songo_settings.theme_color):
 		%TheTail.modulate = Color("444")
 	else:
 		%TheTail.modulate = Color("fff")

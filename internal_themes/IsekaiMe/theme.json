@@ -1,0 +1,33 @@
+{
+	"name": "Isekai Me",
+	"version": "0.3",
+	"author": "Beck",
+	"description": "Similar layout to Songo Classic with a chill animated pixel background",
+	"components": {
+		"background_root": "background_root/background_root.tscn",
+		"main_menu": "main_menu/main_menu.tscn",
+		"header": "header/header.tscn",
+		"main_song_view": "main_song_view/main_song_view.tscn"
+	},
+	"tags": [
+		"minimal",
+		"internaltheme",
+		"animated"
+	],
+	"settings": {
+		"background": {
+			"values": [
+				"assets/train_rain_540p.ogv", 
+				"assets/chainsaw_540p.ogv",
+				"assets/sunset_540p.ogv", 
+			],
+			"labels": [
+				"Watching the train",
+				"Chainsaw",
+				"Sunset",
+			],
+			"default": "assets/train_rain_540p.ogv",
+			"display_name": "Background"
+		}
+	}
+}

@@ -18,8 +18,8 @@ func _ui_settings_refresh():
 	update_xy_layout_ui()
 	update_seek_forward_ui()
 	update_seek_backward_ui()
-	update_lock_input_sleep_ui()
-		
+	update_start_behavior_ui()
+
 func handle_input(delta: float):
 	if Input.is_action_just_pressed("back"):
 		Controller.new_nav_back()
@@ -30,6 +30,11 @@ func update_ab_layout_ui():
 	else:
 		%ABLayoutLabel.text = "Default"
 		
+func update_start_behavior_ui():
+	var keys = SongoSettings.START_BEHAVIOR.keys()
+	var text = keys[songo_settings.start_btn_behavior]
+	%StartBehaviorLabel.text = text
+	
 func update_seek_forward_ui():
 	%SeekForwardTimerLabel.text = "%ss" % songo_settings.seek_forward_time
 		
@@ -42,15 +47,6 @@ func update_xy_layout_ui():
 	else:
 		%XYLayoutLabel.text = "Default"
 
-func update_lock_input_sleep_ui():
-	if songo_settings.lock_inputs_on_sleep:
-		%LockInputsSleepDisabled.hide()
-		%LockInputsSleepEnabled.show()
-		%LockInputsSleepSettingToggleButton.text = "Disable"
-	else:
-		%LockInputsSleepDisabled.show()
-		%LockInputsSleepEnabled.hide()
-		%LockInputsSleepSettingToggleButton.text = "Enable"
 
 func _on_tree_entered() -> void:
 	get_viewport().gui_focus_changed.connect(_on_focus_changed)
@@ -110,18 +106,23 @@ func _on_seek_backward_timer_up_pressed() -> void:
 	update_seek_backward_ui()
 
 
-func _on_lock_inputs_sleep_setting_toggle_button_pressed() -> void:
-	songo_settings.lock_inputs_on_sleep= !songo_settings.lock_inputs_on_sleep
-	songo_settings.save()
-	update_lock_input_sleep_ui()
-
 
 func _on_reset_to_defaults_button_pressed() -> void:
-	songo_settings.lock_inputs_on_sleep = false
 	songo_settings.ab_layout_swapped = false
 	songo_settings.xy_layout_swapped = false
 	songo_settings.seek_backward_time_index = 1
 	songo_settings.seek_forward_time_index = 1
+	songo_settings.start_btn_behavior = SongoSettings.START_BEHAVIOR.LOCK
 	songo_settings.save()
 	_ui_settings_refresh()
 	
+
+
+func _on_start_behavior_button_pressed() -> void:
+	var new_val = songo_settings.start_btn_behavior + 1
+	if new_val >= SongoSettings.START_BEHAVIOR.size():
+		new_val = 0
+	DeviceOS.keep_screen_awake = false
+	songo_settings.start_btn_behavior = new_val
+	songo_settings.save()
+	update_start_behavior_ui()

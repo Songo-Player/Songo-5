@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgsf6k75s64jp"]
+
+[ext_resource type="Script" path="res://scenes/theme_injections/theme_main_song_view/theme_main_song_view.gd" id="1_703bf"]
+
+[node name="ThemeMainSongView" type="MarginContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_703bf")
+
+[node name="ScreenIdleTimer" type="Timer" parent="."]
+wait_time = 10.0
+
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="tree_exited" from="." to="." method="_on_tree_exited"]
+[connection signal="timeout" from="ScreenIdleTimer" to="." method="_on_screen_idle_timer_timeout"]

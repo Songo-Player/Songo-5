@@ -6,6 +6,8 @@ signal keyboard_result(string)
 var caps_mode = false
 var text = ""
 var focus_back_target
+var key_events_connected = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -22,6 +24,8 @@ func setup(new_keyboard_title, focus_back_target_arg):
 	%KeyboardTitle.text = keyboard_title
 	get_tree().paused = true
 	
+	if key_events_connected: return
+	
 	for key in [%DeleteButton, %EnterButton, %CapsButton, %SpaceButton]:
 		key.mouse_entered.connect(func(): key.grab_focus())
 		
@@ -32,7 +36,7 @@ func setup(new_keyboard_title, focus_back_target_arg):
 			text = "%s%s" % [text, key.text]
 			update_display_text()
 		)
-
+	key_events_connected = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

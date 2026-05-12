@@ -26,6 +26,7 @@ UiHelper="*res://utilities/ui_helper.gd"
 SfxPlayer="*res://sfx_player.gd"
 SongoPlayerV2="*res://utilities/experimental_audio/SongoPlayerV2.gd"
 VolumeTcpListener="*res://utilities/volume_tcp_listener/volume_tcp_listener.gd"
+ThemeManager="*res://utilities/theme_manager.gd"
 
 [display]
 

@@ -240,32 +240,27 @@ theme_override_constants/separation = 16
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-text = "Lock inputs on sleep"
+text = "Song View \"Start\" Behavior"
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="LockInputsSleepEnabled" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="StartBehaviorLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
-text = "Enabled"
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 3
+text = "Lock"
+expand_to_text_length = true
 
-[node name="LockInputsSleepDisabled" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
-text = "Disabled"
-
-[node name="LockInputsSleepSettingToggleButton" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_w8b5a")]
+[node name="StartBehaviorButton" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_w8b5a")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_horizontal = 8
-text = "Disable
-"
+text = "Swap"
 
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -274,7 +269,7 @@ theme_override_constants/margin_top = 6
 [node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
-text = "When enabled, all inputs are locked when song sleep begins. Press 'start' to wake up the device after song sleep has started. If this is disabled, any input will wake the device."
+text = "This changes what pressing \"Start\" does when listening to a song in the song view. Options are Lock, Sleep, Lock Sleep, and Keep Awake. "
 autowrap_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection"]
@@ -326,5 +321,5 @@ text = "Reset to Defaults
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox/HBoxContainer/SeekForwardTimerUp" to="." method="_on_seek_forward_timer_up_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox2/HBoxContainer/SeekBackwardTimerDown" to="." method="_on_seek_backward_timer_down_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox2/HBoxContainer/SeekBackwardTimerUp" to="." method="_on_seek_backward_timer_up_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer/LockInputsSleepSettingToggleButton" to="." method="_on_lock_inputs_sleep_setting_toggle_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer/StartBehaviorButton" to="." method="_on_start_behavior_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MarginContainer/PanelContainer/ResetToDefaultsButton" to="." method="_on_reset_to_defaults_button_pressed"]

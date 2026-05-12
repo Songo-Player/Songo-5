@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://c4h5kdh7vvnrs"]
+[gd_scene load_steps=11 format=3 uid="uid://c4h5kdh7vvnrs"]
 
 [ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="1_cvyup"]
 [ext_resource type="Script" path="res://scenes/settings_container/v2/sub_containers/development_credit_sub_container.gd" id="1_r6js8"]
 [ext_resource type="Texture2D" uid="uid://bto3cdnmrap1x" path="res://assets/Sparkles.svg" id="3_sbe0u"]
 [ext_resource type="Texture2D" uid="uid://cquysexdmp80s" path="res://assets/Emerald.svg" id="4_in31b"]
 [ext_resource type="Texture2D" uid="uid://dm344f20bvdte" path="res://assets/Anbernic_logo.png" id="5_h1agt"]
+[ext_resource type="Texture2D" uid="uid://fuyoyqqinuj7" path="res://assets/cat.svg" id="5_n7cmx"]
 [ext_resource type="Texture2D" uid="uid://cu3jsa28tyfam" path="res://assets/Miyoo-cropped-2.png" id="6_lt706"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j2n4i"]
@@ -274,6 +275,33 @@ text = "Emerald_Elephas"
 [node name="TextureRect2" type="TextureRect" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer10/MarginContainer/HBoxContainer"]
 layout_mode = 2
 texture = ExtResource("4_in31b")
+flip_h = true
+
+[node name="PanelContainer14" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_j2n4i")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer14"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer14/MarginContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer14/MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_n7cmx")
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer14/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Ciri"
+
+[node name="TextureRect2" type="TextureRect" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer14/MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_n7cmx")
 flip_h = true
 
 [node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer"]

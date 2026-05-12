@@ -5,7 +5,7 @@ class_name AlbumsContainer
 var albums
 var bar_scrolling = false
 var sort_index = 0
-var sort_options = ["album_alpha_asc", "album_alpha_desc"]
+var sort_options = ["album_alpha_asc", "album_alpha_desc", "album_artist_alpha_asc", "album_artist_alpha_desc"]
 
 var focused_collection:
 	get: return get_focused_collection()

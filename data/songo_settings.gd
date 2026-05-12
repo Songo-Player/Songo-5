@@ -6,10 +6,12 @@ const SAVE_PATH := "user://songo_settings.tres"
 const VERSION := "v0.3.0 Tina"
 const SETTINGS_VERSION := "30Tina"
 
-const SONG_SLEEP_TIMES = [1,5,10,15,30,45,60,99999]
+const SONG_SLEEP_TIMES = [1,5,10,15,30,45,60,120,300,99999]
 const SONG_SLEEP_TYPES = ["Bright Fade", "Black Fade", "Disabled"]
 
 const SEEK_TIMES = [5,10,15,25,30]
+
+enum START_BEHAVIOR {LOCK, SLEEP, LOCK_SLEEP, KEEP_AWAKE}
 
 const THEME_COLOR_NAMES = [
 	"Grayish Blue",
@@ -25,7 +27,8 @@ const THEME_COLOR_NAMES = [
 	"Oops! No color!",
 	"Wrong Channel",
 	"Boring...",
-	"The Grid"
+	"The Grid",
+	"Isekai Me"
 ]
 
 const THEME_COLORS = [
@@ -42,7 +45,8 @@ const THEME_COLORS = [
 	"777", # Oops! No Color
 	"48486c", # Wrong Channel
 	"fff", # Boring...
-	"111" # The Grid
+	"111", # The Grid
+	"eee" # Isekai Me
 ]
 
 # --- Generic Settings ---
@@ -68,6 +72,8 @@ const THEME_COLORS = [
 	"artists": true,
 	"playlists": true
 }
+# --- Controls Settings --- #
+@export var start_btn_behavior: START_BEHAVIOR = START_BEHAVIOR.LOCK
 
 # --- Data Settings --- #
 @export var auto_import: bool = true
@@ -79,6 +85,7 @@ const THEME_COLORS = [
 @export var use_generic_strategy = false
 @export var song_sleep_timer_index = 3 # 10s
 @export var song_sleep_type = 0
+@export var theme_path = ""
 
 var theme_color: 
 	get: return THEME_COLORS[theme_color_index]

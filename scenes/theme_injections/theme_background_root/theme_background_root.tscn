@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cbel1ghs36ym0"]
+
+[ext_resource type="Script" path="res://scenes/theme_injections/theme_background_root/theme_background_root.gd" id="1_s1j16"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8jdxb"]
+
+[node name="ThemeBackgroundRoot" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_8jdxb")
+script = ExtResource("1_s1j16")

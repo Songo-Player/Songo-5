@@ -209,7 +209,48 @@ icon = ExtResource("5_www0p")
 [node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
-text = "This fades out the screen and turns it off after (n) seconds of inactivity after selecting a song. Sleep can be started manually with 'start' in the currently playing song view."
+text = "This fades out the screen and turns it off after (n) seconds of inactivity after selecting a song."
+autowrap_mode = 2
+
+[node name="DetonatePanel" type="PanelContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_ieslp")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="SongFollowingSetting" type="VBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SongSleepTimerSetting" type="HBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer/SongFollowingSetting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer/SongFollowingSetting/SongSleepTimerSetting"]
+layout_mode = 2
+text = "Handheld Self Destruct"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer/SongFollowingSetting/SongSleepTimerSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DetonateButton" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer/SongFollowingSetting/SongSleepTimerSetting" instance=ExtResource("2_if6m3")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Do it"
+
+[node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer/SongFollowingSetting"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "This will cause your handheld to suddenly (and violently) stop existing"
 autowrap_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/MiscSection"]
@@ -244,3 +285,4 @@ text = "Misc Feature Settings"
 [connection signal="pressed" from="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox/HBoxContainer/SongSleepFadeTypeUp" to="." method="_on_song_sleep_fade_type_up_pressed"]
 [connection signal="pressed" from="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox/HBoxContainer/SongSleepTimerDown" to="." method="_on_song_sleep_timer_down_pressed"]
 [connection signal="pressed" from="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox/HBoxContainer/SongSleepTimerUp" to="." method="_on_song_sleep_timer_up_pressed"]
+[connection signal="pressed" from="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer/SongFollowingSetting/SongSleepTimerSetting/DetonateButton" to="." method="_on_detonate_button_pressed"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dio71tarrntlf"]
+[gd_scene load_steps=24 format=3 uid="uid://dio71tarrntlf"]
 
 [ext_resource type="Texture2D" uid="uid://faqv22wj0cw1" path="res://icon.svg" id="1_77by4"]
 [ext_resource type="Script" path="res://scenes/song_panel_container/song_panel_container.gd" id="1_lk34l"]
@@ -11,6 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://dt2pe77pksx87" path="res://assets/shuffle.svg" id="9_4ko7r"]
 [ext_resource type="Texture2D" uid="uid://dsstr0fb8yo33" path="res://assets/Repeat.svg" id="10_yta5v"]
 [ext_resource type="Script" path="res://scenes/visualizer/music_visualizer.gd" id="11_vv0ln"]
+[ext_resource type="Texture2D" uid="uid://cshjgdxugm3gb" path="res://assets/lock.svg" id="12_wf3wn"]
+[ext_resource type="Texture2D" uid="uid://7dwsdkt7ambi" path="res://assets/coffee.svg" id="13_ul3xy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uxjyg"]
 bg_color = Color(0, 0, 0, 0)
@@ -133,7 +135,7 @@ stretch_mode = 6
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("1_77by4")
-expand_mode = 2
+expand_mode = 1
 stretch_mode = 6
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/SongPanel/MarginContainer/HBoxContainer"]
@@ -265,29 +267,47 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_qpd7e")
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/PanelContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 16
+theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 16
+theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 4
 
-[node name="PlaylistProgress" type="Label" parent="HBoxContainer/PanelContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="PlaylistProgress" type="Label" parent="HBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
 text = "1 / 40"
 
-[node name="ShuffleIcon" type="TextureRect" parent="HBoxContainer/PanelContainer/MarginContainer"]
+[node name="ShuffleIcon" type="TextureRect" parent="HBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 texture = ExtResource("9_4ko7r")
 expand_mode = 2
 
-[node name="RepeatingIcon" type="TextureRect" parent="HBoxContainer/PanelContainer/MarginContainer"]
+[node name="RepeatingIcon" type="TextureRect" parent="HBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 texture = ExtResource("10_yta5v")
+expand_mode = 2
+
+[node name="LockIcon" type="TextureRect" parent="HBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+texture = ExtResource("12_wf3wn")
+expand_mode = 2
+
+[node name="StayAwakeIcon" type="TextureRect" parent="HBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+texture = ExtResource("13_ul3xy")
 expand_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
@@ -330,7 +350,12 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_3s23p")
 
+[node name="ScreenIdleTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
 [connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
 [connection signal="tree_exited" from="." to="." method="_on_tree_exited"]
 [connection signal="pressed" from="MarginContainer/SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="MarginContainer/SongPanel/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/PauseButton" to="." method="_on_pause_button_pressed"]
+[connection signal="timeout" from="ScreenIdleTimer" to="." method="_on_screen_idle_timer_timeout"]

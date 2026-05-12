@@ -1,5 +1,4 @@
 extends ScrollContainer
-class_name MainMenu
 var songo_data = SongoDataResource.get_instance()
 var songo_settings = SongoSettings.get_instance()
 var tex_panels = []
@@ -38,7 +37,7 @@ func setup():
 			red_focus.border_width_right = 4
 			red_focus.draw_center = false 
 		
-		if songo_settings.theme_color == "fff":
+		if ["fff", "eee"].has(songo_settings.theme_color):
 			child.add_theme_stylebox_override("focus", red_focus)
 		else:
 			child.add_theme_stylebox_override("focus", default_focus)
@@ -120,7 +119,7 @@ func _on_tree_entered() -> void:
 	]
 	for item in button_containers:
 		var child: Control = item.get_child(0)
-		if songo_settings.theme_color == "fff":
+		if ["fff", "eee"].has(songo_settings.theme_color):
 			child.add_theme_stylebox_override("focus", red_focus)
 		else:
 			child.add_theme_stylebox_override("focus", default_focus)

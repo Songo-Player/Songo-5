@@ -19,7 +19,7 @@ func setup(playlist_record: M3uCollection, playlist_index):
 	%PlaylistCover.hide()
 	
 	songo_settings = SongoSettings.get_instance()
-	if songo_settings.theme_color == "fff":
+	if ["fff", "eee"].has(songo_settings.theme_color):
 		%TheTail.modulate = Color("444")
 		
 	if playlist_record.img_path != "":

@@ -79,6 +79,7 @@ corner_radius_bottom_left = 4
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t0cfb"]
 
 [node name="MiniSongPanel" type="MarginContainer"]
+visible = false
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 16

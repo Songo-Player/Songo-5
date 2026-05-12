@@ -185,6 +185,9 @@ theme_override_constants/margin_bottom = 8
 [node name="PageLabel" type="Label" parent="ScrollContainer/PlayListSection/MarginContainer/PanelContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_right = NodePath("../../../../PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/NewPlaylistButton")
+focus_neighbor_bottom = NodePath("../../../../PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/NewPlaylistButton")
+focus_next = NodePath("../../../../PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/NewPlaylistButton")
 focus_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Playlist Settings"

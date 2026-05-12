@@ -1,0 +1,55 @@
+{
+	"name": "Songo Classic",
+	"version": "0.2",
+	"author": "Riley",
+	"description": "Original Songo#5 theme, based on minimalism and being user friendly.",
+	"components": {
+		"background_root": "background_root/background_root.tscn",
+		"main_menu": "main_menu/main_menu.tscn",
+		"header": "header/header.tscn",
+		"main_song_view": "main_song_view/main_song_view.tscn"
+	},
+	"tags": [
+		"minimal",
+		"internaltheme",
+		"customizable"
+	],
+	"settings": {
+		"songo_background_color": {
+			"values": [
+				"48486d", 
+				"84233b",
+				"215a30", 
+				"562b90",
+				"7c2a00",
+				"004988", 
+				"d57200", 
+				"5865F2",
+				"cc1111", 
+				"FB6F92",
+			],
+			"labels": [
+				"Grayish Blue",
+				"Purpley",
+				"Emerald Green",
+				"Purpley Blue",
+				"Burnt Orange",
+				"Another Blue",
+				"Pumpkin Spice",
+				"Voice Chat Color",
+				"Red-bernic",
+				"Pink?",
+			],
+			"default": "48486d",
+			"display_name": "Background Color",
+			"dependents": ["background_root"]
+		},
+		"songo_main_menu_size": {
+			"values": [124, 172, 220],
+			"labels": ["SM", "MD", "LG"],
+			"default": 172,
+			"display_name": "Main Menu Size",
+			"dependents": ["main_menu"]
+		}
+	}
+}

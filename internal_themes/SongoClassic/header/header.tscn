@@ -1,0 +1,105 @@
+[gd_scene load_steps=7 format=3 uid="uid://cha25i54h58j7"]
+
+[ext_resource type="Script" path="res://internal_themes/SongoClassic/header/header.gd" id="1_6tawv"]
+[ext_resource type="FontFile" uid="uid://ckx8hptr33csi" path="res://fonts/CourierPrime-Bold.ttf" id="2_uvikr"]
+[ext_resource type="Texture2D" uid="uid://inruw0c6rdua" path="res://assets/wifi.svg" id="3_n1jtw"]
+[ext_resource type="Texture2D" uid="uid://nqpdbtqncxh4" path="res://assets/clock.svg" id="4_fh38e"]
+[ext_resource type="Texture2D" uid="uid://ds1hiniyche5x" path="res://assets/battery.svg" id="5_gj4c7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_raxui"]
+bg_color = Color(0, 0, 0, 0.705882)
+
+[node name="Header" type="MarginContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 39.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = -4
+theme_override_constants/margin_right = -4
+script = ExtResource("1_6tawv")
+
+[node name="HeaderPanel" type="PanelContainer" parent="."]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_raxui")
+
+[node name="MarginContainer" type="MarginContainer" parent="HeaderPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HeaderPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="HeaderPanel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_bottom = -4
+
+[node name="Label" type="Label" parent="HeaderPanel/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_uvikr")
+theme_override_font_sizes/font_size = 24
+text = "Songo#5"
+
+[node name="NetworkConnection" type="PanelContainer" parent="HeaderPanel/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HeaderPanel/MarginContainer/HBoxContainer/NetworkConnection"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="TextureRect" type="TextureRect" parent="HeaderPanel/MarginContainer/HBoxContainer/NetworkConnection/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("3_n1jtw")
+expand_mode = 3
+
+[node name="CurrentOsTimeContainer" type="PanelContainer" parent="HeaderPanel/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HeaderPanel/MarginContainer/HBoxContainer/CurrentOsTimeContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HeaderPanel/MarginContainer/HBoxContainer/CurrentOsTimeContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TextureRect" type="TextureRect" parent="HeaderPanel/MarginContainer/HBoxContainer/CurrentOsTimeContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_fh38e")
+expand_mode = 3
+
+[node name="CurrentOsTimeLabel" type="Label" parent="HeaderPanel/MarginContainer/HBoxContainer/CurrentOsTimeContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "00:00"
+
+[node name="BatteryPercent" type="Button" parent="HeaderPanel/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+text = "N/A"
+icon = ExtResource("5_gj4c7")
+expand_icon = true
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

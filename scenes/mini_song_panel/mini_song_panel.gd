@@ -3,6 +3,7 @@ extends MarginContainer
 var songo_data = SongoDataResource.get_instance()
 var current_song_duration = 100
 var loaded_song = null
+@onready var songo_settings = SongoSettings.get_instance()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -13,8 +14,20 @@ func setup():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	update_play_time()
-	pass
+	if visible:
+		update_play_time()
+		handle_input(delta)
+	
+func handle_input(delta: float):
+	if Input.is_action_just_pressed("L2") && SongoPlayerV2.is_playing():
+		var target_playback = SongoPlayerV2.get_playback_position() - float(songo_settings.seek_backward_time)
+		SongoPlayerV2.ffmpeg_audio_playback.seek(max(target_playback, 0.0))
+		
+	if Input.is_action_just_pressed("R2") && SongoPlayerV2.is_playing():
+		var target_playback = SongoPlayerV2.get_playback_position() + float(songo_settings.seek_forward_time)
+		var song_length = SongoPlayerV2.current_song.raw_length
+		if song_length > 0.0: target_playback = min(target_playback, song_length)
+		SongoPlayerV2.ffmpeg_audio_playback.seek(target_playback)
 
 func update_play_time():
 	if SongoPlayerV2.is_playing():
