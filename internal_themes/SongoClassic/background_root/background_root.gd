@@ -10,3 +10,4 @@ func _update_element():
 	var style = get_theme_stylebox("panel").duplicate()
 	add_theme_stylebox_override("panel", style)
 	style.bg_color = color
+	%OopsNoColorOverlay.visible = color == "777"

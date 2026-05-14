@@ -22,7 +22,6 @@ func _ready() -> void:
 	ThemeManager.set_current_theme(songo_settings.theme_path)
 	#if songo_settings.force_screen_fit == true:
 		#UiHelper.apply_screen_fit()
-	%VersionLabel.text = SongoDataResource.VERSION
 	get_viewport().gui_focus_changed.connect(_on_focus_changed)
 	if OS.get_environment("HIDE_MOUSE"): Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	add_debug_info()
@@ -41,11 +40,8 @@ func _ready() -> void:
 	UiHelper.keyboard = %Keyboard
 	UiHelper.flash_message_box = %FlashMessageBox
 	UiHelper.vol_container = %VolumeContainer
-	UiHelper.oops_no_color_overlay = %OopsNoColorOverlay
 	UiHelper.crt_overlay = %CrtOverlay
 	UiHelper.the_grid_overlay = %TheGridOverlay
-	#UiHelper.debug_info = %DebugInfo
-	UiHelper.apply_theme_color(songo_settings.theme_color)
 	UiHelper.apply_scale(songo_settings.ui_scale)
 	UiHelper.apply_content_margin(songo_settings.content_margin)
 
@@ -53,7 +49,6 @@ func _ready() -> void:
 	DeviceOS.setup_device_hallkey()
 
 	Controller.content_body_node = %ContentBody
-	Controller.nav_label_node = %NavLabel
 	SfxPlayer.set_vol(songo_settings.sfx_volume)
 	
 	Controller.main_menu()
@@ -128,6 +123,11 @@ func _process(delta: float) -> void:
 		update_quick_menu_vals()
 	else:
 		showing_quick_menu = false
+		
+	if Input.is_action_just_pressed("start") && Input.is_action_just_pressed("select"):
+		DeviceOS.wake_screen()
+		Controller.quit_songo()
+		
 	%QuickMenu.visible = showing_quick_menu
 		
 	if Controller.active_container: Controller.active_container.render_ui()
@@ -149,13 +149,13 @@ func handle_queue_music():
 		UiHelper.flash_message("Queued %s" % queue_song.title)
 
 func handle_song_repeat():
-	if Controller.active_container is not SongPanelContainer: return null
+	if Controller.active_container is not ThemeMainSongView: return null
 	SongoPlayerV2.setRepeating(!SongoPlayerV2.repeating)
 	
 func get_playlist_target_song():
 	if Controller.active_container is AllSongsContainer:
 		return Controller.active_container.focused_song
-	if Controller.active_container is SongPanelContainer:
+	if Controller.active_container is ThemeMainSongView:
 		return SongoPlayerV2.get_current_music_record()
 	return null
 	
@@ -199,7 +199,7 @@ func update_quick_menu_vals():
 	else:
 		%QueueSong.hide()
 	
-	if Controller.active_container is SongPanelContainer:
+	if Controller.active_container is ThemeMainSongView:
 		%RepeatSong.show()
 		if SongoPlayerV2.repeating:
 			%RepeatSongActionLabel.text = " : Resume song list (stop repeating)"

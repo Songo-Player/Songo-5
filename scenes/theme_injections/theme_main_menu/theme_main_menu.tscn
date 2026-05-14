@@ -10,4 +10,9 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_k4e04")
 
+[node name="FocusFixTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
 [connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="timeout" from="FocusFixTimer" to="." method="_on_focus_fix_timer_timeout"]

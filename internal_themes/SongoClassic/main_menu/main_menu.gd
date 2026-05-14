@@ -4,9 +4,10 @@ var songo_settings = SongoSettings.get_instance()
 var tex_panels = []
 
 func _ready():
-	focus_valid_nav_item()
 	tex_panels = [%AllSongsTextureRect, %AlbumsTextureRect, %ArtistsTextureRect, %PlaylistsTextureRect]
 	update_main_menu_size()
+	await get_tree().process_frame
+	focus_valid_nav_item()
 	
 	var hover_behavior_tweaks = [
 		%AllSongsMenuItem,
@@ -63,22 +64,26 @@ func update_main_menu_size():
 
 func _on_tree_entered() -> void:
 	update_main_menu_size()
-	if songo_settings.main_menu_visible["all_songs"]: %AllSongsMenuItem.show()
+	%FlameContainer.show()
+	if ThemeManager.settings["songo_all_songs_menu_visibility"]: 
+		%AllSongsMenuItem.show()
+		%FlameContainer.hide()
 	else: %AllSongsMenuItem.hide()
 	
-	if songo_settings.main_menu_visible["albums"]: %AlbumsMenuItem.show()
+	if ThemeManager.settings["songo_albums_menu_visibility"]:
+		%AlbumsMenuItem.show()
+		%FlameContainer.hide()
 	else: %AlbumsMenuItem.hide()
 	
-	if songo_settings.main_menu_visible["artists"]: %ArtistsMenuItem.show()
+	if ThemeManager.settings["songo_artists_menu_visibility"]:
+		%ArtistsMenuItem.show()
+		%FlameContainer.hide()
 	else: %ArtistsMenuItem.hide()
 	
-	if songo_settings.main_menu_visible["playlists"]: %PlaylistsMenuItem.show()
+	if ThemeManager.settings["songo_playlists_menu_visibility"]:
+		%PlaylistsMenuItem.show()
+		%FlameContainer.hide()
 	else: %PlaylistsMenuItem.hide()
-	
-	%FlameContainer.show()
-	for value in songo_settings.main_menu_visible.values():
-		if value:
-			%FlameContainer.hide()
 
 func _on_resized() -> void:
 	update_main_menu_size()

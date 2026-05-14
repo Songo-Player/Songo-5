@@ -11,7 +11,6 @@ var flash_message_box: Control
 #var debug_info: Control
 var songo_settings = SongoSettings.get_instance()
 var vol_container: Control
-var oops_no_color_overlay: Control
 var crt_overlay: Control
 var the_grid_overlay: Control
 #var background_video: VideoStreamPlayer
@@ -28,19 +27,6 @@ func flash_message(message):
 	
 func focus_back():
 	if is_instance_valid(focus_chain[0]): focus_chain[0].grab_focus()
-	
-func apply_theme_color(color):
-	var style = main_color_panel.get_theme_stylebox("panel").duplicate()
-	style.bg_color = color
-	main_color_panel.add_theme_stylebox_override("panel", style)
-	oops_no_color_overlay.visible = (color == "777")
-	crt_overlay.visible = (color == "48486c")
-	the_grid_overlay.visible = (color == "111")
-	#background_video.visible = (color == "eee")
-	#if color == "eee":
-	#	background_video.play()
-	#else:
-	#	background_video.stop()
 	
 func apply_scale(new_scale: float):
 	var window = get_tree().get_root().get_window()

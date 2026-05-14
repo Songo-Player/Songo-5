@@ -12,7 +12,7 @@ func setup():
 		
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	_setup_from_theme()
+	#_setup_from_theme()
 	ThemeManager.theme_updated.connect(_tear_down_theme)
 	if "setup" in theme_element:
 		theme_element.setup()
@@ -43,5 +43,30 @@ func _tear_down_theme():
 		theme_element = null
 	
 func _on_tree_entered() -> void:
-	if ThemeManager.theme_path != theme_path:
+	if theme_element == null || ThemeManager.theme_path != theme_path:
 		_setup_from_theme()
+	await get_tree().process_frame
+	$FocusFixTimer.start()
+		
+
+func focus_first_control(node: Node) -> bool:
+	if node is Control:
+		var c := node as Control
+		if c.focus_mode != Control.FOCUS_NONE and c.visible:
+			c.grab_focus()
+			return true
+
+	for child in node.get_children():
+		if focus_first_control(child):
+			return true
+
+	return false
+
+
+func _on_focus_fix_timer_timeout() -> void:
+	var focused = get_viewport().gui_get_focus_owner() 
+	if not is_instance_valid(focused):
+		print("HAHAHA FOUDN YOU ")
+	if focused: return
+	UiHelper.flash_message("Failed to focus menu item, manually focusing now.")
+	focus_first_control(theme_element)

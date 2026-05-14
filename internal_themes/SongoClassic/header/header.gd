@@ -1,11 +1,8 @@
 extends MarginContainer
 
-var songo_settings = SongoSettings.get_instance()
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_update_widgets()
-	pass # Replace with function body.
 
 func _on_timer_timeout() -> void:
 	_update_widgets()
@@ -52,7 +49,7 @@ func get_time_string() -> String:
 	var hour_12 = now.hour % 12
 	if hour_12 == 0: hour_12 = 12
 	var hour = str(hour_12)
-	if songo_settings && songo_settings.clock_24_hour: hour = now.hour
+	if ThemeManager.settings["songo_clock_24_hour"]: hour = now.hour
 	var minute = str(now.minute).pad_zeros(2)
 	return "%s:%s" % [hour, minute]
 

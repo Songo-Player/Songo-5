@@ -98,28 +98,33 @@ script = ExtResource("1_oc7h2")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
-size_flags_horizontal = 0
 theme_override_constants/margin_left = 12
-theme_override_constants/margin_top = -40
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 12
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer"]
+[node name="AlignmentContainer" type="HBoxContainer" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/AlignmentContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="VBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer2"]
+[node name="VBoxContainer" type="HBoxContainer" parent="MarginContainer/AlignmentContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer2/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/AlignmentContainer/VBoxContainer2/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_top = -20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer2/VBoxContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/AlignmentContainer/VBoxContainer2/VBoxContainer/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = -32
 
-[node name="HourLabel" type="Label" parent="MarginContainer/VBoxContainer2/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="HourLabel" type="Label" parent="MarginContainer/AlignmentContainer/VBoxContainer2/VBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -127,7 +132,7 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 72
 text = "02"
 
-[node name="MinuteLabel" type="Label" parent="MarginContainer/VBoxContainer2/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="MinuteLabel" type="Label" parent="MarginContainer/AlignmentContainer/VBoxContainer2/VBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -135,7 +140,7 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 72
 text = "45"
 
-[node name="AmPmLabel" type="Label" parent="MarginContainer/VBoxContainer2/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="AmPmLabel" type="Label" parent="MarginContainer/AlignmentContainer/VBoxContainer2/VBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -144,32 +149,33 @@ theme_override_font_sizes/font_size = 52
 text = "pm
 "
 
-[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer2/VBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/AlignmentContainer/VBoxContainer2/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 20
 theme_override_styles/separator = SubResource("StyleBoxFlat_ivef0")
 
-[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer2/VBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/AlignmentContainer/VBoxContainer2/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_bottom = 10
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer2/VBoxContainer/MarginContainer2"]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="MarginContainer/AlignmentContainer/VBoxContainer2/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/AlignmentContainer/VBoxContainer2/VBoxContainer/MarginContainer2/AspectRatioContainer"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_frcu5")
 
-[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/VBoxContainer2/VBoxContainer/MarginContainer2/PanelContainer"]
+[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/AlignmentContainer/VBoxContainer2/VBoxContainer/MarginContainer2/AspectRatioContainer/PanelContainer"]
 clip_children = 1
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_lolu0")
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer2/VBoxContainer/MarginContainer2/PanelContainer/PanelContainer2"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/AlignmentContainer/VBoxContainer2/VBoxContainer/MarginContainer2/AspectRatioContainer/PanelContainer/PanelContainer2"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(180, 180)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_2l2b6")
 
-[node name="DefaultSongImage" type="TextureRect" parent="MarginContainer/VBoxContainer2/VBoxContainer/MarginContainer2/PanelContainer/PanelContainer2/PanelContainer"]
+[node name="DefaultSongImage" type="TextureRect" parent="MarginContainer/AlignmentContainer/VBoxContainer2/VBoxContainer/MarginContainer2/AspectRatioContainer/PanelContainer/PanelContainer2/PanelContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -177,33 +183,34 @@ texture = ExtResource("3_77cur")
 expand_mode = 5
 stretch_mode = 6
 
-[node name="MusicImage" type="TextureRect" parent="MarginContainer/VBoxContainer2/VBoxContainer/MarginContainer2/PanelContainer/PanelContainer2/PanelContainer"]
+[node name="MusicImage" type="TextureRect" parent="MarginContainer/AlignmentContainer/VBoxContainer2/VBoxContainer/MarginContainer2/AspectRatioContainer/PanelContainer/PanelContainer2/PanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("4_y8buj")
 expand_mode = 1
-stretch_mode = 5
+stretch_mode = 6
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer2"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/AlignmentContainer/VBoxContainer2"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_7uulb")
 
-[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer2/PanelContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/AlignmentContainer/VBoxContainer2/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer2/PanelContainer/MarginContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/AlignmentContainer/VBoxContainer2/PanelContainer/MarginContainer2"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 4
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/AlignmentContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_top = -4
+theme_override_constants/margin_bottom = 4
 
-[node name="SongLabelInfo" type="Label" parent="MarginContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer/MarginContainer"]
+[node name="SongLabelInfo" type="Label" parent="MarginContainer/AlignmentContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.160784, 0.160784, 0.160784, 1)
@@ -211,12 +218,12 @@ text = "Song name ~ Artist ~ Album"
 script = ExtResource("5_a2itq")
 font_color = Color(0.160784, 0.160784, 0.160784, 1)
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/AlignmentContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="PlayButton" type="Button" parent="MarginContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer2"]
+[node name="PlayButton" type="Button" parent="MarginContainer/AlignmentContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(28, 0)
@@ -230,7 +237,7 @@ icon = ExtResource("8_vu8tw")
 flat = true
 icon_alignment = 1
 
-[node name="PauseButton" type="Button" parent="MarginContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer2"]
+[node name="PauseButton" type="Button" parent="MarginContainer/AlignmentContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
@@ -243,20 +250,25 @@ icon = ExtResource("9_ftwpn")
 flat = true
 icon_alignment = 1
 
-[node name="CurrentTimeLabel" type="Label" parent="MarginContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer2"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/AlignmentContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_constants/margin_top = -4
+theme_override_constants/margin_bottom = -4
+
+[node name="CurrentTimeLabel" type="Label" parent="MarginContainer/AlignmentContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer2/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.160784, 0.160784, 0.160784, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 18
 text = "00:00
 "
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer2"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/AlignmentContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/separator = SubResource("StyleBoxFlat_7hoo0")
 
-[node name="ProgressLine" type="HSeparator" parent="MarginContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer2/HSeparator"]
+[node name="ProgressLine" type="HSeparator" parent="MarginContainer/AlignmentContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer2/HSeparator"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -266,11 +278,16 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/separator = SubResource("StyleBoxFlat_rcmay")
 
-[node name="EndTimeLabel" type="Label" parent="MarginContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer2"]
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/AlignmentContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_constants/margin_top = -4
+theme_override_constants/margin_bottom = -4
+
+[node name="EndTimeLabel" type="Label" parent="MarginContainer/AlignmentContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer2/MarginContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.160784, 0.160784, 0.160784, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 18
 text = "00:00"
 
 [node name="ScreenIdleTimer" type="Timer" parent="."]
@@ -283,6 +300,6 @@ autostart = true
 
 [connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
 [connection signal="tree_exited" from="." to="." method="_on_tree_exited"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer2/PlayButton" to="." method="_on_play_button_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer2/PauseButton" to="." method="_on_pause_button_pressed"]
+[connection signal="pressed" from="MarginContainer/AlignmentContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer2/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MarginContainer/AlignmentContainer/VBoxContainer2/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer2/PauseButton" to="." method="_on_pause_button_pressed"]
 [connection signal="timeout" from="ClockTimer" to="." method="_on_clock_timer_timeout"]

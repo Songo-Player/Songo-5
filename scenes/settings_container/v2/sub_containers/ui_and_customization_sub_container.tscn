@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://hq32e054vy60"]
+[gd_scene load_steps=14 format=3 uid="uid://hq32e054vy60"]
 
 [ext_resource type="Script" path="res://scenes/settings_container/v2/sub_containers/ui_and_customization_sub_container.gd" id="1_dg7tv"]
 [ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="1_vjm6x"]
@@ -31,6 +31,13 @@ corner_radius_bottom_left = 4
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pfbiw"]
 border_width_top = 2
 border_color = Color(0, 0, 0, 0.509804)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g8xff"]
+bg_color = Color(0.840328, 2.88785e-06, 1.44392e-06, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nmxab"]
 bg_color = Color(0.130772, 0.130772, 0.130772, 1)
@@ -95,6 +102,86 @@ theme_override_constants/margin_bottom = 8
 layout_mode = 2
 theme_override_constants/separation = 8
 
+[node name="GlobalScaleSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/GlobalScaleSetting"]
+layout_mode = 2
+text = "Global UI Scale"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/GlobalScaleSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GlobalScaleDisplayLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/GlobalScaleSetting"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 0
+text = "1x"
+alignment = 1
+max_length = 5
+expand_to_text_length = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/GlobalScaleSetting"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="GlobalUiScaleDown" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/GlobalScaleSetting/HBoxContainer" instance=ExtResource("2_wluk6")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("4_r2o7y")
+
+[node name="GlobalUiScaleUp" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/GlobalScaleSetting/HBoxContainer" instance=ExtResource("2_wluk6")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("5_f48ei")
+
+[node name="ContentMarginSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ContentMarginSetting"]
+layout_mode = 2
+text = "Main Content Margin"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ContentMarginSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ContentMarginDisplayLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ContentMarginSetting"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 0
+text = "16px"
+alignment = 1
+max_length = 5
+expand_to_text_length = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ContentMarginSetting"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="ContentMarginDown" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ContentMarginSetting/HBoxContainer" instance=ExtResource("2_wluk6")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("4_r2o7y")
+
+[node name="ContentMarginUp" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ContentMarginSetting/HBoxContainer" instance=ExtResource("2_wluk6")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("5_f48ei")
+
 [node name="ThemeSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 16
@@ -116,61 +203,71 @@ theme_override_constants/minimum_character_width = 1
 text = "Wee"
 expand_to_text_length = true
 
-[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer"]
+[node name="SettingsButton" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemeSetting" instance=ExtResource("2_wluk6")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Change
+"
+
+[node name="ThemePickerContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = -8
 theme_override_constants/margin_right = -8
 theme_override_constants/margin_bottom = -8
 
-[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ss2ph")
 
-[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(240, 180)
 layout_mode = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/MarginContainer"]
 clip_children = 1
 clip_contents = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_nd0gx")
 
-[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/MarginContainer/PanelContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/MarginContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="ThemePreviewImage" type="TextureRect" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/MarginContainer/PanelContainer"]
+[node name="ThemePreviewImage" type="TextureRect" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/MarginContainer/PanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("6_ij6ig")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="ThemeNameWithVersion" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+[node name="ThemeNameWithVersion" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
@@ -178,44 +275,44 @@ theme_override_font_sizes/font_size = 22
 text = "Theme Name (v0.1)"
 text_overrun_behavior = 3
 
-[node name="ThemeAuthor" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+[node name="ThemeAuthor" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
 text = "Created By Author"
 text_overrun_behavior = 3
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 
-[node name="ThemeDown" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer" instance=ExtResource("2_wluk6")]
+[node name="ThemeDown" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer" instance=ExtResource("2_wluk6")]
 layout_mode = 2
 text = ""
 icon = ExtResource("4_r2o7y")
 
-[node name="ThemeUp" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer" instance=ExtResource("2_wluk6")]
+[node name="ThemeUp" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer" instance=ExtResource("2_wluk6")]
 layout_mode = 2
 text = "
 "
 icon = ExtResource("5_f48ei")
 
-[node name="ApplyTheme" type="Button" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+[node name="ApplyTheme" type="Button" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_vm6d4")
 text = "Apply
 "
 
-[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 12
 theme_override_styles/separator = SubResource("StyleBoxFlat_pfbiw")
 
-[node name="ThemeDescription" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="ThemeDescription" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -223,222 +320,19 @@ theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
 text = "My Theme Description"
 autowrap_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_top = 8
 
-[node name="ThemeTagContainer" type="FlowContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/MarginContainer"]
+[node name="ThemeTagContainer" type="FlowContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ThemeTag" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/ThemeTagContainer" instance=ExtResource("7_htnu7")]
+[node name="ThemeTag" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/ThemeTagContainer" instance=ExtResource("7_htnu7")]
 layout_mode = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer"]
-layout_mode = 2
-theme_override_styles/panel = ExtResource("1_vjm6x")
-
-[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="ThemeColorSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ThemeColorSetting"]
-layout_mode = 2
-text = "Theme Color"
-
-[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ThemeColorSetting"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ThemeColorDisplayLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ThemeColorSetting"]
-unique_name_in_owner = true
-layout_mode = 2
-focus_mode = 0
-mouse_filter = 2
-theme_override_constants/minimum_character_width = 1
-text = "Burnt Orange"
-expand_to_text_length = true
-
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ThemeColorSetting"]
-custom_minimum_size = Vector2(80, 0)
-layout_mode = 2
-
-[node name="ThemeColorDown" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ThemeColorSetting/HBoxContainer" instance=ExtResource("2_wluk6")]
-layout_mode = 2
-text = ""
-icon = ExtResource("4_r2o7y")
-
-[node name="ThemeColorUp" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ThemeColorSetting/HBoxContainer" instance=ExtResource("2_wluk6")]
-layout_mode = 2
-text = "
-"
-icon = ExtResource("5_f48ei")
-
-[node name="GlobalScaleSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GlobalScaleSetting"]
-layout_mode = 2
-text = "Global UI Scale"
-
-[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GlobalScaleSetting"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="GlobalScaleDisplayLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GlobalScaleSetting"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 8
-focus_mode = 0
-mouse_filter = 2
-theme_override_constants/minimum_character_width = 0
-text = "1x"
-alignment = 1
-max_length = 5
-expand_to_text_length = true
-
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GlobalScaleSetting"]
-custom_minimum_size = Vector2(80, 0)
-layout_mode = 2
-
-[node name="GlobalUiScaleDown" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GlobalScaleSetting/HBoxContainer" instance=ExtResource("2_wluk6")]
-layout_mode = 2
-text = "
-"
-icon = ExtResource("4_r2o7y")
-
-[node name="GlobalUiScaleUp" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GlobalScaleSetting/HBoxContainer" instance=ExtResource("2_wluk6")]
-layout_mode = 2
-text = "
-"
-icon = ExtResource("5_f48ei")
-
-[node name="ClockSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ClockSetting"]
-layout_mode = 2
-text = "24 Hour Clock"
-
-[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ClockSetting"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Clock24HourEnabled" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ClockSetting"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
-text = "Enabled"
-
-[node name="Clock24HourDisabled" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ClockSetting"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
-text = "Disabled"
-
-[node name="Clock24HourButton" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ClockSetting" instance=ExtResource("2_wluk6")]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(80, 0)
-layout_mode = 2
-size_flags_horizontal = 1
-text = "Disable
-"
-
-[node name="MainMenuSizeSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MainMenuSizeSetting"]
-layout_mode = 2
-text = "Main Menu Size"
-
-[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MainMenuSizeSetting"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="MainMenuSizeLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MainMenuSizeSetting"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 8
-focus_mode = 0
-mouse_filter = 2
-theme_override_constants/minimum_character_width = 0
-text = "MD"
-alignment = 1
-max_length = 5
-expand_to_text_length = true
-
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MainMenuSizeSetting"]
-custom_minimum_size = Vector2(80, 0)
-layout_mode = 2
-
-[node name="MainMenuSizeDown" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MainMenuSizeSetting/HBoxContainer" instance=ExtResource("2_wluk6")]
-layout_mode = 2
-text = ""
-icon = ExtResource("4_r2o7y")
-
-[node name="MainMenuSizeUp" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MainMenuSizeSetting/HBoxContainer" instance=ExtResource("2_wluk6")]
-layout_mode = 2
-text = ""
-icon = ExtResource("5_f48ei")
-
-[node name="ContentMarginSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ContentMarginSetting"]
-layout_mode = 2
-text = "Main Content Margin"
-
-[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ContentMarginSetting"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ContentMarginDisplayLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ContentMarginSetting"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 8
-focus_mode = 0
-mouse_filter = 2
-theme_override_constants/minimum_character_width = 0
-text = "16px"
-alignment = 1
-max_length = 5
-expand_to_text_length = true
-
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ContentMarginSetting"]
-custom_minimum_size = Vector2(80, 0)
-layout_mode = 2
-
-[node name="ContentMarginDown" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ContentMarginSetting/HBoxContainer" instance=ExtResource("2_wluk6")]
-layout_mode = 2
-text = "
-"
-icon = ExtResource("4_r2o7y")
-
-[node name="ContentMarginUp" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ContentMarginSetting/HBoxContainer" instance=ExtResource("2_wluk6")]
-layout_mode = 2
-text = "
-"
-icon = ExtResource("5_f48ei")
 
 [node name="ThemeSettingsContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 theme_override_styles/panel = ExtResource("1_vjm6x")
 
@@ -449,157 +343,31 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="ThemeSettings" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeSettingsContainer/MarginContainer"]
-unique_name_in_owner = true
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeSettingsContainer/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer"]
+[node name="ThemeSettingsLabel" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeSettingsContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/panel = ExtResource("1_vjm6x")
+theme_override_font_sizes/font_size = 24
+text = "Theme Settings"
 
-[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2"]
+[node name="NoSettingsLabel" type="PanelContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeSettingsContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_g8xff")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer"]
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeSettingsContainer/MarginContainer/VBoxContainer/NoSettingsLabel"]
+layout_mode = 2
+text = "No Settings defined in this theme"
+horizontal_alignment = 1
+
+[node name="ThemeSettings" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeSettingsContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 8
-
-[node name="AllSongsMenuNavSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/AllSongsMenuNavSetting"]
-layout_mode = 2
-text = "All Songs Menu"
-
-[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/AllSongsMenuNavSetting"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="AllSongsMenuNavEnabled" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/AllSongsMenuNavSetting"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
-text = "Visible"
-
-[node name="AllSongsMenuNavDisabled" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/AllSongsMenuNavSetting"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
-text = "Hidden"
-
-[node name="AllSongsMenuNavButton" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/AllSongsMenuNavSetting" instance=ExtResource("2_wluk6")]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(80, 0)
-layout_mode = 2
-size_flags_horizontal = 1
-text = "Hide
-"
-
-[node name="AlbumsMenuNavSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/AlbumsMenuNavSetting"]
-layout_mode = 2
-text = "Albums Menu"
-
-[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/AlbumsMenuNavSetting"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="AlbumsMenuNavEnabled" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/AlbumsMenuNavSetting"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
-text = "Visible"
-
-[node name="AlbumsMenuNavDisabled" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/AlbumsMenuNavSetting"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
-text = "Hidden"
-
-[node name="AlbumsMenuNavButton" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/AlbumsMenuNavSetting" instance=ExtResource("2_wluk6")]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(80, 0)
-layout_mode = 2
-size_flags_horizontal = 1
-text = "Hide
-"
-
-[node name="ArtistsMenuNavSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/ArtistsMenuNavSetting"]
-layout_mode = 2
-text = "Artists Menu"
-
-[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/ArtistsMenuNavSetting"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ArtistsMenuNavEnabled" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/ArtistsMenuNavSetting"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
-text = "Visible"
-
-[node name="ArtistsMenuNavDisabled" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/ArtistsMenuNavSetting"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
-text = "Hidden"
-
-[node name="ArtistsMenuNavButton" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/ArtistsMenuNavSetting" instance=ExtResource("2_wluk6")]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(80, 0)
-layout_mode = 2
-size_flags_horizontal = 1
-text = "Hide
-"
-
-[node name="PlaylistsMenuNavSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PlaylistsMenuNavSetting"]
-layout_mode = 2
-text = "Playlists Menu"
-
-[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PlaylistsMenuNavSetting"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="PlaylistsMenuNavEnabled" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PlaylistsMenuNavSetting"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
-text = "Visible"
-
-[node name="PlaylistsMenuNavDisabled" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PlaylistsMenuNavSetting"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
-text = "Hidden"
-
-[node name="PlaylistsMenuNavButton" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PlaylistsMenuNavSetting" instance=ExtResource("2_wluk6")]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(80, 0)
-layout_mode = 2
-size_flags_horizontal = 1
-text = "Hide
-"
 
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection"]
 layout_mode = 2
@@ -644,20 +412,12 @@ text = "Reset to Defaults
 
 [connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/ThemeDown" to="." method="_on_theme_down_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/ThemeUp" to="." method="_on_theme_up_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/ApplyTheme" to="." method="_on_apply_theme_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ThemeColorSetting/HBoxContainer/ThemeColorDown" to="." method="_on_theme_color_down_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ThemeColorSetting/HBoxContainer/ThemeColorUp" to="." method="_on_theme_color_up_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GlobalScaleSetting/HBoxContainer/GlobalUiScaleDown" to="." method="_on_global_ui_scale_down_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GlobalScaleSetting/HBoxContainer/GlobalUiScaleUp" to="." method="_on_global_ui_scale_up_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ClockSetting/Clock24HourButton" to="." method="_on_clock_24_hour_button_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MainMenuSizeSetting/HBoxContainer/MainMenuSizeDown" to="." method="_on_main_menu_size_down_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MainMenuSizeSetting/HBoxContainer/MainMenuSizeUp" to="." method="_on_main_menu_size_up_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ContentMarginSetting/HBoxContainer/ContentMarginDown" to="." method="_on_content_margin_down_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ContentMarginSetting/HBoxContainer/ContentMarginUp" to="." method="_on_content_margin_up_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/AllSongsMenuNavSetting/AllSongsMenuNavButton" to="." method="_on_all_songs_menu_nav_button_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/AlbumsMenuNavSetting/AlbumsMenuNavButton" to="." method="_on_albums_menu_nav_button_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/ArtistsMenuNavSetting/ArtistsMenuNavButton" to="." method="_on_artists_menu_nav_button_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PlaylistsMenuNavSetting/PlaylistsMenuNavButton" to="." method="_on_playlists_menu_nav_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/GlobalScaleSetting/HBoxContainer/GlobalUiScaleDown" to="." method="_on_global_ui_scale_down_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/GlobalScaleSetting/HBoxContainer/GlobalUiScaleUp" to="." method="_on_global_ui_scale_up_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ContentMarginSetting/HBoxContainer/ContentMarginDown" to="." method="_on_content_margin_down_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ContentMarginSetting/HBoxContainer/ContentMarginUp" to="." method="_on_content_margin_up_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemeSetting/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/ThemeDown" to="." method="_on_theme_down_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/ThemeUp" to="." method="_on_theme_up_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/ApplyTheme" to="." method="_on_apply_theme_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MarginContainer/PanelContainer/ResetToDefaultsButton" to="." method="_on_reset_to_defaults_button_pressed"]

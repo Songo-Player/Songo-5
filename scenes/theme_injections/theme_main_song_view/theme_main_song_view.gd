@@ -6,8 +6,6 @@ var theme_element: Control
 var songo_settings = SongoSettings.get_instance()
 var songo_data = SongoDataResource.get_instance()
 
-var inputs_locked = false
-
 func _ready() -> void:
 	ThemeManager.theme_updated.connect(_setup_from_theme)
 	_setup_from_theme()
@@ -32,14 +30,14 @@ func _setup_from_theme():
 	_on_started_new_song(SongoPlayerV2.get_current_music_record())
 	
 func _input(event: InputEvent) -> void:
-	if inputs_locked:
+	if DeviceOS.inputs_locked:
 		get_viewport().set_input_as_handled()
 		
 func handle_input(delta: float):
 	if Input.is_action_just_pressed("start"):
 		match songo_settings.start_btn_behavior:
 			SongoSettings.START_BEHAVIOR.LOCK:
-				inputs_locked = not inputs_locked
+				DeviceOS.inputs_locked = not DeviceOS.inputs_locked
 				try_wake()
 				
 			SongoSettings.START_BEHAVIOR.SLEEP:
@@ -47,8 +45,8 @@ func handle_input(delta: float):
 				else: try_sleep()
 			
 			SongoSettings.START_BEHAVIOR.LOCK_SLEEP:
-				inputs_locked = not inputs_locked
-				if inputs_locked: try_sleep()
+				DeviceOS.inputs_locked = not DeviceOS.inputs_locked
+				if DeviceOS.inputs_locked: try_sleep()
 				else: try_wake()
 				
 			SongoSettings.START_BEHAVIOR.KEEP_AWAKE:
@@ -57,7 +55,11 @@ func handle_input(delta: float):
 				
 	if _is_any_target_action_pressed(): try_wake()
 	
-	if inputs_locked: return
+	if DeviceOS.inputs_locked: return
+	
+	if Input.is_action_just_pressed("x"):
+		SongoPlayerV2.setRepeating(!SongoPlayerV2.repeating)
+	
 	if Input.is_action_just_pressed("ui_right") || Input.is_action_just_pressed("R1"):
 		SongoPlayerV2.play_next()
 		#display_play_button()
@@ -112,7 +114,7 @@ func try_wake():
 		DeviceOS.wake_screen()
 		
 func _is_any_target_action_pressed() -> bool:
-	if inputs_locked:
+	if DeviceOS.inputs_locked:
 		return false #Input.is_action_just_pressed("start")
 		
 	var target_actions = ["ui_accept", "ui_left", "ui_right", "ui_up", "ui_down", "back", "Y", "select", "L1", "R1", "L2", "R2"]

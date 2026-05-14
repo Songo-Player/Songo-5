@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dng47i26xt4ae"]
+[gd_scene load_steps=25 format=3 uid="uid://dng47i26xt4ae"]
 
 [ext_resource type="Script" path="res://internal_themes/SongoClassic/main_song_view/main_song_view.gd" id="1_meagc"]
 [ext_resource type="Script" path="res://scenes/visualizer/music_visualizer.gd" id="2_g3335"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://dsstr0fb8yo33" path="res://assets/Repeat.svg" id="11_ga6dd"]
 [ext_resource type="Texture2D" uid="uid://cshjgdxugm3gb" path="res://assets/lock.svg" id="12_hpqkx"]
 [ext_resource type="Texture2D" uid="uid://7dwsdkt7ambi" path="res://assets/coffee.svg" id="13_hvu7n"]
+[ext_resource type="Texture2D" uid="uid://ecyapgsdhese" path="res://assets/XboxSeriesX_X.png" id="14_ieplp"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uxjyg"]
 bg_color = Color(0, 0, 0, 0)
@@ -294,6 +295,11 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 texture = ExtResource("11_ga6dd")
+expand_mode = 2
+
+[node name="XButtonIcon" type="TextureRect" parent="HBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("14_ieplp")
 expand_mode = 2
 
 [node name="LockIcon" type="TextureRect" parent="HBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]

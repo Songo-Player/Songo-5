@@ -3,6 +3,8 @@ extends MarginContainer
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_on_clock_timer_timeout()
+	_update_element()
+	await get_tree().process_frame
 	%AllSongsButton.grab_focus()
 
 func _on_clock_timer_timeout() -> void:
@@ -44,7 +46,6 @@ func _on_exit_button_focus_entered() -> void:
 func _on_exit_button_pressed() -> void:
 	Controller.quit_songo()
 
-
 func _on_all_songs_button_pressed() -> void:
 	Controller.songs_index()
 
@@ -56,3 +57,14 @@ func _on_artists_button_pressed() -> void:
 
 func _on_playlists_button_pressed() -> void:
 	Controller.playlists_index()
+
+func _update_element():
+	var alignment = ThemeManager.settings["content_alignment"]
+	
+	if alignment == "left": %AlignmentContainer.alignment = HBoxContainer.ALIGNMENT_BEGIN
+	if alignment == "center": %AlignmentContainer.alignment = HBoxContainer.ALIGNMENT_CENTER
+	if alignment == "right": %AlignmentContainer.alignment = HBoxContainer.ALIGNMENT_END
+
+
+func _on_tree_entered() -> void:
+	_update_element()

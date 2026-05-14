@@ -20,10 +20,14 @@ func _ready() -> void:
 
 	max_values.resize(ball_count)
 	max_values.fill(0.0)
-	_update_ball_color()
-	ThemeManager.theme_settings_updated.connect(_update_ball_color)
+	_update_element()
+	ThemeManager.theme_settings_updated.connect(_update_element)
 
-func _update_ball_color():
+func _update_element():
+	ball_count = ThemeManager.settings["visualizer_density"]
+	max_values.resize(ball_count)
+	max_values.fill(0.0)
+	
 	var background = ThemeManager.settings["background"]
 	if "train" in background: 
 		%BallMusicVisualizer.ball_color = Color("ff555bc8")

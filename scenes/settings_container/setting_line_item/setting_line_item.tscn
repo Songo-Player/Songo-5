@@ -8,6 +8,7 @@
 [node name="SettingLineItem" type="VBoxContainer"]
 offset_right = 40.0
 offset_bottom = 40.0
+theme_override_constants/separation = 0
 script = ExtResource("1_7daaf")
 
 [node name="Hbox" type="HBoxContainer" parent="."]
@@ -34,6 +35,20 @@ theme_override_constants/minimum_character_width = 3
 text = "Current Value"
 expand_to_text_length = true
 
+[node name="SettingValueTrueLabel" type="Label" parent="Hbox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
+text = "True"
+
+[node name="SettingValueFalseLabel" type="Label" parent="Hbox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
+text = "False"
+
 [node name="PrevNextContainer" type="HBoxContainer" parent="Hbox"]
 unique_name_in_owner = true
 visible = false
@@ -51,8 +66,18 @@ layout_mode = 2
 text = ""
 icon = ExtResource("4_3h8c4")
 
+[node name="BoolSwapButton" parent="Hbox" instance=ExtResource("2_k2yu8")]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Swap
+"
+
 [node name="SettingDescription" type="Label" parent="."]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
@@ -60,3 +85,4 @@ autowrap_mode = 2
 
 [connection signal="pressed" from="Hbox/PrevNextContainer/PrevValueButton" to="." method="_on_prev_value_button_pressed"]
 [connection signal="pressed" from="Hbox/PrevNextContainer/NextValueButton" to="." method="_on_next_value_button_pressed"]
+[connection signal="pressed" from="Hbox/BoolSwapButton" to="." method="_on_bool_swap_button_pressed"]

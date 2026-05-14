@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=3 uid="uid://bdie6787qldp2"]
+
+[ext_resource type="Script" path="res://internal_themes/SongoClassic/footer/footer.gd" id="1_7rox0"]
+
+[node name="Footer" type="MarginContainer"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -34.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = -4
+theme_override_constants/margin_right = -4
+script = ExtResource("1_7rox0")
+
+[node name="Footer" type="PanelContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Footer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Footer/PanelContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Footer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="NavLabel" type="Label" parent="Footer/PanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+text = "Main menu > All Songs > Shuffle Play"
+text_overrun_behavior = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Footer/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+
+[node name="VersionLabel" type="Label" parent="Footer/PanelContainer/MarginContainer/HBoxContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 18
+text = "version here"

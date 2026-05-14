@@ -6,7 +6,7 @@ var current_theme
 var theme_path
 var default_theme_path = "res://internal_themes/SongoClassic"
 var default_theme
-const THEMABLE_COMPONENTS = ["main_menu", "background_root", "header", "main_song_view"]
+const THEMABLE_COMPONENTS = ["main_menu", "background_root", "header", "main_song_view", "footer"]
 var settings = {}
 var settings_info
 var settings_path:
@@ -45,7 +45,8 @@ func refresh_theme():
 func parse_theme_json(theme_dir_path):
 	var file := FileAccess.open(theme_dir_path+"/theme.json", FileAccess.READ)
 	if file == null:
-		return {}
+		file = FileAccess.open("res://internal_themes/SongoClassic/theme.json", FileAccess.READ)
+		#return {}
 
 	var json = JSON.parse_string(file.get_as_text())
 	return json if typeof(json) == TYPE_DICTIONARY else {}

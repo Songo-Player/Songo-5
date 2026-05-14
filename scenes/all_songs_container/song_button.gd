@@ -20,8 +20,8 @@ func setup(music_record, index_arg):
 	%Duration.text = music_record.length
 	%Button.set_meta("item_index", index)
 	songo_settings = SongoSettings.get_instance()
-	if ["fff", "eee"].has(songo_settings.theme_color):
-		%TheTail.modulate = Color("444")
+	#if ["fff", "eee"].has(songo_settings.theme_color):
+	#	%TheTail.modulate = Color("444")
 	
 	if !%Button.pressed.is_connected(_song_button_pressed):
 		%Button.pressed.connect(_song_button_pressed)

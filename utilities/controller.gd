@@ -5,6 +5,7 @@ var content_body_node
 var nav_label_node
 var active_container
 var container_history = []
+signal page_changed
 
 var history = []
 var nav_label = [] 
@@ -34,7 +35,6 @@ const CONTACT_ME_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_contain
 const SUPPORT_ME_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/support_me_sub_container.tscn"
 const CONTROLLER_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/controller_settings_sub_container.tscn"
 const SOUND_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/sound_settings_sub_container.tscn"
-
 
 func songs_index():
 	var music_records = songo_data.music_records
@@ -315,7 +315,8 @@ func clean_up_old_container():
 
 func finish_up_nav():
 	content_body_node.add_child(active_container)
-	nav_label_node.text = " > ".join(nav_label)
+	#nav_label_node.text = " > ".join(nav_label)
+	page_changed.emit()
 
 func save_state():
 	var new_state = {}

@@ -13,42 +13,6 @@ const SEEK_TIMES = [5,10,15,25,30]
 
 enum START_BEHAVIOR {LOCK, SLEEP, LOCK_SLEEP, KEEP_AWAKE}
 
-const THEME_COLOR_NAMES = [
-	"Grayish Blue",
-	"Purpley",
-	"Emerald Green",
-	"Purpley Blue",
-	"Burnt Orange",
-	"Another Blue",
-	"Pumpkin Spice",
-	"Voice Chat Color",
-	"Red-bernic",
-	"Pink?",
-	"Oops! No color!",
-	"Wrong Channel",
-	"Boring...",
-	"The Grid",
-	"Isekai Me"
-]
-
-const THEME_COLORS = [
-	"48486d", # Grayish Blue
-	"84233b", # Purpley
-	"215a30", # Emerald Green
-	"562b90", # Purpley Blue
-	"7c2a00", # Burnt Orange
-	"004988", # Another Blue
-	"d57200",  # Pumpkin Spice
-	"5865F2", # Voice Chat Color
-	"cc1111", # Red-bernic
-	"FB6F92", # Pink?
-	"777", # Oops! No Color
-	"48486c", # Wrong Channel
-	"fff", # Boring...
-	"111", # The Grid
-	"eee" # Isekai Me
-]
-
 # --- Generic Settings ---
 @export var settings_version = ""
 
@@ -57,21 +21,16 @@ const THEME_COLORS = [
 @export var content_margin: int = 16
 @export var sfx_volume: float = 1.0
 @export var music_volume: float = 1.0
-@export var theme_color_index = 0
-@export var clock_24_hour = false
-@export var main_menu_size = 1
+#@export var theme_color_index = 0
+#@export var clock_24_hour = false
+#@export var main_menu_size = 1
 @export var song_following = true
 @export var ab_layout_swapped = false
 @export var xy_layout_swapped = false
 @export var seek_backward_time_index = 1
 @export var seek_forward_time_index = 1
 @export var lock_inputs_on_sleep = false
-@export var main_menu_visible = {
-	"all_songs": true,
-	"albums": true,
-	"artists": true,
-	"playlists": true
-}
+
 # --- Controls Settings --- #
 @export var start_btn_behavior: START_BEHAVIOR = START_BEHAVIOR.LOCK
 
@@ -85,14 +44,8 @@ const THEME_COLORS = [
 @export var use_generic_strategy = false
 @export var song_sleep_timer_index = 3 # 10s
 @export var song_sleep_type = 0
-@export var theme_path = ""
+var theme_path = "res://internal_themes/SongoClassic"
 
-var theme_color: 
-	get: return THEME_COLORS[theme_color_index]
-	
-var theme_color_name:
-	get: return THEME_COLOR_NAMES[theme_color_index]
-	
 var song_sleep_timer:
 	get: return SONG_SLEEP_TIMES[song_sleep_timer_index]
 	

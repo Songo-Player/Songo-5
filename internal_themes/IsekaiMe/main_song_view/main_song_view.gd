@@ -9,22 +9,22 @@ var panel_style
 func _ready() -> void:
 	panel_style = %PanelContainer.get_theme_stylebox("panel")
 	%PauseButton.grab_focus()
+	_update_element()
+	ThemeManager.theme_settings_updated.connect(_update_element)
+
 		
 func setup():
 	pass
 	
 func _process(delta):
 	update_play_time()
-	#%LockIcon.visible = inputs_locked
-	#%StayAwakeIcon.visible = DeviceOS.keep_screen_awake
+
 	
 func setup_display_for(music_record: MusicRecord):
 	display_play_button()
 	%EndTimeLabel.text = "00:00" # gets updated later
 	var label_string = "%s ~ %s ~ %s" % [music_record.title, music_record.artist, music_record.album]
 	%SongLabelInfo.set_carousel_text(label_string)
-	
-	#%FileTypeLabel.text = music_record.full_path.get_extension().to_upper() + " File"
 
 	if loaded_song == music_record.full_path: return
 
@@ -40,7 +40,6 @@ func setup_display_for(music_record: MusicRecord):
 		
 	loaded_song = music_record.full_path
 	set_end_time(music_record)
-	#setup_playlist_info()
 
 func set_end_time(music_record: MusicRecord):
 	var length_sec: float = music_record.raw_length
@@ -63,11 +62,6 @@ func update_play_time():
 		var progress_ratio = pos_sec / current_song_duration
 		%ProgressLine.scale.x = progress_ratio
 		
-func setup_playlist_info():
-	var next_song = SongoPlayerV2.get_next_mp3_record()
-	%NextSongTitle.text = next_song.title
-	%PlaylistProgress.text = "%d / %d" % [SongoPlayerV2.play_index+1, SongoPlayerV2.music_files.size()]
-
 func display_play_button():
 	%PlayButton.hide()
 	%PauseButton.show()
@@ -77,11 +71,6 @@ func display_pause_button():
 	%PauseButton.hide()
 	%PlayButton.show()
 	%PlayButton.grab_focus()
-	
-func update_play_mode_icons():
-	%PlaylistProgress.visible = SongoPlayerV2.play_mode == SongoPlayerV2.MODE.LINEAR && SongoPlayerV2.repeating == false
-	%ShuffleIcon.visible = SongoPlayerV2.play_mode == SongoPlayerV2.MODE.SHUFFLE && SongoPlayerV2.repeating == false
-	%RepeatingIcon.visible = SongoPlayerV2.repeating
 	
 ##############################
 #           SIGNALS          #
@@ -95,19 +84,7 @@ func _on_play_button_pressed() -> void:
 func _on_pause_button_pressed() -> void:
 	SongoPlayerV2.pause()
 	display_pause_button()
-
-func _on_tree_entered() -> void:
-	SongoPlayerV2.updated_repeat.connect(_on_updated_repeat)
-	await get_tree().process_frame
-	#update_play_mode_icons()
 	
-func _on_tree_exited() -> void:
-	SongoPlayerV2.updated_repeat.disconnect(_on_updated_repeat)
-	
-func _on_updated_repeat():
-	update_play_mode_icons()
-	setup_playlist_info()
-
 
 func _on_clock_timer_timeout() -> void:
 	var now = Time.get_datetime_dict_from_system()
@@ -121,3 +98,10 @@ func _on_clock_timer_timeout() -> void:
 	%HourLabel.text = hour
 	%MinuteLabel.text = minute
 	%AmPmLabel.text = am_pm
+
+func _update_element():
+	var alignment = ThemeManager.settings["content_alignment"]
+	
+	if alignment == "left": %AlignmentContainer.alignment = HBoxContainer.ALIGNMENT_BEGIN
+	if alignment == "center": %AlignmentContainer.alignment = HBoxContainer.ALIGNMENT_CENTER
+	if alignment == "right": %AlignmentContainer.alignment = HBoxContainer.ALIGNMENT_END

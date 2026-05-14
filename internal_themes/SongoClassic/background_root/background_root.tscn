@@ -1,9 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://qlr7cgr7nlc7"]
+[gd_scene load_steps=6 format=3 uid="uid://qlr7cgr7nlc7"]
 
 [ext_resource type="Script" path="res://internal_themes/SongoClassic/background_root/background_root.gd" id="1_3djgj"]
+[ext_resource type="Shader" path="res://internal_themes/SongoClassic/assets/oopsNoColor.gdshader" id="2_86e4v"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w353m"]
 bg_color = Color(0.882353, 0.541176, 0.666667, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4lspt"]
+shader = ExtResource("2_86e4v")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hvade"]
+bg_color = Color(1, 1, 1, 1)
 
 [node name="BackgroundRoot" type="PanelContainer"]
 anchors_preset = 15
@@ -14,3 +21,12 @@ grow_vertical = 2
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_w353m")
 script = ExtResource("1_3djgj")
+
+[node name="OopsNoColorOverlay" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 5
+material = SubResource("ShaderMaterial_4lspt")
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hvade")

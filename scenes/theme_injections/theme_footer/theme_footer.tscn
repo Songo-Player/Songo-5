@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://be6g0340eh7v8"]
+
+[ext_resource type="Script" path="res://scenes/theme_injections/theme_footer/theme_footer.gd" id="1_0tyx7"]
+
+[node name="ThemeFooter" type="MarginContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_0tyx7")

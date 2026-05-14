@@ -15,7 +15,7 @@ func setup():
 	
 func _process(delta):
 	update_play_time()
-	#%LockIcon.visible = inputs_locked
+	%LockIcon.visible = DeviceOS.inputs_locked
 	%StayAwakeIcon.visible = DeviceOS.keep_screen_awake
 	
 func setup_display_for(music_record: MusicRecord):

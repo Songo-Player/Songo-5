@@ -1,5 +1,8 @@
 extends Node
 
+signal pseudo_sleep
+signal pseudo_sleep_wake
+
 const CFW_MUOS = "muOS"
 const CFW_KNULLI = "knulli"
 const CFW_ROCKNIX = "ROCKNIX"
@@ -17,6 +20,7 @@ var fade_val: float
 var fade_tween = null
 var sleeping: bool = false
 var keep_screen_awake = false
+var inputs_locked = false
 var device_name = ""
 var hallkey_path = false
 var bin_path = ""
@@ -155,7 +159,7 @@ func _on_tween_fade_finished():
 	if songo_settings.song_sleep_type == 0:
 		set_backlight(0)
 	fade_out_overlay.modulate.a = 1.0
-	if songo_settings.theme_color == "eee": UiHelper.background_video.stop()
+	pseudo_sleep.emit()
 	
 func set_backlight(level: int):
 	if songo_settings.song_sleep_type == 0:
@@ -163,7 +167,6 @@ func set_backlight(level: int):
 		OS.execute("sh", ["-c", cmd])
 
 func wake_screen():
-	if sleeping && songo_settings.theme_color == "eee": UiHelper.background_video.play()
 	if sleeping == true || fade_tween != null:
 		if fade_tween != null: 
 			fade_tween.kill()
@@ -174,6 +177,7 @@ func wake_screen():
 			
 		fade_out_overlay.modulate.a = 0.0
 		sleeping = false
+	pseudo_sleep_wake.emit()
 		
 func set_battery_info_path():
 	var likely_paths = [

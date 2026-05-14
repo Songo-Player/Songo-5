@@ -1,13 +1,14 @@
 {
 	"name": "Songo Classic",
-	"version": "0.2",
+	"version": "0.8",
 	"author": "Riley",
 	"description": "Original Songo#5 theme, based on minimalism and being user friendly.",
 	"components": {
 		"background_root": "background_root/background_root.tscn",
 		"main_menu": "main_menu/main_menu.tscn",
 		"header": "header/header.tscn",
-		"main_song_view": "main_song_view/main_song_view.tscn"
+		"main_song_view": "main_song_view/main_song_view.tscn",
+		"footer": "footer/footer.tscn"
 	},
 	"tags": [
 		"minimal",
@@ -15,6 +16,12 @@
 		"customizable"
 	],
 	"settings": {
+		"songo_clock_24_hour": {
+			"values": [true, false],
+			"default": true,
+			"display_name": "24 Hour Clock",
+			"dependents": ["header"]
+		},
 		"songo_background_color": {
 			"values": [
 				"48486d", 
@@ -27,6 +34,7 @@
 				"5865F2",
 				"cc1111", 
 				"FB6F92",
+				"777",
 			],
 			"labels": [
 				"Grayish Blue",
@@ -39,6 +47,7 @@
 				"Voice Chat Color",
 				"Red-bernic",
 				"Pink?",
+				"Oops! No color!"
 			],
 			"default": "48486d",
 			"display_name": "Background Color",
@@ -50,6 +59,38 @@
 			"default": 172,
 			"display_name": "Main Menu Size",
 			"dependents": ["main_menu"]
-		}
+		},
+		"songo_all_songs_menu_visibility": {
+			"values": [true, false],
+			"labels": ["Visible", "Hidden"],
+			"button_text": ["Hide", "Show"],
+			"default": true,
+			"display_name": "All Songs Menu Item",
+			"dependents": ["main_menu"]
+		},
+		"songo_albums_menu_visibility": {
+			"values": [true, false],
+			"labels": ["Visible", "Hidden"],
+			"button_text": ["Hide", "Show"],
+			"default": true,
+			"display_name": "Albums Menu Item",
+			"dependents": ["main_menu"]
+		},
+		"songo_artists_menu_visibility": {
+			"values": [true, false],
+			"labels": ["Visible", "Hidden"],
+			"button_text": ["Hide", "Show"],
+			"default": true,
+			"display_name": "Artists Menu Item",
+			"dependents": ["main_menu"]
+		},
+		"songo_playlists_menu_visibility": {
+			"values": [true, false],
+			"labels": ["Visible", "Hidden"],
+			"button_text": ["Hide", "Show"],
+			"default": true,
+			"display_name": "Playlists Menu Item",
+			"dependents": ["main_menu"]
+		},
 	}
 }
