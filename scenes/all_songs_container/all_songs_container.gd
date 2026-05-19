@@ -34,7 +34,6 @@ func setup(music_records_arg: Array[MusicRecord]):
 	%ShuffleButton.grab_focus()
 	virtualized_list.scroll_vertical = 0
 	var scroll_bar = virtualized_list.get_v_scroll_bar()
-	print(scroll_bar)
 	scroll_bar.focus_entered.connect(func(): bar_scrolling = true )
 	
 func set_as_album(album_arg):
@@ -60,7 +59,7 @@ func _on_item_removed(music_record):
 	#%SongCount.text = "%d Total" % music_records.size()
 	$CollectionHeader.record_count = music_records.size()
 	%VirtualizedList.remove_focused_item()
-	if Controller.active_container is SongPanelContainer:
+	if Controller.active_container is ThemeMainSongView:
 		Controller.skip_refocus = true
 	
 func set_as_artist(artist_arg):

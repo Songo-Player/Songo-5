@@ -145,11 +145,6 @@ text = "Misc Feature Settings"
 layout_mode = 2
 text = "Playlist Settings"
 
-[node name="AdvancedSettingsButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
-visible = false
-layout_mode = 2
-text = "Advanced Settings"
-
 [node name="ControllerSettingsButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
 layout_mode = 2
 text = "Controller Settings"
@@ -180,7 +175,6 @@ icon = ExtResource("5_k6o8t")
 [connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/UiAndCustomizationButton" to="." method="_on_ui_and_customization_button_pressed"]
 [connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/MiscFeatureSettingsButton" to="." method="_on_misc_feature_settings_button_pressed"]
 [connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/PlaylistSettingsButton" to="." method="_on_playlist_settings_button_pressed"]
-[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/AdvancedSettingsButton" to="." method="_on_advanced_settings_button_pressed"]
 [connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ControllerSettingsButton" to="." method="_on_controller_settings_button_pressed"]
 [connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/SoundSettingsButton" to="." method="_on_sound_settings_button_pressed"]
 [connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/DevelopmentCreditButton" to="." method="_on_development_credit_button_pressed"]

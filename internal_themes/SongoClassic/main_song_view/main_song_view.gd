@@ -20,7 +20,7 @@ func _process(delta):
 	
 func setup_display_for(music_record: MusicRecord):
 	display_play_button()
-	%EndTimeLabel.text = "00:00" # gets updated later
+	#%EndTimeLabel.text = "00:00" # gets updated later
 	%TitleLabel.set_carousel_text(music_record.title)
 	%ArtistLabel.set_carousel_text(music_record.artist)
 	%AlbumLabel.set_carousel_text(music_record.album)

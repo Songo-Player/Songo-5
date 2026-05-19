@@ -8,11 +8,12 @@
 		"main_menu": "main_menu/main_menu.tscn",
 		"header": "header/header.tscn",
 		"main_song_view": "main_song_view/main_song_view.tscn",
-		"footer": "footer/footer.tscn"
+		"footer": "footer/footer.tscn",
+		"song_follow": "song_follow/song_follow.tscn",
 	},
 	"tags": [
 		"minimal",
-		"internaltheme",
+		"og",
 		"customizable"
 	],
 	"settings": {

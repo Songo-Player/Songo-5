@@ -1,0 +1,42 @@
+{
+	"name": "xBop",
+	"version": "0.5",
+	"author": "Morris",
+	"description": "A dark minimal UI with accents of color to liven it up a bit",
+	"components": {
+		"background_root": "background_root/background_root.tscn",
+		"header": "header/header.tscn",	
+		"main_menu": "main_menu/main_menu.tscn",
+		"footer": "footer/footer.tscn",
+		"main_song_view": "main_song_view/main_song_view.tscn",
+		"song_follow": "song_follow/song_follow.tscn"
+	},
+	"tags": [
+		"minimal",
+		"og",
+		"dark"
+	],
+	"settings": {
+		"clock_24_hour": {
+			"values": [true, false],
+			"default": true,
+			"display_name": "24 Hour Clock",
+			"dependents": ["header"]
+		},
+		"visualizer_density": {
+			"values": [5, 7, 9, 11, 13],
+			"labels": ["5x5", "7x5", "9x5", "11x5", "13x5"],
+			"default": 9,
+			"display_name": "visualizer_density",
+			"dependents": ["main_menu", "main_song_view"],
+		},
+		"content_scale": {
+			"values": [0.8, 0.9, 1.0, 1.1, 1.2],
+			"labels": ["0.8x", "0.9x", "1.0x", "1.1x", "1.2x"],
+			"default": 1.0,
+			"display_name": "Content Scale",
+			"dependents": ["main_menu", "main_song_view"],
+			"description": "Controls UI scale of the main menu and main song view."
+		},
+	}
+}

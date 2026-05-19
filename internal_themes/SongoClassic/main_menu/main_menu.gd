@@ -56,7 +56,7 @@ func _on_artist_menu_button_pressed() -> void:
 
 func update_main_menu_size():
 	var size = ThemeManager.settings["songo_main_menu_size"]
-	if UiHelper.mini_song_panel.visible == true && size == 220:
+	if SongoPlayerV2.is_playing() && size == 220:
 		size = 172
 		
 	for tex_panel in tex_panels: 

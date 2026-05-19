@@ -44,7 +44,7 @@ enum START_BEHAVIOR {LOCK, SLEEP, LOCK_SLEEP, KEEP_AWAKE}
 @export var use_generic_strategy = false
 @export var song_sleep_timer_index = 3 # 10s
 @export var song_sleep_type = 0
-var theme_path = "res://internal_themes/SongoClassic"
+@export var theme_path = "res://internal_themes/SongoClassic"
 
 var song_sleep_timer:
 	get: return SONG_SLEEP_TIMES[song_sleep_timer_index]

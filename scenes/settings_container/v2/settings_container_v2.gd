@@ -33,9 +33,6 @@ func _on_misc_feature_settings_button_pressed() -> void:
 func _on_playlist_settings_button_pressed() -> void:
 	Controller.playlist_settings()
 
-func _on_advanced_settings_button_pressed() -> void:
-	Controller.advanced_settings()
-
 func _on_development_credit_button_pressed() -> void:
 	Controller.settings_development_credit()
 

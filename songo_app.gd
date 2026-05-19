@@ -34,7 +34,6 @@ func _ready() -> void:
 	UiHelper.dark_out = %DarkOut
 	UiHelper.app_message = %AppMessage
 	UiHelper.main_color_panel = %MainColorPanel
-	UiHelper.mini_song_panel = %MiniSongPanel
 	UiHelper.content_body = %ContentBody
 	UiHelper.content_margin_container = %ContentMargin
 	UiHelper.keyboard = %Keyboard
@@ -58,7 +57,6 @@ func _ready() -> void:
 		DeviceOS.swap_input_actions("back", "ui_accept")
 	if songo_settings.xy_layout_swapped:
 		DeviceOS.swap_input_actions("x", "Y")
-	%MiniSongPanel.setup()
 	
 
 
@@ -104,11 +102,6 @@ func _input(event: InputEvent) -> void:
 			if event.is_match(action_event) and event.is_pressed():
 				handle_queue_music()
 				break  # Stop after finding a match
-				
-		for action_event in InputMap.action_get_events("ui_left"):
-			if event.is_match(action_event) and event.is_pressed():
-				handle_song_repeat()
-				break  # Stop after finding a match
 	
 			
 	if showing_quick_menu:
@@ -142,16 +135,11 @@ func _process(delta: float) -> void:
 	UiHelper.route_inputs(Controller.active_container, delta)
 
 func handle_queue_music():
-	if UiHelper.mini_song_panel.visible == false: return
-	if Controller.active_container is AllSongsContainer:
+	if Controller.active_container is AllSongsContainer && SongoPlayerV2.is_playing():
 		var queue_song = Controller.active_container.focused_song
 		SongoPlayerV2.queue_music(queue_song)
 		UiHelper.flash_message("Queued %s" % queue_song.title)
 
-func handle_song_repeat():
-	if Controller.active_container is not ThemeMainSongView: return null
-	SongoPlayerV2.setRepeating(!SongoPlayerV2.repeating)
-	
 func get_playlist_target_song():
 	if Controller.active_container is AllSongsContainer:
 		return Controller.active_container.focused_song
@@ -166,8 +154,10 @@ func get_playlist_target_collection():
 	else: return null
 	
 func update_quick_menu_vals():
+	var actions_available = false
 	var target_song = get_playlist_target_song()
 	if target_song && songo_data.recent_playlist:
+		actions_available = true
 		%AddRemoveInPlaylistQuick.show()
 		var new_text = ""
 		if target_song in songo_data.recent_playlist.music_records:
@@ -178,6 +168,7 @@ func update_quick_menu_vals():
 	
 	var target_collection = get_playlist_target_collection()
 	if target_collection && songo_data.recent_playlist:
+		actions_available = true
 		var overlap = songo_data.recent_playlist.get_collection_overlap(target_collection.music_records)
 		%AddRemoveInPlaylistQuick.show()
 		var collection_type = "album"
@@ -194,19 +185,13 @@ func update_quick_menu_vals():
 	if (target_collection == null && target_song == null) || songo_data.recent_playlist == null:
 		%AddRemoveInPlaylistQuick.hide()
 		
-	if Controller.active_container is AllSongsContainer && target_song && UiHelper.mini_song_panel.visible:
+	if Controller.active_container is AllSongsContainer && target_song && SongoPlayerV2.is_playing():
+		actions_available = true
 		%QueueSong.show()
 	else:
 		%QueueSong.hide()
-	
-	if Controller.active_container is ThemeMainSongView:
-		%RepeatSong.show()
-		if SongoPlayerV2.repeating:
-			%RepeatSongActionLabel.text = " : Resume song list (stop repeating)"
-		else:	
-			%RepeatSongActionLabel.text = " : Set song to repeat"
-	else:
-		%RepeatSong.hide()
+		
+	%NoQuickMenuActions.visible = not actions_available
 
 func handle_playlist_quick_edit():
 	var target_collection = get_playlist_target_collection()

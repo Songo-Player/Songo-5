@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://cw7uyel7xpbft"]
+
+[ext_resource type="Script" path="res://scenes/theme_injections/theme_song_follow/theme_song_follow.gd" id="1_v7wy8"]
+
+[node name="ThemeSongFollow" type="MarginContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+script = ExtResource("1_v7wy8")

@@ -41,8 +41,8 @@ func _draw() -> void:
 	var font_size := get_theme_font_size("font_size")
 
 	# Draw original text and repeated copy
-	font.draw_string(get_canvas_item(), Vector2(-_offset, font_size + 5), _full_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, font_color)
-	font.draw_string(get_canvas_item(), Vector2(_text_width + gap - _offset, font_size + 5), _full_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, font_color)
+	font.draw_string(get_canvas_item(), Vector2(-_offset, font_size + 3), _full_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, font_color)
+	font.draw_string(get_canvas_item(), Vector2(_text_width + gap - _offset, font_size + 3), _full_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, font_color)
 
 func set_carousel_text(new_text: String) -> void:
 	text = new_text

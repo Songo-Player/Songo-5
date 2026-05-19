@@ -1,0 +1,82 @@
+{
+	"name": "Sakura",
+	"version": "0.8",
+	"author": "Beck",
+	"description": "Similar layout to Songo Classic with a chill animated pixel background",
+	"components": {
+		"background_root": "background_root/background_root.tscn",
+		"main_menu": "main_menu/main_menu.tscn",
+		"header": "header/header.tscn",
+		"main_song_view": "main_song_view/main_song_view.tscn",
+		"footer": "footer/footer.tscn",
+		"song_follow": "song_follow/song_follow.tscn",
+	},
+	"tags": [
+		"minimal",
+		"og",
+		"animated"
+	],
+	"settings": {
+		"background": {
+			"values": [
+				"assets/train_rain_540p.ogv", 
+				"assets/chainsaw_540p.ogv",
+				"assets/sunset_540p.ogv", 
+			],
+			"labels": [
+				"Watching the train",
+				"Chainsaw",
+				"Sunset",
+			],
+			"default": "assets/train_rain_540p.ogv",
+			"display_name": "Background"
+		},
+		"visualizer_density": {
+			"values": [12, 16, 20, 24, 28, 32, 36, 40],
+			"labels": ["12", "16", "20", "24", "28", "32", "36", "40"],
+			"default": 16,
+			"display_name": "Visualizer Density",
+		},
+		"x_flip_background": {
+			"values": [true, false],
+			"default": false,
+			"display_name": "Flip background"
+		},
+		"static_background": {
+			"values": [true, false],
+			"default": false,
+			"display_name": "Static background",
+			"description": "May conserve battery life or provide smoother navigation on weak devices"
+		},
+		"background_alignment": {
+			"values": [
+				"left", 
+				"center",
+				"right", 
+			],
+			"labels": [
+				"Left",
+				"Center",
+				"Right",
+			],
+			"default": "left",
+			"display_name": "Background Alignment",
+			"description": "Changes which part of the background is rendered"
+		},
+		"content_alignment": {
+			"values": [
+				"left", 
+				"center",
+				"right", 
+			],
+			"labels": [
+				"Left",
+				"Center",
+				"Right",
+			],
+			"default": "left",
+			"display_name": "Content Alignment",
+			"description": "This determines alignment of the main menu and song view components."
+		},
+	}
+}

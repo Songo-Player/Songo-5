@@ -6,7 +6,7 @@ var current_theme
 var theme_path
 var default_theme_path = "res://internal_themes/SongoClassic"
 var default_theme
-const THEMABLE_COMPONENTS = ["main_menu", "background_root", "header", "main_song_view", "footer"]
+const THEMABLE_COMPONENTS = ["main_menu", "background_root", "header", "main_song_view", "footer", "song_follow"]
 var settings = {}
 var settings_info
 var settings_path:
@@ -19,6 +19,9 @@ func get_settings_path():
 
 func set_current_theme(theme_path_arg):
 	default_theme = parse_theme_json(default_theme_path)
+	var file := FileAccess.open(theme_path_arg+"/theme.json", FileAccess.READ)
+	if file == null: theme_path_arg = default_theme_path
+	
 	for conn in theme_settings_updated.get_connections():
 		theme_settings_updated.disconnect(conn.callable)
 		

@@ -244,7 +244,7 @@ func remove_focused_item():
 
 	_on_scroll_changed(scroll_vertical)
 	# Restore focus to the appropriate item
-	if Controller.active_container is SongPanelContainer: return
+	if Controller.active_container is ThemeMainSongView: return
 	
 	#await get_tree().process_frame
 	for item in item_pool:

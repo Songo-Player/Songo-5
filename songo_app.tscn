@@ -1,18 +1,16 @@
-[gd_scene load_steps=26 format=3 uid="uid://x6a7h67rwoqo"]
+[gd_scene load_steps=25 format=3 uid="uid://x6a7h67rwoqo"]
 
 [ext_resource type="Script" path="res://songo_app.gd" id="1_einrm"]
 [ext_resource type="Shader" path="res://crt.gdshader" id="2_yqef3"]
 [ext_resource type="Shader" path="res://theGrid.gdshader" id="4_ain8k"]
-[ext_resource type="Texture2D" uid="uid://4xjlhnc8n0vw" path="res://assets/Switch_Dpad_Right.png" id="4_uf3q1"]
 [ext_resource type="PackedScene" uid="uid://cbel1ghs36ym0" path="res://scenes/theme_injections/theme_background_root/theme_background_root.tscn" id="5_77hak"]
 [ext_resource type="Texture2D" uid="uid://d3d3mtv7v4hhe" path="res://assets/Switch_Dpad_Up.png" id="7_1pbtu"]
-[ext_resource type="PackedScene" uid="uid://b4a176a7whmhc" path="res://scenes/mini_song_panel/mini_song_panel.tscn" id="8_7tnq6"]
 [ext_resource type="Texture2D" uid="uid://btjv8vx32m5y1" path="res://assets/Switch_Dpad_Down.png" id="8_swjqc"]
 [ext_resource type="PackedScene" uid="uid://dpkuxp51tlyqk" path="res://scenes/keyboard/keyboard.tscn" id="8_y4p5t"]
 [ext_resource type="PackedScene" uid="uid://bthtkrg10n8oi" path="res://scenes/app_message/app_message.tscn" id="9_1p8yf"]
-[ext_resource type="Texture2D" uid="uid://bw0rxqtvk4f66" path="res://assets/Switch_Dpad_Left.png" id="9_nmfcn"]
 [ext_resource type="PackedScene" uid="uid://dalui65p8m2es" path="res://scenes/flash_message_box/flash_message_box.tscn" id="10_3xlg5"]
 [ext_resource type="PackedScene" uid="uid://bhr3buckg1vxs" path="res://scenes/theme_injections/theme_header/theme_header.tscn" id="10_flm4y"]
+[ext_resource type="Script" path="res://scenes/theme_injections/theme_song_follow/theme_song_follow.gd" id="11_pok2t"]
 [ext_resource type="PackedScene" uid="uid://d04khqj3ibmkx" path="res://scenes/volume_container/volume_container.tscn" id="14_ur3pi"]
 [ext_resource type="Script" path="res://scenes/theme_injections/theme_footer/theme_footer.gd" id="15_mra02"]
 
@@ -64,6 +62,12 @@ corner_radius_bottom_left = 16
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5oa4s"]
 border_width_top = 2
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sm4ou"]
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gs5fl"]
 bg_color = Color(5.53504e-07, 0.19923, 0.271238, 1)
 
@@ -106,6 +110,16 @@ z_index = 10
 layout_mode = 2
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_75gu8")
+
+[node name="VolumeContainer" parent="." instance=ExtResource("14_ur3pi")]
+unique_name_in_owner = true
+z_index = 1
+layout_mode = 2
+offset_left = 584.0
+offset_right = 640.0
+offset_bottom = 480.0
+theme_override_constants/margin_top = 120
+theme_override_constants/margin_bottom = 120
 
 [node name="MainColorPanel" type="PanelContainer" parent="."]
 unique_name_in_owner = true
@@ -215,7 +229,6 @@ theme_override_constants/margin_bottom = 0
 
 [node name="QuickMenu" type="PanelContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody"]
 unique_name_in_owner = true
-visible = false
 z_index = 2
 layout_mode = 2
 size_flags_horizontal = 4
@@ -243,20 +256,6 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxFlat_5oa4s")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-texture = ExtResource("4_uf3q1")
-expand_mode = 3
-
-[node name="Label" type="Label" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = " : Lock/Unlock Inputs"
-
 [node name="AddRemoveInPlaylistQuick" type="HBoxContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -268,11 +267,9 @@ expand_mode = 3
 
 [node name="AddRemoveInPlaylistLabel" type="Label" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/AddRemoveInPlaylistQuick"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = " : Add to / Remove from playlist"
-text_overrun_behavior = 4
+text = " : Add to  playlist"
 
 [node name="QueueSong" type="HBoxContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -284,28 +281,25 @@ texture = ExtResource("8_swjqc")
 expand_mode = 3
 
 [node name="QueueSongLabel" type="Label" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/QueueSong"]
-custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = " : Queue song"
-text_overrun_behavior = 4
+text = " : Queue song  "
 
-[node name="RepeatSong" type="HBoxContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+[node name="NoQuickMenuActions" type="PanelContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_sm4ou")
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/RepeatSong"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/NoQuickMenuActions"]
 layout_mode = 2
-texture = ExtResource("9_nmfcn")
-expand_mode = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 4
 
-[node name="RepeatSongActionLabel" type="Label" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/RepeatSong"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 0)
+[node name="Label" type="Label" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/NoQuickMenuActions/MarginContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = " : Set song to repeat"
-text_overrun_behavior = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "No Quick Menu Actions Available"
 
 [node name="DebugInfo" type="PanelContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody"]
 unique_name_in_owner = true
@@ -383,13 +377,9 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 48
 text = "See ya later"
 
-[node name="MiniSongPanel" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer" instance=ExtResource("8_7tnq6")]
-unique_name_in_owner = true
+[node name="ThemeSongFollow" type="MarginContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 8
-theme_override_constants/margin_left = 0
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 0
+script = ExtResource("11_pok2t")
 
 [node name="Keyboard" parent="VBoxContainer/BodyMarginContainer" instance=ExtResource("8_y4p5t")]
 unique_name_in_owner = true
@@ -406,10 +396,6 @@ process_mode = 3
 visible = false
 layout_mode = 2
 mouse_filter = 1
-
-[node name="VolumeContainer" parent="VBoxContainer/BodyMarginContainer" instance=ExtResource("14_ur3pi")]
-unique_name_in_owner = true
-layout_mode = 2
 
 [node name="ThemeFooter" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2

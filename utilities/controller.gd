@@ -29,7 +29,6 @@ const DATA_AND_STORAGE_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_c
 const UI_AND_CUSTOMIZATIONS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/ui_and_customization_sub_container.tscn"
 const MISC_FEATURE_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/misc_feature_settings_sub_container.tscn"
 const PLAYLIST_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/playlist_settings_sub_container.tscn"
-const ADVANCED_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/advanced_settings_sub_container.tscn"
 const DEVELOPMENT_CREDIT_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/development_credit_sub_container.tscn"
 const CONTACT_ME_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/contact_me_sub_container.tscn"
 const SUPPORT_ME_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/support_me_sub_container.tscn"
@@ -191,14 +190,6 @@ func playlist_settings():
 	active_container = load(PLAYLIST_SETTINGS_SUB_CONTAINER).instantiate()
 	active_container.setup()
 	nav_label = ["Main Menu", "Settings", "Playlist Settings"]
-	finish_up_nav()
-	
-func advanced_settings():
-	clean_up_old_container()
-	
-	active_container = load(ADVANCED_SETTINGS_SUB_CONTAINER).instantiate()
-	active_container.setup()
-	nav_label = ["Main Menu", "Settings", "Advanced Settings"]
 	finish_up_nav()
 	
 func settings_development_credit():

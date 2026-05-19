@@ -48,6 +48,7 @@ func update_song_following_ui():
 
 func _on_song_following_button_pressed() -> void:
 	songo_settings.song_following = not songo_settings.song_following
+	songo_settings.save()
 	update_song_following_ui()
 
 func _on_song_sleep_timer_down_pressed() -> void:

@@ -73,9 +73,8 @@ func handle_input(delta: float):
 			SongoPlayerV2.play_previous()
 	
 	if Input.is_action_just_pressed("back"):
-		if SongoPlayerV2.is_playing():
+		if SongoPlayerV2.is_playing() && songo_settings.song_following:
 			Controller.save_state()
-			UiHelper.show_mini_song_panel()
 		else:
 			SongoPlayerV2.stop()
 		Controller.new_nav_back()
@@ -142,7 +141,6 @@ func _on_started_new_song(music_record: MusicRecord):
 		theme_element.setup_display_for(music_record)
 	
 func _on_tree_entered() -> void:
-	UiHelper.hide_mini_song_panel()
 	# Might need to move this after the await
 	if is_node_ready():
 		_on_started_new_song(SongoPlayerV2.get_current_music_record())

@@ -1,0 +1,157 @@
+[gd_scene load_steps=10 format=3 uid="uid://c3jkqim1bcewp"]
+
+[ext_resource type="Script" path="res://internal_themes/XBop/header/header.gd" id="1_7lmyj"]
+[ext_resource type="FontFile" uid="uid://ckx8hptr33csi" path="res://fonts/CourierPrime-Bold.ttf" id="2_ijgl5"]
+[ext_resource type="Texture2D" uid="uid://inruw0c6rdua" path="res://assets/wifi.svg" id="3_6b5x0"]
+[ext_resource type="Texture2D" uid="uid://nqpdbtqncxh4" path="res://assets/clock.svg" id="4_i5g8v"]
+[ext_resource type="Texture2D" uid="uid://ds1hiniyche5x" path="res://assets/battery.svg" id="5_8loti"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_raxui"]
+bg_color = Color(1, 1, 1, 0.235294)
+border_blend = true
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_isty2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nvclg"]
+bg_color = Color(0.576471, 0.772549, 0.447059, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jq5sh"]
+bg_color = Color(0.576471, 0.772549, 0.447059, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="Header" type="MarginContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 39.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+script = ExtResource("1_7lmyj")
+
+[node name="HeaderPanel" type="PanelContainer" parent="."]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_raxui")
+
+[node name="MarginContainer" type="MarginContainer" parent="HeaderPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HeaderPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="HeaderPanel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = -4
+
+[node name="Label" type="Label" parent="HeaderPanel/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_ijgl5")
+theme_override_font_sizes/font_size = 24
+text = "Songo#5"
+
+[node name="HSeparator" type="HSeparator" parent="HeaderPanel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_isty2")
+
+[node name="NetworkConnection" type="PanelContainer" parent="HeaderPanel/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nvclg")
+
+[node name="MarginContainer" type="MarginContainer" parent="HeaderPanel/MarginContainer/HBoxContainer/NetworkConnection"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="TextureRect" type="TextureRect" parent="HeaderPanel/MarginContainer/HBoxContainer/NetworkConnection/MarginContainer"]
+modulate = Color(0.193154, 0.193154, 0.193154, 1)
+layout_mode = 2
+texture = ExtResource("3_6b5x0")
+expand_mode = 3
+
+[node name="CurrentOsTimeContainer" type="PanelContainer" parent="HeaderPanel/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jq5sh")
+
+[node name="MarginContainer" type="MarginContainer" parent="HeaderPanel/MarginContainer/HBoxContainer/CurrentOsTimeContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HeaderPanel/MarginContainer/HBoxContainer/CurrentOsTimeContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TextureRect" type="TextureRect" parent="HeaderPanel/MarginContainer/HBoxContainer/CurrentOsTimeContainer/MarginContainer/HBoxContainer"]
+modulate = Color(0.192157, 0.192157, 0.192157, 1)
+layout_mode = 2
+texture = ExtResource("4_i5g8v")
+expand_mode = 3
+
+[node name="CurrentOsTimeLabel" type="Label" parent="HeaderPanel/MarginContainer/HBoxContainer/CurrentOsTimeContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.192157, 0.192157, 0.192157, 1)
+text = "00:00"
+
+[node name="BatteryPercentContainer" type="PanelContainer" parent="HeaderPanel/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jq5sh")
+
+[node name="MarginContainer" type="MarginContainer" parent="HeaderPanel/MarginContainer/HBoxContainer/BatteryPercentContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HeaderPanel/MarginContainer/HBoxContainer/BatteryPercentContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BatteryIcon" type="TextureRect" parent="HeaderPanel/MarginContainer/HBoxContainer/BatteryPercentContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+modulate = Color(0.192157, 0.192157, 0.192157, 1)
+layout_mode = 2
+texture = ExtResource("5_8loti")
+expand_mode = 3
+
+[node name="BatteryPercent" type="Label" parent="HeaderPanel/MarginContainer/HBoxContainer/BatteryPercentContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.192157, 0.192157, 0.192157, 1)
+text = "N/A"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

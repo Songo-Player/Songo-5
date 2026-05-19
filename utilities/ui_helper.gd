@@ -3,7 +3,6 @@ extends Node
 var dark_out: Control
 var app_message: Control
 var main_color_panel: Control
-var mini_song_panel: Control
 var content_body: Control
 var content_margin_container: Control
 var keyboard: Control
@@ -13,7 +12,6 @@ var songo_settings = SongoSettings.get_instance()
 var vol_container: Control
 var crt_overlay: Control
 var the_grid_overlay: Control
-#var background_video: VideoStreamPlayer
 
 var focus_chain = []
 var original_size = null
@@ -44,27 +42,8 @@ func apply_content_margin(new_margin: int):
 #	root.size = DisplayServer.screen_get_size()
 #	DisplayServer.window_set_size(original_size)
 	
-func show_mini_song_panel():
-	if songo_settings.song_following:
-		mini_song_panel.show()
-	else:
-		SongoPlayerV2.stop()
-	
-func hide_mini_song_panel():
-	Controller.stored_state = null
-	Controller.stored_state = null
-	mini_song_panel.hide()
-	
-func dismiss_mini_song_panel():
-	Controller.stored_state = null
-	mini_song_panel.hide()
-	SongoPlayerV2.stop()
 	
 func route_inputs(active_container, delta):
-	if Input.is_action_just_pressed("start"):
-		if mini_song_panel.visible:
-			dismiss_mini_song_panel()
-			return
 	if Input.is_action_just_pressed("back"):
 		if app_message.visible:
 			app_message.dismiss()
@@ -72,19 +51,6 @@ func route_inputs(active_container, delta):
 		if keyboard.visible:
 			keyboard.dismiss()
 			return
-	if Input.is_action_just_pressed("select"):
-		if mini_song_panel.visible:
-			Controller.restore_state()
-	
-	if mini_song_panel.visible:	
-		if Input.is_action_just_pressed("L1"):
-			var playback_position: float = SongoPlayerV2.get_playback_position()
-			if playback_position >= 3.0:
-				SongoPlayerV2.play_from_start()
-			else:
-				SongoPlayerV2.play_previous()
-		if Input.is_action_just_pressed("R1"):
-			SongoPlayerV2.play_next()
 			
 	if is_instance_valid(active_container): active_container.handle_input(delta)
 
