@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://ds1hiniyche5x" path="res://assets/battery.svg" id="5_8loti"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_raxui"]
-bg_color = Color(1, 1, 1, 0.235294)
+bg_color = Color(0.254902, 0.254902, 0.254902, 1)
 border_blend = true
 corner_radius_top_left = 12
 corner_radius_top_right = 12
@@ -31,6 +31,7 @@ corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
 [node name="Header" type="MarginContainer"]
+z_index = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 39.0

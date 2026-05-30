@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cc5a5b5kyusy3"]
+[gd_scene load_steps=9 format=3 uid="uid://cc5a5b5kyusy3"]
 
 [ext_resource type="Script" path="res://internal_themes/XBop/main_menu/main_menu.gd" id="1_k8yx5"]
 [ext_resource type="Texture2D" uid="uid://vf3nwtu7nfcs" path="res://assets/exit_walk_glow.png" id="2_gn4da"]
@@ -18,22 +18,6 @@ corner_radius_top_left = 100
 corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qqv5n"]
-bg_color = Color(0.576471, 0.772549, 0.447059, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hwt1y"]
-content_margin_top = 2.0
-content_margin_bottom = 4.0
-bg_color = Color(0.254902, 0.254902, 0.254902, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xwjo2"]
 bg_color = Color(0.576471, 0.772549, 0.447059, 1)
@@ -167,10 +151,6 @@ size_flags_horizontal = 8
 size_flags_vertical = 4
 focus_neighbor_top = NodePath("../../../MarginContainer6/MarginContainer/ExitButton")
 focus_neighbor_bottom = NodePath("../../../MarginContainer2/MarginContainer/AlbumsButton")
-theme_override_colors/font_hover_color = Color(0.192157, 0.192157, 0.192157, 1)
-theme_override_colors/font_focus_color = Color(0.192157, 0.192157, 0.192157, 1)
-theme_override_styles/focus = SubResource("StyleBoxFlat_qqv5n")
-theme_override_styles/normal = SubResource("StyleBoxFlat_hwt1y")
 text = "All Songs"
 
 [node name="MarginContainer2" type="MarginContainer" parent="Control/ScaleControl/Control/ButtonContainer"]
@@ -202,10 +182,6 @@ size_flags_horizontal = 8
 size_flags_vertical = 4
 focus_neighbor_top = NodePath("../../../MarginContainer/MarginContainer/AllSongsButton")
 focus_neighbor_bottom = NodePath("../../../MarginContainer3/MarginContainer/ArtistsButton")
-theme_override_colors/font_hover_color = Color(0.192157, 0.192157, 0.192157, 1)
-theme_override_colors/font_focus_color = Color(0.192157, 0.192157, 0.192157, 1)
-theme_override_styles/focus = SubResource("StyleBoxFlat_qqv5n")
-theme_override_styles/normal = SubResource("StyleBoxFlat_hwt1y")
 text = "Albums"
 
 [node name="MarginContainer3" type="MarginContainer" parent="Control/ScaleControl/Control/ButtonContainer"]
@@ -237,10 +213,6 @@ size_flags_horizontal = 8
 size_flags_vertical = 4
 focus_neighbor_top = NodePath("../../../MarginContainer2/MarginContainer/AlbumsButton")
 focus_neighbor_bottom = NodePath("../../../MarginContainer4/MarginContainer/PlaylistsButton")
-theme_override_colors/font_hover_color = Color(0.192157, 0.192157, 0.192157, 1)
-theme_override_colors/font_focus_color = Color(0.192157, 0.192157, 0.192157, 1)
-theme_override_styles/focus = SubResource("StyleBoxFlat_qqv5n")
-theme_override_styles/normal = SubResource("StyleBoxFlat_hwt1y")
 text = "Artists"
 
 [node name="MarginContainer4" type="MarginContainer" parent="Control/ScaleControl/Control/ButtonContainer"]
@@ -272,10 +244,6 @@ size_flags_horizontal = 8
 size_flags_vertical = 4
 focus_neighbor_top = NodePath("../../../MarginContainer3/MarginContainer/ArtistsButton")
 focus_neighbor_bottom = NodePath("../../../MarginContainer5/MarginContainer/SettingsButton")
-theme_override_colors/font_hover_color = Color(0.192157, 0.192157, 0.192157, 1)
-theme_override_colors/font_focus_color = Color(0.192157, 0.192157, 0.192157, 1)
-theme_override_styles/focus = SubResource("StyleBoxFlat_qqv5n")
-theme_override_styles/normal = SubResource("StyleBoxFlat_hwt1y")
 text = "Playlists"
 
 [node name="MarginContainer5" type="MarginContainer" parent="Control/ScaleControl/Control/ButtonContainer"]
@@ -307,10 +275,6 @@ size_flags_horizontal = 8
 size_flags_vertical = 4
 focus_neighbor_top = NodePath("../../../MarginContainer4/MarginContainer/PlaylistsButton")
 focus_neighbor_bottom = NodePath("../../../MarginContainer6/MarginContainer/ExitButton")
-theme_override_colors/font_hover_color = Color(0.192157, 0.192157, 0.192157, 1)
-theme_override_colors/font_focus_color = Color(0.192157, 0.192157, 0.192157, 1)
-theme_override_styles/focus = SubResource("StyleBoxFlat_qqv5n")
-theme_override_styles/normal = SubResource("StyleBoxFlat_hwt1y")
 text = "Settings"
 
 [node name="MarginContainer6" type="MarginContainer" parent="Control/ScaleControl/Control/ButtonContainer"]
@@ -342,10 +306,6 @@ size_flags_horizontal = 8
 size_flags_vertical = 4
 focus_neighbor_top = NodePath("../../../MarginContainer5/MarginContainer/SettingsButton")
 focus_neighbor_bottom = NodePath("../../../MarginContainer/MarginContainer/AllSongsButton")
-theme_override_colors/font_hover_color = Color(0.192157, 0.192157, 0.192157, 1)
-theme_override_colors/font_focus_color = Color(0.192157, 0.192157, 0.192157, 1)
-theme_override_styles/focus = SubResource("StyleBoxFlat_qqv5n")
-theme_override_styles/normal = SubResource("StyleBoxFlat_hwt1y")
 text = "Exit"
 
 [node name="StringContainer" type="Control" parent="Control/ScaleControl/Control"]

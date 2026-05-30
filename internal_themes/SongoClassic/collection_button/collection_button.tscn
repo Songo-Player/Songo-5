@@ -1,0 +1,295 @@
+[gd_scene load_steps=16 format=3 uid="uid://choknc2kgb1h5"]
+
+[ext_resource type="Script" path="res://internal_themes/SongoClassic/collection_button/collection_button.gd" id="1_fcwni"]
+[ext_resource type="Texture2D" uid="uid://4lwbxso23g8o" path="res://assets/folder_nested_line_long.png" id="2_bt62x"]
+[ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="3_1ddtq"]
+[ext_resource type="Texture2D" uid="uid://byeluf85nlgra" path="res://assets/record.svg" id="4_1esgy"]
+[ext_resource type="Texture2D" uid="uid://faqv22wj0cw1" path="res://icon.svg" id="5_h3lj2"]
+[ext_resource type="Texture2D" uid="uid://dcqtgyrr3fac2" path="res://assets/user.svg" id="6_3wxin"]
+[ext_resource type="StyleBox" uid="uid://d2sx58pf8pij1" path="res://shared_resources/playlists_gradient.tres" id="7_6obyp"]
+[ext_resource type="Texture2D" uid="uid://md788wp04yb1" path="res://assets/layergroup.svg" id="8_qrxjs"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rbvca"]
+border_width_bottom = 1
+
+[sub_resource type="Gradient" id="Gradient_cp8gr"]
+colors = PackedColorArray(0.603736, 0.0188367, 1.92523e-07, 1, 1, 0.566063, 0.597837, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_v0suy"]
+gradient = SubResource("Gradient_cp8gr")
+fill_from = Vector2(1, 0)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xqqxx"]
+texture = SubResource("GradientTexture2D_v0suy")
+
+[sub_resource type="Gradient" id="Gradient_c0f3w"]
+colors = PackedColorArray(0, 0.552941, 0.878431, 1, 0, 0.380392, 0.176471, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_u6v48"]
+gradient = SubResource("Gradient_c0f3w")
+fill_from = Vector2(1, 0)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fns11"]
+texture = SubResource("GradientTexture2D_u6v48")
+
+[node name="CollectionButton" type="MarginContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 64.0
+grow_horizontal = 2
+script = ExtResource("1_fcwni")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_right = 2
+
+[node name="ButtonSeparator" type="HSeparator" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
+theme_override_constants/separation = 0
+theme_override_styles/separator = SubResource("StyleBoxFlat_rbvca")
+
+[node name="TailContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = -6
+
+[node name="Control" type="Control" parent="TailContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="TheTail" type="TextureRect" parent="TailContainer/Control"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -256.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("2_bt62x")
+stretch_mode = 4
+
+[node name="SongButtonContainer" type="MarginContainer" parent="."]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SongButtonContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="MarginContainer" type="MarginContainer" parent="SongButtonContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 4
+
+[node name="TextureRect" type="TextureRect" parent="SongButtonContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("3_1ddtq")
+expand_mode = 3
+
+[node name="SongName" type="Label" parent="SongButtonContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text_overrun_behavior = 3
+
+[node name="Duration" type="Label" parent="SongButtonContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+text = "00:00"
+
+[node name="AlbumButtonContainer" type="MarginContainer" parent="."]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="AlbumButtonContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="AlbumButtonContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="AlbumButtonContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_xqqxx")
+
+[node name="AlbumFallbackCover" type="TextureRect" parent="AlbumButtonContainer/HBoxContainer/MarginContainer/PanelContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_1esgy")
+expand_mode = 3
+
+[node name="AlbumCover" type="TextureRect" parent="AlbumButtonContainer/HBoxContainer/MarginContainer/PanelContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_h3lj2")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AlbumButtonContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+alignment = 1
+
+[node name="AlbumName" type="Label" parent="AlbumButtonContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "testing
+"
+text_overrun_behavior = 3
+
+[node name="AlbumArtistName" type="Label" parent="AlbumButtonContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Artist name"
+text_overrun_behavior = 3
+
+[node name="ArtistButtonContainer" type="MarginContainer" parent="."]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ArtistButtonContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="ArtistButtonContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="ArtistButtonContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_fns11")
+
+[node name="ArtistFallbackCover" type="TextureRect" parent="ArtistButtonContainer/HBoxContainer/MarginContainer/PanelContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("6_3wxin")
+expand_mode = 3
+
+[node name="ArtistImage" type="TextureRect" parent="ArtistButtonContainer/HBoxContainer/MarginContainer/PanelContainer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_h3lj2")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ArtistButtonContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+alignment = 1
+
+[node name="ArtistName" type="Label" parent="ArtistButtonContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "testing
+"
+text_overrun_behavior = 3
+
+[node name="ArtistSummary" type="Label" parent="ArtistButtonContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Artist name"
+text_overrun_behavior = 3
+
+[node name="PlaylistButtonContainer" type="MarginContainer" parent="."]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlaylistButtonContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="PlaylistButtonContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="PlaylistButtonContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("7_6obyp")
+
+[node name="PlaylistFallbackCover" type="TextureRect" parent="PlaylistButtonContainer/HBoxContainer/MarginContainer/PanelContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("8_qrxjs")
+expand_mode = 3
+
+[node name="PlaylistCover" type="TextureRect" parent="PlaylistButtonContainer/HBoxContainer/MarginContainer/PanelContainer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_h3lj2")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlaylistButtonContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+alignment = 1
+
+[node name="PlaylistName" type="Label" parent="PlaylistButtonContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "testing
+"
+text_overrun_behavior = 3
+
+[node name="PlaylistSummary" type="Label" parent="PlaylistButtonContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Playlist summary"
+text_overrun_behavior = 3

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/settings_container/v2/settings_container_v2.gd" id="1_a6i35"]
 [ext_resource type="Texture2D" uid="uid://cbi4n1wtrc3dc" path="res://assets/gear.svg" id="2_4qlqp"]
-[ext_resource type="Script" path="res://utilities/top_bar_clip_mask.gd" id="3_iey6g"]
+[ext_resource type="Script" path="res://scenes/all_songs_container_v2/fade.gd" id="3_d33ih"]
 [ext_resource type="PackedScene" uid="uid://b7wuaejkyqg1i" path="res://scenes/settings_container/v2/setting_list_button.tscn" id="4_lyi1m"]
 [ext_resource type="Texture2D" uid="uid://hfecxacknhiq" path="res://assets/info.svg" id="5_k6o8t"]
 
@@ -71,17 +71,21 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 28
 text = "v0.0.0"
 
-[node name="TopBarClipMask" type="TextureRect" parent="."]
-unique_name_in_owner = true
+[node name="MarginContainer" type="MarginContainer" parent="."]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_top = 10
+
+[node name="TopBottomFadeMask" type="TextureRect" parent="MarginContainer"]
 clip_children = 1
 layout_mode = 2
 size_flags_vertical = 3
-expand_mode = 2
-script = ExtResource("3_iey6g")
-mask_left_margin = 26
-bottom_fade_height = 16
+expand_mode = 1
+script = ExtResource("3_d33ih")
+top_fade_height = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/TopBottomFadeMask"]
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
@@ -91,93 +95,92 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 8
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 16
 
-[node name="ScrollContainer" type="ScrollContainer" parent="TopBarClipMask/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/TopBottomFadeMask/MarginContainer"]
 unique_name_in_owner = true
 clip_contents = false
 layout_mode = 2
 follow_focus = true
 
-[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
+theme_type_variation = &"ListSectionMargin"
 
-[node name="PanelContainer" type="PanelContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_type_variation = &"ListPanelContainer"
 
-[node name="MarginContainer" type="MarginContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 2
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 2
-theme_override_constants/margin_bottom = 4
+theme_type_variation = &"ListSectionInnerMargin"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 0
 
-[node name="DataAndStorageButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
+[node name="DataAndStorageButton" parent="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Data and Storage"
 
-[node name="StartHereLabel" type="Label" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/DataAndStorageButton"]
+[node name="StartHereLabel" type="Label" parent="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/DataAndStorageButton"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "<-- Start Here"
 horizontal_alignment = 2
 
-[node name="UiAndCustomizationButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
+[node name="UiAndCustomizationButton" parent="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
 layout_mode = 2
 text = "UI and Customization"
 
-[node name="MiscFeatureSettingsButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
+[node name="MiscFeatureSettingsButton" parent="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
 layout_mode = 2
 text = "Misc Feature Settings"
 
-[node name="PlaylistSettingsButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
+[node name="PlaylistSettingsButton" parent="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
 layout_mode = 2
 text = "Playlist Settings"
 
-[node name="ControllerSettingsButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
+[node name="ControllerSettingsButton" parent="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
 layout_mode = 2
 text = "Controller Settings"
 
-[node name="SoundSettingsButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
+[node name="SoundSettingsButton" parent="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
 layout_mode = 2
 text = "Sound Settings"
 
-[node name="DevelopmentCreditButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
+[node name="DevelopmentCreditButton" parent="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
 layout_mode = 2
 text = "Development Credit"
 icon = ExtResource("5_k6o8t")
 
-[node name="ContactMeButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
+[node name="ContactMeButton" parent="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
 layout_mode = 2
 text = "Contact Me / Report a bug"
 icon = ExtResource("5_k6o8t")
 
-[node name="SupportMeButton" parent="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
+[node name="SupportMeButton" parent="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
 layout_mode = 2
 text = "Support Me / Dev Roadmap"
 hide_bottom_separator = true
 icon = ExtResource("5_k6o8t")
 
 [connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
-[connection signal="focused" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/DataAndStorageButton" to="." method="_on_data_and_storage_button_focused"]
-[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/DataAndStorageButton" to="." method="_on_data_and_storage_button_pressed"]
-[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/UiAndCustomizationButton" to="." method="_on_ui_and_customization_button_pressed"]
-[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/MiscFeatureSettingsButton" to="." method="_on_misc_feature_settings_button_pressed"]
-[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/PlaylistSettingsButton" to="." method="_on_playlist_settings_button_pressed"]
-[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ControllerSettingsButton" to="." method="_on_controller_settings_button_pressed"]
-[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/SoundSettingsButton" to="." method="_on_sound_settings_button_pressed"]
-[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/DevelopmentCreditButton" to="." method="_on_development_credit_button_pressed"]
-[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ContactMeButton" to="." method="_on_contact_me_button_pressed"]
-[connection signal="focused" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/SupportMeButton" to="." method="_on_support_me_button_focused"]
-[connection signal="pressed" from="TopBarClipMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/SupportMeButton" to="." method="_on_support_me_button_pressed"]
+[connection signal="focused" from="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/DataAndStorageButton" to="." method="_on_data_and_storage_button_focused"]
+[connection signal="pressed" from="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/DataAndStorageButton" to="." method="_on_data_and_storage_button_pressed"]
+[connection signal="pressed" from="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/UiAndCustomizationButton" to="." method="_on_ui_and_customization_button_pressed"]
+[connection signal="pressed" from="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/MiscFeatureSettingsButton" to="." method="_on_misc_feature_settings_button_pressed"]
+[connection signal="pressed" from="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/PlaylistSettingsButton" to="." method="_on_playlist_settings_button_pressed"]
+[connection signal="pressed" from="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ControllerSettingsButton" to="." method="_on_controller_settings_button_pressed"]
+[connection signal="pressed" from="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/SoundSettingsButton" to="." method="_on_sound_settings_button_pressed"]
+[connection signal="pressed" from="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/DevelopmentCreditButton" to="." method="_on_development_credit_button_pressed"]
+[connection signal="pressed" from="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ContactMeButton" to="." method="_on_contact_me_button_pressed"]
+[connection signal="focused" from="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/SupportMeButton" to="." method="_on_support_me_button_focused"]
+[connection signal="pressed" from="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/SupportMeButton" to="." method="_on_support_me_button_pressed"]

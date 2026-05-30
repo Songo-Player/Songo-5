@@ -19,13 +19,13 @@ corner_radius_bottom_left = 4
 [sub_resource type="Gradient" id="Gradient_cpmaa"]
 colors = PackedColorArray(0.603736, 0.0188367, 1.92523e-07, 1, 1, 0.566063, 0.597837, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_sakrc"]
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mvsic"]
 gradient = SubResource("Gradient_cpmaa")
 fill_from = Vector2(1, 0)
 fill_to = Vector2(1, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_11jmv"]
-texture = SubResource("GradientTexture2D_sakrc")
+texture = SubResource("GradientTexture2D_mvsic")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yaov7"]
 border_width_bottom = 1

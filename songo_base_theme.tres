@@ -1,6 +1,22 @@
-[gd_resource type="Theme" load_steps=4 format=3 uid="uid://wvqbwd6ybd6m"]
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://wvqbwd6ybd6m"]
 
 [ext_resource type="FontFile" uid="uid://fhmejhs3d6m0" path="res://fonts/NotoSansCJKjp-Medium.otf" id="1_f8qrc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eatph"]
+content_margin_left = 20.0
+bg_color = Color(1, 1, 1, 0.196078)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 2.0
+expand_margin_right = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y2qhg"]
+content_margin_left = 4.0
+content_margin_top = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0, 0, 0, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uq36u"]
 content_margin_left = 4.0
@@ -38,5 +54,19 @@ corner_detail = 6
 Button/fonts/font = ExtResource("1_f8qrc")
 ItemList/fonts/font = ExtResource("1_f8qrc")
 Label/fonts/font = ExtResource("1_f8qrc")
+ListButton/base_type = &"Button"
+ListButton/styles/focus = SubResource("StyleBoxFlat_eatph")
+ListButton/styles/normal = SubResource("StyleBoxFlat_y2qhg")
+ListButtonOuterMargin/base_type = &"MarginContainer"
+ListButtonOuterMargin/constants/margin_left = 4
+ListButtonOuterMargin/constants/margin_right = 6
+ListPanelContainer/base_type = &"PanelContainer"
+ListSectionInnerMargin/base_type = &"MarginContainer"
+ListSectionInnerMargin/constants/margin_bottom = 4
+ListSectionInnerMargin/constants/margin_left = 2
+ListSectionInnerMargin/constants/margin_right = 2
+ListSectionInnerMargin/constants/margin_top = 4
+ListSectionMargin/base_type = &"MarginContainer"
+ListSectionMargin/constants/margin_right = 4
 VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_uq36u")
 VScrollBar/styles/scroll_focus = SubResource("StyleBoxFlat_swjdt")

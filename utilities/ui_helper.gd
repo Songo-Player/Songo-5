@@ -70,3 +70,52 @@ func fire_focus_next():
 	# Optionally, release the key immediately to avoid continuous focusing
 	event.pressed = false
 	Input.parse_input_event(event)
+	
+func apply_user_theme(user_theme: Theme) -> void:
+	var my_base_theme = load("res://songo_base_theme.tres")
+	var final_theme := my_base_theme.duplicate()
+	print("GOT HERE THMEE?")
+	for type in user_theme.get_type_list():
+		
+				# Copy variation inheritance
+		var base_type := user_theme.get_type_variation_base(type)
+
+		if base_type != "":
+			final_theme.set_type_variation(
+				type,
+				base_type
+			)
+		# StyleBoxes
+		for name in user_theme.get_stylebox_list(type):
+			print(name)
+			final_theme.set_stylebox(
+				name,
+				type,
+				user_theme.get_stylebox(name, type)
+			)
+
+		# Colors
+		for name in user_theme.get_color_list(type):
+			final_theme.set_color(
+				name,
+				type,
+				user_theme.get_color(name, type)
+			)
+
+		# Constants
+		for name in user_theme.get_constant_list(type):
+			final_theme.set_constant(
+				name,
+				type,
+				user_theme.get_constant(name, type)
+			)
+
+		# Fonts
+		for name in user_theme.get_font_list(type):
+			final_theme.set_font(
+				name,
+				type,
+				user_theme.get_font(name, type)
+			)
+
+	get_tree().root.theme = final_theme

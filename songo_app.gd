@@ -135,22 +135,27 @@ func _process(delta: float) -> void:
 	UiHelper.route_inputs(Controller.active_container, delta)
 
 func handle_queue_music():
-	if Controller.active_container is AllSongsContainer && SongoPlayerV2.is_playing():
+	if "music_records" in Controller.active_container && SongoPlayerV2.is_playing():
 		var queue_song = Controller.active_container.focused_song
 		SongoPlayerV2.queue_music(queue_song)
 		UiHelper.flash_message("Queued %s" % queue_song.title)
 
 func get_playlist_target_song():
-	if Controller.active_container is AllSongsContainer:
-		return Controller.active_container.focused_song
+	var target = CollectionHelper.target_item
+	if target && target is MusicRecord:
+		return target
+		
 	if Controller.active_container is ThemeMainSongView:
 		return SongoPlayerV2.get_current_music_record()
 	return null
 	
 func get_playlist_target_collection():
 	if songo_data.recent_playlist == null: return null
-	if "focused_collection" in Controller.active_container:
-		return Controller.active_container.focused_collection
+	var target = CollectionHelper.target_item
+	if target is M3uCollection:
+		return null
+	if target && target is not MusicRecord:
+		return target
 	else: return null
 	
 func update_quick_menu_vals():

@@ -10,6 +10,15 @@
 		"main_song_view": "main_song_view/main_song_view.tscn",
 		"footer": "footer/footer.tscn",
 		"song_follow": "song_follow/song_follow.tscn",
+		"collection_button": "collection_button/collection_button.tscn",
+		"collection_header": "collection_header/collection_header.tscn"
+	},
+	"collection_options": {
+		"vertical_layout": true,
+		"list_top_fade": 0,
+		"list_bottom_fade": 16,
+		"list_container_margin_left": 40,
+		"list_container_margin_right": 3,
 	},
 	"tags": [
 		"minimal",

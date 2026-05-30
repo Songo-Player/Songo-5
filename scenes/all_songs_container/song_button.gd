@@ -1,12 +1,25 @@
 extends MarginContainer
 
 var index
+@onready var virtualized_list = Controller.active_container.virtualized_list
 
 func setup_last_item():
 	%ButtonSeparator.hide()
 	
 func set_focus():
 	%Button.grab_focus()
+	
+func _process(delta: float) -> void:
+	%TheTail.visible = is_control_in_scroll_zone(self, virtualized_list)
+		
+func is_control_in_scroll_zone(control: Control, scroll: ScrollContainer) -> bool:
+	var visible_rect := scroll.get_global_rect()
+	var control_rect := control.get_global_rect()
+	
+	var control_top := control_rect.position.y
+	var visible_top := visible_rect.position.y
+	
+	return control_top >= visible_top
 	
 func setup(music_record, index_arg):
 	index = index_arg

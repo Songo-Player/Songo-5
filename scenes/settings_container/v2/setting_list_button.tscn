@@ -1,74 +1,26 @@
-[gd_scene load_steps=8 format=3 uid="uid://b7wuaejkyqg1i"]
+[gd_scene load_steps=3 format=3 uid="uid://b7wuaejkyqg1i"]
 
 [ext_resource type="Texture2D" uid="uid://cbi4n1wtrc3dc" path="res://assets/gear.svg" id="1_3hada"]
 [ext_resource type="Script" path="res://scenes/settings_container/v2/setting_list_button.gd" id="1_fn40d"]
-[ext_resource type="Texture2D" uid="uid://4lwbxso23g8o" path="res://assets/folder_nested_line_long.png" id="3_2m6ev"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7pi62"]
-bg_color = Color(1, 1, 1, 0.196078)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4ngnk"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qfcc5"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3xkob"]
-border_width_bottom = 1
 
 [node name="SettingListButton" type="MarginContainer"]
 custom_minimum_size = Vector2(150, 0)
 offset_right = 150.0
 offset_bottom = 64.0
 size_flags_horizontal = 3
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_right = 6
+theme_type_variation = &"ListButtonOuterMargin"
 script = ExtResource("1_fn40d")
 icon = ExtResource("1_3hada")
 
 [node name="Button" type="Button" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/focus = SubResource("StyleBoxFlat_7pi62")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_4ngnk")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_qfcc5")
+theme_type_variation = &"ListButton"
 text = "Setting Title"
 icon = ExtResource("1_3hada")
 alignment = 0
 text_overrun_behavior = 3
 expand_icon = true
 
-[node name="DirTreeIcon" type="MarginContainer" parent="."]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-theme_override_constants/margin_left = -22
-theme_override_constants/margin_top = -240
-
-[node name="TheTail" type="TextureRect" parent="DirTreeIcon"]
-unique_name_in_owner = true
-texture_filter = 1
-layout_mode = 2
-texture = ExtResource("3_2m6ev")
-stretch_mode = 4
-
-[node name="ButtonSeparator" type="HSeparator" parent="."]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 8
-mouse_filter = 2
-theme_override_constants/separation = 0
-theme_override_styles/separator = SubResource("StyleBoxFlat_3xkob")
-
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
 [connection signal="mouse_entered" from="Button" to="." method="_on_button_mouse_entered"]
-[connection signal="tree_entered" from="DirTreeIcon/TheTail" to="." method="_on_the_tail_tree_entered"]

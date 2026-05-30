@@ -1,0 +1,311 @@
+[gd_scene load_steps=10 format=3 uid="uid://d2axhk8e2ekwp"]
+
+[ext_resource type="Script" path="res://internal_themes/XBop/collection_header/collection_header.gd" id="1_jrqjd"]
+[ext_resource type="Texture2D" uid="uid://dg08f5rynv8mn" path="res://assets/exit_walk.svg" id="3_dsgmk"]
+[ext_resource type="Texture2D" uid="uid://vf3nwtu7nfcs" path="res://assets/exit_walk_glow.png" id="4_31auk"]
+[ext_resource type="Texture2D" uid="uid://bw0rxqtvk4f66" path="res://assets/Switch_Dpad_Left.png" id="6_fh5t4"]
+
+[sub_resource type="Gradient" id="Gradient_24yqn"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_a60ye"]
+gradient = SubResource("Gradient_24yqn")
+width = 5
+height = 120
+fill_from = Vector2(1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jm4ko"]
+bg_color = Color(0.254902, 0.254902, 0.254902, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.576471, 0.772549, 0.447059, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x226v"]
+bg_color = Color(0.254902, 0.254902, 0.254902, 1)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wbakn"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 70
+corner_radius_top_right = 70
+corner_radius_bottom_right = 70
+corner_radius_bottom_left = 70
+
+[node name="CollectionHeader" type="MarginContainer"]
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 182.0
+grow_vertical = 2
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+script = ExtResource("1_jrqjd")
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_top = -50
+theme_override_constants/margin_bottom = -50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = -20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2/VBoxContainer/MarginContainer/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Control" type="Control" parent="MarginContainer2/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/Control"]
+modulate = Color(0.576471, 0.772549, 0.447059, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.5
+offset_top = -62.0
+offset_right = 2.5
+offset_bottom = 62.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.20944
+pivot_offset = Vector2(2.5, 60)
+texture = SubResource("GradientTexture2D_a60ye")
+
+[node name="Control3" type="Control" parent="MarginContainer2/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/Control3"]
+modulate = Color(0.576471, 0.772549, 0.447059, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.5
+offset_top = -62.0
+offset_right = 2.5
+offset_bottom = 58.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.10472
+pivot_offset = Vector2(2.5, 60)
+texture = SubResource("GradientTexture2D_a60ye")
+
+[node name="Control4" type="Control" parent="MarginContainer2/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/Control4"]
+modulate = Color(0.576471, 0.772549, 0.447059, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.5
+offset_top = -62.0
+offset_right = 0.5
+offset_bottom = 58.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(2.5, 60)
+texture = SubResource("GradientTexture2D_a60ye")
+
+[node name="Control5" type="Control" parent="MarginContainer2/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/Control5"]
+modulate = Color(0.576471, 0.772549, 0.447059, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -62.0
+offset_bottom = 58.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.10472
+pivot_offset = Vector2(2.5, 60)
+texture = SubResource("GradientTexture2D_a60ye")
+
+[node name="Control2" type="Control" parent="MarginContainer2/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/Control2"]
+modulate = Color(0.576471, 0.772549, 0.447059, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -62.0
+offset_bottom = 58.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.20944
+pivot_offset = Vector2(2.5, 60)
+texture = SubResource("GradientTexture2D_a60ye")
+
+[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer2/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_jm4ko")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/MarginContainer/PanelContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2/VBoxContainer/MarginContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = -2
+theme_override_constants/margin_bottom = -2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("6_fh5t4")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Label2" type="Label" parent="MarginContainer2/VBoxContainer/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "to sort"
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_x226v")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer"]
+clip_children = 2
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wbakn")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = -11
+theme_override_constants/margin_top = -11
+theme_override_constants/margin_right = -11
+theme_override_constants/margin_bottom = -11
+
+[node name="DefaultIcon2" type="TextureRect" parent="MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer/MarginContainer"]
+unique_name_in_owner = true
+modulate = Color(0.576471, 0.772549, 0.447059, 1)
+layout_mode = 2
+texture = ExtResource("4_31auk")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DefaultIcon" type="TextureRect" parent="MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("3_dsgmk")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CustomImage" type="TextureRect" parent="MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+expand_mode = 5
+stretch_mode = 6
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="CollectionLabel" type="Label" parent="MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "All Songs"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="RecordCount" type="Label" parent="MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "77 Total"
+horizontal_alignment = 1
+text_overrun_behavior = 3

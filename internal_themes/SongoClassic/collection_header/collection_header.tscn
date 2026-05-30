@@ -1,0 +1,157 @@
+[gd_scene load_steps=8 format=3 uid="uid://3o5xptb33cru"]
+
+[ext_resource type="Script" path="res://internal_themes/SongoClassic/collection_header/collection_header.gd" id="1_4y8cu"]
+[ext_resource type="StyleBox" uid="uid://c3n7vb3lajyx1" path="res://shared_resources/all_songs_gradient_v2.tres" id="2_d4mn0"]
+[ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="3_01pbp"]
+[ext_resource type="Texture2D" uid="uid://dojd8uja6odi5" path="res://assets/sort_asc.svg" id="4_gnwp2"]
+[ext_resource type="Texture2D" uid="uid://c35x5p1h7tkln" path="res://assets/sort_desc.svg" id="5_pbicb"]
+[ext_resource type="Texture2D" uid="uid://bw0rxqtvk4f66" path="res://assets/Switch_Dpad_Left.png" id="6_hagk8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c8y7b"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.84)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="CollectionHeader" type="PanelContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_c8y7b")
+script = ExtResource("1_4y8cu")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="CollectionImageContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_d4mn0")
+
+[node name="DefaultImage" type="TextureRect" parent="MarginContainer/HBoxContainer/CollectionImageContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("3_01pbp")
+expand_mode = 5
+
+[node name="CustomImage" type="TextureRect" parent="MarginContainer/HBoxContainer/CollectionImageContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+expand_mode = 5
+stretch_mode = 6
+
+[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="CollectionLabel" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 26
+text = "All Songs"
+text_overrun_behavior = 3
+
+[node name="SortTypeContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/SortTypeContainer"]
+layout_mode = 2
+
+[node name="SortTypeLabel" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/SortTypeContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/SortTypeContainer/HBoxContainer/SortTypeLabel"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_right = -28
+
+[node name="SortAscImg" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/SortTypeContainer/HBoxContainer/SortTypeLabel/MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+texture = ExtResource("4_gnwp2")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="SortDescImg" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/SortTypeContainer/HBoxContainer/SortTypeLabel/MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+texture = ExtResource("5_pbicb")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="RecordCount" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "77 Total"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Press"
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = -2
+theme_override_constants/margin_bottom = -2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("6_hagk8")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+text = "to sort"

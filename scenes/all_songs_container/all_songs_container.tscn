@@ -8,7 +8,9 @@
 [ext_resource type="Script" path="res://utilities/virtualized_list.gd" id="7_s4to2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o3h1c"]
+content_margin_left = 20.0
 bg_color = Color(1, 1, 1, 0.196078)
+border_width_left = 20
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4

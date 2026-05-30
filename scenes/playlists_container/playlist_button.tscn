@@ -70,7 +70,7 @@ layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = ExtResource("3_pst1m")
 
-[node name="FallbackCover" type="TextureRect" parent="MarginContainer2/HBoxContainer/PanelContainer"]
+[node name="PlaylistFallbackCover" type="TextureRect" parent="MarginContainer2/HBoxContainer/PanelContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2

@@ -18,10 +18,6 @@ func setup(artist_record_arg, artist_index):
 	%FallbackCover.show()
 	%AlbumCover.hide()
 	
-	songo_settings = SongoSettings.get_instance()
-	#if ["fff", "eee"].has(songo_settings.theme_color):
-	#	%TheTail.modulate = Color("444")
-	
 	if artist_record.img_path:
 		var loader = AsyncImageLoader.load_async(artist_record.img_path)
 		loader.image_loaded.connect(func(texture):

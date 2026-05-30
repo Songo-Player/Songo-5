@@ -6,7 +6,7 @@ var current_theme
 var theme_path
 var default_theme_path = "res://internal_themes/SongoClassic"
 var default_theme
-const THEMABLE_COMPONENTS = ["main_menu", "background_root", "header", "main_song_view", "footer", "song_follow"]
+const THEMABLE_COMPONENTS = ["main_menu", "background_root", "header", "main_song_view", "footer", "song_follow", "collection_button", "collection_header"]
 var settings = {}
 var settings_info
 var settings_path:
@@ -33,7 +33,11 @@ func set_current_theme(theme_path_arg):
 	else:
 		settings = {}
 		settings_info = {}
-		
+	if current_theme.has("godot_theme_path"):
+		UiHelper.apply_user_theme(load(current_theme["godot_theme_path"]))
+	else:
+		var base_theme = load("res://songo_base_theme.tres")
+		get_tree().root.theme = base_theme
 	theme_updated.emit()
 	
 func get_scene_path(scene_name):

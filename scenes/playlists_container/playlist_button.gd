@@ -15,13 +15,9 @@ func setup(playlist_record: M3uCollection, playlist_index):
 	%Button.set_meta("playlist_index", playlist_index)
 	%PlaylistName.text = playlist_record.name
 	%PlaylistSummary.text = get_song_summary(playlist.music_records)
-	%FallbackCover.show()
+	%PlaylFallbackCover.show()
 	%PlaylistCover.hide()
 	
-	songo_settings = SongoSettings.get_instance()
-	#if ["fff", "eee"].has(songo_settings.theme_color):
-	#	%TheTail.modulate = Color("444")
-		
 	if playlist_record.img_path != "":
 		var loader = AsyncImageLoader.load_async(playlist_record.img_path)
 		loader.image_loaded.connect(func(texture):

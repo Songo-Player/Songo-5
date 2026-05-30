@@ -1,0 +1,180 @@
+[gd_scene load_steps=7 format=3 uid="uid://btic7df4w8tsw"]
+
+[ext_resource type="Script" path="res://scenes/all_songs_container_v2/all_songs_container_v_2.gd" id="1_suu2u"]
+[ext_resource type="Script" path="res://scenes/theme_injections/theme_collection_header/theme_collection_header.gd" id="2_8j4tb"]
+[ext_resource type="Script" path="res://utilities/virtualized_list.gd" id="4_pb0pu"]
+[ext_resource type="Texture2D" uid="uid://dt2pe77pksx87" path="res://assets/shuffle.svg" id="5_qng1g"]
+[ext_resource type="Texture2D" uid="uid://ecyapgsdhese" path="res://assets/XboxSeriesX_X.png" id="6_pjg6k"]
+[ext_resource type="Script" path="res://scenes/all_songs_container_v2/fade.gd" id="6_wgw2r"]
+
+[node name="AllSongsContainerV2" type="BoxContainer"]
+offset_right = 254.0
+offset_bottom = 90.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+vertical = true
+script = ExtResource("1_suu2u")
+
+[node name="ThemeCollectionHeader" type="MarginContainer" parent="."]
+layout_mode = 2
+script = ExtResource("2_8j4tb")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_top = 10
+
+[node name="Fade" type="TextureRect" parent="MarginContainer"]
+unique_name_in_owner = true
+clip_children = 1
+layout_mode = 2
+expand_mode = 1
+script = ExtResource("6_wgw2r")
+top_fade_height = 0
+
+[node name="VirtualizedListContainer" type="MarginContainer" parent="MarginContainer/Fade"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="VirtualizedList" type="ScrollContainer" parent="MarginContainer/Fade/VirtualizedListContainer" node_paths=PackedStringArray("vbox")]
+unique_name_in_owner = true
+clip_contents = false
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+script = ExtResource("4_pb0pu")
+vbox = NodePath("VBoxContainer/ListSectionMargin/ListBackgroundPanel/ListSectionInnerMargin/VBoxContainer")
+focus_first_item = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ShuffleButtonMarginContainer" type="MarginContainer" parent="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"ListSectionMargin"
+
+[node name="ListPanelContainer" type="PanelContainer" parent="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer/ShuffleButtonMarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_type_variation = &"ListPanelContainer"
+
+[node name="ListSectionInnerMargin" type="MarginContainer" parent="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer/ShuffleButtonMarginContainer/ListPanelContainer"]
+layout_mode = 2
+theme_type_variation = &"ListSectionInnerMargin"
+
+[node name="ListButtonOuterMargin" type="MarginContainer" parent="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer/ShuffleButtonMarginContainer/ListPanelContainer/ListSectionInnerMargin"]
+layout_mode = 2
+theme_type_variation = &"ListButtonOuterMargin"
+
+[node name="ShuffleButton" type="Button" parent="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer/ShuffleButtonMarginContainer/ListPanelContainer/ListSectionInnerMargin/ListButtonOuterMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ListButton"
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer/ShuffleButtonMarginContainer/ListPanelContainer/ListSectionInnerMargin/ListButtonOuterMargin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer/ShuffleButtonMarginContainer/ListPanelContainer/ListSectionInnerMargin/ListButtonOuterMargin/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ShuffleIcon" type="TextureRect" parent="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer/ShuffleButtonMarginContainer/ListPanelContainer/ListSectionInnerMargin/ListButtonOuterMargin/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_qng1g")
+expand_mode = 3
+
+[node name="ShuffleText1" type="Label" parent="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer/ShuffleButtonMarginContainer/ListPanelContainer/ListSectionInnerMargin/ListButtonOuterMargin/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Shuffle Play (or press"
+
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer/ShuffleButtonMarginContainer/ListPanelContainer/ListSectionInnerMargin/ListButtonOuterMargin/MarginContainer/HBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("6_pjg6k")
+expand_mode = 3
+
+[node name="ShuffleText2" type="Label" parent="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer/ShuffleButtonMarginContainer/ListPanelContainer/ListSectionInnerMargin/ListButtonOuterMargin/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "from anywhere)"
+text_overrun_behavior = 3
+
+[node name="ListSectionMargin" type="MarginContainer" parent="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme_type_variation = &"ListSectionMargin"
+
+[node name="ListBackgroundPanel" type="PanelContainer" parent="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer/ListSectionMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme_type_variation = &"ListPanelContainer"
+
+[node name="ListSectionInnerMargin" type="MarginContainer" parent="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer/ListSectionMargin/ListBackgroundPanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"ListSectionInnerMargin"
+
+[node name="PlaylistGuide" type="MarginContainer" parent="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer/ListSectionMargin/ListBackgroundPanel/ListSectionInnerMargin"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer/ListSectionMargin/ListBackgroundPanel/ListSectionInnerMargin/PlaylistGuide"]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer/ListSectionMargin/ListBackgroundPanel/ListSectionInnerMargin/PlaylistGuide/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Editing your playlist"
+
+[node name="Label2" type="Label" parent="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer/ListSectionMargin/ListBackgroundPanel/ListSectionInnerMargin/PlaylistGuide/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Via Quick Menu - while you have your cursor over a song in any song list you can open the quick menu and add/remove the hovered song from the playlist you interacted with most recently."
+autowrap_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer/ListSectionMargin/ListBackgroundPanel/ListSectionInnerMargin"]
+layout_mode = 2
+
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="focus_entered" from="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer/ShuffleButtonMarginContainer/ListPanelContainer/ListSectionInnerMargin/ListButtonOuterMargin/ShuffleButton" to="." method="_on_shuffle_button_focus_entered"]
+[connection signal="focus_exited" from="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer/ShuffleButtonMarginContainer/ListPanelContainer/ListSectionInnerMargin/ListButtonOuterMargin/ShuffleButton" to="." method="_on_shuffle_button_focus_exited"]
+[connection signal="mouse_entered" from="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer/ShuffleButtonMarginContainer/ListPanelContainer/ListSectionInnerMargin/ListButtonOuterMargin/ShuffleButton" to="." method="_on_shuffle_button_mouse_entered"]
+[connection signal="pressed" from="MarginContainer/Fade/VirtualizedListContainer/VirtualizedList/VBoxContainer/ShuffleButtonMarginContainer/ListPanelContainer/ListSectionInnerMargin/ListButtonOuterMargin/ShuffleButton" to="." method="_on_shuffle_button_pressed"]

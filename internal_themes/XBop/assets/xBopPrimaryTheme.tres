@@ -1,0 +1,37 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://cqgufpdikgss8"]
+
+[ext_resource type="StyleBox" uid="uid://cbd2jnbgfrgni" path="res://internal_themes/XBop/assets/list_button_focused_style_box_flat.tres" id="1_aousd"]
+[ext_resource type="StyleBox" uid="uid://p1hsydk3r6a0" path="res://internal_themes/XBop/assets/list_button_normal_style_box_flat.tres" id="2_5llhy"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2a7kh"]
+
+[resource]
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_focus_color = Color(0.192157, 0.192157, 0.192157, 1)
+Button/colors/font_hover_color = Color(0.192157, 0.192157, 0.192157, 1)
+Button/colors/font_hover_pressed_color = Color(0.192157, 0.192157, 0.192157, 1)
+Button/colors/font_pressed_color = Color(0.192157, 0.192157, 0.192157, 1)
+Button/styles/focus = ExtResource("1_aousd")
+Button/styles/normal = ExtResource("2_5llhy")
+ListButton/base_type = &"Button"
+ListButton/colors/font_color = Color(1, 1, 1, 1)
+ListButton/colors/font_focus_color = Color(0.192157, 0.192157, 0.192157, 1)
+ListButton/colors/font_hover_color = Color(0.192157, 0.192157, 0.192157, 1)
+ListButton/colors/font_hover_pressed_color = Color(0.192157, 0.192157, 0.192157, 1)
+ListButton/colors/font_pressed_color = Color(0.192157, 0.192157, 0.192157, 1)
+ListButton/colors/icon_focus_color = Color(0.192157, 0.192157, 0.192157, 1)
+ListButton/colors/icon_hover_color = Color(0.192157, 0.192157, 0.192157, 1)
+ListButton/styles/focus = ExtResource("1_aousd")
+ListButton/styles/normal = ExtResource("2_5llhy")
+ListButtonOuterMargin/base_type = &"MarginContainer"
+ListButtonOuterMargin/constants/margin_bottom = 2
+ListButtonOuterMargin/constants/margin_left = 0
+ListButtonOuterMargin/constants/margin_right = 0
+ListButtonOuterMargin/constants/margin_top = 2
+ListPanelContainer/base_type = &"PanelContainer"
+ListPanelContainer/styles/panel = SubResource("StyleBoxEmpty_2a7kh")
+ListSectionInnerMargin/base_type = &"MarginContainer"
+ListSectionInnerMargin/constants/margin_bottom = 0
+ListSectionInnerMargin/constants/margin_left = 0
+ListSectionInnerMargin/constants/margin_right = 0
+ListSectionInnerMargin/constants/margin_top = 0

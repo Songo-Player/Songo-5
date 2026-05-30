@@ -15,7 +15,7 @@ var skip_refocus: bool = false
 
 #const MAIN_MENU = "res://scenes/main_menu/main_menu.tscn"
 const MAIN_MENU = "res://scenes/theme_injections/theme_main_menu/theme_main_menu.tscn"
-const ALL_SONGS_CONTAINER = "res://scenes/all_songs_container/all_songs_container.tscn"
+const ALL_SONGS_CONTAINER = "res://scenes/all_songs_container_v2/all_songs_container_v2.tscn"
 #const SONG_PANEL_CONTAINER = "res://scenes/song_panel_container/song_panel_container.tscn"
 const SONG_PANEL_CONTAINER = "res://scenes/theme_injections/theme_main_song_view/theme_main_song_view.tscn"
 const ALBUMS_CONTAINER = "res://scenes/albums_container/albums_container.tscn"
@@ -35,8 +35,40 @@ const SUPPORT_ME_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_contain
 const CONTROLLER_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/controller_settings_sub_container.tscn"
 const SOUND_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/sound_settings_sub_container.tscn"
 
+func collection_list(collection = null):
+	if collection == null: collection = songo_data.music_records
+	if collection is Array[M3uCollection] && collection.size() == 0:
+		UiHelper.app_message.show_message("You need to create a playlist first, go to Settings.")
+		return
+	if collection is Array && collection.size() == 0:
+		UiHelper.app_message.show_message("You need to import music first, go to Settings.")
+		return
+	if "music_records" in collection && collection.music_records.size() == 0 && collection is not M3uCollection:
+		UiHelper.app_message.show_message("This Collection is empty, try reimporting.")
+		return
+	
+	clean_up_old_container()
+	CollectionHelper.current_collection = collection
+	active_container = load(ALL_SONGS_CONTAINER).instantiate()
+	active_container.setup_collection(collection)
+	var collection_type = CollectionHelper.collection_type
+	match collection_type:
+		"ALL_SONGS": nav_label = ["Main Menu", "All Songs"]
+		"ALBUMS": nav_label = ["Main Menu", "Albums"]
+		"ARTISTS": nav_label = ["Main Menu", "Artists"]
+		"PLAYLISTS": nav_label = ["Main Menu", "Playlists"]
+		"ALBUM_SONGS": nav_label = ["Main Menu", "Albums", CollectionHelper.collection_name]
+		"ARTIST_SONGS": nav_label = ["Main Menu", "Artists", CollectionHelper.collection_name]
+		"PLAYLIST_SONGS": nav_label = ["Main Menu", "Playlists", CollectionHelper.collection_name]
+		_: nav_label = ["Main menu", "Collection"]
+	finish_up_nav()
+
 func songs_index():
+	collection_list()
+	return
 	var music_records = songo_data.music_records
+	if music_records is Array[MusicRecord]:
+		print("hmmm OK")
 	if music_records.size() == 0:
 		UiHelper.app_message.show_message("You need to import music first, go to Settings.")
 		return
@@ -64,6 +96,8 @@ func album_songs_index(album):
 	
 func albums_index():
 	var albums = songo_data.albums
+	collection_list(albums)
+	return
 	if albums.size() == 0:
 		UiHelper.app_message.show_message("You need to import music first, go to Settings.")
 		return
@@ -76,6 +110,8 @@ func albums_index():
 	
 func artists_index():
 	var artists = songo_data.artists
+	collection_list(artists)
+	return
 	if artists.size() == 0:
 		UiHelper.app_message.show_message("You need to import music first, go to Settings.")
 		return
@@ -88,6 +124,8 @@ func artists_index():
 	
 func playlists_index():
 	var playlists = songo_data.playlists
+	collection_list(playlists)
+	return
 	if playlists.size() == 0:
 		UiHelper.app_message.show_message("You need to create a playlist first, go to Settings.")
 		return
@@ -153,7 +191,6 @@ func settings_directory_select(path_array = []):
 func settings_index():
 	clean_up_old_container()
 	
-	#active_container = load(SETTINGS_CONTAINER).instantiate()
 	active_container = load(SETTINGS_V2_CONTAINER).instantiate()
 	active_container.setup()
 	nav_label = ["Main Menu", "Settings"]
@@ -230,6 +267,7 @@ func sound_settings():
 	finish_up_nav()
 	
 func main_menu():
+	CollectionHelper.current_collection = null
 	clean_up_old_container()
 	active_container = load(MAIN_MENU).instantiate()
 	active_container.setup()
@@ -261,6 +299,8 @@ func new_nav_back():
 		#active_container.queue_free()
 		content_body_node.remove_child(active_container)
 		active_container = target_container[0]
+		if "collection" in active_container:
+			CollectionHelper.current_collection = active_container.collection
 		nav_label = target_container[2]
 		finish_up_nav()
 		await get_tree().process_frame
