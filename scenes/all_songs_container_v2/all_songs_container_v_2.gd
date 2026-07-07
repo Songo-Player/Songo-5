@@ -40,8 +40,11 @@ func setup_collection(collection_arg):
 	else:
 		list_items = collection
 	sort_options = CollectionHelper.sort_options
-	Callable(SongoSort, sort_options[sort_index]).call(list_items)
-	$ThemeCollectionHeader.setup(sort_options[sort_index])
+	if sort_options:
+		Callable(SongoSort, sort_options[sort_index]).call(list_items)
+		$ThemeCollectionHeader.setup(sort_options[sort_index])
+	else:
+		$ThemeCollectionHeader.setup(false)
 
 	await %VirtualizedList.ready
 	virtualized_list = %VirtualizedList
@@ -76,6 +79,10 @@ func handle_input(delta: float):
 		if bar_scrolling:
 			bar_scrolling = false;
 		else:
+			if sort_options.size() == 0: 
+				UiHelper.flash_message("Sorting not available for this list")
+				return
+				
 			if list_items.size() == 0:
 				UiHelper.flash_message("... what exactly are you trying to sort?")
 				return
@@ -113,6 +120,9 @@ func default_focus():
 
 	
 func _on_tree_entered() -> void:
+	if ThemeManager.current_theme.has("collection_options"):
+		var options = ThemeManager.current_theme["collection_options"]
+		if options.has("vertical_layout"): vertical = options["vertical_layout"]
 	if Controller.skip_refocus:
 		await get_tree().process_frame
 		call_deferred("default_focus")

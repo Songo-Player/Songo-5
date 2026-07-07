@@ -12,6 +12,7 @@ var songo_settings = SongoSettings.get_instance()
 var vol_container: Control
 var crt_overlay: Control
 var the_grid_overlay: Control
+var transform_container: Control
 
 var focus_chain = []
 var original_size = null
@@ -117,5 +118,6 @@ func apply_user_theme(user_theme: Theme) -> void:
 				type,
 				user_theme.get_font(name, type)
 			)
-
+	if transform_container:
+		transform_container.theme = final_theme
 	get_tree().root.theme = final_theme

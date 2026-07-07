@@ -35,6 +35,18 @@ const SUPPORT_ME_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_contain
 const CONTROLLER_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/controller_settings_sub_container.tscn"
 const SOUND_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/sound_settings_sub_container.tscn"
 
+var settings_collection : Array[SettingRecord] = [
+	SettingRecord.new("Data and Storage", "settings_data_and_storage", false),
+	SettingRecord.new("UI and Customization", "settings_ui_and_customizations", false),
+	SettingRecord.new("Misc Feature Settings", "misc_feature_settings", false),
+	SettingRecord.new("Playlist Settings", "playlist_settings", false),
+	SettingRecord.new("Controller Settings", "controller_settings", false),
+	SettingRecord.new("Sound Settings", "sound_settings", false),
+	SettingRecord.new("Development Credit", "settings_development_credit", true),
+	SettingRecord.new("Contact Me / Report a bug", "contact_me", true),
+	SettingRecord.new("Support Me / Dev Roadmap", "support_me", true),
+]
+
 func collection_list(collection = null):
 	if collection == null: collection = songo_data.music_records
 	if collection is Array[M3uCollection] && collection.size() == 0:
@@ -57,6 +69,7 @@ func collection_list(collection = null):
 		"ALBUMS": nav_label = ["Main Menu", "Albums"]
 		"ARTISTS": nav_label = ["Main Menu", "Artists"]
 		"PLAYLISTS": nav_label = ["Main Menu", "Playlists"]
+		"SETTINGS": nav_label = ["Main Menu", "Settings"]
 		"ALBUM_SONGS": nav_label = ["Main Menu", "Albums", CollectionHelper.collection_name]
 		"ARTIST_SONGS": nav_label = ["Main Menu", "Artists", CollectionHelper.collection_name]
 		"PLAYLIST_SONGS": nav_label = ["Main Menu", "Playlists", CollectionHelper.collection_name]
@@ -189,6 +202,9 @@ func settings_directory_select(path_array = []):
 	finish_up_nav()
 	
 func settings_index():
+	collection_list(settings_collection)
+	
+	return null
 	clean_up_old_container()
 	
 	active_container = load(SETTINGS_V2_CONTAINER).instantiate()
@@ -197,6 +213,7 @@ func settings_index():
 	finish_up_nav()
 	
 func settings_data_and_storage():
+	print("Got to data an storage?")
 	clean_up_old_container()
 	
 	active_container = load(DATA_AND_STORAGE_SUB_CONTAINER).instantiate()
@@ -305,7 +322,8 @@ func new_nav_back():
 		finish_up_nav()
 		await get_tree().process_frame
 		call_deferred("restore_focus", target_container[1])
-		
+	
+# THis can probably go away now that settings index is treated as a collection	
 func nav_back_to_settings():
 	var history_cnt = container_history.size()
 	for i in range(history_cnt):
@@ -316,11 +334,13 @@ func nav_back_to_settings():
 			break
 		else:
 			container_history.pop_back()
-	active_container.queue_free()
-	active_container = load(SETTINGS_V2_CONTAINER).instantiate()
-	active_container.setup()
-	nav_label = ["Main Menu", "Settings"]
-	finish_up_nav()
+	#active_container.queue_free()
+	#print("DOING OTHER THIS")
+	collection_list(settings_collection)
+	#active_container = load(SETTINGS_V2_CONTAINER).instantiate()
+	#active_container.setup()
+	#nav_label = ["Main Menu", "Settings"]
+	#finish_up_nav()
 
 func restore_focus(control: Control):
 	if skip_refocus:
@@ -329,6 +349,7 @@ func restore_focus(control: Control):
 		control.grab_focus()
 		
 func reload_settings_after_ui():
+	print ("DOUNG THIS")
 	active_container.queue_free()
 	await get_tree().process_frame
 	active_container = load(SETTINGS_CONTAINER).instantiate()

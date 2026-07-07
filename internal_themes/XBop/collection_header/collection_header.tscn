@@ -64,22 +64,22 @@ size_flags_vertical = 4
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer"]
+[node name="SortIndicatorContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer"]
 layout_mode = 2
 theme_override_constants/margin_top = -20
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2/VBoxContainer/MarginContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/MarginContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Control" type="Control" parent="MarginContainer2/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/Control"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/MarginContainer/HBoxContainer/Control"]
 modulate = Color(0.576471, 0.772549, 0.447059, 1)
 layout_mode = 1
 anchors_preset = 8
@@ -97,11 +97,11 @@ rotation = -0.20944
 pivot_offset = Vector2(2.5, 60)
 texture = SubResource("GradientTexture2D_a60ye")
 
-[node name="Control3" type="Control" parent="MarginContainer2/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer"]
+[node name="Control3" type="Control" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/Control3"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/MarginContainer/HBoxContainer/Control3"]
 modulate = Color(0.576471, 0.772549, 0.447059, 1)
 layout_mode = 1
 anchors_preset = 8
@@ -119,11 +119,11 @@ rotation = -0.10472
 pivot_offset = Vector2(2.5, 60)
 texture = SubResource("GradientTexture2D_a60ye")
 
-[node name="Control4" type="Control" parent="MarginContainer2/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer"]
+[node name="Control4" type="Control" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/Control4"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/MarginContainer/HBoxContainer/Control4"]
 modulate = Color(0.576471, 0.772549, 0.447059, 1)
 layout_mode = 1
 anchors_preset = 8
@@ -140,11 +140,11 @@ grow_vertical = 2
 pivot_offset = Vector2(2.5, 60)
 texture = SubResource("GradientTexture2D_a60ye")
 
-[node name="Control5" type="Control" parent="MarginContainer2/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer"]
+[node name="Control5" type="Control" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/Control5"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/MarginContainer/HBoxContainer/Control5"]
 modulate = Color(0.576471, 0.772549, 0.447059, 1)
 layout_mode = 1
 anchors_preset = 8
@@ -161,11 +161,11 @@ rotation = 0.10472
 pivot_offset = Vector2(2.5, 60)
 texture = SubResource("GradientTexture2D_a60ye")
 
-[node name="Control2" type="Control" parent="MarginContainer2/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer"]
+[node name="Control2" type="Control" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/Control2"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/MarginContainer/HBoxContainer/Control2"]
 modulate = Color(0.576471, 0.772549, 0.447059, 1)
 layout_mode = 1
 anchors_preset = 8
@@ -182,12 +182,13 @@ rotation = 0.20944
 pivot_offset = Vector2(2.5, 60)
 texture = SubResource("GradientTexture2D_a60ye")
 
-[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer2/VBoxContainer/MarginContainer"]
+[node name="SortIndicator" type="PanelContainer" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_jm4ko")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/MarginContainer/PanelContainer2"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/SortIndicator"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/margin_left = 16
@@ -195,23 +196,23 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 4
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2/VBoxContainer/MarginContainer/PanelContainer2/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/SortIndicator/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/SortIndicator/MarginContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_top = -2
 theme_override_constants/margin_bottom = -2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/MarginContainer"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/SortIndicator/MarginContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 texture = ExtResource("6_fh5t4")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="Label2" type="Label" parent="MarginContainer2/VBoxContainer/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer"]
+[node name="Label2" type="Label" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/SortIndicator/MarginContainer/HBoxContainer"]
 layout_mode = 2
 text = "to sort"
 

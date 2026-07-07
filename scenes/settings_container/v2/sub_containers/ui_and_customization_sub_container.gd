@@ -54,11 +54,7 @@ func get_theme_options():
 	
 func handle_input(delta: float):
 	if Input.is_action_just_pressed("back"):
-		if songo_settings.ui_scale == original_scale:
-			Controller.new_nav_back()
-		else:
-			print("Ui Scale change, force reload settings")
-			Controller.nav_back_to_settings()
+		Controller.new_nav_back()
 		
 func update_theme_options_ui():
 	var displayed_theme = theme_options[theme_index]

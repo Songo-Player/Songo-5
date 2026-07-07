@@ -1,7 +1,7 @@
 @tool
 extends PanelContainer
 
-enum DEFAULT_TYPE {SONG, ARTIST, ALBUM, PLAYLIST}
+enum DEFAULT_TYPE {SONG, ARTIST, ALBUM, PLAYLIST, SETTING}
 var _default_type: DEFAULT_TYPE = DEFAULT_TYPE.SONG
 const DEFAULTS = [
 	{
@@ -15,6 +15,10 @@ const DEFAULTS = [
 	{
 		"gradient": "res://shared_resources/albums_gradient.tres",
 		"image": "res://assets/record.svg"
+	},
+	{
+		"gradient": "res://shared_resources/playlists_gradient.tres",
+		"image": "res://assets/layergroup.svg"
 	},
 	{
 		"gradient": "res://shared_resources/playlists_gradient.tres",
@@ -78,14 +82,20 @@ var sort_label_key:
 		fade_sort_label(value)
 		
 func setup(sort_key):
+	print("Gpt tp header")
 	%CollectionLabel.text = CollectionHelper.collection_name
 	record_count = CollectionHelper.collection_size
-	fade_sort_label(sort_key)
+	if sort_key:
+		fade_sort_label(sort_key)
+	else:
+		%SortTypeContainer.hide()
 	var image_texture = CollectionHelper.collection_image_texture
 	var collection_type = CollectionHelper.collection_type
 	if "ALBUM" in collection_type: default_type = DEFAULT_TYPE.ALBUM
 	elif "ARTIST" in collection_type: default_type = DEFAULT_TYPE.ARTIST
 	elif "PLAYLIST" in collection_type: default_type = DEFAULT_TYPE.PLAYLIST
+	elif "SETTING" in collection_type: default_type = DEFAULT_TYPE.SETTING
+
 	else: default_type = DEFAULT_TYPE.SONG
 	
 	if image_texture:

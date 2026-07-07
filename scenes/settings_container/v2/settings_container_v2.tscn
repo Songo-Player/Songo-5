@@ -128,7 +128,7 @@ theme_override_constants/separation = 0
 [node name="DataAndStorageButton" parent="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_lyi1m")]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Data and Storage"
+text = "Data and Storage (test)"
 
 [node name="StartHereLabel" type="Label" parent="MarginContainer/TopBottomFadeMask/MarginContainer/ScrollContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/DataAndStorageButton"]
 unique_name_in_owner = true

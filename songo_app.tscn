@@ -80,18 +80,31 @@ corner_radius_bottom_left = 8
 
 [node name="SongoApp" type="Control"]
 process_mode = 3
+custom_minimum_size = Vector2(480, 640)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-mouse_filter = 1
 script = ExtResource("1_einrm")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="UiUpdateTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TransformContainer" type="Control" parent="CanvasLayer"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/TransformContainer"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -103,7 +116,7 @@ theme_override_constants/margin_top = -8
 theme_override_constants/margin_right = -8
 theme_override_constants/margin_bottom = -8
 
-[node name="FadeOutOverlay" type="PanelContainer" parent="MarginContainer"]
+[node name="FadeOutOverlay" type="PanelContainer" parent="CanvasLayer/TransformContainer/MarginContainer"]
 unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0)
 z_index = 10
@@ -111,20 +124,11 @@ layout_mode = 2
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_75gu8")
 
-[node name="VolumeContainer" parent="." instance=ExtResource("14_ur3pi")]
-unique_name_in_owner = true
-z_index = 1
-layout_mode = 2
-offset_left = 584.0
-offset_right = 640.0
-offset_bottom = 480.0
-theme_override_constants/margin_top = 120
-theme_override_constants/margin_bottom = 120
-
-[node name="MainColorPanel" type="PanelContainer" parent="."]
+[node name="MainColorPanel" type="PanelContainer" parent="CanvasLayer/TransformContainer"]
 unique_name_in_owner = true
 visible = false
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -132,7 +136,7 @@ grow_vertical = 2
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_i4t4x")
 
-[node name="TheGridOverlay" type="PanelContainer" parent="MainColorPanel"]
+[node name="TheGridOverlay" type="PanelContainer" parent="CanvasLayer/TransformContainer/MainColorPanel"]
 unique_name_in_owner = true
 visible = false
 material = SubResource("ShaderMaterial_f7lsk")
@@ -140,7 +144,7 @@ layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_56ra3")
 
-[node name="CrtOverlay" type="PanelContainer" parent="MainColorPanel"]
+[node name="CrtOverlay" type="PanelContainer" parent="CanvasLayer/TransformContainer/MainColorPanel"]
 unique_name_in_owner = true
 visible = false
 z_index = 5
@@ -148,11 +152,10 @@ material = SubResource("ShaderMaterial_hb3wi")
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_dfwxj")
 
-[node name="ThemeBackgroundRoot" parent="." instance=ExtResource("5_77hak")]
-layout_mode = 2
-anchors_preset = 0
+[node name="ThemeBackgroundRoot" parent="CanvasLayer/TransformContainer" instance=ExtResource("5_77hak")]
+layout_mode = 1
 
-[node name="DarkOut" type="MarginContainer" parent="."]
+[node name="DarkOut" type="MarginContainer" parent="CanvasLayer/TransformContainer"]
 unique_name_in_owner = true
 visible = false
 z_index = 1
@@ -164,12 +167,12 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="DarkOutPanel" type="PanelContainer" parent="DarkOut"]
+[node name="DarkOutPanel" type="PanelContainer" parent="CanvasLayer/TransformContainer/DarkOut"]
 z_index = 2
 layout_mode = 2
 mouse_filter = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/TransformContainer"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -178,14 +181,14 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
 
-[node name="ThemeHeader" parent="VBoxContainer" instance=ExtResource("10_flm4y")]
+[node name="ThemeHeader" parent="CanvasLayer/TransformContainer/VBoxContainer" instance=ExtResource("10_flm4y")]
 layout_mode = 2
 
-[node name="BodyMarginContainer" type="MarginContainer" parent="VBoxContainer"]
+[node name="BodyMarginContainer" type="MarginContainer" parent="CanvasLayer/TransformContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="FlashMessageMargin" type="MarginContainer" parent="VBoxContainer/BodyMarginContainer"]
+[node name="FlashMessageMargin" type="MarginContainer" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer"]
 clip_contents = true
 layout_mode = 2
 theme_override_constants/margin_left = 8
@@ -193,12 +196,12 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/BodyMarginContainer/FlashMessageMargin"]
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/FlashMessageMargin"]
 layout_mode = 2
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 
-[node name="FlashMessageBox" parent="VBoxContainer/BodyMarginContainer/FlashMessageMargin/ScrollContainer" instance=ExtResource("10_3xlg5")]
+[node name="FlashMessageBox" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/FlashMessageMargin/ScrollContainer" instance=ExtResource("10_3xlg5")]
 unique_name_in_owner = true
 clip_children = 1
 clip_contents = true
@@ -206,7 +209,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ContentMargin" type="MarginContainer" parent="VBoxContainer/BodyMarginContainer"]
+[node name="ContentMargin" type="MarginContainer" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/margin_left = 16
@@ -214,10 +217,10 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin"]
 layout_mode = 2
 
-[node name="ContentBody" type="MarginContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer"]
+[node name="ContentBody" type="MarginContainer" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -227,7 +230,7 @@ theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
 
-[node name="QuickMenu" type="PanelContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody"]
+[node name="QuickMenu" type="PanelContainer" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody"]
 unique_name_in_owner = true
 z_index = 2
 layout_mode = 2
@@ -235,128 +238,128 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_ndeej")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Quick Menu
 "
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxFlat_5oa4s")
 
-[node name="AddRemoveInPlaylistQuick" type="HBoxContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+[node name="AddRemoveInPlaylistQuick" type="HBoxContainer" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/AddRemoveInPlaylistQuick"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/AddRemoveInPlaylistQuick"]
 layout_mode = 2
 texture = ExtResource("7_1pbtu")
 expand_mode = 3
 
-[node name="AddRemoveInPlaylistLabel" type="Label" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/AddRemoveInPlaylistQuick"]
+[node name="AddRemoveInPlaylistLabel" type="Label" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/AddRemoveInPlaylistQuick"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = " : Add to  playlist"
 
-[node name="QueueSong" type="HBoxContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+[node name="QueueSong" type="HBoxContainer" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/QueueSong"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/QueueSong"]
 layout_mode = 2
 texture = ExtResource("8_swjqc")
 expand_mode = 3
 
-[node name="QueueSongLabel" type="Label" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/QueueSong"]
+[node name="QueueSongLabel" type="Label" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/QueueSong"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = " : Queue song  "
 
-[node name="NoQuickMenuActions" type="PanelContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+[node name="NoQuickMenuActions" type="PanelContainer" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_sm4ou")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/NoQuickMenuActions"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/NoQuickMenuActions"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 4
 
-[node name="Label" type="Label" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/NoQuickMenuActions/MarginContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/NoQuickMenuActions/MarginContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "No Quick Menu Actions Available"
 
-[node name="DebugInfo" type="PanelContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody"]
+[node name="DebugInfo" type="PanelContainer" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody"]
 unique_name_in_owner = true
 visible = false
 z_index = 3
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_gs5fl")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer"]
 layout_mode = 2
 
-[node name="OSNameLabel" type="Label" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
+[node name="OSNameLabel" type="Label" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Os Name:"
 
-[node name="DeviceIdLabel" type="Label" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
+[node name="DeviceIdLabel" type="Label" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Device ID: "
 
-[node name="ScreenSize" type="Label" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
+[node name="ScreenSize" type="Label" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Device Resolution:"
 
-[node name="WindowSize" type="Label" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
+[node name="WindowSize" type="Label" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="RootSize" type="Label" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
+[node name="RootSize" type="Label" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Root Size:"
 
-[node name="DeviceOrientation" type="Label" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
+[node name="DeviceOrientation" type="Label" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Device Orientation:"
 
-[node name="BrightnessLabel" type="Label" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
+[node name="BrightnessLabel" type="Label" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Initial Brightness: N/A"
 
-[node name="SongsImportedLabel" type="Label" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
+[node name="SongsImportedLabel" type="Label" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/DebugInfo/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ExitingOverlay" type="PanelContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody"]
+[node name="ExitingOverlay" type="PanelContainer" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody"]
 unique_name_in_owner = true
 visible = false
 z_index = 3
@@ -365,23 +368,23 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_o7wd5")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/ExitingOverlay"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/ExitingOverlay"]
 layout_mode = 2
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 8
 
-[node name="Label" type="Label" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/ExitingOverlay/MarginContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/ExitingOverlay/MarginContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
 text = "See ya later"
 
-[node name="ThemeSongFollow" type="MarginContainer" parent="VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer"]
+[node name="ThemeSongFollow" type="MarginContainer" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer"]
 layout_mode = 2
 script = ExtResource("11_pok2t")
 
-[node name="Keyboard" parent="VBoxContainer/BodyMarginContainer" instance=ExtResource("8_y4p5t")]
+[node name="Keyboard" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer" instance=ExtResource("8_y4p5t")]
 unique_name_in_owner = true
 visible = false
 z_index = 3
@@ -390,19 +393,30 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 0
 
-[node name="AppMessage" parent="VBoxContainer/BodyMarginContainer" instance=ExtResource("9_1p8yf")]
+[node name="AppMessage" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer" instance=ExtResource("9_1p8yf")]
 unique_name_in_owner = true
 process_mode = 3
 visible = false
 layout_mode = 2
 mouse_filter = 1
 
-[node name="ThemeFooter" type="MarginContainer" parent="VBoxContainer"]
+[node name="ThemeFooter" type="MarginContainer" parent="CanvasLayer/TransformContainer/VBoxContainer"]
 layout_mode = 2
 script = ExtResource("15_mra02")
 
-[node name="UiUpdateTimer" type="Timer" parent="."]
-wait_time = 5.0
-autostart = true
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/TransformContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 2
 
-[connection signal="timeout" from="UiUpdateTimer" to="." method="_on_ui_update_timer_timeout"]
+[node name="VolumeContainer" parent="CanvasLayer/TransformContainer/HBoxContainer" instance=ExtResource("14_ur3pi")]
+unique_name_in_owner = true
+z_index = 1
+layout_mode = 2
+theme_override_constants/margin_top = 120
+theme_override_constants/margin_bottom = 120

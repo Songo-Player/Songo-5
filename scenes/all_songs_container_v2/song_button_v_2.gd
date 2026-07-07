@@ -32,16 +32,24 @@ func setup(record, index_arg):
 		content_component.setup_artist_record(record)
 	if record is M3uCollection:
 		content_component.setup_playlist_record(record)
+	if record is SettingRecord:
+		_setup_settings_button(record)
 	index = index_arg
 	%Button.set_meta("item_index", index)
 
 	if !%Button.pressed.is_connected(_song_button_pressed):
 		%Button.pressed.connect(_song_button_pressed)
 	
+func _setup_settings_button(setting_record):
+	%Button.text = setting_record.name
+	%Button.icon = setting_record.icon
+	
 func _song_button_pressed():
 	var current_page = Controller.active_container
 	if current_page.list_items is Array[MusicRecord]:
 		Controller.songs_panel(current_page.list_items, index)
+	elif current_page.list_items is Array[SettingRecord]:
+		Controller.call(current_page.list_items[index].controller_method)
 	else: 
 		Controller.collection_list(current_page.list_items[index])
 

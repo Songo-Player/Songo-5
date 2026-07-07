@@ -181,6 +181,7 @@ func wake_screen():
 		
 func set_battery_info_path():
 	var likely_paths = [
+		"/sys/class/power_supply/cw221X-bat/",
 		"/sys/class/power_supply/axp2202-battery/",
 		"/sys/class/power_supply/battery/",
 	]

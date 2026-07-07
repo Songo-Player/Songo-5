@@ -19,6 +19,9 @@ func _ready() -> void:
 	get_tree().root.theme = my_theme
 	Engine.physics_ticks_per_second = 1
 	Engine.max_fps = 60
+	UiHelper.transform_container = %TransformContainer
+	#%TransformContainer.theme = my_theme
+	await get_tree().process_frame
 	ThemeManager.set_current_theme(songo_settings.theme_path)
 	#if songo_settings.force_screen_fit == true:
 		#UiHelper.apply_screen_fit()
@@ -41,6 +44,7 @@ func _ready() -> void:
 	UiHelper.vol_container = %VolumeContainer
 	UiHelper.crt_overlay = %CrtOverlay
 	UiHelper.the_grid_overlay = %TheGridOverlay
+	
 	UiHelper.apply_scale(songo_settings.ui_scale)
 	UiHelper.apply_content_margin(songo_settings.content_margin)
 
@@ -110,6 +114,12 @@ func _input(event: InputEvent) -> void:
 
 		
 func _process(delta: float) -> void:
+	var rotated = Vector2(480,640)
+	if false:
+		custom_minimum_size = rotated
+		%TransformContainer.size = Vector2(size.y, size.x)
+		%TransformContainer.position.x = - size.y
+		%TransformContainer.get_parent().rotation = deg_to_rad(270)
 	DeviceOS.device_strategy.translate_inputs(delta)
 	if Input.is_action_pressed("Y"):
 		showing_quick_menu = true
@@ -154,6 +164,8 @@ func get_playlist_target_collection():
 	var target = CollectionHelper.target_item
 	if target is M3uCollection:
 		return null
+	if target is SettingRecord:
+		return null
 	if target && target is not MusicRecord:
 		return target
 	else: return null
@@ -190,7 +202,7 @@ func update_quick_menu_vals():
 	if (target_collection == null && target_song == null) || songo_data.recent_playlist == null:
 		%AddRemoveInPlaylistQuick.hide()
 		
-	if Controller.active_container is AllSongsContainer && target_song && SongoPlayerV2.is_playing():
+	if Controller.active_container is AllSongsContainerV2 && target_song && SongoPlayerV2.is_playing():
 		actions_available = true
 		%QueueSong.show()
 	else:

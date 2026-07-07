@@ -28,7 +28,8 @@ enum TYPE {
 	PLAYLISTS,
 	ALBUM_SONGS,
 	ARTIST_SONGS,
-	PLAYLIST_SONGS
+	PLAYLIST_SONGS,
+	SETTINGS
 }
 const SORT_OPTION_ARR = [
 	[], # INVALID
@@ -39,6 +40,7 @@ const SORT_OPTION_ARR = [
 	["song_track_asc", "song_track_desc", "song_alpha_asc", "song_alpha_desc"], # ALBUM_SONGS
 	["song_alpha_asc", "song_alpha_desc"], # ARTIST_SONGS
 	["song_alpha_asc", "song_alpha_desc"], # PLAYLIST_SONGS
+	[] # SETTINGS
 ]
 
 var collection_type:
@@ -66,6 +68,7 @@ func _get_collection_type():
 	if coll is Array[AlbumRecord]: return TYPE.ALBUMS
 	if coll is Array[ArtistRecord]: return TYPE.ARTISTS
 	if coll is Array[M3uCollection]: return TYPE.PLAYLISTS
+	if coll is Array[SettingRecord]: return TYPE.SETTINGS
 	if coll is AlbumRecord: return TYPE.ALBUM_SONGS
 	if coll is ArtistRecord: return TYPE.ARTIST_SONGS
 	if coll is M3uCollection: return TYPE.PLAYLIST_SONGS
@@ -79,6 +82,7 @@ func _get_collection_name():
 		TYPE.ALBUMS: return "Albums"
 		TYPE.ARTISTS: return "Artists"
 		TYPE.PLAYLISTS: return "Playlists"
+		TYPE.SETTINGS: return "Settings"
 		TYPE.ALBUM_SONGS, TYPE.ARTIST_SONGS, TYPE.PLAYLIST_SONGS: return _current_collection.name
 	
 func _get_collection_size():
@@ -102,5 +106,6 @@ func _get_collection_image():
 	
 	if base_image:
 		return ImageTexture.create_from_image(base_image)
+		
 	return null
 	

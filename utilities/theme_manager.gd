@@ -38,6 +38,8 @@ func set_current_theme(theme_path_arg):
 	else:
 		var base_theme = load("res://songo_base_theme.tres")
 		get_tree().root.theme = base_theme
+		if UiHelper.transform_container:
+			UiHelper.transform_container.theme = base_theme
 	theme_updated.emit()
 	
 func get_scene_path(scene_name):

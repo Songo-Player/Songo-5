@@ -76,6 +76,10 @@ func setup(sort_key):
 		custom_image_texture = image_texture
 
 func show_sort_info(sort_key):
+	if sort_key is bool && sort_key == false:
+		%SortIndicator.modulate.a = 0.0
+		return
+	
 	var new_text = SongoSort.TYPES[sort_key]
 	var dir_text = " (ASC)"
 	if "_desc" in sort_key: dir_text = " (DESC)"
