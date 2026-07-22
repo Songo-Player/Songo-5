@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://baxqre4t8cm6"]
 
-[ext_resource type="Script" path="res://scenes/settings_container/sub_containers/sound_settings_sub_container.gd" id="1_8q3vs"]
+[ext_resource type="Script" path="res://scenes/settings_container/sub_containers/sound_settings/sound_settings.gd" id="1_8q3vs"]
 [ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="2_rm64k"]
 [ext_resource type="PackedScene" uid="uid://0m5yrmj03xdi" path="res://scenes/settings_container/settings_button.tscn" id="3_1t4tl"]
 [ext_resource type="Texture2D" uid="uid://cugg5pnrtgmxg" path="res://assets/arrowLeft.svg" id="4_pby56"]

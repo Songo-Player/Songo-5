@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bm2ohfpqwbee3"]
 
-[ext_resource type="Script" path="res://scenes/settings_container/playlist_item.gd" id="1_br7hg"]
+[ext_resource type="Script" path="res://scenes/settings_container/sub_containers/playlist_settings/playlist_item/playlist_item.gd" id="1_br7hg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pls1h"]
 bg_color = Color(1, 0, 0, 0.392157)

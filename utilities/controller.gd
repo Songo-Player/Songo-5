@@ -21,13 +21,13 @@ const SETTINGS_DIRECTORY_SELECT = "res://scenes/directory_container/directory_co
 const SETTINGS_SUB_PATH = "res://scenes/settings_container/sub_containers"
 const DATA_AND_STORAGE_SUB_CONTAINER = SETTINGS_SUB_PATH + "/data_and_storage/data_and_storage.tscn"
 const UI_AND_CUSTOMIZATIONS_SUB_CONTAINER = SETTINGS_SUB_PATH + "/ui_and_customization/ui_and_customization.tscn"
-const MISC_FEATURE_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/sub_containers/misc_feature_settings_sub_container.tscn"
-const PLAYLIST_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/sub_containers/playlist_settings_sub_container.tscn"
-const DEVELOPMENT_CREDIT_SUB_CONTAINER = "res://scenes/settings_container/sub_containers/development_credit_sub_container.tscn"
-const CONTACT_ME_SUB_CONTAINER = "res://scenes/settings_container/sub_containers/contact_me_sub_container.tscn"
-const SUPPORT_ME_SUB_CONTAINER = "res://scenes/settings_container/sub_containers/support_me_sub_container.tscn"
-const CONTROLLER_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/sub_containers/controller_settings_sub_container.tscn"
-const SOUND_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/sub_containers/sound_settings_sub_container.tscn"
+const MISC_FEATURE_SETTINGS_SUB_CONTAINER = SETTINGS_SUB_PATH + "/misc_feature_settings/misc_feature_settings.tscn"
+const PLAYLIST_SETTINGS_SUB_CONTAINER = SETTINGS_SUB_PATH + "/playlist_settings/playlist_settings.tscn"
+const DEVELOPMENT_CREDIT_SUB_CONTAINER = SETTINGS_SUB_PATH + "/development_credit/development_credit.tscn"
+const CONTACT_ME_SUB_CONTAINER = SETTINGS_SUB_PATH + "/contact_me/contact_me.tscn"
+const SUPPORT_ME_SUB_CONTAINER = SETTINGS_SUB_PATH + "/support_me/support_me.tscn"
+const CONTROLLER_SETTINGS_SUB_CONTAINER = SETTINGS_SUB_PATH + "/controller_settings/controller_settings.tscn"
+const SOUND_SETTINGS_SUB_CONTAINER = SETTINGS_SUB_PATH + "/sound_settings/sound_settings.tscn"
 
 var settings_collection : Array[SettingRecord] = [
 	SettingRecord.new("Data and Storage", "settings_data_and_storage", false),

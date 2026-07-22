@@ -1,12 +1,12 @@
 [gd_scene load_steps=11 format=3 uid="uid://c4h5kdh7vvnrs"]
 
-[ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="1_cvyup"]
-[ext_resource type="Script" path="res://scenes/settings_container/sub_containers/development_credit_sub_container.gd" id="1_r6js8"]
-[ext_resource type="Texture2D" uid="uid://bto3cdnmrap1x" path="res://assets/Sparkles.svg" id="3_sbe0u"]
-[ext_resource type="Texture2D" uid="uid://cquysexdmp80s" path="res://assets/Emerald.svg" id="4_in31b"]
-[ext_resource type="Texture2D" uid="uid://dm344f20bvdte" path="res://assets/Anbernic_logo.png" id="5_h1agt"]
-[ext_resource type="Texture2D" uid="uid://fuyoyqqinuj7" path="res://assets/cat.svg" id="5_n7cmx"]
-[ext_resource type="Texture2D" uid="uid://cu3jsa28tyfam" path="res://assets/Miyoo-cropped-2.png" id="6_lt706"]
+[ext_resource type="Script" path="res://scenes/settings_container/sub_containers/development_credit/development_credit.gd" id="1_d5ns1"]
+[ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="2_jhxhv"]
+[ext_resource type="Texture2D" uid="uid://bto3cdnmrap1x" path="res://assets/Sparkles.svg" id="3_tyuya"]
+[ext_resource type="Texture2D" uid="uid://cquysexdmp80s" path="res://assets/Emerald.svg" id="4_1yu4m"]
+[ext_resource type="Texture2D" uid="uid://fuyoyqqinuj7" path="res://assets/cat.svg" id="5_vq3p6"]
+[ext_resource type="Texture2D" uid="uid://dm344f20bvdte" path="res://assets/Anbernic_logo.png" id="6_lv46f"]
+[ext_resource type="Texture2D" uid="uid://cu3jsa28tyfam" path="res://assets/Miyoo-cropped-2.png" id="7_uacy7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j2n4i"]
 bg_color = Color(0.0646965, 0.0646965, 0.0646965, 1)
@@ -36,7 +36,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_top = 29
-script = ExtResource("1_r6js8")
+script = ExtResource("1_d5ns1")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 unique_name_in_owner = true
@@ -83,7 +83,7 @@ autowrap_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/panel = ExtResource("1_cvyup")
+theme_override_styles/panel = ExtResource("2_jhxhv")
 
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer"]
 layout_mode = 2
@@ -239,7 +239,7 @@ layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer9/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture = ExtResource("3_sbe0u")
+texture = ExtResource("3_tyuya")
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer9/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -247,7 +247,7 @@ text = "@BunBun328"
 
 [node name="TextureRect2" type="TextureRect" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer9/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture = ExtResource("3_sbe0u")
+texture = ExtResource("3_tyuya")
 flip_h = true
 
 [node name="PanelContainer10" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer"]
@@ -266,7 +266,7 @@ layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer10/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture = ExtResource("4_in31b")
+texture = ExtResource("4_1yu4m")
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer10/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -274,7 +274,7 @@ text = "Emerald_Elephas"
 
 [node name="TextureRect2" type="TextureRect" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer10/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture = ExtResource("4_in31b")
+texture = ExtResource("4_1yu4m")
 flip_h = true
 
 [node name="PanelContainer14" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer"]
@@ -293,7 +293,7 @@ layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer14/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture = ExtResource("5_n7cmx")
+texture = ExtResource("5_vq3p6")
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer14/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -301,12 +301,12 @@ text = "Ciri"
 
 [node name="TextureRect2" type="TextureRect" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer14/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture = ExtResource("5_n7cmx")
+texture = ExtResource("5_vq3p6")
 flip_h = true
 
 [node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/panel = ExtResource("1_cvyup")
+theme_override_styles/panel = ExtResource("2_jhxhv")
 
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2"]
 layout_mode = 2
@@ -478,7 +478,7 @@ text = "Spruce Team"
 
 [node name="PanelContainer4" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/panel = ExtResource("1_cvyup")
+theme_override_styles/panel = ExtResource("2_jhxhv")
 
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer4"]
 layout_mode = 2
@@ -545,7 +545,7 @@ text = "Let There Be Pixels"
 
 [node name="PanelContainer3" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/panel = ExtResource("1_cvyup")
+theme_override_styles/panel = ExtResource("2_jhxhv")
 
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3"]
 layout_mode = 2
@@ -700,7 +700,7 @@ theme_override_constants/margin_bottom = 8
 [node name="TextureRect" type="TextureRect" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer5/PanelContainer2/MarginContainer"]
 custom_minimum_size = Vector2(0, 14)
 layout_mode = 2
-texture = ExtResource("5_h1agt")
+texture = ExtResource("6_lv46f")
 expand_mode = 3
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer5"]
@@ -736,7 +736,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_ebush")
 [node name="TextureRect" type="TextureRect" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer6/PanelContainer2/MarginContainer/PanelContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-texture = ExtResource("6_lt706")
+texture = ExtResource("7_uacy7")
 expand_mode = 3
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer6"]

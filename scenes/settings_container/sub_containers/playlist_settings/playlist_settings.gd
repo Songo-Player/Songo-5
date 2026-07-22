@@ -3,6 +3,8 @@ extends MarginContainer
 var songo_settings = SongoSettings.get_instance()
 var songo_data = SongoDataResource.get_instance()
 
+const PLAYLIST_ITEM_PATH = "res://scenes/settings_container/sub_containers/playlist_settings/playlist_item/playlist_item.tscn"
+
 func setup():
 	build_playlists_list()
 	
@@ -35,7 +37,7 @@ func build_playlists_list():
 		child.queue_free()
 		
 	for playlist in songo_data.playlists:
-		var new_item = load("res://scenes/settings_container/playlist_item.tscn").instantiate()
+		var new_item = load(PLAYLIST_ITEM_PATH).instantiate()
 		new_item.setup(playlist)
 		%CurrentPlaylists.add_child(new_item)
 		new_item.removed_playlist.connect(func(): 
