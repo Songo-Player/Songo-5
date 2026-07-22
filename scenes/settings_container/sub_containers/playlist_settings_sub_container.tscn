@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://ys06hth56t3w"]
 
-[ext_resource type="Script" path="res://scenes/settings_container/v2/sub_containers/playlist_settings_sub_container.gd" id="1_egycj"]
+[ext_resource type="Script" path="res://scenes/settings_container/sub_containers/playlist_settings_sub_container.gd" id="1_egycj"]
 [ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="2_uuyk4"]
 [ext_resource type="PackedScene" uid="uid://0m5yrmj03xdi" path="res://scenes/settings_container/settings_button.tscn" id="3_51sbn"]
 

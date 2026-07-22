@@ -1,12 +1,12 @@
 [gd_scene load_steps=14 format=3 uid="uid://hq32e054vy60"]
 
-[ext_resource type="Script" path="res://scenes/settings_container/v2/sub_containers/ui_and_customization_sub_container.gd" id="1_dg7tv"]
-[ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="1_vjm6x"]
-[ext_resource type="PackedScene" uid="uid://0m5yrmj03xdi" path="res://scenes/settings_container/settings_button.tscn" id="2_wluk6"]
-[ext_resource type="Texture2D" uid="uid://cugg5pnrtgmxg" path="res://assets/arrowLeft.svg" id="4_r2o7y"]
-[ext_resource type="Texture2D" uid="uid://c8jp7o8xasf1x" path="res://assets/arrowRight.svg" id="5_f48ei"]
-[ext_resource type="Texture2D" uid="uid://faqv22wj0cw1" path="res://icon.svg" id="6_ij6ig"]
-[ext_resource type="PackedScene" uid="uid://cpa0as1e8v4x3" path="res://scenes/settings_container/theme_tag.tscn" id="7_htnu7"]
+[ext_resource type="Script" path="res://scenes/settings_container/sub_containers/ui_and_customization/ui_and_customization.gd" id="1_45cu0"]
+[ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="2_d2fib"]
+[ext_resource type="PackedScene" uid="uid://0m5yrmj03xdi" path="res://scenes/settings_container/settings_button.tscn" id="3_6rabh"]
+[ext_resource type="Texture2D" uid="uid://cugg5pnrtgmxg" path="res://assets/arrowLeft.svg" id="4_st8sx"]
+[ext_resource type="Texture2D" uid="uid://c8jp7o8xasf1x" path="res://assets/arrowRight.svg" id="5_3n06t"]
+[ext_resource type="Texture2D" uid="uid://faqv22wj0cw1" path="res://icon.svg" id="6_23kxa"]
+[ext_resource type="PackedScene" uid="uid://cpa0as1e8v4x3" path="res://scenes/settings_container/sub_containers/ui_and_customization/theme_tag/theme_tag.tscn" id="7_rn5t5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ss2ph"]
 corner_radius_top_left = 4
@@ -54,7 +54,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_top = 29
-script = ExtResource("1_dg7tv")
+script = ExtResource("1_45cu0")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 unique_name_in_owner = true
@@ -89,7 +89,7 @@ layout_mode = 2
 
 [node name="ThemeContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/panel = ExtResource("1_vjm6x")
+theme_override_styles/panel = ExtResource("2_d2fib")
 
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer"]
 layout_mode = 2
@@ -130,17 +130,17 @@ expand_to_text_length = true
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 
-[node name="GlobalUiScaleDown" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/GlobalScaleSetting/HBoxContainer" instance=ExtResource("2_wluk6")]
+[node name="GlobalUiScaleDown" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/GlobalScaleSetting/HBoxContainer" instance=ExtResource("3_6rabh")]
 layout_mode = 2
 text = "
 "
-icon = ExtResource("4_r2o7y")
+icon = ExtResource("4_st8sx")
 
-[node name="GlobalUiScaleUp" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/GlobalScaleSetting/HBoxContainer" instance=ExtResource("2_wluk6")]
+[node name="GlobalUiScaleUp" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/GlobalScaleSetting/HBoxContainer" instance=ExtResource("3_6rabh")]
 layout_mode = 2
 text = "
 "
-icon = ExtResource("5_f48ei")
+icon = ExtResource("5_3n06t")
 
 [node name="ContentMarginSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -170,17 +170,17 @@ expand_to_text_length = true
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 
-[node name="ContentMarginDown" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ContentMarginSetting/HBoxContainer" instance=ExtResource("2_wluk6")]
+[node name="ContentMarginDown" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ContentMarginSetting/HBoxContainer" instance=ExtResource("3_6rabh")]
 layout_mode = 2
 text = "
 "
-icon = ExtResource("4_r2o7y")
+icon = ExtResource("4_st8sx")
 
-[node name="ContentMarginUp" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ContentMarginSetting/HBoxContainer" instance=ExtResource("2_wluk6")]
+[node name="ContentMarginUp" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ContentMarginSetting/HBoxContainer" instance=ExtResource("3_6rabh")]
 layout_mode = 2
 text = "
 "
-icon = ExtResource("5_f48ei")
+icon = ExtResource("5_3n06t")
 
 [node name="ThemeSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -203,7 +203,7 @@ theme_override_constants/minimum_character_width = 1
 text = "Wee"
 expand_to_text_length = true
 
-[node name="SettingsButton" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemeSetting" instance=ExtResource("2_wluk6")]
+[node name="SettingsButton" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemeSetting" instance=ExtResource("3_6rabh")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
@@ -250,7 +250,7 @@ layout_mode = 2
 [node name="ThemePreviewImage" type="TextureRect" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/MarginContainer/PanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-texture = ExtResource("6_ij6ig")
+texture = ExtResource("6_23kxa")
 expand_mode = 1
 stretch_mode = 5
 
@@ -289,16 +289,16 @@ layout_mode = 2
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 
-[node name="ThemeDown" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer" instance=ExtResource("2_wluk6")]
+[node name="ThemeDown" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer" instance=ExtResource("3_6rabh")]
 layout_mode = 2
 text = ""
-icon = ExtResource("4_r2o7y")
+icon = ExtResource("4_st8sx")
 
-[node name="ThemeUp" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer" instance=ExtResource("2_wluk6")]
+[node name="ThemeUp" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer" instance=ExtResource("3_6rabh")]
 layout_mode = 2
 text = "
 "
-icon = ExtResource("5_f48ei")
+icon = ExtResource("5_3n06t")
 
 [node name="ApplyTheme" type="Button" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
 layout_mode = 2
@@ -328,13 +328,13 @@ theme_override_constants/margin_top = 8
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ThemeTag" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/ThemeTagContainer" instance=ExtResource("7_htnu7")]
+[node name="ThemeTag" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/ThemeTagContainer" instance=ExtResource("7_rn5t5")]
 layout_mode = 2
 
 [node name="ThemeSettingsContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/panel = ExtResource("1_vjm6x")
+theme_override_styles/panel = ExtResource("2_d2fib")
 
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeSettingsContainer"]
 layout_mode = 2
@@ -403,7 +403,7 @@ theme_override_constants/margin_right = 4
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="ResetToDefaultsButton" parent="ScrollContainer/VBoxContainer/MarginContainer/PanelContainer" instance=ExtResource("2_wluk6")]
+[node name="ResetToDefaultsButton" parent="ScrollContainer/VBoxContainer/MarginContainer/PanelContainer" instance=ExtResource("3_6rabh")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10

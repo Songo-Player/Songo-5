@@ -18,15 +18,16 @@ const ALL_SONGS_CONTAINER = "res://scenes/all_songs_container_v2/all_songs_conta
 const SONG_PANEL_CONTAINER = "res://scenes/theme_injections/theme_main_song_view/theme_main_song_view.tscn"
 const SETTINGS_DIRECTORY_SELECT = "res://scenes/directory_container/directory_container.tscn"
 
-const DATA_AND_STORAGE_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/data_and_storage_sub_container.tscn"
-const UI_AND_CUSTOMIZATIONS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/ui_and_customization_sub_container.tscn"
-const MISC_FEATURE_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/misc_feature_settings_sub_container.tscn"
-const PLAYLIST_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/playlist_settings_sub_container.tscn"
-const DEVELOPMENT_CREDIT_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/development_credit_sub_container.tscn"
-const CONTACT_ME_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/contact_me_sub_container.tscn"
-const SUPPORT_ME_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/support_me_sub_container.tscn"
-const CONTROLLER_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/controller_settings_sub_container.tscn"
-const SOUND_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/sound_settings_sub_container.tscn"
+const SETTINGS_SUB_PATH = "res://scenes/settings_container/sub_containers"
+const DATA_AND_STORAGE_SUB_CONTAINER = SETTINGS_SUB_PATH + "/data_and_storage/data_and_storage.tscn"
+const UI_AND_CUSTOMIZATIONS_SUB_CONTAINER = SETTINGS_SUB_PATH + "/ui_and_customization/ui_and_customization.tscn"
+const MISC_FEATURE_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/sub_containers/misc_feature_settings_sub_container.tscn"
+const PLAYLIST_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/sub_containers/playlist_settings_sub_container.tscn"
+const DEVELOPMENT_CREDIT_SUB_CONTAINER = "res://scenes/settings_container/sub_containers/development_credit_sub_container.tscn"
+const CONTACT_ME_SUB_CONTAINER = "res://scenes/settings_container/sub_containers/contact_me_sub_container.tscn"
+const SUPPORT_ME_SUB_CONTAINER = "res://scenes/settings_container/sub_containers/support_me_sub_container.tscn"
+const CONTROLLER_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/sub_containers/controller_settings_sub_container.tscn"
+const SOUND_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/sub_containers/sound_settings_sub_container.tscn"
 
 var settings_collection : Array[SettingRecord] = [
 	SettingRecord.new("Data and Storage", "settings_data_and_storage", false),

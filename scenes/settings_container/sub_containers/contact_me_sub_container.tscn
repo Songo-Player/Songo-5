@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://db1vaxtrlj7bh"]
 
-[ext_resource type="Script" path="res://scenes/settings_container/v2/sub_containers/contact_me_sub_container.gd" id="1_6xog3"]
+[ext_resource type="Script" path="res://scenes/settings_container/sub_containers/contact_me_sub_container.gd" id="1_6xog3"]
 [ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="2_pboqb"]
 [ext_resource type="Texture2D" uid="uid://bs7k45oality7" path="res://assets/Discord-Symbol-Black.png" id="3_7h557"]
 [ext_resource type="Texture2D" uid="uid://cbkyktsj8jpj3" path="res://assets/songo-number-five-qr.png" id="4_uou6y"]

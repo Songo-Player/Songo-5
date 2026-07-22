@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://clc10jb5g0pa5"]
 
-[ext_resource type="Script" path="res://scenes/settings_container/directory_path_item.gd" id="1_djfey"]
+[ext_resource type="Script" path="res://scenes/settings_container/sub_containers/data_and_storage/directory_path_item/directory_path_item.gd" id="1_djfey"]
 [ext_resource type="Texture2D" uid="uid://b2f5qjioe80m4" path="res://assets/Folder.svg" id="1_ln64q"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_02tx4"]

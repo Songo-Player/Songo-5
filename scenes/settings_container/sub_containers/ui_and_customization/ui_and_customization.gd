@@ -5,6 +5,8 @@ var original_scale: float
 var max_content_margin: int
 var theme_options = []
 var theme_index = 0
+const SETTING_LINE_ITEM_PATH = "res://scenes/settings_container/sub_containers/ui_and_customization/setting_line_item/setting_line_item.tscn"
+const THEME_TAG_PATH = "res://scenes/settings_container/sub_containers/ui_and_customization/theme_tag/theme_tag.tscn"
 
 func _ready():
 	await get_tree().process_frame
@@ -71,7 +73,7 @@ func update_theme_options_ui():
 	
 	if theme_info.has("tags"):
 		for tag in theme_info["tags"]:
-			var theme_tag = load("res://scenes/settings_container/theme_tag.tscn").instantiate()
+			var theme_tag = load(THEME_TAG_PATH).instantiate()
 			theme_tag.setup(tag)
 			%ThemeTagContainer.add_child(theme_tag)
 	
@@ -90,7 +92,7 @@ func update_current_theme_ui():
 			if not ThemeManager.settings.has(key): continue
 			var info = ThemeManager.settings_info[key]
 			var value = ThemeManager.settings[key]
-			var setting_line_item = load("res://scenes/settings_container/setting_line_item/setting_line_item.tscn").instantiate()
+			var setting_line_item = load(SETTING_LINE_ITEM_PATH).instantiate()
 			setting_line_item.setup(info, value)
 			%ThemeSettings.add_child(setting_line_item)
 			setting_line_item.value_updated.connect(_on_theme_setting_value_updated.bind(key))

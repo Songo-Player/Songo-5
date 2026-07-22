@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://cnawl38hxdw8j"]
 
 [ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="1_6a2je"]
-[ext_resource type="Script" path="res://scenes/settings_container/v2/sub_containers/data_and_storage_sub_container.gd" id="1_ftlit"]
+[ext_resource type="Script" path="res://scenes/settings_container/sub_containers/data_and_storage/data_and_storage.gd" id="1_ftlit"]
 [ext_resource type="PackedScene" uid="uid://0m5yrmj03xdi" path="res://scenes/settings_container/settings_button.tscn" id="2_ekkat"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0bs7f"]

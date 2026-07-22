@@ -3,6 +3,8 @@ extends MarginContainer
 var songo_data = SongoDataResource.get_instance()
 var songo_settings = SongoSettings.get_instance()
 
+const DIRECTORY_PATH_ITEM_PATH = "res://scenes/settings_container/sub_containers/data_and_storage/directory_path_item/directory_path_item.tscn"
+
 func setup():
 	build_music_dirs_list()
 	update_auto_import_ui()
@@ -22,7 +24,7 @@ func handle_input(delta: float):
 
 func build_music_dirs_list():	
 	for i in range(songo_data.music_directory_paths.size()):
-		var new_item = load("res://scenes/settings_container/directory_path_item.tscn").instantiate()
+		var new_item = load(DIRECTORY_PATH_ITEM_PATH).instantiate()
 		var path = songo_data.music_directory_paths[i]
 		new_item.setup(path)
 		%CurrentMusicDirectories.add_child(new_item)
