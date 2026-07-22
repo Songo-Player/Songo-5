@@ -387,17 +387,6 @@ func _on_record_imported(progress: float):
 	
 func _increment_images_rebuilt():
 	images_rebuilt += 1
-	
-func build_artist_images():
-	#print(artists)
-	for i in range(artists.size()):	
-		#var img_path = await WikiScrape.fetch_artist_image(artists[i].name)
-		#if img_path == null || img_path == "":
-		var img_path = await WikiScrape.fetch_dicebear_avatar(artists[i].name)
-		artists[i].img_path = img_path
-		scraping = float(i)/float(artists.size())
-	call_deferred("save")
-	scraping = 0.0
 			
 func build_album_images(rebuild: bool = false):
 	var all_image_paths = []
@@ -560,7 +549,7 @@ func _on_import_complete():
 	albums = get_albums_alphabetical()
 	artists = get_artists_sorted_song_count()
 	save()
-	#build_artist_images()
+	
 	var elapsed = Time.get_unix_time_from_system() - import_start_time
 	UiHelper.flash_message("Import finished. Duration: %.2f seconds" % elapsed)
 	importing = false

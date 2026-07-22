@@ -15,6 +15,7 @@ func get_focused_collection():
 	return %VirtualizedList.focused_item
 	
 func setup(albums_arg: Array[AlbumRecord]):
+	print("testing ablums")
 	albums = albums_arg.duplicate()
 	await %VirtualizedList.ready
 	%VirtualizedList.setup(albums, "res://scenes/albums_container/album_button.tscn")

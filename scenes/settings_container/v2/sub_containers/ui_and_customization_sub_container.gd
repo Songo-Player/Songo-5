@@ -162,9 +162,11 @@ func _on_apply_theme_pressed() -> void:
 	songo_settings.save()
 	if ThemeManager.theme_path != theme_options[theme_index]:
 		ThemeManager.set_current_theme(theme_options[theme_index])
+		Controller.history = []
+		SongoPlayerV2.stop()
+		Controller.main_menu()
 	else:
 		UiHelper.flash_message("This theme is already being applied")
-	update_current_theme_ui()
 
 func _on_theme_down_pressed() -> void:
 	theme_index = theme_index-1

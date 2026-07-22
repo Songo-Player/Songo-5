@@ -75,7 +75,6 @@ func fire_focus_next():
 func apply_user_theme(user_theme: Theme) -> void:
 	var my_base_theme = load("res://songo_base_theme.tres")
 	var final_theme := my_base_theme.duplicate()
-	print("GOT HERE THMEE?")
 	for type in user_theme.get_type_list():
 		
 				# Copy variation inheritance

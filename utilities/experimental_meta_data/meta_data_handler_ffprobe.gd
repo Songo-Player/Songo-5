@@ -131,7 +131,7 @@ static func get_embedded_image(file_path: String) -> Image:
 	# Step 3: Load into Godot Image
 	var image := Image.new()
 	var err := image.load(tmp_path)
-	print("Got here in imahe")
+
 	# Cleanup temp file
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(tmp_path))
 
