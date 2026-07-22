@@ -228,14 +228,12 @@ func nav_back_to_settings():
 	for i in range(history_cnt):
 		if i == history_cnt-1: break
 		var back_i = history_cnt-1-i
-		if container_history[back_i][0] is SettingsV2Container:
-			container_history.pop_back()
+		var container = container_history[back_i][0]
+		if "collection" in container && container.collection[0] is SettingRecord:
 			break
 		else:
 			container_history.pop_back()
-
-	collection_list(settings_collection)
-
+	nav_back()
 
 func restore_focus(control: Control):
 	if skip_refocus:
