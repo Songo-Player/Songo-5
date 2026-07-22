@@ -77,7 +77,7 @@ func handle_input(delta: float):
 			Controller.save_state()
 		else:
 			SongoPlayerV2.stop()
-		Controller.new_nav_back()
+		Controller.nav_back()
 	
 	if SongoPlayerV2.is_playing():
 		if Input.is_action_just_pressed("ui_up") || Input.is_action_just_pressed("L2"):

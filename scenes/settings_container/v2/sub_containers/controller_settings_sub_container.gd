@@ -22,7 +22,7 @@ func _ui_settings_refresh():
 
 func handle_input(delta: float):
 	if Input.is_action_just_pressed("back"):
-		Controller.new_nav_back()
+		Controller.nav_back()
 	
 func update_ab_layout_ui():
 	if songo_settings.ab_layout_swapped:

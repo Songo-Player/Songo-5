@@ -13,18 +13,11 @@ var navigating_back = false
 var stored_state = null
 var skip_refocus: bool = false
 
-#const MAIN_MENU = "res://scenes/main_menu/main_menu.tscn"
 const MAIN_MENU = "res://scenes/theme_injections/theme_main_menu/theme_main_menu.tscn"
 const ALL_SONGS_CONTAINER = "res://scenes/all_songs_container_v2/all_songs_container_v2.tscn"
-#const SONG_PANEL_CONTAINER = "res://scenes/song_panel_container/song_panel_container.tscn"
 const SONG_PANEL_CONTAINER = "res://scenes/theme_injections/theme_main_song_view/theme_main_song_view.tscn"
-const ALBUMS_CONTAINER = "res://scenes/albums_container/albums_container.tscn"
 const SETTINGS_DIRECTORY_SELECT = "res://scenes/directory_container/directory_container.tscn"
-const ARTISTS_CONTAINER = "res://scenes/artists_container/artists_container.tscn"
-const SETTINGS_CONTAINER = "res://scenes/settings_container/settings_container.tscn"
-const PLAYLISTS_CONTAINER = "res://scenes/playlists_container/playlists_container.tscn"
 
-const SETTINGS_V2_CONTAINER = "res://scenes/settings_container/v2/settings_container_v2.tscn"
 const DATA_AND_STORAGE_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/data_and_storage_sub_container.tscn"
 const UI_AND_CUSTOMIZATIONS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/ui_and_customization_sub_container.tscn"
 const MISC_FEATURE_SETTINGS_SUB_CONTAINER = "res://scenes/settings_container/v2/sub_containers/misc_feature_settings_sub_container.tscn"
@@ -78,101 +71,19 @@ func collection_list(collection = null):
 
 func songs_index():
 	collection_list()
-	return
-	var music_records = songo_data.music_records
-	if music_records is Array[MusicRecord]:
-		print("hmmm OK")
-	if music_records.size() == 0:
-		UiHelper.app_message.show_message("You need to import music first, go to Settings.")
-		return
-
-	clean_up_old_container()
 	
-	active_container = load(ALL_SONGS_CONTAINER).instantiate()
-	active_container.setup(music_records)
-	nav_label = ["Main Menu", "All Songs"]
-	finish_up_nav()
-	
-func album_songs_index(album):
-	var music_records = album.music_records
-	if music_records.size() == 0:
-		UiHelper.app_message.show_message("Something went wrong, this album seems to have no music associated to it.")
-		return
-		
-	clean_up_old_container()
-	
-	active_container = load(ALL_SONGS_CONTAINER).instantiate()
-	active_container.setup(music_records)
-	active_container.set_as_album(album)
-	nav_label = ["Main Menu", "Albums", album.name]
-	finish_up_nav()
 	
 func albums_index():
 	var albums = songo_data.albums
 	collection_list(albums)
-	return
-	if albums.size() == 0:
-		UiHelper.app_message.show_message("You need to import music first, go to Settings.")
-		return
-	clean_up_old_container()
-	
-	active_container = load(ALBUMS_CONTAINER).instantiate()
-	active_container.setup(albums)
-	nav_label = ["Main Menu", "Albums"]
-	finish_up_nav()
 	
 func artists_index():
 	var artists = songo_data.artists
 	collection_list(artists)
-	return
-	if artists.size() == 0:
-		UiHelper.app_message.show_message("You need to import music first, go to Settings.")
-		return
-	clean_up_old_container()
-	
-	active_container = load(ARTISTS_CONTAINER).instantiate()
-	active_container.setup(artists)
-	nav_label = ["Main Menu", "Artists"]
-	finish_up_nav()
 	
 func playlists_index():
 	var playlists = songo_data.playlists
 	collection_list(playlists)
-	return
-	if playlists.size() == 0:
-		UiHelper.app_message.show_message("You need to create a playlist first, go to Settings.")
-		return
-	clean_up_old_container()
-	
-	active_container = load(PLAYLISTS_CONTAINER).instantiate()
-	active_container.setup(playlists)
-	nav_label = ["Main Menu", "Playlists"]
-	finish_up_nav()
-	
-func playlist_songs_index(playlist):
-	songo_data.recent_playlist_name = playlist.name
-	var music_records = playlist.music_records		
-	clean_up_old_container()
-	
-	active_container = load(ALL_SONGS_CONTAINER).instantiate()
-	active_container.setup(music_records)
-	active_container.set_as_playlist(playlist)
-	nav_label = ["Main Menu", "Playlists", playlist.name]
-	finish_up_nav()
-	
-func artist_songs_index(artist):
-	var music_records = artist.music_records
-	if music_records.size() == 0:
-		UiHelper.app_message.show_message("Something went wrong, this artist seems to have no music associated to them.")
-		return
-		
-	clean_up_old_container()
-	
-	active_container = load(ALL_SONGS_CONTAINER).instantiate()
-	active_container.setup(music_records)
-	active_container.set_as_artist(artist)
-	nav_label = ["Main Menu", "Artists", artist.name]
-	finish_up_nav()
 	
 func songs_panel(music_records, play_index, play_mode = SongoPlayerV2.MODE.LINEAR):
 	clean_up_old_container()
@@ -189,11 +100,8 @@ func songs_panel(music_records, play_index, play_mode = SongoPlayerV2.MODE.LINEA
 	active_container.setup()
 
 	finish_up_nav()
-
-	#	active_container.play()
 	
 func settings_directory_select(path_array = []):
-
 	clean_up_old_container()
 	
 	active_container = load(SETTINGS_DIRECTORY_SELECT).instantiate()
@@ -203,14 +111,7 @@ func settings_directory_select(path_array = []):
 	
 func settings_index():
 	collection_list(settings_collection)
-	
-	return null
-	clean_up_old_container()
-	
-	active_container = load(SETTINGS_V2_CONTAINER).instantiate()
-	active_container.setup()
-	nav_label = ["Main Menu", "Settings"]
-	finish_up_nav()
+
 	
 func settings_data_and_storage():
 	print("Got to data an storage?")
@@ -309,11 +210,9 @@ func append_container_history(container):
 	SfxPlayer.play_accept_sfx()
 	container_history.append(new_history)
 	
-func new_nav_back():
+func nav_back():
 	var target_container = container_history.pop_back()
 	if target_container != null:
-		#if stored_state == null:
-		#active_container.queue_free()
 		content_body_node.remove_child(active_container)
 		active_container = target_container[0]
 		if "collection" in active_container:
@@ -323,7 +222,7 @@ func new_nav_back():
 		await get_tree().process_frame
 		call_deferred("restore_focus", target_container[1])
 	
-# THis can probably go away now that settings index is treated as a collection	
+
 func nav_back_to_settings():
 	var history_cnt = container_history.size()
 	for i in range(history_cnt):
@@ -334,31 +233,15 @@ func nav_back_to_settings():
 			break
 		else:
 			container_history.pop_back()
-	#active_container.queue_free()
-	#print("DOING OTHER THIS")
+
 	collection_list(settings_collection)
-	#active_container = load(SETTINGS_V2_CONTAINER).instantiate()
-	#active_container.setup()
-	#nav_label = ["Main Menu", "Settings"]
-	#finish_up_nav()
+
 
 func restore_focus(control: Control):
 	if skip_refocus:
 		skip_refocus = false
 	else:
 		control.grab_focus()
-		
-func reload_settings_after_ui():
-	print ("DOUNG THIS")
-	active_container.queue_free()
-	await get_tree().process_frame
-	active_container = load(SETTINGS_CONTAINER).instantiate()
-	active_container.setup()
-	nav_label = ["Main Menu", "Settings"]
-	finish_up_nav()
-	active_container.refocus()
-	await get_tree().process_frame
-
 
 func clean_up_old_container():
 	append_container_history(active_container)

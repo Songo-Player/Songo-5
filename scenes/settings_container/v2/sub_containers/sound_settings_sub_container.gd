@@ -21,7 +21,7 @@ func _ui_settings_refresh():
 		
 func handle_input(delta: float):
 	if Input.is_action_just_pressed("back"):
-		Controller.new_nav_back()
+		Controller.nav_back()
 		
 func update_sfx_volume_ui():
 	%SfxVolumeDisplayLabel.text = "%d%%" % int(round(songo_settings.sfx_volume * 100))

@@ -13,7 +13,7 @@ func render_ui():
 	
 func handle_input(delta: float):
 	if Input.is_action_just_pressed("back"):
-		Controller.new_nav_back()
+		Controller.nav_back()
 
 func _on_roadmap_items_focus_entered() -> void:
 	$ScrollContainer.scroll_vertical = 9999

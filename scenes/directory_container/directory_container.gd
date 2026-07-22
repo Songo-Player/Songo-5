@@ -69,7 +69,7 @@ func handle_input(delta: float):
 	if importing == true: return
 	
 	if Input.is_action_just_pressed("back"):
-		Controller.new_nav_back()
+		Controller.nav_back()
 	
 	return
 	if Input.is_action_just_pressed("ui_accept"):

@@ -54,7 +54,7 @@ func get_theme_options():
 	
 func handle_input(delta: float):
 	if Input.is_action_just_pressed("back"):
-		Controller.new_nav_back()
+		Controller.nav_back()
 		
 func update_theme_options_ui():
 	var displayed_theme = theme_options[theme_index]

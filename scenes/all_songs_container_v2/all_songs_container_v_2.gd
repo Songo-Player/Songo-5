@@ -72,7 +72,7 @@ func render_ui():
 
 func handle_input(delta: float):	
 	if Input.is_action_just_pressed("back"):
-		Controller.new_nav_back()
+		Controller.nav_back()
 	if Input.is_action_just_pressed("x"):
 		kick_off_shuffle()
 	if Input.is_action_just_pressed("ui_left"):
