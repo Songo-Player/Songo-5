@@ -6,13 +6,14 @@ var icons = [
 	load("res://assets/record.svg"),
 	load("res://assets/user.svg"),
 	load("res://assets/layergroup.svg"),
-
+	load("res://assets/gear.svg"),
 ]
 var glow_icons = [
 	load("res://assets/music_glow.png"),
 	load("res://assets/record_glow.png"),
 	load("res://assets/user_glow.png"),
 	load("res://assets/layer_group_glow.png"),
+	load("res://assets/gear_glow.png"),
 ]
 
 var _custom_image_texture
@@ -67,6 +68,7 @@ func setup(sort_key):
 	if "ALBUM" in collection_type: default_img_index = 1
 	elif "ARTIST" in collection_type: default_img_index = 2
 	elif "PLAYLIST" in collection_type: default_img_index = 3
+	elif "SETTING" in collection_type: default_img_index = 4
 	else: default_img_index = 0
 	%DefaultIcon.texture = icons[default_img_index]
 	%DefaultIcon2.texture = glow_icons[default_img_index]

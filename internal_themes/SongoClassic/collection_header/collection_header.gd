@@ -21,8 +21,8 @@ const DEFAULTS = [
 		"image": "res://assets/layergroup.svg"
 	},
 	{
-		"gradient": "res://shared_resources/playlists_gradient.tres",
-		"image": "res://assets/layergroup.svg"
+		"gradient": "res://shared_resources/settings_gradient.tres",
+		"image": "res://assets/gear.svg"
 	},
 ]
 
@@ -93,8 +93,9 @@ func setup(sort_key):
 	if "ALBUM" in collection_type: default_type = DEFAULT_TYPE.ALBUM
 	elif "ARTIST" in collection_type: default_type = DEFAULT_TYPE.ARTIST
 	elif "PLAYLIST" in collection_type: default_type = DEFAULT_TYPE.PLAYLIST
-	elif "SETTING" in collection_type: default_type = DEFAULT_TYPE.SETTING
-
+	elif "SETTING" in collection_type:
+		default_type = DEFAULT_TYPE.SETTING
+		%SortControlIndicator.hide()
 	else: default_type = DEFAULT_TYPE.SONG
 	
 	if image_texture:
