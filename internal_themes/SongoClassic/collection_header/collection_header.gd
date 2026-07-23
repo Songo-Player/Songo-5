@@ -82,7 +82,6 @@ var sort_label_key:
 		fade_sort_label(value)
 		
 func setup(sort_key):
-	print("Gpt tp header")
 	%CollectionLabel.text = CollectionHelper.collection_name
 	record_count = CollectionHelper.collection_size
 	if sort_key:
