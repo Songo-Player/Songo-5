@@ -40,64 +40,6 @@ func _title_with_track():
 
 	return "%02d. %s" % [track, title]
 
-# Adds this song to an .m3u playlist, creating it if needed
-func add_to_playlist(playlist: PlaylistRecord) -> void:
-	var lines: Array = []
-	var already_exists := false
-	var m3u_path = playlist.full_path
-	playlist.music_records.append(self)
-
-	# Try to read existing playlist
-	if FileAccess.file_exists(m3u_path):
-		var read_file := FileAccess.open(m3u_path, FileAccess.READ)
-		if read_file:
-			lines = read_file.get_as_text().split("\n")
-			read_file.close()
-
-			# Check if song already in playlist
-			for line in lines:
-				if line.strip_edges() == full_path:
-					already_exists = true
-					break
-
-	if already_exists:
-		print("Song already in playlist: ", title)
-		return
-
-	# Create new playlist if it doesn't exist
-	if lines.is_empty():
-		lines.append("#EXTM3U")
-	elif not lines[0].begins_with("#EXTM3U"):
-		lines.insert(0, "#EXTM3U")
-
-	# Prepare EXTINF line with metadata
-	var key_values := {
-		"title": title,
-		"album": album,
-		"artist": artist,
-		"full_path": full_path,
-	}
-
-	var metadata_str := ""
-	for key in key_values.keys():
-		metadata_str += "%s=\"%s\" " % [key, key_values[key]]
-
-	var extinf_line := "#EXTINF:%d,%s" % [int(raw_length), metadata_str.strip_edges()]
-
-	# Append new entry
-	lines.append(extinf_line)
-	lines.append(full_path)
-
-	# Write back to playlist
-	var write_file := FileAccess.open(m3u_path, FileAccess.WRITE)
-	if write_file:
-		write_file.store_string("\n".join(lines))
-		write_file.close()
-		print("Added to playlist: ", title)
-	else:
-		push_error("Failed to open playlist for writing: %s" % m3u_path)
-		
-		
 # Removes this song from an .m3u playlist, if present
 func remove_from_playlist(m3u_path: String) -> void:
 	if not FileAccess.file_exists(m3u_path):

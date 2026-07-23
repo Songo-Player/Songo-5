@@ -65,9 +65,6 @@ static func get_instance() -> SongoDataResource:
 				_instance = SongoDataResource.new()
 				print("Busting saved data")
 			else:
-				#for playlist in _instance.playlists:
-				#	playlist.load_music_records()
-				#_instance.playlists = PlaylistRecord.load_playlists("user://playlists")
 				_instance.playlists = M3uCollection.load_collection_type("playlists")
 				M3uCollection.build_lookup(_instance.music_records)
 				for playlist in _instance.playlists:
