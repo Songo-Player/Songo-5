@@ -23,7 +23,11 @@ var image_texture:
 	get: return _get_image_texture()
 	
 func _get_image_texture():
-	return AudioMetadata.get_cover_image(full_path)
+	if ClassDB.class_exists("AudioMetadata"):
+		var am = ClassDB.instantiate("AudioMetadata")
+		if am and am.has_method("get_cover_image"):
+			return am.get_cover_image(full_path)
+	return null
 	#var file_type = full_path.get_extension()
 	#if file_type == "mp3":
 	#	return AudioMetadata.get_mp3_image(full_path)

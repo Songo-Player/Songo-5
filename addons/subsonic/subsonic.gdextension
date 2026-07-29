@@ -1,0 +1,23 @@
+[configuration]
+entry_symbol = "subsonic_library_init"
+compatibility_minimum = "4.1"
+reloadable = false
+autodetect_library_prefix = "bin/libsubsonic_gdext"
+
+[libraries]
+linux.debug.x86_64 = "bin/libsubsonic_gdext.linux.template_debug.x86_64.so"
+linux.release.x86_64 = "bin/libsubsonic_gdext.linux.template_release.x86_64.so"
+linux.debug.arm64 = "bin/libsubsonic_gdext.linux.template_debug.arm64.so"
+linux.release.arm64 = "bin/libsubsonic_gdext.linux.template_release.arm64.so"
+sbc.arm64 = "bin/libsubsonic_gdext.linux.template_debug.arm64.so"
+sbc.debug.arm64 = "bin/libsubsonic_gdext.linux.template_debug.arm64.so"
+sbc.release.arm64 = "bin/libsubsonic_gdext.linux.template_release.arm64.so"
+sbc.template_debug.arm64 = "bin/libsubsonic_gdext.linux.template_debug.arm64.so"
+sbc.template_release.arm64 = "bin/libsubsonic_gdext.linux.template_release.arm64.so"
+linux.template_debug.arm64 = "bin/libsubsonic_gdext.linux.template_debug.arm64.so"
+linux.template_release.arm64 = "bin/libsubsonic_gdext.linux.template_release.arm64.so"
+arm64 = "bin/libsubsonic_gdext.linux.template_debug.arm64.so"
+windows.debug.x86_64 = "bin/subsonic_gdext.windows.template_debug.x86_64.dll"
+windows.release.x86_64 = "bin/subsonic_gdext.windows.template_release.x86_64.dll"
+macos.debug = "bin/libsubsonic_gdext.macos.template_debug.universal.dylib"
+macos.release = "bin/libsubsonic_gdext.macos.template_release.universal.dylib"

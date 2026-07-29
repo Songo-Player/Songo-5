@@ -14,13 +14,15 @@ func _ready():
 	setup()
 
 func setup():
-	song_player = FFMPEGAudio.new()
+	if not ClassDB.class_exists("FFMPEGAudio"):
+		push_warning("FFMPEGAudio module not available, audio playback disabled")
+		return
+	song_player = ClassDB.instantiate("FFMPEGAudio")
 	add_child(song_player)
 	song_player.player.bus = "Visualizer"
 	
 	song_player.generator.buffer_length = 0.2
 	
-	# 4. Connect Signals
 	song_player.connect("finished", _on_song_finished)
 
 func _process(_delta):

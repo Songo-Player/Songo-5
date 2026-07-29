@@ -40,6 +40,12 @@ enum START_BEHAVIOR {LOCK, SLEEP, LOCK_SLEEP, KEEP_AWAKE}
 # --- Advanced Settings --- #
 @export var stream_buffer_length: int = 100
 
+# --- Subsonic Settings --- #
+@export var subsonic_url: String = ""
+@export var subsonic_username: String = ""
+@export var subsonic_password: String = ""
+@export var subsonic_connected: bool = false
+
 # --- CFW Settings --- #
 @export var use_generic_strategy = false
 @export var song_sleep_timer_index = 3 # 10s

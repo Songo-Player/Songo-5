@@ -84,7 +84,7 @@ func _update_buffer_length():
 	songo_settings.save()
 	SongoPlayerV2.ffmpeg_audio_playback.set_buffer_length_ms(songo_settings.stream_buffer_length)
 	var target_playback = SongoPlayerV2.get_playback_position()
-	SongoPlayerV2.ffmpeg_audio_playback.seek(target_playback)
+	SongoPlayerV2.seek(target_playback)
 	update_stream_buffer_length_ui()
 
 func _on_reset_to_defaults_button_pressed() -> void:

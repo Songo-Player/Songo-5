@@ -82,13 +82,13 @@ func handle_input(delta: float):
 	if SongoPlayerV2.is_playing():
 		if Input.is_action_just_pressed("ui_up") || Input.is_action_just_pressed("L2"):
 			var target_playback = SongoPlayerV2.get_playback_position() - float(songo_settings.seek_backward_time)
-			SongoPlayerV2.ffmpeg_audio_playback.seek(max(target_playback, 0.0))
+			SongoPlayerV2.seek(max(target_playback, 0.0))
 			
 		if Input.is_action_just_pressed("ui_down") || Input.is_action_just_pressed("R2"):
 			var target_playback = SongoPlayerV2.get_playback_position() + float(songo_settings.seek_forward_time)
 			var song_length = SongoPlayerV2.current_song.raw_length
 			if song_length > 0.0: target_playback = min(target_playback, song_length)
-			SongoPlayerV2.ffmpeg_audio_playback.seek(target_playback)
+			SongoPlayerV2.seek(target_playback)
 
 
 func render_ui():
