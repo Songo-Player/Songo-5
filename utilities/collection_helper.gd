@@ -29,7 +29,8 @@ enum TYPE {
 	ALBUM_SONGS,
 	ARTIST_SONGS,
 	PLAYLIST_SONGS,
-	SETTINGS
+	SETTINGS,
+	SUBSONIC
 }
 const SORT_OPTION_ARR = [
 	[], # INVALID
@@ -40,7 +41,8 @@ const SORT_OPTION_ARR = [
 	["song_track_asc", "song_track_desc", "song_alpha_asc", "song_alpha_desc"], # ALBUM_SONGS
 	["song_alpha_asc", "song_alpha_desc"], # ARTIST_SONGS
 	["song_alpha_asc", "song_alpha_desc"], # PLAYLIST_SONGS
-	[] # SETTINGS
+	[], # SETTINGS
+	[] # SUBSONIC
 ]
 
 var collection_type:

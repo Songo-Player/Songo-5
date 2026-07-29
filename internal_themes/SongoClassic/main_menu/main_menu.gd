@@ -8,12 +8,16 @@ func _ready():
 	update_main_menu_size()
 	await get_tree().process_frame
 	focus_valid_nav_item()
+	if SubsonicManager:
+		SubsonicManager.connected_to_server.connect(_on_subsonic_state_changed)
+		SubsonicManager.connection_failed.connect(_on_subsonic_state_changed)
 	
 	var hover_behavior_tweaks = [
 		%AllSongsMenuItem,
 		%AlbumsMenuItem,
 		%ArtistsMenuItem,
 		%PlaylistsMenuItem,
+		%SubsonicMenuItem,
 		%SettingsMenuItem,
 		%ExitMenuItem
 	]
@@ -85,9 +89,23 @@ func _on_tree_entered() -> void:
 		%FlameContainer.hide()
 	else: %PlaylistsMenuItem.hide()
 
+	if SubsonicManager and SubsonicManager.connected:
+		%SubsonicMenuItem.show()
+	else:
+		%SubsonicMenuItem.hide()
+
 func _on_resized() -> void:
 	update_main_menu_size()
 		
+func _on_subsonic_menu_button_pressed() -> void:
+	Controller.subsonic_index()
+
+func _on_subsonic_state_changed(_unused = null):
+	if SubsonicManager and SubsonicManager.connected:
+		%SubsonicMenuItem.show()
+	else:
+		%SubsonicMenuItem.hide()
+
 func _on_playlists_menu_button_pressed() -> void:
 	Controller.playlists_index()
 

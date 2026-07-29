@@ -12,13 +12,13 @@ var key_events_connected = false
 func _ready() -> void:
 	pass # Replace with function body.
 			
-func setup(new_keyboard_title, focus_back_target_arg):
+func setup(new_keyboard_title, focus_back_target_arg, initial_text = ""):
 	get_parent().move_child(self, -1)
 	keyboard_title = new_keyboard_title
 	focus_back_target = focus_back_target_arg
 	UiHelper.dark_out.show()
 	show()
-	text=""
+	text = initial_text
 	update_display_text()
 	%DeleteButton.grab_focus()
 	%KeyboardTitle.text = keyboard_title

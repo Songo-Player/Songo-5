@@ -28,6 +28,9 @@ const CONTACT_ME_SUB_CONTAINER = SETTINGS_SUB_PATH + "/contact_me/contact_me.tsc
 const SUPPORT_ME_SUB_CONTAINER = SETTINGS_SUB_PATH + "/support_me/support_me.tscn"
 const CONTROLLER_SETTINGS_SUB_CONTAINER = SETTINGS_SUB_PATH + "/controller_settings/controller_settings.tscn"
 const SOUND_SETTINGS_SUB_CONTAINER = SETTINGS_SUB_PATH + "/sound_settings/sound_settings.tscn"
+const SUBSONIC_SETTINGS_SUB_CONTAINER = SETTINGS_SUB_PATH + "/subsonic_settings/subsonic_settings.tscn"
+
+const SUBSONIC_CONTAINER = "res://scenes/subsonic_container/subsonic_container.tscn"
 
 var settings_collection : Array[SettingRecord] = [
 	SettingRecord.new("Data and Storage", "settings_data_and_storage", false),
@@ -36,6 +39,7 @@ var settings_collection : Array[SettingRecord] = [
 	SettingRecord.new("Playlist Settings", "playlist_settings", false),
 	SettingRecord.new("Controller Settings", "controller_settings", false),
 	SettingRecord.new("Sound Settings", "sound_settings", false),
+	SettingRecord.new("Subsonic", "settings_subsonic", false),
 	SettingRecord.new("Development Credit", "settings_development_credit", true),
 	SettingRecord.new("Contact Me / Report a bug", "contact_me", true),
 	SettingRecord.new("Support Me / Dev Roadmap", "support_me", true),
@@ -71,11 +75,18 @@ func collection_list(collection = null):
 	finish_up_nav()
 
 func songs_index():
-	collection_list()
+	var songs: Array[MusicRecord] = []
+	songs.append_array(songo_data.music_records)
+	if SubsonicManager and SubsonicManager.connected:
+		songs.append_array(SubsonicManager.get_cached_songs())
+	collection_list(songs)
 	
 	
 func albums_index():
-	var albums = songo_data.albums
+	var albums: Array[AlbumRecord] = []
+	albums.append_array(songo_data.albums)
+	if SubsonicManager and SubsonicManager.connected:
+		albums.append_array(SubsonicManager.get_cached_albums())
 	collection_list(albums)
 	
 func artists_index():
@@ -184,7 +195,24 @@ func sound_settings():
 	active_container.setup()
 	nav_label = ["Main Menu", "Settings", "Sound Settings"]
 	finish_up_nav()
-	
+
+func settings_subsonic():
+	clean_up_old_container()
+	active_container = load(SUBSONIC_SETTINGS_SUB_CONTAINER).instantiate()
+	active_container.setup()
+	nav_label = ["Main Menu", "Settings", "Subsonic"]
+	finish_up_nav()
+
+func subsonic_index():
+	clean_up_old_container()
+	active_container = load(SUBSONIC_CONTAINER).instantiate()
+	active_container.setup()
+	nav_label = ["Main Menu", "Subsonic"]
+	finish_up_nav()
+
+func subsonic_songs_panel(music_records, play_index):
+	songs_panel(music_records, play_index)
+
 func main_menu():
 	CollectionHelper.current_collection = null
 	clean_up_old_container()

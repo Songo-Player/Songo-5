@@ -1,0 +1,197 @@
+[gd_scene load_steps=7 format=3 uid="uid://subsonicsettings01"]
+
+[ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="1_6a2je"]
+[ext_resource type="Script" path="res://scenes/settings_container/sub_containers/subsonic_settings/subsonic_settings.gd" id="1_ftlit"]
+[ext_resource type="PackedScene" uid="uid://0m5yrmj03xdi" path="res://scenes/settings_container/settings_button.tscn" id="2_ekkat"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uwp12"]
+bg_color = Color(0.130772, 0.130772, 0.130772, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="SubsonicSettingsContainer" type="MarginContainer"]
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 29
+script = ExtResource("1_ftlit")
+
+[node name="NoExtensionLabel" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+alignment = 1
+
+[node name="Label" type="Label" parent="NoExtensionLabel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Subsonic GDExtension Not Loaded"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="NoExtensionLabel"]
+layout_mode = 2
+text = "The Subsonic GDExtension binary needs to be compiled for Godot 4.3."
+horizontal_alignment = 1
+
+[node name="SettingsContent" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="SettingsContent"]
+unique_name_in_owner = true
+clip_contents = false
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+
+[node name="SettingsSection" type="MarginContainer" parent="SettingsContent/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="SettingsContent/ScrollContainer/SettingsSection"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="SettingsContent/ScrollContainer/SettingsSection/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 38
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ServerSection" type="PanelContainer" parent="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_6a2je")
+
+[node name="MarginContainer" type="MarginContainer" parent="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer/ServerSection"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer/ServerSection/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer/ServerSection/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Subsonic Server Connection"
+theme_override_font_sizes/font_size = 18
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer/ServerSection/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer/ServerSection/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Status:"
+
+[node name="ConnectionStatus" type="Label" parent="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer/ServerSection/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Disconnected"
+
+[node name="ServerUrlLabel" type="Label" parent="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer/ServerSection/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Server URL:"
+
+[node name="ServerUrlInput" type="LineEdit" parent="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer/ServerSection/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "https://music.example.com"
+
+[node name="UsernameLabel" type="Label" parent="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer/ServerSection/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Username:"
+
+[node name="UsernameInput" type="LineEdit" parent="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer/ServerSection/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "username"
+
+[node name="PasswordLabel" type="Label" parent="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer/ServerSection/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Password:"
+
+[node name="PasswordInput" type="LineEdit" parent="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer/ServerSection/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+secret = true
+placeholder_text = "password"
+
+[node name="ConnectButton" parent="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer/ServerSection/MarginContainer/VBoxContainer" instance=ExtResource("2_ekkat")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Connect"
+
+[node name="InfoSection" type="PanelContainer" parent="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_6a2je")
+
+[node name="MarginContainer" type="MarginContainer" parent="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer/InfoSection"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer/InfoSection/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer/InfoSection/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "About Subsonic"
+theme_override_font_sizes/font_size = 18
+
+[node name="Label2" type="Label" parent="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer/InfoSection/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Subsonic is a free, open-source media server that lets you stream your music collection to any device. Enter your server details above to connect."
+autowrap_mode = 2
+
+[node name="MarginContainer3" type="MarginContainer" parent="SettingsContent/ScrollContainer/SettingsSection"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -25
+
+[node name="PanelContainer" type="PanelContainer" parent="SettingsContent/ScrollContainer/SettingsSection/MarginContainer3"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_uwp12")
+
+[node name="MarginContainer" type="MarginContainer" parent="SettingsContent/ScrollContainer/SettingsSection/MarginContainer3/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PageLabel" type="Label" parent="SettingsContent/ScrollContainer/SettingsSection/MarginContainer3/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Subsonic"
+
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
+[connection signal="pressed" from="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer/ServerSection/MarginContainer/VBoxContainer/ConnectButton" to="." method="_on_connect_button_pressed"]
+[connection signal="text_changed" from="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer/ServerSection/MarginContainer/VBoxContainer/ServerUrlInput" to="." method="_on_server_url_input_text_changed"]
+[connection signal="text_changed" from="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer/ServerSection/MarginContainer/VBoxContainer/UsernameInput" to="." method="_on_username_input_text_changed"]
+[connection signal="text_changed" from="SettingsContent/ScrollContainer/SettingsSection/PanelContainer/MarginContainer2/VBoxContainer/ServerSection/MarginContainer/VBoxContainer/PasswordInput" to="." method="_on_password_input_text_changed"]

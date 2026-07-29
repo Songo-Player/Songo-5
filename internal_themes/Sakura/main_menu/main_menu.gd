@@ -6,6 +6,9 @@ func _ready() -> void:
 	_update_element()
 	await get_tree().process_frame
 	%AllSongsButton.grab_focus()
+	if SubsonicManager:
+		SubsonicManager.connected_to_server.connect(_on_subsonic_state_changed)
+		SubsonicManager.connection_failed.connect(_on_subsonic_state_changed)
 
 func _on_clock_timer_timeout() -> void:
 	var now = Time.get_datetime_dict_from_system()
@@ -37,6 +40,9 @@ func _on_artists_button_focus_entered() -> void:
 func _on_playlists_button_focus_entered() -> void:
 	%CurrentMenuItemLabel.text = "Playlists"
 
+func _on_subsonic_button_focus_entered() -> void:
+	%CurrentMenuItemLabel.text = "Subsonic"
+
 func _on_settings_button_focus_entered() -> void:
 	%CurrentMenuItemLabel.text = "Settings"
 
@@ -58,6 +64,15 @@ func _on_artists_button_pressed() -> void:
 func _on_playlists_button_pressed() -> void:
 	Controller.playlists_index()
 
+func _on_subsonic_button_pressed() -> void:
+	Controller.subsonic_index()
+
+func _on_subsonic_state_changed(_unused = null):
+	if SubsonicManager and SubsonicManager.connected:
+		%Subsonic.show()
+	else:
+		%Subsonic.hide()
+
 func _update_element():
 	var alignment = ThemeManager.settings["content_alignment"]
 	
@@ -68,3 +83,7 @@ func _update_element():
 
 func _on_tree_entered() -> void:
 	_update_element()
+	if SubsonicManager and SubsonicManager.connected:
+		%Subsonic.show()
+	else:
+		%Subsonic.hide()

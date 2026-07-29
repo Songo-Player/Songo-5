@@ -1,7 +1,11 @@
 extends Node
 class_name MetaDataHandler
 
-static var _audioMetaDataObj: AudioMetadata = AudioMetadata.new()
+static var _audioMetaDataObj = null
+
+static func _ensure_audio_metadata():
+	if _audioMetaDataObj == null and ClassDB.class_exists("AudioMetadata"):
+		_audioMetaDataObj = ClassDB.instantiate("AudioMetadata")
 
 static func get_basic_metadata(file_path) -> BasicMetaData:
 	var meta_data = BasicMetaData.new()
@@ -19,6 +23,9 @@ static func get_basic_metadata(file_path) -> BasicMetaData:
 	return meta_data
 
 static func mp3_basic_metadata(file_path, meta_data):
+	_ensure_audio_metadata()
+	if _audioMetaDataObj == null:
+		return meta_data
 	var meta_info = _audioMetaDataObj.read_mp3(file_path, ["title", "album", "artist", "duration", "track"])
 	
 	if meta_info.has("title") && meta_info["title"]: meta_data.title = meta_info["title"]
@@ -31,6 +38,9 @@ static func mp3_basic_metadata(file_path, meta_data):
 	return meta_data
 
 static func flac_basic_metadata(file_path, meta_data):
+	_ensure_audio_metadata()
+	if _audioMetaDataObj == null:
+		return meta_data
 	var meta_info = _audioMetaDataObj.read_flac(file_path, ["title", "album", "artist", "duration", "track"])
 	
 	if meta_info.has("title") && meta_info["title"]: meta_data.title = meta_info["title"]
@@ -43,6 +53,9 @@ static func flac_basic_metadata(file_path, meta_data):
 	return meta_data
 	
 static func ogg_basic_metadata(file_path, meta_data):
+	_ensure_audio_metadata()
+	if _audioMetaDataObj == null:
+		return meta_data
 	var meta_info = _audioMetaDataObj.read_ogg(file_path, ["title", "album", "artist", "duration", "track"])
 	
 	if meta_info.has("title") && meta_info["title"]: meta_data.title = meta_info["title"]
@@ -55,6 +68,9 @@ static func ogg_basic_metadata(file_path, meta_data):
 	return meta_data
 	
 static func generic_basic_metadata(file_path, meta_data):
+	_ensure_audio_metadata()
+	if _audioMetaDataObj == null:
+		return meta_data
 	var meta_info = _audioMetaDataObj.read_audio(file_path, ["title", "album", "artist", "duration", "track"])
 
 	if meta_info.has("title") && meta_info["title"]: meta_data.title = meta_info["title"]

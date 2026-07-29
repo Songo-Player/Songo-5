@@ -8,6 +8,7 @@ var icons = [
 	load("res://assets/record.svg"),
 	load("res://assets/user.svg"),
 	load("res://assets/layergroup.svg"),
+	load("res://assets/wifi.svg"),
 	load("res://assets/gear.svg"),
 	load("res://assets/exit_walk.svg"),
 ]
@@ -16,6 +17,7 @@ var glow_icons = [
 	load("res://assets/record_glow.png"),
 	load("res://assets/user_glow.png"),
 	load("res://assets/layer_group_glow.png"),
+	load("res://assets/gear_glow.png"),
 	load("res://assets/gear_glow.png"),
 	load("res://assets/exit_walk_glow.png"),
 ]
@@ -62,6 +64,9 @@ func _on_artists_button_pressed() -> void:
 
 func _on_playlists_button_pressed() -> void:
 	Controller.playlists_index()
+
+func _on_subsonic_button_pressed() -> void:
+	Controller.subsonic_index()
 
 func _on_exit_button_pressed() -> void:
 	Controller.quit_songo()
