@@ -16,6 +16,7 @@ func _setup_from_theme():
 		theme_element.queue_free()
 		await get_tree().process_frame
 	var theme_element_path = ThemeManager.get_scene_path('footer')
+	
 	if theme_element_path:
 		new_element = load(theme_element_path).instantiate()
 	else:

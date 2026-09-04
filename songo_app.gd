@@ -9,6 +9,7 @@ var albums_container
 var active_container
 var songo_data = SongoDataResource.get_instance()
 var songo_settings = SongoSettings.get_instance()
+var original_size
 
 var showing_quick_menu: bool = false
 
@@ -21,8 +22,14 @@ func _ready() -> void:
 	Engine.max_fps = 60
 	UiHelper.transform_container = %TransformContainer
 	#%TransformContainer.theme = my_theme
+	
+	#var ok := ProjectSettings.load_resource_pack("user://external_themes/XBopRed.pck")
+	#if not ok:
+		#push_error("Failed to mount XBopRed.pck")
 	await get_tree().process_frame
 	ThemeManager.set_current_theme(songo_settings.theme_path)
+	
+
 	#if songo_settings.force_screen_fit == true:
 		#UiHelper.apply_screen_fit()
 	get_viewport().gui_focus_changed.connect(_on_focus_changed)
@@ -61,6 +68,10 @@ func _ready() -> void:
 		DeviceOS.swap_input_actions("back", "ui_accept")
 	if songo_settings.xy_layout_swapped:
 		DeviceOS.swap_input_actions("x", "Y")
+	
+	boot_up_message()
+
+		
 	
 
 
@@ -106,6 +117,13 @@ func _input(event: InputEvent) -> void:
 			if event.is_match(action_event) and event.is_pressed():
 				handle_queue_music()
 				break  # Stop after finding a match
+				
+		for action_event in InputMap.action_get_events("ui_left"):
+			if event.is_match(action_event) and event.is_pressed():
+				songo_settings.rotate_display = not songo_settings.rotate_display
+				songo_settings.save()
+				UiHelper.apply_rotation()
+				break  # Stop after finding a match
 	
 			
 	if showing_quick_menu:
@@ -114,12 +132,15 @@ func _input(event: InputEvent) -> void:
 
 		
 func _process(delta: float) -> void:
-	var rotated = Vector2(480,640)
-	if false:
-		custom_minimum_size = rotated
-		%TransformContainer.size = Vector2(size.y, size.x)
-		%TransformContainer.position.x = - size.y
-		%TransformContainer.get_parent().rotation = deg_to_rad(270)
+	#var rotated = Vector2(480,640)
+	#if rotate_disp:
+	#	custom_minimum_size = rotated
+	#	%TransformContainer.size = Vector2(size.y, size.x)
+	#	%TransformContainer.position.x = - size.y
+	#	%TransformContainer.get_parent().rotation = deg_to_rad(270)
+
+		
+		
 	DeviceOS.device_strategy.translate_inputs(delta)
 	if Input.is_action_pressed("Y"):
 		showing_quick_menu = true
@@ -259,3 +280,23 @@ func string_screen_orientation():
 func _on_focus_changed(control):
 	UiHelper.register_focus_change(control)
 	SfxPlayer.play_nav_sfx()
+	
+func boot_up_message():
+	#Add more of these
+	var message_opts = [
+		"Try out Rockbox too!",
+		"Try out XMPlayer too!",
+		"Using nextUI? Try the music player pak!",
+		"Try Music Player Daemon too!",
+		"Songo#5, now gluten free!",
+		"Try out touching grass!",
+		"Don't tell Lou's legal team please",
+		"Help! i'm trapped in your music directory",
+		"Music is better than people",
+		"Why is anbernic ghosting me...",
+		"Tell Gus I say hi",
+		"Just wait till you see Songo#6",
+		"Songo#5, now with 3% less malware!",
+		"Don't read CSM part 2"
+	]
+	UiHelper.flash_message(message_opts.pick_random())

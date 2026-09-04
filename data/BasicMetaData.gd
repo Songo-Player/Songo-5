@@ -5,4 +5,5 @@ var duration: float = 0.0
 var title: String = "Title (Metadata Failure)"
 var album: String = "Unknown Album"
 var artist: String = "Unknown Artist"
+var album_artist: String = "Unknown Album Artist"
 var track: int = 0

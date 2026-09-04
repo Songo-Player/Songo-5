@@ -16,7 +16,7 @@ focus_first_item = false
 [node name="ShuffleButtonMarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/margin_right = 4
+theme_type_variation = &"ListSectionMargin"
 
 [node name="SelectDirContainer" type="PanelContainer" parent="ShuffleButtonMarginContainer"]
 unique_name_in_owner = true
@@ -38,8 +38,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
+theme_type_variation = &"ListSectionMargin"
 theme_override_constants/margin_top = 45
-theme_override_constants/margin_right = 4
 
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
 layout_mode = 2

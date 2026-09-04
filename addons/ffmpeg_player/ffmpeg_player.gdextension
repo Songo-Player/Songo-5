@@ -1,0 +1,8 @@
+[configuration]
+entry_symbol = "ffmpeg_library_init"
+compatibility_minimum = 4.3
+
+[libraries]
+linux.debug.x86_64 = "bin/libffmpegplayer.linux.template_debug.x86_64.so"
+arm64 = "bin/libffmpegplayer.linux.template_release.arm64.so"
+linux.arm64 = "bin/libffmpegplayer.linux.template_release.arm64.so"

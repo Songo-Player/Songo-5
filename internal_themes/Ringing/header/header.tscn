@@ -1,0 +1,307 @@
+[gd_scene load_steps=16 format=3 uid="uid://drts2etf4y075"]
+
+[ext_resource type="Texture2D" uid="uid://prwxvmjham50" path="res://internal_themes/Ringing/assets/house.svg" id="1_78l8l"]
+[ext_resource type="Script" path="res://internal_themes/Ringing/header/header.gd" id="1_i6gca"]
+[ext_resource type="Texture2D" uid="uid://inruw0c6rdua" path="res://assets/wifi.svg" id="3_8dtni"]
+[ext_resource type="FontFile" uid="uid://7qxv18dwsw0i" path="res://internal_themes/Ringing/assets/Knewave-Regular.ttf" id="3_vtm66"]
+[ext_resource type="FontFile" uid="uid://fhmejhs3d6m0" path="res://theme_dev/themes_raw/XBopRed/fonts/NotoSansCJKjp-Medium.otf" id="4_fscf2"]
+[ext_resource type="Texture2D" uid="uid://nqpdbtqncxh4" path="res://assets/clock.svg" id="4_lyjk4"]
+[ext_resource type="Texture2D" uid="uid://ds1hiniyche5x" path="res://assets/battery.svg" id="5_7n00u"]
+[ext_resource type="Script" path="res://internal_themes/Ringing/assets/BallLineMusicVisualizer.gd" id="8_1aspx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nmfox"]
+bg_color = Color(0.980392, 0.662745, 0.407843, 1)
+border_width_bottom = 2
+border_color = Color(0.972549, 0.333333, 0.145098, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3cwim"]
+bg_color = Color(0.972549, 0.333333, 0.145098, 1)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yu4gs"]
+bg_color = Color(0.980392, 0.662745, 0.407843, 1)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="FontVariation" id="FontVariation_unp7h"]
+fallbacks = Array[Font]([ExtResource("4_fscf2")])
+base_font = ExtResource("3_vtm66")
+
+[sub_resource type="Gradient" id="Gradient_cne1i"]
+offsets = PackedFloat32Array(0, 0.1, 0.8, 0.9)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_etvg8"]
+gradient = SubResource("Gradient_cne1i")
+fill_from = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2boa7"]
+texture = SubResource("GradientTexture2D_etvg8")
+
+[node name="Header" type="MarginContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 25.0
+grow_horizontal = 2
+theme_override_constants/margin_bottom = 0
+script = ExtResource("1_i6gca")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nmfox")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_right = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 0
+
+[node name="Control" type="Control" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer/Control"]
+z_index = -1
+z_as_relative = false
+custom_minimum_size = Vector2(90, 90)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -45.0
+offset_right = 40.0
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3cwim")
+
+[node name="PanelContainer2" type="PanelContainer" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer/Control"]
+z_as_relative = false
+custom_minimum_size = Vector2(86, 86)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -43.0
+offset_right = 38.0
+offset_bottom = 43.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_yu4gs")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer/Control/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="PageImage" type="TextureRect" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer/Control/PanelContainer2/MarginContainer"]
+unique_name_in_owner = true
+modulate = Color(0.00392157, 0.12549, 0.305882, 1)
+layout_mode = 2
+texture = ExtResource("1_78l8l")
+expand_mode = 1
+
+[node name="PageHeaderLabel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.00392157, 0.12549, 0.305882, 1)
+theme_override_fonts/font = SubResource("FontVariation_unp7h")
+theme_override_font_sizes/font_size = 24
+text = "Main Menu"
+text_overrun_behavior = 3
+
+[node name="NetworkConnection" type="MarginContainer" parent="PanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/MarginContainer/HBoxContainer/NetworkConnection"]
+modulate = Color(0.00392157, 0.12549, 0.305882, 1)
+layout_mode = 2
+texture = ExtResource("3_8dtni")
+expand_mode = 3
+
+[node name="MarginContainer3" type="MarginContainer" parent="PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer3"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer3/HBoxContainer"]
+modulate = Color(0.00392157, 0.12549, 0.305882, 1)
+layout_mode = 2
+texture = ExtResource("4_lyjk4")
+expand_mode = 3
+
+[node name="CurrentOsTimeLabel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer3/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.00392157, 0.12549, 0.305882, 1)
+text = "00:00"
+
+[node name="MarginContainer2" type="MarginContainer" parent="PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BatteryIcon" type="TextureRect" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/HBoxContainer"]
+unique_name_in_owner = true
+modulate = Color(0.00392157, 0.12549, 0.305882, 1)
+layout_mode = 2
+texture = ExtResource("5_7n00u")
+expand_mode = 3
+
+[node name="BatteryPercent" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.192157, 0.192157, 0.192157, 1)
+text = "N/A"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[node name="TestThing" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Control" type="Control" parent="TestThing"]
+custom_minimum_size = Vector2(0, 400)
+layout_mode = 1
+anchors_preset = 0
+offset_right = 80.0
+offset_bottom = 380.0
+
+[node name="PanelContainer" type="PanelContainer" parent="TestThing/Control"]
+clip_children = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_2boa7")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TestThing/Control/PanelContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="TestThing/Control/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="BallLineMusicVisualizer1" type="Control" parent="TestThing/Control/PanelContainer/HBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+script = ExtResource("8_1aspx")
+ball_count = 20
+ball_radius = 10.0
+ball_color = Color(0.596, 0.42, 0.608, 0.6)
+total_ranges = 5
+range_index = 4
+min_speed = 12.0
+max_speed = 150.0
+smoothing = 0.8
+
+[node name="MarginContainer2" type="MarginContainer" parent="TestThing/Control/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="BallLineMusicVisualizer1" type="Control" parent="TestThing/Control/PanelContainer/HBoxContainer/MarginContainer2"]
+custom_minimum_size = Vector2(18, 0)
+layout_mode = 2
+script = ExtResource("8_1aspx")
+ball_count = 20
+ball_radius = 9.0
+ball_color = Color(0.004, 0.125, 0.306, 0.7)
+total_ranges = 5
+range_index = 3
+min_speed = 14.0
+max_speed = 150.0
+smoothing = 0.8
+
+[node name="MarginContainer3" type="MarginContainer" parent="TestThing/Control/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="BallLineMusicVisualizer1" type="Control" parent="TestThing/Control/PanelContainer/HBoxContainer/MarginContainer3"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+script = ExtResource("8_1aspx")
+ball_count = 20
+ball_radius = 8.0
+ball_color = Color(0.008, 0.514, 0.569, 0.8)
+total_ranges = 5
+range_index = 2
+min_speed = 16.0
+max_speed = 150.0
+smoothing = 0.8
+
+[node name="MarginContainer4" type="MarginContainer" parent="TestThing/Control/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="BallLineMusicVisualizer1" type="Control" parent="TestThing/Control/PanelContainer/HBoxContainer/MarginContainer4"]
+custom_minimum_size = Vector2(14, 0)
+layout_mode = 2
+script = ExtResource("8_1aspx")
+ball_count = 20
+ball_radius = 7.0
+ball_color = Color(0.973, 0.333, 0.145, 0.9)
+total_ranges = 5
+range_index = 1
+min_speed = 18.0
+max_speed = 150.0
+smoothing = 0.8
+
+[node name="MarginContainer5" type="MarginContainer" parent="TestThing/Control/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="BallLineMusicVisualizer1" type="Control" parent="TestThing/Control/PanelContainer/HBoxContainer/MarginContainer5"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+script = ExtResource("8_1aspx")
+ball_count = 20
+ball_color = Color(0.980392, 0.662745, 0.407843, 1)
+total_ranges = 5
+max_speed = 150.0
+smoothing = 0.8
+
+[connection signal="tree_exited" from="." to="." method="_on_tree_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

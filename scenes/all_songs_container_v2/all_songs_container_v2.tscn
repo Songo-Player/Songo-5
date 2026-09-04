@@ -44,6 +44,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
+theme_type_variation = &"ListSectionOuterMargin"
 
 [node name="VirtualizedList" type="ScrollContainer" parent="MarginContainer/Fade/VirtualizedListContainer" node_paths=PackedStringArray("vbox")]
 unique_name_in_owner = true

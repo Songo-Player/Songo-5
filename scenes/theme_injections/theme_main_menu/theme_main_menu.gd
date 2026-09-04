@@ -29,6 +29,8 @@ func _setup_from_theme():
 		theme_element.queue_free()
 		await get_tree().process_frame
 	var theme_component_path = ThemeManager.get_scene_path('main_menu')
+	#var theme_component_path = "res://XBopRed/main_menu/main_menu.tscn"
+	print(theme_component_path)
 	if theme_component_path:
 		new_element = load(theme_component_path).instantiate()
 	else:

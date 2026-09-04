@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://cha25i54h58j7"]
 
 [ext_resource type="Script" path="res://internal_themes/SongoClassic/header/header.gd" id="1_6tawv"]
-[ext_resource type="FontFile" uid="uid://ckx8hptr33csi" path="res://fonts/CourierPrime-Bold.ttf" id="2_uvikr"]
+[ext_resource type="FontFile" uid="uid://ckx8hptr33csi" path="res://fonts/CourierPrime-Bold.ttf" id="2_fdisb"]
 [ext_resource type="Texture2D" uid="uid://inruw0c6rdua" path="res://assets/wifi.svg" id="3_n1jtw"]
 [ext_resource type="Texture2D" uid="uid://nqpdbtqncxh4" path="res://assets/clock.svg" id="4_fh38e"]
 [ext_resource type="Texture2D" uid="uid://ds1hiniyche5x" path="res://assets/battery.svg" id="5_gj4c7"]
@@ -42,7 +42,7 @@ theme_override_constants/margin_bottom = -4
 [node name="Label" type="Label" parent="HeaderPanel/MarginContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource("2_uvikr")
+theme_override_fonts/font = ExtResource("2_fdisb")
 theme_override_font_sizes/font_size = 24
 text = "Songo#5"
 

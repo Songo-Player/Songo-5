@@ -1,0 +1,508 @@
+[gd_scene load_steps=13 format=3 uid="uid://di6v8iim3w2wo"]
+
+[ext_resource type="Script" path="res://internal_themes/Ringing/main_menu/main_menu.gd" id="1_blq7t"]
+[ext_resource type="Script" path="res://internal_themes/Ringing/assets/RingMusicVisualizer.gd" id="1_xs6q4"]
+[ext_resource type="StyleBox" uid="uid://b1g84jn4br3bq" path="res://internal_themes/Sakura/main_menu/focus_main_menu_button.tres" id="2_ggy16"]
+[ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="3_m8fcm"]
+[ext_resource type="Texture2D" uid="uid://byeluf85nlgra" path="res://assets/record.svg" id="5_nak0s"]
+[ext_resource type="Texture2D" uid="uid://dcqtgyrr3fac2" path="res://assets/user.svg" id="7_nvm6m"]
+[ext_resource type="Texture2D" uid="uid://md788wp04yb1" path="res://assets/layergroup.svg" id="9_1nv6k"]
+[ext_resource type="Texture2D" uid="uid://cbi4n1wtrc3dc" path="res://assets/gear.svg" id="10_htpab"]
+[ext_resource type="Texture2D" uid="uid://dg08f5rynv8mn" path="res://assets/exit_walk.svg" id="11_r7slf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_83mfx"]
+bg_color = Color(0.972549, 0.333333, 0.145098, 1)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3x76e"]
+bg_color = Color(0.980392, 0.662745, 0.407843, 1)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ebn3n"]
+bg_color = Color(0.980392, 0.662745, 0.407843, 1)
+
+[node name="MainMenu" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_blq7t")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 24
+
+[node name="Control" type="Control" parent="MarginContainer"]
+z_index = -2
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="RingMusicVisualizer5" type="Control" parent="MarginContainer/Control"]
+layout_mode = 2
+anchors_preset = 0
+script = ExtResource("1_xs6q4")
+ball_count = 20
+ball_radius = 22.0
+ring_radius = 315.0
+ball_color = Color(0.596078, 0.419608, 0.607843, 1)
+total_ranges = 5
+range_index = 4
+min_speed = 0.05
+max_speed = 1.1
+smoothing = 0.8
+
+[node name="RingMusicVisualizer4" type="Control" parent="MarginContainer/Control"]
+layout_mode = 2
+anchors_preset = 0
+script = ExtResource("1_xs6q4")
+ball_count = 21
+ball_radius = 18.0
+ring_radius = 265.0
+ball_color = Color(0.00392157, 0.12549, 0.305882, 1)
+total_ranges = 5
+range_index = 3
+min_speed = 0.05
+max_speed = 1.2
+smoothing = 0.8
+
+[node name="RingMusicVisualizer3" type="Control" parent="MarginContainer/Control"]
+layout_mode = 2
+anchors_preset = 0
+script = ExtResource("1_xs6q4")
+ball_count = 22
+ball_radius = 14.0
+ring_radius = 225.0
+ball_color = Color(0.00784314, 0.513726, 0.568627, 1)
+total_ranges = 5
+range_index = 2
+min_speed = 0.05
+max_speed = 1.3
+smoothing = 0.8
+
+[node name="RingMusicVisualizer2" type="Control" parent="MarginContainer/Control"]
+layout_mode = 2
+anchors_preset = 0
+script = ExtResource("1_xs6q4")
+ball_count = 23
+ball_radius = 10.0
+ring_radius = 195.0
+ball_color = Color(0.972549, 0.333333, 0.145098, 1)
+total_ranges = 5
+range_index = 1
+min_speed = 0.05
+max_speed = 1.4
+smoothing = 0.8
+
+[node name="RingMusicVisualizer1" type="Control" parent="MarginContainer/Control"]
+layout_mode = 2
+anchors_preset = 0
+script = ExtResource("1_xs6q4")
+ball_count = 24
+ring_radius = 175.0
+ball_color = Color(0.980392, 0.662745, 0.407843, 1)
+total_ranges = 5
+min_speed = 0.05
+max_speed = 1.5
+smoothing = 0.8
+
+[node name="MainMenuContainer" type="Control" parent="MarginContainer/Control"]
+unique_name_in_owner = true
+anchors_preset = 0
+
+[node name="Control" type="Control" parent="MarginContainer/Control/MainMenuContainer"]
+anchors_preset = 0
+
+[node name="AllSongsInnerRotate" type="Control" parent="MarginContainer/Control/MainMenuContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 2
+anchors_preset = 0
+offset_top = -115.0
+offset_bottom = -115.0
+size_flags_vertical = 0
+
+[node name="AllSongs" type="PanelContainer" parent="MarginContainer/Control/MainMenuContainer/Control/AllSongsInnerRotate"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -27.0
+offset_top = -27.0
+offset_right = 27.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_83mfx")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/MainMenuContainer/Control/AllSongsInnerRotate/AllSongs"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/Control/MainMenuContainer/Control/AllSongsInnerRotate/AllSongs/MarginContainer"]
+clip_children = 1
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3x76e")
+
+[node name="AllSongsButton" type="Button" parent="MarginContainer/Control/MainMenuContainer/Control/AllSongsInnerRotate/AllSongs/MarginContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_left = NodePath("../../../../../../Control6/ExitInnerRotate/Exit/MarginContainer/PanelContainer/ExitButton")
+focus_neighbor_right = NodePath("../../../../../../Control2/AlbumsInnerRotate/Albums/MarginContainer/PanelContainer/AlbumsButton")
+theme_override_styles/focus = ExtResource("2_ggy16")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ebn3n")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/MainMenuContainer/Control/AllSongsInnerRotate/AllSongs/MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Control/MainMenuContainer/Control/AllSongsInnerRotate/AllSongs/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_m8fcm")
+expand_mode = 1
+
+[node name="Control2" type="Control" parent="MarginContainer/Control/MainMenuContainer"]
+anchors_preset = 0
+rotation = 1.0472
+
+[node name="AlbumsInnerRotate" type="Control" parent="MarginContainer/Control/MainMenuContainer/Control2"]
+unique_name_in_owner = true
+layout_mode = 2
+anchors_preset = 0
+offset_top = -115.0
+offset_bottom = -115.0
+rotation = -1.0472
+size_flags_vertical = 0
+
+[node name="Albums" type="PanelContainer" parent="MarginContainer/Control/MainMenuContainer/Control2/AlbumsInnerRotate"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -27.0
+offset_top = -27.0
+offset_right = 27.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_83mfx")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/MainMenuContainer/Control2/AlbumsInnerRotate/Albums"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/Control/MainMenuContainer/Control2/AlbumsInnerRotate/Albums/MarginContainer"]
+clip_children = 1
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3x76e")
+
+[node name="AlbumsButton" type="Button" parent="MarginContainer/Control/MainMenuContainer/Control2/AlbumsInnerRotate/Albums/MarginContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_left = NodePath("../../../../../../Control/AllSongsInnerRotate/AllSongs/MarginContainer/PanelContainer/AllSongsButton")
+focus_neighbor_right = NodePath("../../../../../../Control3/ArtistsInnerRotate/Artists/MarginContainer/PanelContainer/ArtistsButton")
+theme_override_styles/focus = ExtResource("2_ggy16")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ebn3n")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/MainMenuContainer/Control2/AlbumsInnerRotate/Albums/MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Control/MainMenuContainer/Control2/AlbumsInnerRotate/Albums/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_nak0s")
+expand_mode = 1
+
+[node name="Control3" type="Control" parent="MarginContainer/Control/MainMenuContainer"]
+anchors_preset = 0
+rotation = 2.0944
+
+[node name="ArtistsInnerRotate" type="Control" parent="MarginContainer/Control/MainMenuContainer/Control3"]
+unique_name_in_owner = true
+layout_mode = 2
+anchors_preset = 0
+offset_top = -115.0
+offset_bottom = -115.0
+rotation = -2.0944
+size_flags_vertical = 0
+
+[node name="Artists" type="PanelContainer" parent="MarginContainer/Control/MainMenuContainer/Control3/ArtistsInnerRotate"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -27.0
+offset_top = -27.0
+offset_right = 27.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_83mfx")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/MainMenuContainer/Control3/ArtistsInnerRotate/Artists"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/Control/MainMenuContainer/Control3/ArtistsInnerRotate/Artists/MarginContainer"]
+clip_children = 1
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3x76e")
+
+[node name="ArtistsButton" type="Button" parent="MarginContainer/Control/MainMenuContainer/Control3/ArtistsInnerRotate/Artists/MarginContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_left = NodePath("../../../../../../Control2/AlbumsInnerRotate/Albums/MarginContainer/PanelContainer/AlbumsButton")
+focus_neighbor_right = NodePath("../../../../../../Control4/PlaylistsInnerRotate/Playlists/MarginContainer/PanelContainer/PlaylistsButton")
+theme_override_styles/focus = ExtResource("2_ggy16")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ebn3n")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/MainMenuContainer/Control3/ArtistsInnerRotate/Artists/MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Control/MainMenuContainer/Control3/ArtistsInnerRotate/Artists/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("7_nvm6m")
+expand_mode = 1
+
+[node name="Control4" type="Control" parent="MarginContainer/Control/MainMenuContainer"]
+anchors_preset = 0
+rotation = 3.14159
+
+[node name="PlaylistsInnerRotate" type="Control" parent="MarginContainer/Control/MainMenuContainer/Control4"]
+unique_name_in_owner = true
+layout_mode = 2
+anchors_preset = 0
+offset_top = -115.0
+offset_bottom = -115.0
+rotation = -3.14159
+size_flags_vertical = 0
+
+[node name="Playlists" type="PanelContainer" parent="MarginContainer/Control/MainMenuContainer/Control4/PlaylistsInnerRotate"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -27.0
+offset_top = -27.0
+offset_right = 27.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_83mfx")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/MainMenuContainer/Control4/PlaylistsInnerRotate/Playlists"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/Control/MainMenuContainer/Control4/PlaylistsInnerRotate/Playlists/MarginContainer"]
+clip_children = 1
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3x76e")
+
+[node name="PlaylistsButton" type="Button" parent="MarginContainer/Control/MainMenuContainer/Control4/PlaylistsInnerRotate/Playlists/MarginContainer/PanelContainer"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../../../../../../Control3/ArtistsInnerRotate/Artists/MarginContainer/PanelContainer/ArtistsButton")
+focus_neighbor_right = NodePath("../../../../../../Control5/SettingsInnerRotate/Settings/MarginContainer/PanelContainer/SettingsButton")
+theme_override_styles/focus = ExtResource("2_ggy16")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ebn3n")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/MainMenuContainer/Control4/PlaylistsInnerRotate/Playlists/MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Control/MainMenuContainer/Control4/PlaylistsInnerRotate/Playlists/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("9_1nv6k")
+expand_mode = 1
+
+[node name="Control5" type="Control" parent="MarginContainer/Control/MainMenuContainer"]
+anchors_preset = 0
+rotation = 4.18879
+
+[node name="SettingsInnerRotate" type="Control" parent="MarginContainer/Control/MainMenuContainer/Control5"]
+unique_name_in_owner = true
+layout_mode = 2
+anchors_preset = 0
+offset_top = -115.0
+offset_bottom = -115.0
+rotation = -4.18879
+size_flags_vertical = 0
+
+[node name="Settings" type="PanelContainer" parent="MarginContainer/Control/MainMenuContainer/Control5/SettingsInnerRotate"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -27.0
+offset_top = -27.0
+offset_right = 27.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_83mfx")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/MainMenuContainer/Control5/SettingsInnerRotate/Settings"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/Control/MainMenuContainer/Control5/SettingsInnerRotate/Settings/MarginContainer"]
+clip_children = 1
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3x76e")
+
+[node name="SettingsButton" type="Button" parent="MarginContainer/Control/MainMenuContainer/Control5/SettingsInnerRotate/Settings/MarginContainer/PanelContainer"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../../../../../../Control4/PlaylistsInnerRotate/Playlists/MarginContainer/PanelContainer/PlaylistsButton")
+focus_neighbor_right = NodePath("../../../../../../Control6/ExitInnerRotate/Exit/MarginContainer/PanelContainer/ExitButton")
+theme_override_styles/focus = ExtResource("2_ggy16")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ebn3n")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/MainMenuContainer/Control5/SettingsInnerRotate/Settings/MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Control/MainMenuContainer/Control5/SettingsInnerRotate/Settings/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("10_htpab")
+expand_mode = 1
+
+[node name="Control6" type="Control" parent="MarginContainer/Control/MainMenuContainer"]
+anchors_preset = 0
+rotation = 5.23599
+
+[node name="ExitInnerRotate" type="Control" parent="MarginContainer/Control/MainMenuContainer/Control6"]
+unique_name_in_owner = true
+layout_mode = 2
+anchors_preset = 0
+offset_top = -115.0
+offset_bottom = -115.0
+rotation = -5.23599
+size_flags_vertical = 0
+
+[node name="Exit" type="PanelContainer" parent="MarginContainer/Control/MainMenuContainer/Control6/ExitInnerRotate"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -27.0
+offset_top = -27.0
+offset_right = 27.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_83mfx")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/MainMenuContainer/Control6/ExitInnerRotate/Exit"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/Control/MainMenuContainer/Control6/ExitInnerRotate/Exit/MarginContainer"]
+clip_children = 1
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3x76e")
+
+[node name="ExitButton" type="Button" parent="MarginContainer/Control/MainMenuContainer/Control6/ExitInnerRotate/Exit/MarginContainer/PanelContainer"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../../../../../../Control5/SettingsInnerRotate/Settings/MarginContainer/PanelContainer/SettingsButton")
+focus_neighbor_right = NodePath("../../../../../../Control/AllSongsInnerRotate/AllSongs/MarginContainer/PanelContainer/AllSongsButton")
+theme_override_styles/focus = ExtResource("2_ggy16")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ebn3n")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/MainMenuContainer/Control6/ExitInnerRotate/Exit/MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 10
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Control/MainMenuContainer/Control6/ExitInnerRotate/Exit/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("11_r7slf")
+expand_mode = 1
+
+[connection signal="focus_entered" from="MarginContainer/Control/MainMenuContainer/Control/AllSongsInnerRotate/AllSongs/MarginContainer/PanelContainer/AllSongsButton" to="." method="_on_all_songs_button_focus_entered"]
+[connection signal="pressed" from="MarginContainer/Control/MainMenuContainer/Control/AllSongsInnerRotate/AllSongs/MarginContainer/PanelContainer/AllSongsButton" to="." method="_on_all_songs_button_pressed"]
+[connection signal="focus_entered" from="MarginContainer/Control/MainMenuContainer/Control2/AlbumsInnerRotate/Albums/MarginContainer/PanelContainer/AlbumsButton" to="." method="_on_albums_button_focus_entered"]
+[connection signal="pressed" from="MarginContainer/Control/MainMenuContainer/Control2/AlbumsInnerRotate/Albums/MarginContainer/PanelContainer/AlbumsButton" to="." method="_on_albums_button_pressed"]
+[connection signal="focus_entered" from="MarginContainer/Control/MainMenuContainer/Control3/ArtistsInnerRotate/Artists/MarginContainer/PanelContainer/ArtistsButton" to="." method="_on_artists_button_focus_entered"]
+[connection signal="pressed" from="MarginContainer/Control/MainMenuContainer/Control3/ArtistsInnerRotate/Artists/MarginContainer/PanelContainer/ArtistsButton" to="." method="_on_artists_button_pressed"]
+[connection signal="focus_entered" from="MarginContainer/Control/MainMenuContainer/Control4/PlaylistsInnerRotate/Playlists/MarginContainer/PanelContainer/PlaylistsButton" to="." method="_on_playlists_button_focus_entered"]
+[connection signal="pressed" from="MarginContainer/Control/MainMenuContainer/Control4/PlaylistsInnerRotate/Playlists/MarginContainer/PanelContainer/PlaylistsButton" to="." method="_on_playlists_button_pressed"]
+[connection signal="focus_entered" from="MarginContainer/Control/MainMenuContainer/Control5/SettingsInnerRotate/Settings/MarginContainer/PanelContainer/SettingsButton" to="." method="_on_settings_button_focus_entered"]
+[connection signal="pressed" from="MarginContainer/Control/MainMenuContainer/Control5/SettingsInnerRotate/Settings/MarginContainer/PanelContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="focus_entered" from="MarginContainer/Control/MainMenuContainer/Control6/ExitInnerRotate/Exit/MarginContainer/PanelContainer/ExitButton" to="." method="_on_exit_button_focus_entered"]
+[connection signal="pressed" from="MarginContainer/Control/MainMenuContainer/Control6/ExitInnerRotate/Exit/MarginContainer/PanelContainer/ExitButton" to="." method="_on_exit_button_pressed"]

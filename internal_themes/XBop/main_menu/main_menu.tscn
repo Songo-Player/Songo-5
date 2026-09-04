@@ -1,8 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://cc5a5b5kyusy3"]
+[gd_scene load_steps=7 format=3 uid="uid://cc5a5b5kyusy3"]
 
 [ext_resource type="Script" path="res://internal_themes/XBop/main_menu/main_menu.gd" id="1_k8yx5"]
-[ext_resource type="Texture2D" uid="uid://vf3nwtu7nfcs" path="res://assets/exit_walk_glow.png" id="2_gn4da"]
-[ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="3_7t1gh"]
 [ext_resource type="Script" path="res://internal_themes/XBop/assets/line_visualizer.gd" id="4_yku81"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w5ty1"]
@@ -88,14 +86,12 @@ theme_override_constants/margin_bottom = -16
 unique_name_in_owner = true
 modulate = Color(0.576471, 0.772549, 0.447059, 1)
 layout_mode = 2
-texture = ExtResource("2_gn4da")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="MenuIcon" type="TextureRect" parent="Control/ScaleControl/PanelContainer/PanelContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-texture = ExtResource("3_7t1gh")
 expand_mode = 1
 stretch_mode = 5
 

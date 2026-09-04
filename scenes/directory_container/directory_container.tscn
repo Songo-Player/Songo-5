@@ -16,43 +16,49 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[node name="DirectoryContainer" type="VBoxContainer"]
+[node name="DirectoryContainer" type="MarginContainer"]
 clip_contents = true
-theme_override_constants/separation = 0
+offset_right = 226.0
+offset_bottom = 159.0
+theme_type_variation = &"DirSelectContentMargin"
 script = ExtResource("1_e6ecc")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
 z_index = 1
 layout_mode = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/PanelContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Select your music directory"
 
-[node name="ParentDirectoryLabel" type="LineEdit" parent="PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="ParentDirectoryLabel" type="LineEdit" parent="VBoxContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 selecting_enabled = false
 
-[node name="DirectoryList" type="MarginContainer" parent="."]
+[node name="DirectoryList" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ImportProgressContainer" type="MarginContainer" parent="DirectoryList"]
+[node name="ImportProgressContainer" type="MarginContainer" parent="VBoxContainer/DirectoryList"]
 unique_name_in_owner = true
 visible = false
 z_index = 3
@@ -64,47 +70,47 @@ theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
 
-[node name="PanelContainer" type="PanelContainer" parent="DirectoryList/ImportProgressContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/DirectoryList/ImportProgressContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="PanelContainer" type="PanelContainer" parent="DirectoryList/ImportProgressContainer/PanelContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/DirectoryList/ImportProgressContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 12
 
-[node name="VBoxContainer" type="VBoxContainer" parent="DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="PanelContainer" type="PanelContainer" parent="DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 4
 
-[node name="Label" type="Label" parent="DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Importing Music"
 horizontal_alignment = 1
 
-[node name="ImportStepLabel" type="Label" parent="DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="ImportStepLabel" type="Label" parent="VBoxContainer/DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Step 1/3 Finding audio files"
 horizontal_alignment = 1
 
-[node name="ImportProgressLabel" type="Label" parent="DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="ImportProgressLabel" type="Label" parent="VBoxContainer/DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 26
@@ -112,11 +118,11 @@ text = "Progress %
 "
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="ProgressBar" type="HSeparator" parent="DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/HSeparator"]
+[node name="ProgressBar" type="HSeparator" parent="VBoxContainer/DirectoryList/ImportProgressContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/HSeparator"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -128,7 +134,7 @@ scale = Vector2(1e-05, 1)
 theme_override_constants/separation = 2
 theme_override_styles/separator = SubResource("StyleBoxFlat_4ejm3")
 
-[node name="TopBarClipMask" type="TextureRect" parent="DirectoryList"]
+[node name="TopBarClipMask" type="TextureRect" parent="VBoxContainer/DirectoryList"]
 clip_children = 1
 clip_contents = true
 layout_mode = 2
@@ -137,7 +143,7 @@ script = ExtResource("2_3mvr1")
 mask_left_margin = 26
 bottom_fade_height = 16
 
-[node name="MarginContainer" type="MarginContainer" parent="DirectoryList/TopBarClipMask"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/DirectoryList/TopBarClipMask"]
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
@@ -146,33 +152,31 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
+theme_type_variation = &"ListSectionOuterMargin"
 theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 16
 
-[node name="ListVbox" type="VBoxContainer" parent="DirectoryList/TopBarClipMask/MarginContainer"]
+[node name="ListVbox" type="VBoxContainer" parent="VBoxContainer/DirectoryList/TopBarClipMask/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="VirtualizedList" parent="DirectoryList/TopBarClipMask/MarginContainer/ListVbox" instance=ExtResource("4_aw625")]
+[node name="VirtualizedList" parent="VBoxContainer/DirectoryList/TopBarClipMask/MarginContainer/ListVbox" instance=ExtResource("4_aw625")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="DirectoryInfoContainer" type="PanelContainer" parent="."]
+[node name="DirectoryInfoContainer" type="PanelContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
 z_index = 2
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pc8ls")
 
-[node name="MarginContainer" type="MarginContainer" parent="DirectoryInfoContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/DirectoryInfoContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="MusicDirTip" type="Button" parent="DirectoryInfoContainer/MarginContainer"]
+[node name="MusicDirTip" type="Button" parent="VBoxContainer/DirectoryInfoContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0

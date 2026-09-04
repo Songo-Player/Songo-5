@@ -1,4 +1,4 @@
-extends VBoxContainer
+extends MarginContainer
 
 class_name DirectoryContainer
 

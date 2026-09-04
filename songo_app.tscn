@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://x6a7h67rwoqo"]
+[gd_scene load_steps=26 format=3 uid="uid://x6a7h67rwoqo"]
 
 [ext_resource type="Script" path="res://songo_app.gd" id="1_einrm"]
 [ext_resource type="Shader" path="res://crt.gdshader" id="2_yqef3"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://btjv8vx32m5y1" path="res://assets/Switch_Dpad_Down.png" id="8_swjqc"]
 [ext_resource type="PackedScene" uid="uid://dpkuxp51tlyqk" path="res://scenes/keyboard/keyboard.tscn" id="8_y4p5t"]
 [ext_resource type="PackedScene" uid="uid://bthtkrg10n8oi" path="res://scenes/app_message/app_message.tscn" id="9_1p8yf"]
+[ext_resource type="Texture2D" uid="uid://bw0rxqtvk4f66" path="res://assets/Switch_Dpad_Left.png" id="9_mnpdx"]
 [ext_resource type="PackedScene" uid="uid://dalui65p8m2es" path="res://scenes/flash_message_box/flash_message_box.tscn" id="10_3xlg5"]
 [ext_resource type="PackedScene" uid="uid://bhr3buckg1vxs" path="res://scenes/theme_injections/theme_header/theme_header.tscn" id="10_flm4y"]
 [ext_resource type="Script" path="res://scenes/theme_injections/theme_song_follow/theme_song_follow.gd" id="11_pok2t"]
@@ -287,6 +288,20 @@ expand_mode = 3
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = " : Queue song  "
+
+[node name="RotateDisplay" type="HBoxContainer" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/RotateDisplay"]
+layout_mode = 2
+texture = ExtResource("9_mnpdx")
+expand_mode = 3
+
+[node name="RotateDisplayLabel" type="Label" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer/RotateDisplay"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = " : Rotate Display"
 
 [node name="NoQuickMenuActions" type="PanelContainer" parent="CanvasLayer/TransformContainer/VBoxContainer/BodyMarginContainer/ContentMargin/VBoxContainer/ContentBody/QuickMenu/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true

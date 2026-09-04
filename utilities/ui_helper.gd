@@ -30,18 +30,33 @@ func focus_back():
 func apply_scale(new_scale: float):
 	var window = get_tree().get_root().get_window()
 	window.content_scale_factor = new_scale
+	apply_rotation()
+	
+func apply_rotation():
+	var rotated = songo_settings.rotate_display
+	var root_node = transform_container.get_parent().get_parent()
+
+	var window_size = get_viewport().get_visible_rect().size
+	var scaled_size = window_size # * (1.0 / songo_settings.ui_scale)
+
+	if rotated:
+		var rotated_size = Vector2(scaled_size.y, scaled_size.x)
+
+		root_node.custom_minimum_size = rotated_size
+		transform_container.size = rotated_size
+		transform_container.position.x = -rotated_size.x
+		transform_container.get_parent().rotation = deg_to_rad(270)
+	else:
+		root_node.custom_minimum_size = scaled_size
+		transform_container.size = scaled_size
+		transform_container.position = Vector2.ZERO
+		transform_container.get_parent().rotation = 0.0
+
 	
 func apply_content_margin(new_margin: int):
-	UiHelper.content_margin_container.add_theme_constant_override("margin_left", new_margin)
-	UiHelper.content_margin_container.add_theme_constant_override("margin_right", new_margin)
+	content_margin_container.add_theme_constant_override("margin_left", new_margin)
+	content_margin_container.add_theme_constant_override("margin_right", new_margin)
 
-	
-
-#func apply_screen_fit():
-#	var root = get_node("/root")
-#	if original_size == null: original_size = root.size
-#	root.size = DisplayServer.screen_get_size()
-#	DisplayServer.window_set_size(original_size)
 	
 	
 func route_inputs(active_container, delta):

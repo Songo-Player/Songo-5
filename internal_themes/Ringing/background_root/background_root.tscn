@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://31km2j27a611"]
+
+[ext_resource type="Script" path="res://internal_themes/Ringing/background_root/background_root.gd" id="1_ehnhb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ja08r"]
+bg_color = Color(0.964706, 0.862745, 0.67451, 1)
+
+[node name="BackgroundRoot" type="PanelContainer"]
+z_index = -2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ja08r")
+script = ExtResource("1_ehnhb")

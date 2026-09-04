@@ -3,6 +3,7 @@ class_name AlbumRecord extends Resource
 @export var name: String
 #@export var cover_path: String
 @export var artists: Array[String]
+@export var album_artist: String = ""
 @export var music_records: Array[MusicRecord]
 @export var asset_id: String = ""
 
@@ -50,6 +51,15 @@ static func merge_albums(existing_albums: Array[AlbumRecord], new_albums: Array[
 					existing_album.music_records.append(record)
 		else:
 			album_map[new_album.name] = new_album
+			
+		if ["VA", "V.A.", "va", "v.a."].has(album_map[new_album.name].album_artist):
+			album_map[new_album.name].album_artist = "Various Artists"
+		
+		if album_map[new_album.name].album_artist == "Unknown Album Artist" || album_map[new_album.name].album_artist == "":
+			if album_map[new_album.name].artists.size() > 1:
+				album_map[new_album.name].album_artist = "Various Artists"
+			elif album_map[new_album.name].artists.size() == 1:
+				album_map[new_album.name].album_artist = album_map[new_album.name].artists[0]
 			
 	var result: Array[AlbumRecord]
 	result.assign(album_map.values())

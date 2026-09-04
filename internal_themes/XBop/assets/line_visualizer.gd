@@ -1,7 +1,5 @@
 extends Control
-class_name LineMusicVisualizer
-
-@export var playback_node: FFmpegAudioPlaybackV2
+class_name LineMusicVisualizer2
 
 @export var point_count := 10
 @export var bus_name := "Visualizer"

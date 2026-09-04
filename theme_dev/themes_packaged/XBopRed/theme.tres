@@ -1,0 +1,100 @@
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://cqgufpdikgss8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o658w"]
+bg_color = Color(0.545098, 0, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wr0ua"]
+content_margin_left = 4.0
+content_margin_top = 2.0
+content_margin_bottom = 4.0
+bg_color = Color(0.254902, 0.254902, 0.254902, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ggnxn"]
+bg_color = Color(0.545098, 0, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x65ip"]
+content_margin_left = 4.0
+content_margin_top = 2.0
+content_margin_bottom = 4.0
+bg_color = Color(0.254902, 0.254902, 0.254902, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2a7kh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gwgdn"]
+content_margin_left = 4.0
+content_margin_top = 10.0
+content_margin_right = 4.0
+content_margin_bottom = 10.0
+bg_color = Color(0.545098, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 6
+expand_margin_left = 2.0
+expand_margin_right = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rmnil"]
+content_margin_left = 4.0
+content_margin_top = 10.0
+content_margin_right = 4.0
+content_margin_bottom = 10.0
+bg_color = Color(0.545098, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 6
+expand_margin_left = 2.0
+expand_margin_right = 2.0
+
+[resource]
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
+Button/styles/focus = SubResource("StyleBoxFlat_o658w")
+Button/styles/normal = SubResource("StyleBoxFlat_wr0ua")
+ListButton/base_type = &"Button"
+ListButton/colors/font_color = Color(1, 1, 1, 1)
+ListButton/colors/font_focus_color = Color(1, 1, 1, 1)
+ListButton/colors/font_hover_color = Color(1, 1, 1, 1)
+ListButton/colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+ListButton/colors/font_pressed_color = Color(1, 1, 1, 1)
+ListButton/colors/icon_focus_color = Color(1, 1, 1, 1)
+ListButton/colors/icon_hover_color = Color(1, 1, 1, 1)
+ListButton/styles/focus = SubResource("StyleBoxFlat_ggnxn")
+ListButton/styles/normal = SubResource("StyleBoxFlat_x65ip")
+ListButtonOuterMargin/base_type = &"MarginContainer"
+ListButtonOuterMargin/constants/margin_bottom = 2
+ListButtonOuterMargin/constants/margin_left = 0
+ListButtonOuterMargin/constants/margin_right = 0
+ListButtonOuterMargin/constants/margin_top = 2
+ListPanelContainer/base_type = &"PanelContainer"
+ListPanelContainer/styles/panel = SubResource("StyleBoxEmpty_2a7kh")
+ListSectionInnerMargin/base_type = &"MarginContainer"
+ListSectionInnerMargin/constants/margin_bottom = 0
+ListSectionInnerMargin/constants/margin_left = 0
+ListSectionInnerMargin/constants/margin_right = 0
+ListSectionInnerMargin/constants/margin_top = 0
+ListSectionOuterMargin/base_type = &"MarginContainer"
+ListSectionOuterMargin/constants/margin_bottom = 16
+ListSectionOuterMargin/constants/margin_left = 0
+ListSectionOuterMargin/constants/margin_right = 3
+ListSectionOuterMargin/constants/margin_top = 16
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_gwgdn")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_rmnil")

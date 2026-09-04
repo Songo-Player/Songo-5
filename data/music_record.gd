@@ -6,6 +6,8 @@ class_name MusicRecord extends Resource
 @export var album: String
 @export var artist: String
 @export var track: int
+@export var album_artist: String
+
 var album_cover_texture #Set this manually before access
 
 var length: String:
@@ -23,18 +25,8 @@ var image_texture:
 	get: return _get_image_texture()
 	
 func _get_image_texture():
-	return AudioMetadata.get_cover_image(full_path)
-	#var file_type = full_path.get_extension()
-	#if file_type == "mp3":
-	#	return AudioMetadata.get_mp3_image(full_path)
-	#elif file_type == "flac":
-	#	return AudioMetadata.get_flac_image(full_path)
-	#elif file_type == "ogg":
-	#	return AudioMetadata.get_ogg_image(full_path)
-	#else:
-	#	print("Unkown file type")
-	#	return false
-	
+	return GDTagLib.get_cover_image(full_path)
+
 func _title_with_track():
 	if track == 0: return title
 

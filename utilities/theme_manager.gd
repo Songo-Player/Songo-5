@@ -22,19 +22,28 @@ func set_current_theme(theme_path_arg):
 	var file := FileAccess.open(theme_path_arg+"/theme.json", FileAccess.READ)
 	if file == null: theme_path_arg = default_theme_path
 	
+	var theme_pck := ProjectSettings.load_resource_pack(theme_path_arg+"/theme.pck")
+	if not theme_pck:
+		push_error("Failed to mount theme pck")
+	print("Got here? in theme pck")
+		
 	for conn in theme_settings_updated.get_connections():
 		theme_settings_updated.disconnect(conn.callable)
 		
 	if theme_path_arg == "": return
 	current_theme = parse_theme_json(theme_path_arg)
 	theme_path = theme_path_arg
+
 	if current_theme.has("settings"):
 		setup_theme_settings(current_theme["settings"])
 	else:
 		settings = {}
 		settings_info = {}
+		
 	if current_theme.has("godot_theme_path"):
-		UiHelper.apply_user_theme(load(current_theme["godot_theme_path"]))
+		var full_gd_theme_path = theme_path_arg + current_theme["godot_theme_path"]
+		print(full_gd_theme_path)
+		UiHelper.apply_user_theme(load(full_gd_theme_path))
 	else:
 		var base_theme = load("res://songo_base_theme.tres")
 		get_tree().root.theme = base_theme
@@ -44,6 +53,8 @@ func set_current_theme(theme_path_arg):
 	
 func get_scene_path(scene_name):
 	if current_theme:
+		if current_theme.has("rootDir"):
+			return "res://%s/%s" % [current_theme["rootDir"], current_theme["components"][scene_name]]
 		if current_theme["components"].has(scene_name):
 			return "%s/%s" % [theme_path, current_theme["components"][scene_name]]
 	return false

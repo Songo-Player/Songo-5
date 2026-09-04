@@ -13,7 +13,7 @@ func setup_music_record(record):
 func setup_album_record(record):
 	if $AlbumButtonContainer.visible == false: $AlbumButtonContainer.show()
 	%AlbumName.text = record.name
-	%ArtistName.text = format_artists(record.artists)
+	%ArtistName.text = record.album_artist
 	%AlbumFallbackCover.show()
 	%AlbumCover.hide()
 	modulate_targets = [%AlbumInfo]

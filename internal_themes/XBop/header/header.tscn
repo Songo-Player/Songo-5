@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://c3jkqim1bcewp"]
 
 [ext_resource type="Script" path="res://internal_themes/XBop/header/header.gd" id="1_7lmyj"]
-[ext_resource type="FontFile" uid="uid://ckx8hptr33csi" path="res://fonts/CourierPrime-Bold.ttf" id="2_ijgl5"]
+[ext_resource type="FontFile" uid="uid://ckx8hptr33csi" path="res://theme_dev/themes_raw/XBopRed/fonts/CourierPrime-BoldTEST.ttf" id="2_r4o0w"]
 [ext_resource type="Texture2D" uid="uid://inruw0c6rdua" path="res://assets/wifi.svg" id="3_6b5x0"]
 [ext_resource type="Texture2D" uid="uid://nqpdbtqncxh4" path="res://assets/clock.svg" id="4_i5g8v"]
 [ext_resource type="Texture2D" uid="uid://ds1hiniyche5x" path="res://assets/battery.svg" id="5_8loti"]
@@ -67,7 +67,7 @@ theme_override_constants/margin_bottom = -4
 [node name="Label" type="Label" parent="HeaderPanel/MarginContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource("2_ijgl5")
+theme_override_fonts/font = ExtResource("2_r4o0w")
 theme_override_font_sizes/font_size = 24
 text = "Songo#5"
 

@@ -1,0 +1,8 @@
+[configuration]
+entry_symbol = "gdtaglib_library_init"
+compatibility_minimum = 4.3
+
+[libraries]
+linux.debug.x86_64 = "bin/libgdtaglib.linux.template_debug.x86_64.so"
+arm64 = "bin/libgdtaglib.linux.template_release.arm64.so"
+linux.arm64 = "bin/libgdtaglib.linux.template_release.arm64.so"

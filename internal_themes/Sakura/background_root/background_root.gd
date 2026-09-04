@@ -6,8 +6,14 @@ extends AspectRatioContainer
 func _ready() -> void:
 	_update_element()
 	ThemeManager.theme_settings_updated.connect(_update_element)
-	DeviceOS.pseudo_sleep.connect(func(): %VideoStreamPlayer.stop())
-	DeviceOS.pseudo_sleep_wake.connect(func(): %VideoStreamPlayer.play())
+	DeviceOS.pseudo_sleep.connect(func(): 
+		if ThemeManager.settings["static_background"] == false:
+			%VideoStreamPlayer.stop()
+		)
+	DeviceOS.pseudo_sleep_wake.connect(func(): 
+		if ThemeManager.settings["static_background"] == false:
+			%VideoStreamPlayer.play()
+		)
 
 	
 func _update_element():

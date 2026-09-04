@@ -1,8 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://d2axhk8e2ekwp"]
+[gd_scene load_steps=8 format=3 uid="uid://d2axhk8e2ekwp"]
 
 [ext_resource type="Script" path="res://internal_themes/XBop/collection_header/collection_header.gd" id="1_jrqjd"]
-[ext_resource type="Texture2D" uid="uid://dg08f5rynv8mn" path="res://assets/exit_walk.svg" id="3_dsgmk"]
-[ext_resource type="Texture2D" uid="uid://vf3nwtu7nfcs" path="res://assets/exit_walk_glow.png" id="4_31auk"]
 [ext_resource type="Texture2D" uid="uid://bw0rxqtvk4f66" path="res://assets/Switch_Dpad_Left.png" id="6_fh5t4"]
 
 [sub_resource type="Gradient" id="Gradient_24yqn"]
@@ -266,14 +264,12 @@ theme_override_constants/margin_bottom = -11
 unique_name_in_owner = true
 modulate = Color(0.576471, 0.772549, 0.447059, 1)
 layout_mode = 2
-texture = ExtResource("4_31auk")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="DefaultIcon" type="TextureRect" parent="MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/PanelContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-texture = ExtResource("3_dsgmk")
 expand_mode = 1
 stretch_mode = 5
 

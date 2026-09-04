@@ -44,7 +44,7 @@ func setup_album_record(record):
 	if %ButtonSeparator.visible == false: %ButtonSeparator.show()
 
 	%AlbumName.text = record.name
-	%AlbumArtistName.text = format_artists(record.artists)
+	%AlbumArtistName.text = record.album_artist #format_artists(record.artists)
 	%AlbumFallbackCover.show()
 	%AlbumCover.hide()
 	

@@ -3,7 +3,7 @@
 	"version": "0.5",
 	"author": "Morris",
 	"description": "A dark minimal UI with accents of color to liven it up a bit",
-	"godot_theme_path": "res://internal_themes/XBop/assets/xBopPrimaryTheme.tres",
+	"godot_theme_path": "/assets/xBopPrimaryTheme.tres",
 	"components": {
 		"background_root": "background_root/background_root.tscn",
 		"header": "header/header.tscn",	
@@ -18,8 +18,6 @@
 		"vertical_layout": false,
 		"list_top_fade": 16,
 		"list_bottom_fade": 16,
-		"list_container_margin_left": 0,
-		"list_container_margin_right": 3,
 	},
 	"tags": [
 		"minimal",

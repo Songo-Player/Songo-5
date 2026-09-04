@@ -15,24 +15,24 @@ border_width_bottom = 1
 [sub_resource type="Gradient" id="Gradient_cp8gr"]
 colors = PackedColorArray(0.603736, 0.0188367, 1.92523e-07, 1, 1, 0.566063, 0.597837, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_v0suy"]
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_l2vio"]
 gradient = SubResource("Gradient_cp8gr")
 fill_from = Vector2(1, 0)
 fill_to = Vector2(1, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xqqxx"]
-texture = SubResource("GradientTexture2D_v0suy")
+texture = SubResource("GradientTexture2D_l2vio")
 
 [sub_resource type="Gradient" id="Gradient_c0f3w"]
 colors = PackedColorArray(0, 0.552941, 0.878431, 1, 0, 0.380392, 0.176471, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_u6v48"]
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_a3tp7"]
 gradient = SubResource("Gradient_c0f3w")
 fill_from = Vector2(1, 0)
 fill_to = Vector2(1, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fns11"]
-texture = SubResource("GradientTexture2D_u6v48")
+texture = SubResource("GradientTexture2D_a3tp7")
 
 [node name="CollectionButton" type="MarginContainer"]
 anchors_preset = 10

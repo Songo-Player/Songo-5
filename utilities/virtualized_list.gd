@@ -74,7 +74,7 @@ func setup(data_items_arg, item_scene_path_arg):
 	# Initial update
 	update_spacers()
 	update_visible_items()
-		
+	get_v_scroll_bar().custom_minimum_size.x = 20
 	# Connect scroll event
 	get_v_scroll_bar().value_changed.connect(_on_scroll_changed)
 	if focus_first_item: focus_first()
@@ -86,14 +86,10 @@ func setup(data_items_arg, item_scene_path_arg):
 	v_scroll_bar.focus_neighbor_top = v_scroll_bar.get_path()
 	
 	var normal_grabber = v_scroll_bar.get_theme_stylebox("grabber")
-	var focused_grabber = normal_grabber.duplicate()
-	focused_grabber.bg_color = Color("8d0000")
-	focused_grabber.expand_margin_left = 2
-	focused_grabber.expand_margin_right = 2
-	focused_grabber.expand_margin_top = 2
-	focused_grabber.expand_margin_bottom = 2
+	var focused_grabber_style = v_scroll_bar.get_theme_stylebox("grabber_pressed")
+
 	v_scroll_bar.focus_entered.connect(func(): 
-		v_scroll_bar.add_theme_stylebox_override("grabber", focused_grabber)
+		v_scroll_bar.add_theme_stylebox_override("grabber", focused_grabber_style)
 	)
 	v_scroll_bar.focus_exited.connect(func(): 
 		v_scroll_bar.add_theme_stylebox_override("grabber", normal_grabber)

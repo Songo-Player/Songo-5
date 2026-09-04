@@ -1,6 +1,6 @@
-[gd_resource type="Theme" load_steps=6 format=3 uid="uid://wvqbwd6ybd6m"]
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://wvqbwd6ybd6m"]
 
-[ext_resource type="FontFile" uid="uid://fhmejhs3d6m0" path="res://fonts/NotoSansCJKjp-Medium.otf" id="1_f8qrc"]
+[ext_resource type="FontFile" uid="uid://fhmejhs3d6m0" path="res://theme_dev/themes_raw/XBopRed/fonts/NotoSansCJKjp-Medium.otf" id="1_f8qrc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eatph"]
 content_margin_left = 20.0
@@ -18,11 +18,34 @@ content_margin_top = 3.0
 content_margin_bottom = 3.0
 bg_color = Color(0, 0, 0, 0)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uhhb4"]
+content_margin_left = 4.0
+content_margin_top = 10.0
+content_margin_right = 4.0
+content_margin_bottom = 10.0
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d7fln"]
+content_margin_left = 4.0
+content_margin_top = 10.0
+content_margin_right = 4.0
+content_margin_bottom = 10.0
+bg_color = Color(1, 1, 1, 0.75)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 6
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uq36u"]
 content_margin_left = 4.0
-content_margin_top = 4.0
+content_margin_top = 10.0
 content_margin_right = 4.0
-content_margin_bottom = 4.0
+content_margin_bottom = 10.0
 bg_color = Color(0.552815, 0.000678571, 0.000372003, 1)
 corner_radius_top_left = 10
 corner_radius_top_right = 10
@@ -30,16 +53,27 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 corner_detail = 6
 expand_margin_left = 2.0
-expand_margin_top = 2.0
 expand_margin_right = 2.0
-expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kg685"]
+bg_color = Color(0, 0, 0, 0.596078)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 2.0
+expand_margin_right = 2.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_swjdt"]
 content_margin_left = 4.0
-content_margin_top = 0.0
+content_margin_top = 2.0
 content_margin_right = 4.0
 content_margin_bottom = 0.0
-bg_color = Color(0, 0, 0, 0.568627)
+bg_color = Color(0, 0, 0, 0.595)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
@@ -49,6 +83,8 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 corner_detail = 6
+expand_margin_left = 2.0
+expand_margin_right = 2.0
 
 [resource]
 Button/fonts/font = ExtResource("1_f8qrc")
@@ -67,6 +103,13 @@ ListSectionInnerMargin/constants/margin_left = 2
 ListSectionInnerMargin/constants/margin_right = 2
 ListSectionInnerMargin/constants/margin_top = 4
 ListSectionMargin/base_type = &"MarginContainer"
-ListSectionMargin/constants/margin_right = 4
+ListSectionMargin/constants/margin_right = 24
+ListSectionOuterMargin/base_type = &"MarginContainer"
+ListSectionOuterMargin/constants/margin_bottom = 16
+ListSectionOuterMargin/constants/margin_left = 40
+ListSectionOuterMargin/constants/margin_right = 3
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_uhhb4")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_d7fln")
 VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_uq36u")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_kg685")
 VScrollBar/styles/scroll_focus = SubResource("StyleBoxFlat_swjdt")

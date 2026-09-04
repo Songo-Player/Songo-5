@@ -30,6 +30,7 @@ enum START_BEHAVIOR {LOCK, SLEEP, LOCK_SLEEP, KEEP_AWAKE}
 @export var seek_backward_time_index = 1
 @export var seek_forward_time_index = 1
 @export var lock_inputs_on_sleep = false
+@export var rotate_display = false
 
 # --- Controls Settings --- #
 @export var start_btn_behavior: START_BEHAVIOR = START_BEHAVIOR.LOCK

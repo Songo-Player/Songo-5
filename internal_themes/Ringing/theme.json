@@ -1,0 +1,35 @@
+{
+	"name": "Ringing",
+	"version": "0.2",
+	"author": "Spoon",
+	"description": "A bubbly colorful interface that makes you forget the pain",
+	"godot_theme_path": "/theme.tres",
+	"components": {
+		"main_song_view": "main_song_view/main_song_view.tscn",
+		"main_menu": "main_menu/main_menu.tscn",
+		"background_root": "background_root/background_root.tscn",
+		"header": "header/header.tscn",
+		"footer": "footer/footer.tscn",
+		"song_follow": "song_follow/song_follow.tscn",
+		"collection_header": "collection_header/collection_header.tscn",
+		"collection_button": "collection_button/collection_button.tscn",
+	},
+	"collection_options": {
+		"vertical_layout": false,
+		"list_top_fade": 16,
+		"list_bottom_fade": 16,
+	},
+	"tags": [
+		"minimal",
+		"og",
+		"colorful"
+	],
+	"settings": {
+		"clock_24_hour": {
+			"values": [true, false],
+			"default": true,
+			"display_name": "24 Hour Clock",
+			"dependents": ["header"]
+		},
+	}
+}

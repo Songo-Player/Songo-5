@@ -15,9 +15,9 @@ func _setup_from_theme():
 	if theme_element:
 		theme_element.queue_free()
 		await get_tree().process_frame
-	var theme_background_root_path = ThemeManager.get_scene_path('header')
-	if theme_background_root_path:
-		new_element = load(theme_background_root_path).instantiate()
+	var theme_header_path = ThemeManager.get_scene_path('header')
+	if theme_header_path:
+		new_element = load(theme_header_path).instantiate()
 	else:
 		new_element = load(DEFAULT_SCENE_PATH).instantiate()
 	theme_element = new_element

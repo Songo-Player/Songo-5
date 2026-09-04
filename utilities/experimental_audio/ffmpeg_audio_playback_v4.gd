@@ -14,7 +14,7 @@ func _ready():
 	setup()
 
 func setup():
-	song_player = FFMPEGAudio.new()
+	song_player = FFMPEGPlayer.new()
 	add_child(song_player)
 	song_player.player.bus = "Visualizer"
 	

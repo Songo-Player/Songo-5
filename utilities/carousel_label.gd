@@ -64,7 +64,7 @@ func _check_scroll_needed() -> void:
 	var font_size := get_theme_font_size("font_size")
 	_text_width = font.get_string_size(_full_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
 	# Scroll only if the text is wider than the label
-	_is_scrolling = _text_width > size.x + 2.0
+	_is_scrolling = _text_width > size.x
 
 	_offset = 0.0
 	_pause_timer = pause_duration

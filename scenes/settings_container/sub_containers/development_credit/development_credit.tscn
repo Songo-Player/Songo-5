@@ -35,7 +35,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_type_variation = &"SongoSettingsContentMargin"
 theme_override_constants/margin_top = 29
+theme_override_constants/margin_right = 4
 script = ExtResource("1_d5ns1")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
@@ -53,7 +55,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 4
+theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 0
 
 [node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection"]

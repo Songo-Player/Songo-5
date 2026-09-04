@@ -1,7 +1,7 @@
 extends Control
 class_name MusicVisualizer
 
-@export var playback_node: FFmpegAudioPlaybackV2 # Reference your FFmpeg node
+#@export var playback_node: FFmpegAudioPlaybackV2 # Reference your FFmpeg node
 @export var bar_count := 32
 @export var bus_name := "Visualizer"
 

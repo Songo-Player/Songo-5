@@ -33,7 +33,7 @@ func setup():
 func render_ui():
 	pass
 
-func get_theme_options():
+func get_theme_options_OLD():
 	var dirs: Array[String] = []
 	var path = "res://internal_themes"
 
@@ -53,6 +53,45 @@ func get_theme_options():
 	dir.list_dir_end()
 	print(dirs)
 	return dirs
+
+func _find_songo_themes_dir() -> String:
+	var base := OS.get_executable_path().get_base_dir()
+	for i in range(4):  # adjacent (0 levels up) + up to 3 levels above
+		var candidate := base + "/songo_themes"
+		if DirAccess.dir_exists_absolute(candidate):
+			return candidate
+		base = base.get_base_dir()
+	return ""
+
+func get_theme_options():
+	var dirs: Array[String] = [
+		"res://internal_themes/SongoClassic",
+		"res://internal_themes/Sakura",
+		"res://internal_themes/XBop",
+		"res://internal_themes/Ringing",
+	]
+	
+		
+	var paths := ["user://external_themes"]
+	# external themes sbc is just an easy way to include some themes
+	var external_themes_sbc := _find_songo_themes_dir()
+	if external_themes_sbc != "":
+		paths.append(external_themes_sbc)
+		
+	for path in paths:
+		var dir := DirAccess.open(path)
+		if dir == null:
+			push_error("Failed to open directory: " + path)
+			continue
+		dir.list_dir_begin()
+		var name := dir.get_next()
+		while name != "":
+			if dir.current_is_dir() and name != "." and name != "..":
+				dirs.append(path + "/" + name)
+			name = dir.get_next()
+		dir.list_dir_end()
+	return dirs
+	
 	
 func handle_input(delta: float):
 	if Input.is_action_just_pressed("back"):
@@ -61,7 +100,20 @@ func handle_input(delta: float):
 func update_theme_options_ui():
 	var displayed_theme = theme_options[theme_index]
 	var theme_info = ThemeManager.parse_theme_json(displayed_theme)
-	%ThemePreviewImage.texture = load(displayed_theme+"/preview.png")
+	var preview_path = displayed_theme + "/preview.png"
+	var tex: Texture2D = null
+	if preview_path.begins_with("res://"):
+		tex = load(preview_path)
+	else:
+		var img := Image.load_from_file(preview_path)
+		if img != null:
+			tex = ImageTexture.create_from_image(img)
+
+	if tex == null:
+		push_error("Failed to load preview image: " + preview_path)
+	else:
+		%ThemePreviewImage.texture = tex
+		
 	%ThemeNameWithVersion.text = "%s (v%s)" % [theme_info['name'], theme_info['version']]
 	%ThemeAuthor.text = "Created by %s" % theme_info["author"]
 	%ThemeDescription.text = theme_info["description"]

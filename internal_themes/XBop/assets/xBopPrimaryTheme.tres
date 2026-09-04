@@ -1,9 +1,37 @@
-[gd_resource type="Theme" load_steps=4 format=3 uid="uid://cqgufpdikgss8"]
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://cqgufpdikgss8"]
 
 [ext_resource type="StyleBox" uid="uid://cbd2jnbgfrgni" path="res://internal_themes/XBop/assets/list_button_focused_style_box_flat.tres" id="1_aousd"]
 [ext_resource type="StyleBox" uid="uid://p1hsydk3r6a0" path="res://internal_themes/XBop/assets/list_button_normal_style_box_flat.tres" id="2_5llhy"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2a7kh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gwgdn"]
+content_margin_left = 4.0
+content_margin_top = 10.0
+content_margin_right = 4.0
+content_margin_bottom = 10.0
+bg_color = Color(0.576471, 0.772549, 0.447059, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 6
+expand_margin_left = 2.0
+expand_margin_right = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rmnil"]
+content_margin_left = 4.0
+content_margin_top = 10.0
+content_margin_right = 4.0
+content_margin_bottom = 10.0
+bg_color = Color(0.576471, 0.772549, 0.447059, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 6
+expand_margin_left = 2.0
+expand_margin_right = 2.0
 
 [resource]
 Button/colors/font_color = Color(1, 1, 1, 1)
@@ -35,3 +63,10 @@ ListSectionInnerMargin/constants/margin_bottom = 0
 ListSectionInnerMargin/constants/margin_left = 0
 ListSectionInnerMargin/constants/margin_right = 0
 ListSectionInnerMargin/constants/margin_top = 0
+ListSectionOuterMargin/base_type = &"MarginContainer"
+ListSectionOuterMargin/constants/margin_bottom = 16
+ListSectionOuterMargin/constants/margin_left = 0
+ListSectionOuterMargin/constants/margin_right = 3
+ListSectionOuterMargin/constants/margin_top = 16
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_gwgdn")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_rmnil")

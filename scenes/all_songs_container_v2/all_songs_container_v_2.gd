@@ -23,11 +23,6 @@ var focused_song:
 func _ready():
 	if ThemeManager.current_theme.has("collection_options"):
 		var options = ThemeManager.current_theme["collection_options"]
-		%VirtualizedListContainer.add_theme_constant_override("margin_left", options["list_container_margin_left"])
-		%VirtualizedListContainer.add_theme_constant_override("margin_right", options["list_container_margin_right"])
-		%VirtualizedListContainer.add_theme_constant_override("margin_top", options["list_top_fade"])
-		%VirtualizedListContainer.add_theme_constant_override("margin_bottom", options["list_bottom_fade"])
-		
 		if options.has("vertical_layout"): vertical = options["vertical_layout"]
 			
 func get_focused_song():
@@ -137,5 +132,6 @@ func _on_shuffle_button_focus_entered() -> void:
 		mod_node.modulate = focus_color
 
 func _on_shuffle_button_focus_exited() -> void:
+	var normal_color: Color = %ShuffleButton.get_theme_color("font_color")
 	for mod_node in [%ShuffleIcon, %ShuffleText1, %ShuffleText2]:
-		mod_node.modulate = Color.WHITE
+		mod_node.modulate = normal_color

@@ -53,7 +53,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_type_variation = &"SongoSettingsContentMargin"
 theme_override_constants/margin_top = 29
+theme_override_constants/margin_right = 4
 script = ExtResource("1_45cu0")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
@@ -71,7 +73,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 4
+theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 0
 
 [node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/UserInterfaceSection"]
@@ -397,7 +399,7 @@ text = "UI and Customizations"
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 4
+theme_override_constants/margin_right = 6
 
 [node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
@@ -420,4 +422,5 @@ text = "Reset to Defaults
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/ThemeDown" to="." method="_on_theme_down_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/ThemeUp" to="." method="_on_theme_up_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/ApplyTheme" to="." method="_on_apply_theme_pressed"]
+[connection signal="focus_entered" from="ScrollContainer/VBoxContainer/MarginContainer/PanelContainer/ResetToDefaultsButton" to="." method="_on_reset_to_defaults_button_focus_entered"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MarginContainer/PanelContainer/ResetToDefaultsButton" to="." method="_on_reset_to_defaults_button_pressed"]

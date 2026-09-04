@@ -1,7 +1,6 @@
 extends Control
 class_name BallMusicVisualizer
 
-@export var playback_node: FFmpegAudioPlaybackV2
 @export var ball_count := 32
 @export var ball_base_size := 3.0
 @export var ball_color := Color(0, 0, 0, 0.45)       # Starting/minimum radius of each ball

@@ -3,7 +3,7 @@ class_name SongoDataResource extends Resource
 signal import_finished
 
 const SAVE_PATH = "user://songo_data.tres"
-const VERSION = "v1.0.0 RC1"
+const VERSION = "v1.0.0 RC2"
 const DATA_VERSION = "43Sandra"
 
 @export var music_directory_path = "No Path"
@@ -291,7 +291,7 @@ func _thread_import():
 		music_paths.append_array(get_mp3_paths(path))
 	print(music_paths.size())
 	if music_paths.size() == 0:
-		call_deferred("_add_flash_message", "No new music discovered, skipping import.")
+		#call_deferred("_add_flash_message", "No new music discovered, skipping import.")
 		stop_import()
 		call_deferred("_on_import_early_exit")
 		return
@@ -319,6 +319,21 @@ func _thread_import():
 	build_album_images()
 
 	var new_artists: Array[ArtistRecord]
+
+	for album in albums:
+		
+		if album.album_artist != "Various Artists":
+			if not _artists.has(album.album_artist):
+				var new_artist = ArtistRecord.new()
+				new_artist.name = album.album_artist
+				new_artist.build_asset()
+				new_artist.music_records = album.music_records
+				_artists[album.album_artist] = new_artist
+			else:
+				for record in album.music_records:
+					if not _artists[album.album_artist].music_records.has(record):
+						_artists[album.album_artist].music_records.append(record)
+
 	new_artists.assign(_artists.values())
 	artists = ArtistRecord.merge_artists(artists, new_artists)
 	call_deferred("_on_import_complete")
@@ -327,11 +342,11 @@ func _thread_import():
 func _make_record(file_path: String):
 	var rec = MusicRecord.new()
 	var meta_data = MetaDataHandler.get_basic_metadata(file_path)
-	#var meta_data = MetaDataHandlerFFprobe.get_basic_metadata(file_path)
 	
 	rec.full_path = file_path
 	rec.album = meta_data.album
 	rec.artist = meta_data.artist
+	rec.album_artist = meta_data.album_artist
 	rec.title = meta_data.title
 	rec.raw_length = meta_data.duration
 	rec.track = meta_data.track
@@ -342,7 +357,6 @@ func _make_record(file_path: String):
 		music_records.append(rec)
 	
 	_create_or_update_album_from_music_record(rec)
-	_create_or_update_artist_from_music_record(rec)
 	
 func _create_or_update_album_from_music_record(record: MusicRecord):
 	if not _albums.has(record.album):
@@ -353,24 +367,19 @@ func _create_or_update_album_from_music_record(record: MusicRecord):
 
 	if not _albums[record.album].music_records.has(record):
 		_albums[record.album].music_records.append(record)
+		
 	
 	for artist in record.artist.split(", "):
 		if not _albums[record.album].artists.has(artist):
 			_albums[record.album].artists.append(artist)
-
-func _create_or_update_artist_from_music_record(record: MusicRecord):
-	for artist_name in record.artist.split(", "):
-		if not _artists.has(artist_name):
-			var new_artist = ArtistRecord.new()
-			new_artist.name = artist_name
-			new_artist.build_asset()
-			_artists[artist_name] = new_artist
-			
-		if not _artists[artist_name].music_records.has(record):
-			_artists[artist_name].music_records.append(record)
+	
+	
+	if record.album_artist != "Unknown Album Artist":
+		_albums[record.album].album_artist = record.album_artist
 
 func _add_flash_message(message: String):
 	UiHelper.flash_message(message)
+
 	
 func _update_import_progress(progress: float):
 	import_progress = progress
@@ -454,23 +463,7 @@ func build_album_images(rebuild: bool = false):
 					cover_image = img.get_image()
 					is_extracted = true
 					break
-				#else:
-					#img = MetaDataHandlerFFprobe.get_embedded_image(music_record.full_path)
-					#print("Using new image thing")
-					#if img:
-					#	cover_image = img
-					#	is_extracted = true
-					#	break
-						
-			#if is_extracted:
-			#	var base_dir = "user://album_covers"
-			#	var album_dir = base_dir.path_join(sanitize_name(album.name))
-			#	var dir = DirAccess.open("user://")
-			#	if not dir.dir_exists(base_dir):
-			#		dir.make_dir(base_dir)
-			#	if not dir.dir_exists(album_dir):
-			#		dir.make_dir(album_dir)
-			#	cover_path = album_dir.path_join("cover.png")
+
 
 		# --- Resize and Save (for all methods) ---
 		if cover_image:
