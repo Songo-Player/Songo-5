@@ -12,7 +12,10 @@ func _run() -> void:
 
 func pack_theme(theme_dir_name: String) -> bool:
 	var source_dir := "res://theme_dev/themes_raw/%s" % theme_dir_name
-	var pack_root := "res://%s" % theme_dir_name  # flat root the theme lives at once the pck is mounted
+	# Mount at the exact same path the theme is authored at. No flattening,
+	# no rewriting — ext_resource/preload paths inside the .tscn/.gd files
+	# already match this, since that's the path the editor saved them at.
+	var pack_root := source_dir
 
 	var gd_theme := source_dir.path_join("theme.tres")
 	var theme_json := source_dir.path_join("theme.json")
@@ -123,7 +126,7 @@ func _add_dir(packer: PCKPacker, dir_path: String, pack_root: String, added: Dic
 	return count
 
 # source_path: real file to read bytes from
-# target_path: path this file should be mounted at inside the pck (res://<theme_dir_name>/...)
+# target_path: path this file should be mounted at inside the pck (res://theme_dev/themes_raw/<theme_dir_name>/...)
 func _add_file(packer: PCKPacker, source_path: String, target_path: String, added: Dictionary) -> int:
 	if added.has(target_path):
 		return 0

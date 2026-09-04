@@ -52,12 +52,20 @@ func set_current_theme(theme_path_arg):
 	theme_updated.emit()
 	
 func get_scene_path(scene_name):
-	if current_theme:
-		if current_theme.has("rootDir"):
-			return "res://%s/%s" % [current_theme["rootDir"], current_theme["components"][scene_name]]
-		if current_theme["components"].has(scene_name):
-			return "%s/%s" % [theme_path, current_theme["components"][scene_name]]
-	return false
+	if not current_theme:
+		return false
+	if not current_theme["components"].has(scene_name):
+		return false
+
+	if theme_path.begins_with("res://"):
+		# Already project-relative — components live directly under theme_path.
+		return "%s/%s" % [theme_path, current_theme["components"][scene_name]]
+
+	# theme_path is external (user://, an OS path, mounted SD path, etc).
+	# The pck's internal mount root is derived from the theme's own directory
+	# name, e.g. ".../external_themes/XBopRed" -> "XBopRed".
+	var theme_dir_name = theme_path.get_file()
+	return "res://theme_dev/themes_raw/%s/%s" % [theme_dir_name, current_theme["components"][scene_name]]
 	
 func refresh_theme():
 	theme_settings_updated.emit()
