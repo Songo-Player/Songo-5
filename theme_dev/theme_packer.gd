@@ -5,7 +5,7 @@ const PCK_ALIGNMENT := 32
 
 # Kept so the script still runs standalone from the editor's "Run" button.
 # Change these to test a different theme without a launcher script.
-const THEME_DIR_NAME := "XBopRed"
+const THEME_DIR_NAME := "Noted"
 
 func _run() -> void:
 	pack_theme(THEME_DIR_NAME)

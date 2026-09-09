@@ -1,4 +1,4 @@
-extends ScrollContainer
+extends SmoothScrollContainer
 
 var songo_settings = SongoSettings.get_instance()
 var tex_panels = []

@@ -1,0 +1,31 @@
+{
+	"name": "Noted",
+	"rootDir": "Noted",
+	"version": "0.1",
+	"author": "Maple",
+	"description": "A hand drawn lookin thing",
+	"components": {
+		"main_menu": "main_menu/main_menu.tscn",
+		"background_root": "background_root/background_root.tscn",
+	},
+	"collection_options": {
+		"vertical_layout": false,
+		"list_top_fade": 16,
+		"list_bottom_fade": 16,
+		"list_container_margin_left": 0,
+		"list_container_margin_right": 3,
+	},
+	"tags": [
+		"minimal",
+		"og",
+		"light"
+	],
+	"settings": {
+		"clock_24_hour": {
+			"values": [true, false],
+			"default": true,
+			"display_name": "24 Hour Clock",
+			"dependents": ["header"]
+		},
+	}
+}

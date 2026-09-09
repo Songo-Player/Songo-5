@@ -38,6 +38,7 @@ texture = SubResource("GradientTexture2D_u6v48")
 anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
+mouse_filter = 2
 script = ExtResource("1_h0dti")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]

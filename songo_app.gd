@@ -14,6 +14,7 @@ var original_size
 var showing_quick_menu: bool = false
 
 var debug_press_count = 0
+var _last_back_msec := 0
 
 func _ready() -> void:
 	var my_theme := load("res://songo_base_theme.tres")
@@ -68,7 +69,8 @@ func _ready() -> void:
 		DeviceOS.swap_input_actions("back", "ui_accept")
 	if songo_settings.xy_layout_swapped:
 		DeviceOS.swap_input_actions("x", "Y")
-	
+		
+	get_window().go_back_requested.connect(_on_system_back_requested)
 	boot_up_message()
 
 		
@@ -96,8 +98,34 @@ func print_tree_path(node: Node):
 		current = current.get_parent()
 	print("Path:", "/".join(path))
 	
-func _input(event: InputEvent) -> void:
 	
+func _on_system_back_requested() -> void:
+	# Fires for both the 3-button back and the gesture-nav edge swipe.
+	# Known to emit twice per press on some Android builds (godot#101457) — debounce.
+	var now := Time.get_ticks_msec()
+	if now - _last_back_msec < 250:
+		return
+	_last_back_msec = now
+	_fire_action(&"back")
+
+func _fire_action(action: StringName) -> void:
+	var press := InputEventAction.new()
+	press.action = action
+	press.pressed = true
+	press.strength = 1.0
+	Input.parse_input_event(press)
+
+	# Release on the next frame, otherwise the press/release collapse into one
+	# input flush and `is_action_just_pressed` may never be observed — and if you
+	# skip the release entirely the action stays stuck "pressed".
+	await get_tree().process_frame
+	var release := InputEventAction.new()
+	release.action = action
+	release.pressed = false
+	Input.parse_input_event(release)
+	
+func _input(event: InputEvent) -> void:
+	# Use this to track down what element is eating your mouse click in dev
 	if false && event is InputEventMouseButton and event.pressed:
 		var hovered := get_viewport().gui_get_hovered_control()
 
@@ -297,6 +325,7 @@ func boot_up_message():
 		"Tell Gus I say hi",
 		"Just wait till you see Songo#6",
 		"Songo#5, now with 3% less malware!",
-		"Don't read CSM part 2"
+		"Don't read CSM part 2",
+		"Make yourself at hom- DON'T TOUCH THAT"
 	]
-	UiHelper.flash_message(message_opts.pick_random())
+	UiHelper.flash_message(message_opts.pick_random(), 5.0)

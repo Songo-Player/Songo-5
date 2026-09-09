@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://internal_themes/Ringing/main_menu/main_menu.gd" id="1_blq7t"]
 [ext_resource type="Script" path="res://internal_themes/Ringing/assets/RingMusicVisualizer.gd" id="1_xs6q4"]
 [ext_resource type="StyleBox" uid="uid://b1g84jn4br3bq" path="res://internal_themes/Sakura/main_menu/focus_main_menu_button.tres" id="2_ggy16"]
-[ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="3_m8fcm"]
+[ext_resource type="PackedScene" uid="uid://dwehhb58728gu" path="res://internal_themes/Ringing/main_menu/main_menu_item.tscn" id="3_2a5nm"]
 [ext_resource type="Texture2D" uid="uid://byeluf85nlgra" path="res://assets/record.svg" id="5_nak0s"]
 [ext_resource type="Texture2D" uid="uid://dcqtgyrr3fac2" path="res://assets/user.svg" id="7_nvm6m"]
 [ext_resource type="Texture2D" uid="uid://md788wp04yb1" path="res://assets/layergroup.svg" id="9_1nv6k"]
@@ -121,68 +121,11 @@ smoothing = 0.8
 unique_name_in_owner = true
 anchors_preset = 0
 
-[node name="Control" type="Control" parent="MarginContainer/Control/MainMenuContainer"]
-anchors_preset = 0
-
-[node name="AllSongsInnerRotate" type="Control" parent="MarginContainer/Control/MainMenuContainer/Control"]
-unique_name_in_owner = true
-layout_mode = 2
-anchors_preset = 0
-offset_top = -115.0
-offset_bottom = -115.0
-size_flags_vertical = 0
-
-[node name="AllSongs" type="PanelContainer" parent="MarginContainer/Control/MainMenuContainer/Control/AllSongsInnerRotate"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -27.0
-offset_top = -27.0
-offset_right = 27.0
-offset_bottom = 27.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_83mfx")
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/MainMenuContainer/Control/AllSongsInnerRotate/AllSongs"]
-layout_mode = 2
-theme_override_constants/margin_left = 3
-theme_override_constants/margin_top = 3
-theme_override_constants/margin_right = 3
-theme_override_constants/margin_bottom = 3
-
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/Control/MainMenuContainer/Control/AllSongsInnerRotate/AllSongs/MarginContainer"]
-clip_children = 1
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_3x76e")
-
-[node name="AllSongsButton" type="Button" parent="MarginContainer/Control/MainMenuContainer/Control/AllSongsInnerRotate/AllSongs/MarginContainer/PanelContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-focus_neighbor_left = NodePath("../../../../../../Control6/ExitInnerRotate/Exit/MarginContainer/PanelContainer/ExitButton")
-focus_neighbor_right = NodePath("../../../../../../Control2/AlbumsInnerRotate/Albums/MarginContainer/PanelContainer/AlbumsButton")
-theme_override_styles/focus = ExtResource("2_ggy16")
-theme_override_styles/normal = SubResource("StyleBoxFlat_ebn3n")
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/MainMenuContainer/Control/AllSongsInnerRotate/AllSongs/MarginContainer/PanelContainer"]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/Control/MainMenuContainer/Control/AllSongsInnerRotate/AllSongs/MarginContainer/PanelContainer/MarginContainer"]
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("3_m8fcm")
-expand_mode = 1
+[node name="Control" parent="MarginContainer/Control/MainMenuContainer" instance=ExtResource("3_2a5nm")]
+visible = false
 
 [node name="Control2" type="Control" parent="MarginContainer/Control/MainMenuContainer"]
+visible = false
 anchors_preset = 0
 rotation = 1.0472
 
@@ -246,6 +189,7 @@ texture = ExtResource("5_nak0s")
 expand_mode = 1
 
 [node name="Control3" type="Control" parent="MarginContainer/Control/MainMenuContainer"]
+visible = false
 anchors_preset = 0
 rotation = 2.0944
 
@@ -309,6 +253,7 @@ texture = ExtResource("7_nvm6m")
 expand_mode = 1
 
 [node name="Control4" type="Control" parent="MarginContainer/Control/MainMenuContainer"]
+visible = false
 anchors_preset = 0
 rotation = 3.14159
 
@@ -371,6 +316,7 @@ texture = ExtResource("9_1nv6k")
 expand_mode = 1
 
 [node name="Control5" type="Control" parent="MarginContainer/Control/MainMenuContainer"]
+visible = false
 anchors_preset = 0
 rotation = 4.18879
 
@@ -433,6 +379,7 @@ texture = ExtResource("10_htpab")
 expand_mode = 1
 
 [node name="Control6" type="Control" parent="MarginContainer/Control/MainMenuContainer"]
+visible = false
 anchors_preset = 0
 rotation = 5.23599
 
@@ -494,8 +441,6 @@ mouse_filter = 2
 texture = ExtResource("11_r7slf")
 expand_mode = 1
 
-[connection signal="focus_entered" from="MarginContainer/Control/MainMenuContainer/Control/AllSongsInnerRotate/AllSongs/MarginContainer/PanelContainer/AllSongsButton" to="." method="_on_all_songs_button_focus_entered"]
-[connection signal="pressed" from="MarginContainer/Control/MainMenuContainer/Control/AllSongsInnerRotate/AllSongs/MarginContainer/PanelContainer/AllSongsButton" to="." method="_on_all_songs_button_pressed"]
 [connection signal="focus_entered" from="MarginContainer/Control/MainMenuContainer/Control2/AlbumsInnerRotate/Albums/MarginContainer/PanelContainer/AlbumsButton" to="." method="_on_albums_button_focus_entered"]
 [connection signal="pressed" from="MarginContainer/Control/MainMenuContainer/Control2/AlbumsInnerRotate/Albums/MarginContainer/PanelContainer/AlbumsButton" to="." method="_on_albums_button_pressed"]
 [connection signal="focus_entered" from="MarginContainer/Control/MainMenuContainer/Control3/ArtistsInnerRotate/Artists/MarginContainer/PanelContainer/ArtistsButton" to="." method="_on_artists_button_focus_entered"]

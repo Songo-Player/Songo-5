@@ -33,6 +33,13 @@ func setup(path_array_arg = []):
 	select_dir_button.pressed.connect(_on_select_directory_button_pressed)
 
 func get_children_directories(path):
+	# On Android the real root ("/") and "/storage/emulated" are not listable by
+	# an unprivileged app, so browsing down from "/" dead-ends before reaching the
+	# user's storage. When we're at the synthetic root, hand back the storage
+	# volumes directly instead of trying to list "/".
+	if OS.get_name() == "Android" and (path == "" or path == "/"):
+		return _android_root_directories()
+
 	var results = []
 	var dir_access := DirAccess.open(path)
 	if dir_access:
@@ -43,9 +50,42 @@ func get_children_directories(path):
 				results.append(entry_name)
 			entry_name = dir_access.get_next()
 		dir_access.list_dir_end()
-		
+
 	results.sort_custom(func(a, b): return a.naturalnocasecmp_to(b) < 0)
 	return results
+
+# Returns path segments (relative to "/", no leading/trailing slash) for the
+# Android storage volumes: primary shared storage plus any removable volumes
+# (SD cards, USB-OTG) mounted under /storage/<VOLUME-ID>.
+func _android_root_directories() -> Array:
+	var roots := []
+
+	# Primary shared storage.
+	if DirAccess.dir_exists_absolute("/storage/emulated/0"):
+		roots.append("storage/emulated/0")
+
+	# Removable volumes: /storage/XXXX-XXXX (and similar). Skip the internal
+	# entries that either aren't real volumes or aren't listable.
+	var skip := ["emulated", "self", "enc_emulated", "knox-emulated"]
+	var storage := DirAccess.open("/storage")
+	if storage:
+		storage.list_dir_begin()
+		var name := storage.get_next()
+		while name != "":
+			if storage.current_is_dir() and not skip.has(name):
+				if DirAccess.dir_exists_absolute("/storage/" + name):
+					roots.append("storage/" + name)
+			name = storage.get_next()
+		storage.list_dir_end()
+
+	# Fallbacks if nothing resolved (older / non-standard mounts).
+	if roots.is_empty():
+		for fallback in ["storage/self/primary", "sdcard"]:
+			if DirAccess.dir_exists_absolute("/" + fallback):
+				roots.append(fallback)
+
+	roots.sort_custom(func(a, b): return a.naturalnocasecmp_to(b) < 0)
+	return roots
 	
 func render_ui():
 	%ImportProgressContainer.visible = importing

@@ -29,6 +29,7 @@ const SUPPORT_ME_SUB_CONTAINER = SETTINGS_SUB_PATH + "/support_me/support_me.tsc
 const CONTROLLER_SETTINGS_SUB_CONTAINER = SETTINGS_SUB_PATH + "/controller_settings/controller_settings.tscn"
 const SOUND_SETTINGS_SUB_CONTAINER = SETTINGS_SUB_PATH + "/sound_settings/sound_settings.tscn"
 
+
 var settings_collection : Array[SettingRecord] = [
 	SettingRecord.new("Data and Storage", "settings_data_and_storage", false),
 	SettingRecord.new("UI and Customization", "settings_ui_and_customizations", false),
@@ -40,6 +41,16 @@ var settings_collection : Array[SettingRecord] = [
 	SettingRecord.new("Contact Me / Report a bug", "contact_me", true),
 	SettingRecord.new("Support Me / Dev Roadmap", "support_me", true),
 ]
+
+var menu_items: Array[MenuItemData] = [
+	MenuItemData.new("All Songs", "res://assets/music.svg", songs_index),
+	MenuItemData.new("Albums", "res://assets/record.svg", albums_index),
+	MenuItemData.new("Artists", "res://assets/user.svg", artists_index),
+	MenuItemData.new("Playlists", "res://assets/layergroup.svg", playlists_index),
+	MenuItemData.new("Settings", "res://assets/gear.svg", settings_index),
+	MenuItemData.new("Exit", "res://assets/exit_walk.svg", quit_songo),
+]
+
 
 func collection_list(collection = null):
 	if collection == null: collection = songo_data.music_records
@@ -197,7 +208,7 @@ func quit_songo():
 	SfxPlayer.play_accept_sfx()
 	UiHelper.dark_out.show()
 	content_body_node.get_node("ExitingOverlay").show()
-	await get_tree().process_frame
+	await get_tree().create_timer(0.5).timeout
 	get_tree().quit()
 	
 ##################################
@@ -218,6 +229,8 @@ func nav_back():
 		active_container = target_container[0]
 		if "collection" in active_container:
 			CollectionHelper.current_collection = active_container.collection
+		else:
+			CollectionHelper.current_collection = null
 		nav_label = target_container[2]
 		finish_up_nav()
 		await get_tree().process_frame

@@ -2,7 +2,8 @@ extends PanelContainer
 
 @onready var tween := create_tween()
 
-func setup(message):
+func setup(message, persist_time_arg):
+	$Timer.wait_time = persist_time_arg
 	%Label.text = message
 
 func _on_timer_timeout() -> void:

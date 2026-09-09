@@ -63,9 +63,11 @@ func handle_input(delta: float):
 			_kill_theme_element()
 			Controller.stored_state = null
 			SongoPlayerV2.stop()
+			Input.action_release("start") # In case triggered synthetically
 			
 		if Input.is_action_just_pressed("select"):
 			Controller.restore_state()
+			Input.action_release("select") # In case triggered synthetically
 
 func _kill_theme_element():
 	if theme_element != null:

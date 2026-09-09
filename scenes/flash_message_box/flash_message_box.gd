@@ -1,7 +1,7 @@
 extends VBoxContainer
 
 const FLASH_MESSAGE = "res://scenes/flash_message_box/flash_message.tscn"
-func add_message(message: String):
+func add_message(message: String, persist_time: float):
 	var new_message = load(FLASH_MESSAGE).instantiate()
-	new_message.setup(message)
+	new_message.setup(message, persist_time)
 	add_child(new_message)

@@ -21,8 +21,8 @@ func register_focus_change(item: Control):
 	focus_chain.append(item)
 	if focus_chain.size() > 2: focus_chain.remove_at(0)
 
-func flash_message(message):
-	flash_message_box.add_message(message)
+func flash_message(message, persist_time: float = 3.0):
+	flash_message_box.add_message(message, persist_time)
 	
 func focus_back():
 	if is_instance_valid(focus_chain[0]): focus_chain[0].grab_focus()

@@ -4,7 +4,7 @@ signal removed_dir
 var directory_path = ""
 
 func setup(path):
-	$Label.text = path
+	$CarouselLabel.set_carousel_text(path)
 	directory_path = path
 
 func _on_button_pressed() -> void:

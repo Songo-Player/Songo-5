@@ -12,6 +12,7 @@ config_version=5
 
 config/name="Songo #5"
 run/main_scene="res://songo_app.tscn"
+config/quit_on_go_back=false
 config/features=PackedStringArray("4.3", "GL Compatibility")
 run/low_processor_mode_sleep_usec=16000
 boot_splash/image="res://assets/SongoSplashupdated.png"
@@ -36,6 +37,7 @@ window/size/viewport_height=480
 window/size/always_on_top=true
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+window/handheld/orientation=6
 window/vsync/vsync_mode=2
 
 [global_group]
@@ -96,6 +98,6 @@ R2={
 ]
 }
 
-[input_devices]
+[rendering]
 
-pointing/emulate_mouse_from_touch=false
+textures/vram_compression/import_etc2_astc=true

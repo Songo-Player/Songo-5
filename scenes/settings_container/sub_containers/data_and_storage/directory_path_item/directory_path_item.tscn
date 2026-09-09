@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://clc10jb5g0pa5"]
+[gd_scene load_steps=6 format=3 uid="uid://clc10jb5g0pa5"]
 
 [ext_resource type="Script" path="res://scenes/settings_container/sub_containers/data_and_storage/directory_path_item/directory_path_item.gd" id="1_djfey"]
 [ext_resource type="Texture2D" uid="uid://b2f5qjioe80m4" path="res://assets/Folder.svg" id="1_ln64q"]
+[ext_resource type="Script" path="res://utilities/carousel_label.gd" id="3_52kt5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_02tx4"]
 bg_color = Color(1, 0, 0, 0.392157)
@@ -37,11 +38,12 @@ layout_mode = 2
 texture = ExtResource("1_ln64q")
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="."]
+[node name="CarouselLabel" type="Label" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
-text = "Directory Path"
+script = ExtResource("3_52kt5")
+font_color = Color(0.137255, 0.129412, 0.121569, 1)
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 2

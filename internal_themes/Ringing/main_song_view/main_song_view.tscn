@@ -82,6 +82,7 @@ corner_radius_top_left = 500
 corner_radius_top_right = 500
 corner_radius_bottom_right = 500
 corner_radius_bottom_left = 500
+corner_detail = 20
 
 [sub_resource type="Gradient" id="Gradient_qxwin"]
 colors = PackedColorArray(0.584314, 0, 0.286275, 1, 0.435294, 0.741176, 1, 1)
@@ -124,6 +125,7 @@ layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer2/VBoxContainer"]
 layout_mode = 2
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_bapn7")
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/PanelContainer"]
@@ -149,6 +151,7 @@ theme_override_constants/margin_bottom = -4
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+mouse_filter = 1
 theme_override_colors/font_color = Color(0.00392157, 0.12549, 0.305882, 1)
 theme_override_colors/icon_normal_color = Color(0.00392157, 0.12549, 0.305882, 1)
 theme_override_colors/icon_focus_color = Color(0.00392157, 0.12549, 0.305882, 1)
@@ -162,6 +165,7 @@ expand_icon = true
 [node name="PauseButton" type="Button" parent="MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 1
 theme_override_colors/font_color = Color(0.00392157, 0.12549, 0.305882, 1)
 theme_override_colors/icon_normal_color = Color(0.00392157, 0.12549, 0.305882, 1)
 theme_override_colors/icon_focus_color = Color(0.00392157, 0.12549, 0.305882, 1)
@@ -266,10 +270,12 @@ expand_mode = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
+mouse_filter = 2
 alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 8
@@ -278,6 +284,7 @@ theme_override_constants/margin_bottom = 24
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="HBoxContainer/MarginContainer"]
 custom_minimum_size = Vector2(300, 300)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="PanelContainer2" type="PanelContainer" parent="HBoxContainer/MarginContainer/AspectRatioContainer"]
 clip_children = 1

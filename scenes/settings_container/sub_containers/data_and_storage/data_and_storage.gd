@@ -55,10 +55,27 @@ func _on_focus_changed(item: Control):
 		%ScrollContainer.scroll_vertical = 999
 
 func _on_add_new_dir_button_pressed() -> void:
-	if songo_data.importing == true:
+	if songo_data.importing:
 		UiHelper.app_message.show_message("An Import is currently in progress.")
-	else:
+		return
+
+	if OS.get_name() != "Android":
 		Controller.settings_directory_select()
+		return
+
+	if has_all_files_access():
+		Controller.settings_directory_select()
+	else:
+		# Routes the user to the "Allow access to manage all files"
+		# system settings screen for your app.
+		OS.request_permissions()
+
+
+func has_all_files_access() -> bool:
+	for p in OS.get_granted_permissions():
+		if p.findn("MANAGE_EXTERNAL_STORAGE") != -1:
+			return true
+	return false
 
 func _on_reimport_dirs_button_pressed() -> void:
 	if songo_data.importing == true:

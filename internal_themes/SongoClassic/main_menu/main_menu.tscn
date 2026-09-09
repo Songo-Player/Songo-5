@@ -58,6 +58,7 @@ mouse_filter = 1
 
 [node name="AllSongsMenuButton" type="Button" parent="HBoxContainer/AllSongsMenuItem"]
 layout_mode = 2
+mouse_filter = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/AllSongsMenuItem"]
 layout_mode = 2
@@ -98,6 +99,7 @@ mouse_filter = 1
 
 [node name="AlbumMenuButton" type="Button" parent="HBoxContainer/AlbumsMenuItem"]
 layout_mode = 2
+mouse_filter = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/AlbumsMenuItem"]
 layout_mode = 2
@@ -138,6 +140,7 @@ mouse_filter = 1
 
 [node name="ArtistMenuButton" type="Button" parent="HBoxContainer/ArtistsMenuItem"]
 layout_mode = 2
+mouse_filter = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/ArtistsMenuItem"]
 layout_mode = 2
@@ -178,6 +181,7 @@ mouse_filter = 1
 
 [node name="PlaylistsMenuButton" type="Button" parent="HBoxContainer/PlaylistsMenuItem"]
 layout_mode = 2
+mouse_filter = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/PlaylistsMenuItem"]
 layout_mode = 2
@@ -222,6 +226,7 @@ mouse_filter = 1
 
 [node name="SettingsMenuButton" type="Button" parent="HBoxContainer/VBoxContainer/SettingsMenuItem"]
 layout_mode = 2
+mouse_filter = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/SettingsMenuItem"]
 layout_mode = 2
@@ -259,6 +264,7 @@ mouse_filter = 1
 
 [node name="ExitMenuButton" type="Button" parent="HBoxContainer/VBoxContainer/ExitMenuItem"]
 layout_mode = 2
+mouse_filter = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/ExitMenuItem"]
 layout_mode = 2

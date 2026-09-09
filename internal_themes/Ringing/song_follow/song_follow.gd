@@ -17,3 +17,10 @@ func setup_display_for(music_record: MusicRecord):
 	var song_title = "%s ~ %s" % [music_record.title, music_record.artist]
 	%CurrentSongTitle.set_carousel_text(song_title)
 	
+
+
+func _on_return_button_pressed() -> void:
+	Input.action_press("select")
+
+func _on_stop_button_pressed() -> void:
+	Input.action_press("start")

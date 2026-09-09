@@ -1,4 +1,4 @@
-extends ScrollContainer
+extends SmoothScrollContainer
 class_name VirtualizedList
 # Configuration
 @export var top_scroll_deadzone: float  = 5.0

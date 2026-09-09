@@ -1,0 +1,444 @@
+[gd_scene load_steps=25 format=3 uid="uid://d18jlsjk3cwuk"]
+
+[ext_resource type="Shader" path="res://theme_dev/themes_raw/Noted/assets/squiggle.gdshader" id="1_csdsv"]
+[ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="2_ow3kc"]
+[ext_resource type="Texture2D" uid="uid://byeluf85nlgra" path="res://assets/record.svg" id="3_xo4rt"]
+[ext_resource type="Texture2D" uid="uid://dcqtgyrr3fac2" path="res://assets/user.svg" id="4_1bqjq"]
+[ext_resource type="Texture2D" uid="uid://md788wp04yb1" path="res://assets/layergroup.svg" id="5_x04bp"]
+[ext_resource type="FontFile" uid="uid://s3fpx76sn1sq" path="res://theme_dev/themes_raw/Noted/assets/IndieFlower-Regular.ttf" id="6_mwkf3"]
+[ext_resource type="Texture2D" uid="uid://c12kni6do7fue" path="res://theme_dev/themes_raw/Noted/assets/louis-hansel-M_dJ_ScwaLE-unsplash.jpg" id="7_8bjcg"]
+[ext_resource type="Texture2D" uid="uid://drmxlgr5jfdmj" path="res://theme_dev/themes_raw/Noted/assets/paperclip_full.png" id="7_uacx3"]
+[ext_resource type="Texture2D" uid="uid://bld2011eq5yj8" path="res://theme_dev/themes_raw/Noted/assets/paperclip_half.png" id="8_bmimw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ovbtt"]
+bg_color = Color(1, 0.976471, 0.694118, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.7, 0.681917, 0.483, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_n8027"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_8ncee"]
+noise = SubResource("FastNoiseLite_n8027")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ewkts"]
+shader = ExtResource("1_csdsv")
+shader_parameter/scale = Vector2(1, 1)
+shader_parameter/strength = 2.0
+shader_parameter/fps = 6.0
+shader_parameter/noise = SubResource("NoiseTexture2D_8ncee")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_60ygi"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4yex3"]
+noise = SubResource("FastNoiseLite_60ygi")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r1bbe"]
+shader = ExtResource("1_csdsv")
+shader_parameter/scale = Vector2(1, 1)
+shader_parameter/strength = 0.1
+shader_parameter/fps = 6.0
+shader_parameter/noise = SubResource("NoiseTexture2D_4yex3")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_qb2p6"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_c45an"]
+noise = SubResource("FastNoiseLite_qb2p6")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gny8y"]
+shader = ExtResource("1_csdsv")
+shader_parameter/scale = Vector2(1, 1)
+shader_parameter/strength = 0.2
+shader_parameter/fps = 6.0
+shader_parameter/noise = SubResource("NoiseTexture2D_c45an")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_okyyh"]
+content_margin_left = 20.0
+content_margin_top = 4.0
+content_margin_right = 20.0
+content_margin_bottom = 4.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.241156, 0.241156, 0.241156, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 2
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8id11"]
+bg_color = Color(1, 1, 1, 1)
+shadow_color = Color(0, 0, 0, 0.392157)
+shadow_size = 6
+shadow_offset = Vector2(-2, -2)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_sieet"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7jpyj"]
+noise = SubResource("FastNoiseLite_sieet")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4ij26"]
+shader = ExtResource("1_csdsv")
+shader_parameter/scale = Vector2(1, 1)
+shader_parameter/strength = 0.2
+shader_parameter/fps = 6.0
+shader_parameter/noise = SubResource("NoiseTexture2D_7jpyj")
+
+[node name="MainMenu" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 70
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 20
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ovbtt")
+
+[node name="TopTag" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/TopTag"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="Polygon2D" type="Polygon2D" parent="PanelContainer/TopTag/MarginContainer"]
+z_index = -1
+position = Vector2(0, 5)
+color = Color(0.7, 0.681917, 0.483, 1)
+polygon = PackedVector2Array(0, 0, 10, -60, 70, -60, 80, 0)
+
+[node name="Polygon2D2" type="Polygon2D" parent="PanelContainer/TopTag/MarginContainer"]
+position = Vector2(2, 5)
+color = Color(1, 0.976471, 0.694118, 1)
+polygon = PackedVector2Array(0, 0, 10, -58, 66, -58, 76, 0)
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/TopTag/MarginContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = -60
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/TopTag/MarginContainer/MarginContainer"]
+modulate = Color(0.412152, 0.412152, 0.412152, 1)
+material = SubResource("ShaderMaterial_ewkts")
+layout_mode = 2
+size_flags_vertical = 8
+texture = ExtResource("2_ow3kc")
+expand_mode = 4
+
+[node name="TopTag2" type="MarginContainer" parent="PanelContainer"]
+z_index = -1
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = 95
+theme_override_constants/margin_top = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/TopTag2"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="Polygon2D" type="Polygon2D" parent="PanelContainer/TopTag2/MarginContainer"]
+z_index = -1
+position = Vector2(0, 5)
+color = Color(0.616, 0.7, 0.364, 1)
+polygon = PackedVector2Array(0, 0, 10, -60, 70, -60, 80, 0)
+
+[node name="Polygon2D2" type="Polygon2D" parent="PanelContainer/TopTag2/MarginContainer"]
+position = Vector2(2, 5)
+color = Color(0.854902, 0.968627, 0.505882, 1)
+polygon = PackedVector2Array(0, 0, 10, -58, 66, -58, 76, 0)
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/TopTag2/MarginContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = -60
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/TopTag2/MarginContainer/MarginContainer"]
+modulate = Color(0.412152, 0.412152, 0.412152, 1)
+material = SubResource("ShaderMaterial_ewkts")
+layout_mode = 2
+size_flags_vertical = 8
+texture = ExtResource("3_xo4rt")
+expand_mode = 4
+
+[node name="TopTag3" type="MarginContainer" parent="PanelContainer"]
+z_index = -1
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = 175
+theme_override_constants/margin_top = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/TopTag3"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="Polygon2D" type="Polygon2D" parent="PanelContainer/TopTag3/MarginContainer"]
+z_index = -1
+position = Vector2(0, 5)
+color = Color(0.7, 0.567, 0.615767, 1)
+polygon = PackedVector2Array(0, 0, 10, -60, 70, -60, 80, 0)
+
+[node name="Polygon2D2" type="Polygon2D" parent="PanelContainer/TopTag3/MarginContainer"]
+position = Vector2(2, 5)
+color = Color(1, 0.807843, 0.878431, 1)
+polygon = PackedVector2Array(0, 0, 10, -58, 66, -58, 76, 0)
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/TopTag3/MarginContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = -60
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/TopTag3/MarginContainer/MarginContainer"]
+modulate = Color(0.412152, 0.412152, 0.412152, 1)
+material = SubResource("ShaderMaterial_ewkts")
+layout_mode = 2
+size_flags_vertical = 8
+texture = ExtResource("4_1bqjq")
+expand_mode = 4
+
+[node name="TopTag4" type="MarginContainer" parent="PanelContainer"]
+z_index = -1
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = 255
+theme_override_constants/margin_top = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/TopTag4"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="Polygon2D" type="Polygon2D" parent="PanelContainer/TopTag4/MarginContainer"]
+z_index = -1
+position = Vector2(0, 5)
+color = Color(0.504, 0.602, 0.7, 1)
+polygon = PackedVector2Array(0, 0, 10, -60, 70, -60, 80, 0)
+
+[node name="Polygon2D2" type="Polygon2D" parent="PanelContainer/TopTag4/MarginContainer"]
+position = Vector2(2, 5)
+color = Color(0.694118, 0.827451, 0.964706, 1)
+polygon = PackedVector2Array(0, 0, 10, -58, 66, -58, 76, 0)
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/TopTag4/MarginContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = -60
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/TopTag4/MarginContainer/MarginContainer"]
+modulate = Color(0.412152, 0.412152, 0.412152, 1)
+material = SubResource("ShaderMaterial_ewkts")
+layout_mode = 2
+size_flags_vertical = 8
+texture = ExtResource("5_x04bp")
+expand_mode = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+material = SubResource("ShaderMaterial_r1bbe")
+layout_mode = 2
+theme_override_colors/font_color = Color(0.411765, 0.411765, 0.411765, 1)
+theme_override_fonts/font = ExtResource("6_mwkf3")
+theme_override_font_sizes/font_size = 56
+text = "All Songs"
+
+[node name="Label2" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.411765, 0.411765, 0.411765, 1)
+theme_override_fonts/font = ExtResource("6_mwkf3")
+theme_override_font_sizes/font_size = 20
+text = "- a bit over 8 hours of music :)"
+autowrap_mode = 2
+
+[node name="Label3" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.411765, 0.411765, 0.411765, 1)
+theme_override_fonts/font = ExtResource("6_mwkf3")
+theme_override_font_sizes/font_size = 20
+text = "- 1311 songs across 25 albums "
+autowrap_mode = 2
+
+[node name="Label4" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.411765, 0.411765, 0.411765, 1)
+theme_override_fonts/font = ExtResource("6_mwkf3")
+theme_override_font_sizes/font_size = 20
+text = "- my favorite song is ... Animus Vox"
+autowrap_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/MarginContainer"]
+material = SubResource("ShaderMaterial_gny8y")
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_colors/font_hover_pressed_color = Color(0.266667, 0.266667, 0.266667, 1)
+theme_override_colors/font_pressed_color = Color(0.266667, 0.266667, 0.266667, 1)
+theme_override_colors/font_focus_color = Color(0.266667, 0.266667, 0.266667, 1)
+theme_override_colors/font_color = Color(0.266575, 0.266575, 0.266575, 1)
+theme_override_fonts/font = ExtResource("6_mwkf3")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxFlat_okyyh")
+theme_override_styles/hover = SubResource("StyleBoxFlat_okyyh")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_okyyh")
+theme_override_styles/normal = SubResource("StyleBoxFlat_okyyh")
+text = "View songs"
+
+[node name="Control" type="Control" parent="PanelContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/HBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -215.79
+grow_horizontal = 0
+grow_vertical = 0
+rotation = -0.0698132
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_8id11")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/HBoxContainer/Control/PanelContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/MarginContainer/HBoxContainer/Control/PanelContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("7_8bjcg")
+expand_mode = 5
+
+[node name="MarginContainer2" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_bottom = 60
+
+[node name="Control" type="Control" parent="PanelContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer2/Control"]
+material = SubResource("ShaderMaterial_4ij26")
+layout_mode = 2
+offset_right = 51.0
+offset_bottom = 83.0
+rotation = -0.136136
+theme_override_colors/font_color = Color(0.411765, 0.411765, 0.411765, 1)
+theme_override_fonts/font = ExtResource("6_mwkf3")
+theme_override_font_sizes/font_size = 56
+text = "<3
+"
+
+[node name="MarginContainer3" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 70
+
+[node name="Control" type="Control" parent="PanelContainer/MarginContainer3"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="PanelContainer/MarginContainer3/Control"]
+modulate = Color(1, 0.174173, 0.127216, 1)
+anchors_preset = 0
+rotation = 3.91826
+scale = Vector2(1.8, 1.8)
+
+[node name="Bottom" type="TextureRect" parent="PanelContainer/MarginContainer3/Control/Control"]
+z_index = -1
+z_as_relative = false
+custom_minimum_size = Vector2(60, 30)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -15.0
+offset_right = 30.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_uacx3")
+expand_mode = 1
+
+[node name="Top" type="TextureRect" parent="PanelContainer/MarginContainer3/Control/Control"]
+z_index = 1
+z_as_relative = false
+custom_minimum_size = Vector2(60, 30)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -15.0
+offset_right = 30.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_bmimw")
+expand_mode = 1

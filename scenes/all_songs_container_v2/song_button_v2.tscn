@@ -13,6 +13,7 @@ script = ExtResource("1_ic52b")
 [node name="Button" type="Button" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 1
 theme_type_variation = &"ListButton"
 text = "
 "

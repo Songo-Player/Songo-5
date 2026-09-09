@@ -21,6 +21,7 @@ theme_type_variation = &"ListSectionMargin"
 [node name="SelectDirContainer" type="PanelContainer" parent="ShuffleButtonMarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="ShuffleButtonMarginContainer/SelectDirContainer"]
 layout_mode = 2
@@ -45,6 +46,7 @@ theme_override_constants/margin_top = 45
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer"]
 layout_mode = 2
