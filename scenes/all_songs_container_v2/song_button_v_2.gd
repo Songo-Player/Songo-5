@@ -24,11 +24,11 @@ func setup(record, index_arg):
 		content_component = load(scene_path).instantiate()
 		add_child(content_component)
 		#await get_tree().process_frame
-	if record is MusicRecord:
+	if record is TagLibMusicRecord:
 		content_component.setup_music_record(record)
-	if record is AlbumRecord:
+	if record is TagLibAlbumRecord:
 		content_component.setup_album_record(record)
-	if record is ArtistRecord:
+	if record is TagLibArtistRecord:
 		content_component.setup_artist_record(record)
 	if record is M3uCollection:
 		content_component.setup_playlist_record(record)
@@ -46,7 +46,7 @@ func _setup_settings_button(setting_record):
 	
 func _song_button_pressed():
 	var current_page = Controller.active_container
-	if current_page.list_items is Array[MusicRecord]:
+	if current_page.list_items is Array[TagLibMusicRecord]:
 		Controller.songs_panel(current_page.list_items, index)
 	elif current_page.list_items is Array[SettingRecord]:
 		Controller.call(current_page.list_items[index].controller_method)

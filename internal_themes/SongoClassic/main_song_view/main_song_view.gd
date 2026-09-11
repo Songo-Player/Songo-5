@@ -18,7 +18,7 @@ func _process(delta):
 	%LockIcon.visible = DeviceOS.inputs_locked
 	%StayAwakeIcon.visible = DeviceOS.keep_screen_awake
 	
-func setup_display_for(music_record: MusicRecord):
+func setup_display_for(music_record: TagLibMusicRecord):
 	display_play_button()
 	#%EndTimeLabel.text = "00:00" # gets updated later
 	%TitleLabel.set_carousel_text(music_record.title)
@@ -29,9 +29,9 @@ func setup_display_for(music_record: MusicRecord):
 
 	if loaded_song == music_record.full_path: return
 
-	if music_record.album_cover_texture:
+	if Artwork.song_cover_texture(music_record):
 		%MusicImage.show()
-		%MusicImage.texture = music_record.album_cover_texture
+		%MusicImage.texture = Artwork.song_cover_texture(music_record)
 		%PanelContainer.remove_theme_stylebox_override("panel")
 		%DefaultSongImage.hide()
 	else:
@@ -43,7 +43,7 @@ func setup_display_for(music_record: MusicRecord):
 	set_end_time(music_record)
 	setup_playlist_info()
 
-func set_end_time(music_record: MusicRecord):
+func set_end_time(music_record: TagLibMusicRecord):
 	var length_sec: float = music_record.raw_length
 	
 	if length_sec < 0: 

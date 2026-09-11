@@ -8,7 +8,7 @@ enum MODE {
 	SHUFFLE
 }
 var songo_settings = SongoSettings.get_instance()
-var music_files = [MusicRecord]
+var music_files = []
 var play_index = 0
 var current_song
 var last_queued = 0
@@ -79,7 +79,7 @@ func play_next(): play_music_record(play_index + 1)
 func play_previous(): play_music_record(play_index -1)
 func play_from_start(): play_music_record(play_index)
 	
-func set_music_records(music_records: Array[MusicRecord]):
+func set_music_records(music_records: Array[TagLibMusicRecord]):
 	if is_blending:
 		_cancel_blend()
 	music_files = music_records.duplicate()
@@ -94,7 +94,7 @@ func setRepeating(new_repeating):
 	repeating = new_repeating
 	updated_repeat.emit()
 	
-func queue_music(music_record: MusicRecord):
+func queue_music(music_record: TagLibMusicRecord):
 	var queue_index = max(play_index, last_queued)+1
 	queue_index = clamp(queue_index, 0, music_files.size())
 	music_files.insert(queue_index, music_record)

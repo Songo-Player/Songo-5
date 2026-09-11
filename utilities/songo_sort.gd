@@ -19,28 +19,28 @@ const TYPES = {
 }
 
 static func song_alpha_asc(music_records):
-	music_records.sort_custom(func(a: MusicRecord, b: MusicRecord): return a.title < b.title)
+	music_records.sort_custom(func(a: TagLibMusicRecord, b: TagLibMusicRecord): return a.title < b.title)
 
 static func song_alpha_desc(music_records):
-	music_records.sort_custom(func(a: MusicRecord, b: MusicRecord): return a.title > b.title)
+	music_records.sort_custom(func(a: TagLibMusicRecord, b: TagLibMusicRecord): return a.title > b.title)
 
 static func song_track_asc(music_records):
-	music_records.sort_custom(func(a: MusicRecord, b: MusicRecord): return a.track < b.track)
+	music_records.sort_custom(func(a: TagLibMusicRecord, b: TagLibMusicRecord): return a.track < b.track)
 
 static func song_track_desc(music_records):
-	music_records.sort_custom(func(a: MusicRecord, b: MusicRecord): return a.track > b.track)
+	music_records.sort_custom(func(a: TagLibMusicRecord, b: TagLibMusicRecord): return a.track > b.track)
 	
 static func album_alpha_asc(albums):
-	albums.sort_custom(func(a: AlbumRecord, b: AlbumRecord): return a.name < b.name)
+	albums.sort_custom(func(a: TagLibAlbumRecord, b: TagLibAlbumRecord): return a.name < b.name)
 
 static func album_alpha_desc(albums):
-	albums.sort_custom(func(a: AlbumRecord, b: AlbumRecord): return a.name > b.name)	
+	albums.sort_custom(func(a: TagLibAlbumRecord, b: TagLibAlbumRecord): return a.name > b.name)	
 
 static func artist_alpha_asc(artists):
-	artists.sort_custom(func(a: ArtistRecord, b: ArtistRecord): return a.name < b.name)
+	artists.sort_custom(func(a: TagLibArtistRecord, b: TagLibArtistRecord): return a.name < b.name)
 
 static func artist_alpha_desc(artists):
-	artists.sort_custom(func(a: ArtistRecord, b: ArtistRecord): return a.name > b.name)	
+	artists.sort_custom(func(a: TagLibArtistRecord, b: TagLibArtistRecord): return a.name > b.name)	
 
 static func music_record_count_asc(collection):
 	collection.sort_custom(func(a, b): return a.music_records.size() < b.music_records.size())
@@ -55,7 +55,7 @@ static func playlist_alpha_desc(playlists):
 	playlists.sort_custom(func(a: M3uCollection, b: M3uCollection): return a.name > b.name)	
 
 static func album_artist_alpha_asc(collection):
-	collection.sort_custom(func(a, b): return a.artists[0] < b.artists[0])
+	collection.sort_custom(func(a, b): return a.album_artist < b.album_artist)
 
 static func album_artist_alpha_desc(collection):
-	collection.sort_custom(func(a, b): return a.artists[0] > b.artists[0])
+	collection.sort_custom(func(a, b): return a.album_artist > b.album_artist)

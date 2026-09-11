@@ -390,6 +390,7 @@ progress_color = Color(0.450569, 0.624954, 0.332662, 1)
 track_color = Color(1, 1, 1, 0)
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+z_index = 1
 layout_mode = 2
 size_flags_vertical = 8
 theme_override_constants/margin_left = -300

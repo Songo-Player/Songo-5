@@ -29,6 +29,7 @@ SongoPlayerV2="*res://utilities/experimental_audio/SongoPlayerV2.gd"
 VolumeTcpListener="*res://utilities/volume_tcp_listener/volume_tcp_listener.gd"
 ThemeManager="*res://utilities/theme_manager.gd"
 CollectionHelper="*res://utilities/collection_helper.gd"
+Artwork="*res://utilities/artwork.gd"
 
 [display]
 

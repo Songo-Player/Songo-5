@@ -64,13 +64,13 @@ func _set_current_collection(collection):
 func _get_collection_type():
 	var coll = _current_collection
 	
-	if coll is Array[MusicRecord]: return TYPE.ALL_SONGS
-	if coll is Array[AlbumRecord]: return TYPE.ALBUMS
-	if coll is Array[ArtistRecord]: return TYPE.ARTISTS
+	if coll is Array[TagLibMusicRecord]: return TYPE.ALL_SONGS
+	if coll is Array[TagLibAlbumRecord]: return TYPE.ALBUMS
+	if coll is Array[TagLibArtistRecord]: return TYPE.ARTISTS
 	if coll is Array[M3uCollection]: return TYPE.PLAYLISTS
 	if coll is Array[SettingRecord]: return TYPE.SETTINGS
-	if coll is AlbumRecord: return TYPE.ALBUM_SONGS
-	if coll is ArtistRecord: return TYPE.ARTIST_SONGS
+	if coll is TagLibAlbumRecord: return TYPE.ALBUM_SONGS
+	if coll is TagLibArtistRecord: return TYPE.ARTIST_SONGS
 	if coll is M3uCollection: return TYPE.PLAYLIST_SONGS
 	
 	return TYPE.INVALID
@@ -100,8 +100,8 @@ func _get_collection_image():
 	var base_image = false
 	# Good lord clean this up, settle on one attr name
 	match _get_collection_type():
-		TYPE.ALBUM_SONGS: base_image = _current_collection.cover
-		TYPE.ARTIST_SONGS: base_image = _current_collection.artist_image
+		TYPE.ALBUM_SONGS: base_image = Artwork.album_cover(_current_collection)
+		TYPE.ARTIST_SONGS: base_image = Artwork.artist_image(_current_collection)
 		TYPE.PLAYLIST_SONGS: base_image = _current_collection.img
 	
 	if base_image:

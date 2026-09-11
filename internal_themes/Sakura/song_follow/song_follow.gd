@@ -19,15 +19,15 @@ func update_play_time():
 		var progress_ratio = pos_sec / current_song_duration
 		%ProgressLine.scale.x = progress_ratio
 		
-func setup_display_for(music_record: MusicRecord):
+func setup_display_for(music_record: TagLibMusicRecord):
 	current_song_duration = music_record.raw_length
-	%EndTimeLabel.text = music_record.length
+	%EndTimeLabel.text = music_record.get_length_string()
 	var song_title = "%s ~ %s" % [music_record.title, music_record.artist]
 	%SongTitle.set_carousel_text(song_title)
 	
-	if music_record.album_cover_texture:
+	if Artwork.song_cover_texture(music_record):
 		%CoverImage.show()
-		%CoverImage.texture = music_record.album_cover_texture
+		%CoverImage.texture = Artwork.song_cover_texture(music_record)
 	else:
 		%CoverImage.hide()
 		

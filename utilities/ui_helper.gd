@@ -1,5 +1,9 @@
 extends Node
 
+# Using this to decouple some tight crap in the main script
+enum EVENT {TOGGLE_INFO}
+signal ui_event(event: EVENT)
+
 var dark_out: Control
 var app_message: Control
 var main_color_panel: Control

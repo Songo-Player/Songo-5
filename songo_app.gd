@@ -135,7 +135,7 @@ func _input(event: InputEvent) -> void:
 		else:
 			print("Clicked: nothing")
 			
-	if showing_quick_menu:
+	if showing_quick_menu && not %InfoPanel.visible:
 		for action_event in InputMap.action_get_events("ui_up"):
 			if event.is_match(action_event) and event.is_pressed():
 				handle_playlist_quick_edit()
@@ -148,12 +148,12 @@ func _input(event: InputEvent) -> void:
 				
 		for action_event in InputMap.action_get_events("ui_left"):
 			if event.is_match(action_event) and event.is_pressed():
-				songo_settings.rotate_display = not songo_settings.rotate_display
-				songo_settings.save()
-				UiHelper.apply_rotation()
+				if Controller.nav_label.size() == 1:
+					songo_settings.rotate_display = not songo_settings.rotate_display
+					songo_settings.save()
+					UiHelper.apply_rotation()
 				break  # Stop after finding a match
 	
-			
 	if showing_quick_menu:
 		get_viewport().set_input_as_handled()
 	
@@ -167,7 +167,8 @@ func _process(delta: float) -> void:
 	#	%TransformContainer.position.x = - size.y
 	#	%TransformContainer.get_parent().rotation = deg_to_rad(270)
 
-		
+	if %InfoPanel.visible:
+		return
 		
 	DeviceOS.device_strategy.translate_inputs(delta)
 	if Input.is_action_pressed("Y"):
@@ -201,7 +202,7 @@ func handle_queue_music():
 
 func get_playlist_target_song():
 	var target = CollectionHelper.target_item
-	if target && target is MusicRecord:
+	if target && target is TagLibMusicRecord:
 		return target
 		
 	if Controller.active_container is ThemeMainSongView:
@@ -215,7 +216,7 @@ func get_playlist_target_collection():
 		return null
 	if target is SettingRecord:
 		return null
-	if target && target is not MusicRecord:
+	if target && target is not TagLibMusicRecord:
 		return target
 	else: return null
 	
@@ -238,7 +239,7 @@ func update_quick_menu_vals():
 		var overlap = songo_data.recent_playlist.get_collection_overlap(target_collection.music_records)
 		%AddRemoveInPlaylistQuick.show()
 		var collection_type = "album"
-		if target_collection is ArtistRecord:
+		if target_collection is TagLibArtistRecord:
 			collection_type = "artist"
 		
 		var new_text = ""
@@ -256,8 +257,14 @@ func update_quick_menu_vals():
 		%QueueSong.show()
 	else:
 		%QueueSong.hide()
-		
+	
+	if Controller.nav_label.size() == 1:
+		%RotateDisplay.show()
+		actions_available = true
+	else:
+		%RotateDisplay.hide()
 	%NoQuickMenuActions.visible = not actions_available
+
 
 func handle_playlist_quick_edit():
 	var target_collection = get_playlist_target_collection()
@@ -326,6 +333,7 @@ func boot_up_message():
 		"Just wait till you see Songo#6",
 		"Songo#5, now with 3% less malware!",
 		"Don't read CSM part 2",
-		"Make yourself at hom- DON'T TOUCH THAT"
+		"Make yourself at hom- DON'T TOUCH THAT",
+		"We dont talk about Songo#1-4"
 	]
 	UiHelper.flash_message(message_opts.pick_random(), 5.0)

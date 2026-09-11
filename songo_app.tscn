@@ -1,9 +1,10 @@
-[gd_scene load_steps=26 format=3 uid="uid://x6a7h67rwoqo"]
+[gd_scene load_steps=27 format=3 uid="uid://x6a7h67rwoqo"]
 
 [ext_resource type="Script" path="res://songo_app.gd" id="1_einrm"]
 [ext_resource type="Shader" path="res://crt.gdshader" id="2_yqef3"]
 [ext_resource type="Shader" path="res://theGrid.gdshader" id="4_ain8k"]
 [ext_resource type="PackedScene" uid="uid://cbel1ghs36ym0" path="res://scenes/theme_injections/theme_background_root/theme_background_root.tscn" id="5_77hak"]
+[ext_resource type="PackedScene" uid="uid://brbab8sr2wk7f" path="res://scenes/info_panel/info_panel.tscn" id="5_fjfn2"]
 [ext_resource type="Texture2D" uid="uid://d3d3mtv7v4hhe" path="res://assets/Switch_Dpad_Up.png" id="7_1pbtu"]
 [ext_resource type="Texture2D" uid="uid://btjv8vx32m5y1" path="res://assets/Switch_Dpad_Down.png" id="8_swjqc"]
 [ext_resource type="PackedScene" uid="uid://dpkuxp51tlyqk" path="res://scenes/keyboard/keyboard.tscn" id="8_y4p5t"]
@@ -172,6 +173,11 @@ mouse_filter = 2
 z_index = 2
 layout_mode = 2
 mouse_filter = 1
+
+[node name="InfoPanel" parent="CanvasLayer/TransformContainer" instance=ExtResource("5_fjfn2")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/TransformContainer"]
 layout_mode = 1

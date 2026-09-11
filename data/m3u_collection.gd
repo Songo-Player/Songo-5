@@ -5,7 +5,7 @@ signal item_removed(resource)
 
 var name: String
 var m3u_path: String
-var music_records: Array[MusicRecord]
+var music_records: Array[TagLibMusicRecord]
 var img_path:
 	get: return _get_playlist_image_path()
 	#get: return get_img_path()
@@ -106,7 +106,7 @@ func add_track(absolute_track_path: String) -> void:
 	_write_file(header_lines, track_lines)
 	print("Added track: %s" % absolute_track_path)
 
-func add_tracks(operating_music_records: Array[MusicRecord]) -> int:
+func add_tracks(operating_music_records: Array[TagLibMusicRecord]) -> int:
 	var modified_item_count = 0
 	var content := _read_lines()
 	var header_lines := _extract_header_lines(content)
@@ -150,7 +150,7 @@ func remove_track(absolute_track_path: String) -> void:
 	
 	item_removed.emit(lookup[absolute_track_path])
 	
-func remove_tracks(operating_music_records: Array[MusicRecord]) -> int:
+func remove_tracks(operating_music_records: Array[TagLibMusicRecord]) -> int:
 	
 	var modified_item_count = 0
 	var content := _read_lines()
@@ -189,7 +189,7 @@ func contains_track(absolute_track_path: String) -> bool:
 	return absolute_track_path in track_lines
 
 
-func get_music_records_from_lookup() -> Array[MusicRecord]:
+func get_music_records_from_lookup() -> Array[TagLibMusicRecord]:
 	if m3u_path == "":
 		push_error("Collection not initialized properly.")
 		return []
@@ -199,7 +199,7 @@ func get_music_records_from_lookup() -> Array[MusicRecord]:
 		return []
 	
 	# Build ordered filtered result
-	var result: Array[MusicRecord] = []
+	var result: Array[TagLibMusicRecord] = []
 	for path in track_paths:
 		var clean := str(path).strip_edges()
 		if lookup.has(clean):
@@ -207,7 +207,7 @@ func get_music_records_from_lookup() -> Array[MusicRecord]:
 
 	return result
 	
-func get_collection_overlap(music_array: Array[MusicRecord]) -> float:
+func get_collection_overlap(music_array: Array[TagLibMusicRecord]) -> float:
 	var matches = 0
 	for music in music_array:
 		if music_records.has(music):

@@ -33,11 +33,11 @@ func setup_music_record(record):
 	if %ButtonSeparator.visible == false: %ButtonSeparator.show()
 	
 	if Controller.nav_label.has("Albums"):
-		%SongName.text = record.title_with_track
+		%SongName.text = record.get_title_with_track()
 	else:
 		%SongName.text = record.title
 		
-	%Duration.text = record.length
+	%Duration.text = record.get_length_string()
 	
 func setup_album_record(record):
 	$AlbumButtonContainer.visible = true
@@ -48,8 +48,8 @@ func setup_album_record(record):
 	%AlbumFallbackCover.show()
 	%AlbumCover.hide()
 	
-	if record.img_path != "":
-		var loader = AsyncImageLoader.load_async(record.img_path)
+	if Artwork.album_image_path(record.asset_id) != "":
+		var loader = AsyncImageLoader.load_async(Artwork.album_image_path(record.asset_id))
 		loader.image_loaded.connect(func(texture):
 			%AlbumCover.texture = texture
 			%AlbumCover.show()
@@ -64,8 +64,8 @@ func setup_artist_record(record):
 	%ArtistFallbackCover.show()
 	%ArtistImage.hide()
 	
-	if record.img_path:
-		var loader = AsyncImageLoader.load_async(record.img_path)
+	if Artwork.artist_image_path(record.asset_id):
+		var loader = AsyncImageLoader.load_async(Artwork.artist_image_path(record.asset_id))
 		loader.image_loaded.connect(func(texture):
 			%ArtistImage.texture = texture
 			%ArtistImage.show()

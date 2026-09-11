@@ -20,7 +20,7 @@ varying vec2 noise_uv;
 
 void vertex() {
 	modulate = COLOR;
-	
+
 	// Use world coordinates for scale-independent squiggles, offset by position to keep pattern attached to object
 	noise_uv = (VERTEX - MODEL_MATRIX[3].xy) / (vec2(textureSize(noise, 0)) * scale);
 }
@@ -33,6 +33,6 @@ void fragment() {
 	float noise_sample = texture(noise, noise_uv + noise_offset).r * 4.0 * PI;
 	vec2 direction = vec2(cos(noise_sample), sin(noise_sample));
 	vec2 squiggle_uv = UV + direction * strength * 0.005;
-	
+
 	COLOR = texture(TEXTURE, squiggle_uv) * modulate;
 }

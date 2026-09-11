@@ -4,15 +4,19 @@ signal import_finished
 
 const SAVE_PATH = "user://songo_data.tres"
 const VERSION = "v1.0.0 RC2"
-const DATA_VERSION = "43Sandra"
+const DATA_VERSION = "46TaglibNative"
 
 @export var music_directory_path = "No Path"
 @export var music_directory_paths = []
-@export var music_records: Array[MusicRecord] = []
+@export var music_records: Array[TagLibMusicRecord] = []
 @export var data_version = ""
-@export var artists: Array[ArtistRecord] = []
-@export var albums: Array[AlbumRecord] = []
+@export var artists: Array[TagLibArtistRecord] = []
+@export var albums: Array[TagLibAlbumRecord] = []
 @export var recent_playlist_name = ""
+
+# music_records / albums / artists above are produced wholesale by
+# GDTagLib.refresh_music_library each import -- GDTagLib parses the files and
+# resolves the album / album-artist groupings. Nothing here derives them by hand.
 
 var scraping: float = 0.0
 var import_progress: float = 0.0
@@ -22,13 +26,10 @@ var _import_thread: Thread
 var _rebuild_thread: Thread
 var _stop_flag := false
 var _rebuild_stop_flag := false
-var _albums := {}
-var _artists := {}
-var _song_paths := {}
-var _artist_sequence = 0
+# Album names whose cover art needs (re)building this import pass.
+var _changed_album_names := {}
 var import_notes = []
 var path_error = null
-var existing_song_paths = []
 var scale_components = []
 var importing: bool = false
 var playlists: Array[M3uCollection] = []
@@ -39,10 +40,6 @@ var artist_count: int:
 	
 var album_count: int:
 	get: return albums.size()
-
-# RYE TODO: This may not be used anymore
-var music_records_alphabetical: 
-	get: return get_music_records_alphabetical()
 	
 var recent_playlist:
 	get: return get_recent_playlist()
@@ -71,6 +68,11 @@ static func get_instance() -> SongoDataResource:
 					playlist.music_records = playlist.get_music_records_from_lookup()
 		else:
 			_instance = SongoDataResource.new()
+
+	var bus := GDTagLib.get_singleton()
+	if bus and not bus.library_update_planned.is_connected(_instance._on_library_update_planned):
+		bus.library_update_planned.connect(_instance._on_library_update_planned)
+
 	return _instance
 	 
 func get_recent_playlist():
@@ -87,30 +89,17 @@ func songs_in_album(album_name):
 	else: return music_records
 	
 func get_album_cover(album_name):
-	var albums = albums.filter(func(album): return album.name == album_name)
-	if albums.size() == 1: return albums[0].cover
+	var matches = albums.filter(func(album): return album.name == album_name)
+	if matches.size() == 1: return Artwork.album_cover(matches[0])
 	else: return null
-	
-func unique_array(arr: Array) -> Array:
-	var dict := {}
-	for a in arr:
-		dict[a] = 1
-	return dict.keys()
 	
 func index_mp3s():
 	importing = true
-	existing_song_paths = music_records.map(func(r: MusicRecord): return r.full_path)
-	_artists.clear()
-	_albums.clear()
-	_song_paths = {}
 	images_rebuilt = 0
 	start_import()
-	
+
 func rebuild_album_images():
 	importing = true
-	_artists.clear()
-	_albums.clear()
-	_song_paths = {}
 	images_rebuilt = 0
 	start_album_rebuild()
 
@@ -175,12 +164,9 @@ func _scan_dir_recursive(path: String, result: Array, visited: Dictionary, file_
 		elif is_file:
 			var ext := file_name.get_extension().to_lower()
 			if file_types.has(ext):
-				if file_name.ends_with("GENERATED.png"): 
+				if file_name.ends_with("GENERATED.png"):
 					pass
 					#print("Ignoring generated image: %s" % file_name)
-				elif existing_song_paths.has(full_path):
-					pass
-					#print("Ignoring already imported file: %s" % file_name)
 				else:
 					call_deferred("_update_import_progress", float(result.size()))
 					result.append(full_path)
@@ -189,30 +175,6 @@ func _scan_dir_recursive(path: String, result: Array, visited: Dictionary, file_
 			push_error("Skipping non-file entry:", full_path)
 		file_name = dir.get_next()
 	dir.list_dir_end()
-	
-func get_music_records_alphabetical():
-	var sorted = music_records.duplicate()
-	sorted.sort_custom(func(a: MusicRecord, b: MusicRecord): return a.title < b.title)
-	return sorted
-	
-func get_albums_alphabetical():
-	var sorted = albums.duplicate()
-	sorted.sort_custom(func(a: AlbumRecord, b: AlbumRecord):
-		var a_unknown := a.name == "Unknown Album"
-		var b_unknown := b.name == "Unknown Album"
-#
-		if a_unknown and not b_unknown:
-			return true
-		elif b_unknown and not a_unknown:
-			return false
-		return a.name < b.name
-	)
-	return sorted
-	
-func get_artists_sorted_song_count():
-	var sorted = artists.duplicate()
-	sorted.sort_custom(func(a: ArtistRecord, b: ArtistRecord): return a.music_records.size() > b.music_records.size())
-	return sorted
 	
 func save():
 	print("Saving")
@@ -285,102 +247,95 @@ func _thread_rebuild():
 func _thread_import():
 	import_step = 0
 	import_progress = 0
-	var music_paths = []
-	
+	_changed_album_names = {}
+
+	var all_paths: Array = []
 	for path in music_directory_paths:
-		music_paths.append_array(get_mp3_paths(path))
-	print(music_paths.size())
-	if music_paths.size() == 0:
-		#call_deferred("_add_flash_message", "No new music discovered, skipping import.")
+		all_paths.append_array(get_mp3_paths(path))
+
+	if all_paths.size() == 0:
 		stop_import()
 		call_deferred("_on_import_early_exit")
 		return
-	else:
-		import_start_time = Time.get_unix_time_from_system()
-		call_deferred("_add_flash_message", "Found %d music files, beginning import." % music_paths.size())
-		
+
+	import_start_time = Time.get_unix_time_from_system()
+
+	# Parse-free diff: what's actually new / changed / gone since last time.
+	# This also emits GDTagLib.library_update_planned -> _on_library_update_planned
+	# turns the real counts into a flash message.
+	var plan := GDTagLib.plan_music_library_update(music_records, PackedStringArray(all_paths), {})
+	var to_read := {}
+	for path in plan.added:
+		to_read[path] = true
+	for path in plan.changed:
+		to_read[path] = true
+
+	# Nothing added, changed or removed -> the library already matches disk.
+	if to_read.is_empty() and plan.removed.is_empty():
+		call_deferred("_on_import_early_exit")
+		return
+
+	for path in plan.removed:
+		import_notes.append("Dropped missing file: %s" % path)
+
 	call_deferred("_import_step_set", 1)
 	import_progress = 0
-	var count = music_paths.size()
-	import_notes.append("Beginning import for %d music files" % count)
+	var count := all_paths.size()
+	import_notes.append("Beginning import: %d new, %d changed, %d removed" % [plan.added.size(), plan.changed.size(), plan.removed.size()])
 
-	for i in range(music_paths.size()):
+	# Slow, progress-reported pass: (re)parse only the files the plan flagged,
+	# reuse the rest. GDTagLib groups them into albums / artists after.
+	var prev_by_path := {}
+	for r: TagLibMusicRecord in music_records:
+		prev_by_path[r.full_path] = r
+
+	var current: Array[TagLibMusicRecord] = []
+	for i in range(all_paths.size()):
 		if _stop_flag:
 			break
-		var music_path = music_paths[i]
-		_make_record(music_path)
-		call_deferred("_on_record_imported", i/float(count))
+		var p: String = all_paths[i]
+		if to_read.has(p):
+			var built := GDTagLib.build_music_record(p)
+			current.append(built)
+			_changed_album_names[built.album] = true
+		else:
+			current.append(prev_by_path[p])
+		call_deferred("_on_record_imported", i / float(count))
+
+	if _stop_flag:
+		call_deferred("_on_import_early_exit")
+		return
+
 	import_progress = 0
 	call_deferred("_import_step_set", 2)
 
-	var new_albums: Array[AlbumRecord]
-	new_albums.assign(_albums.values())
-	albums = AlbumRecord.merge_albums(albums, new_albums)
+	# Fast native pass: album + album-artist resolution over the whole library.
+	var lib := GDTagLib.refresh_music_library(current, PackedStringArray(all_paths), {"follow_retags": false})
+	music_records = []
+	music_records.assign(lib.music_records)
+	albums = []
+	albums.assign(lib.albums)
+	artists = []
+	artists.assign(lib.artists)
+	for artist in artists:
+		Artwork.ensure_dicebear(artist.asset_id, "artist")
+
 	build_album_images()
-
-	var new_artists: Array[ArtistRecord]
-
-	for album in albums:
-		
-		if album.album_artist != "Various Artists":
-			if not _artists.has(album.album_artist):
-				var new_artist = ArtistRecord.new()
-				new_artist.name = album.album_artist
-				new_artist.build_asset()
-				new_artist.music_records = album.music_records
-				_artists[album.album_artist] = new_artist
-			else:
-				for record in album.music_records:
-					if not _artists[album.album_artist].music_records.has(record):
-						_artists[album.album_artist].music_records.append(record)
-
-	new_artists.assign(_artists.values())
-	artists = ArtistRecord.merge_artists(artists, new_artists)
 	call_deferred("_on_import_complete")
-	return
-	
-func _make_record(file_path: String):
-	var rec = MusicRecord.new()
-	var meta_data = MetaDataHandler.get_basic_metadata(file_path)
-	
-	rec.full_path = file_path
-	rec.album = meta_data.album
-	rec.artist = meta_data.artist
-	rec.album_artist = meta_data.album_artist
-	rec.title = meta_data.title
-	rec.raw_length = meta_data.duration
-	rec.track = meta_data.track
-	
-	if not is_instance_valid(rec): return 
-	if not _song_paths.has(rec.full_path):
-		_song_paths[rec.full_path] = true
-		music_records.append(rec)
-	
-	_create_or_update_album_from_music_record(rec)
-	
-func _create_or_update_album_from_music_record(record: MusicRecord):
-	if not _albums.has(record.album):
-		var new_album = AlbumRecord.new()
-		new_album.name = record.album
-		new_album.build_asset()
-		_albums[record.album] = new_album
 
-	if not _albums[record.album].music_records.has(record):
-		_albums[record.album].music_records.append(record)
-		
-	
-	for artist in record.artist.split(", "):
-		if not _albums[record.album].artists.has(artist):
-			_albums[record.album].artists.append(artist)
-	
-	
-	if record.album_artist != "Unknown Album Artist":
-		_albums[record.album].album_artist = record.album_artist
 
-func _add_flash_message(message: String):
-	UiHelper.flash_message(message)
+# GDTagLib.library_update_planned -- fired (deferred, main thread) from
+# plan_music_library_update with the real work counts for this import.
+func _on_library_update_planned(added: int, changed: int, removed: int) -> void:
+	if added == 0 and changed == 0 and removed == 0:
+		return
+	var parts: Array[String] = []
+	if added > 0: parts.append("%d new" % added)
+	if changed > 0: parts.append("%d updated" % changed)
+	if removed > 0: parts.append("%d removed" % removed)
+	UiHelper.flash_message("Updating library: %s" % ", ".join(parts))
 
-	
+
 func _update_import_progress(progress: float):
 	import_progress = progress
 	
@@ -408,20 +363,16 @@ func build_album_images(rebuild: bool = false):
 		call_deferred("_update_import_progress", i/float(albums.size()))
 		#OS.delay_msec(100)
 		if rebuild == false:
-			if not _albums.keys().has(albums[i].name):
+			if not _changed_album_names.has(albums[i].name):
 				#print("Skipping album image gen that wasnt updated: %s", albums[i].name )
 				continue
 		
 		var album = albums[i]
-		var album_song_paths = album.music_records.map(func(r: MusicRecord): return r.full_path)
-		#album.cover_path = ""
+		var album_song_paths = album.music_records.map(func(r: TagLibMusicRecord): return r.full_path)
 		var cover_image: Image = null
-		var cover_path: String = ""
-		var is_extracted := false
-		
-		cover_path = "user://album_images/%s.png" % album.asset_id
-		
-		if album.img_path != "":
+		var cover_path := "user://album_images/%s.webp" % album.asset_id
+
+		if Artwork.album_image_path(album.asset_id) != "":
 			continue
 			
 		# --- Method 1: Look for image in same folder as any album song
@@ -454,39 +405,35 @@ func build_album_images(rebuild: bool = false):
 							#cover_path = image_path.get_basename() + "GENERATED.png"
 							break
 
-		# --- Method 3: Extract embedded cover art and save to user://album_covers
+		# --- Method 3: Extract embedded cover art
+		# get_cover() returns a decoded Image directly -- no Texture2D creation
+		# and no GPU read-back, which matters on this worker thread.
 		if not cover_image:
 			for music_record in album.music_records:
-				var img = music_record.image_texture
-				if img:
-					#print("Here for: %s" % music_record.full_path)
-					cover_image = img.get_image()
-					is_extracted = true
+				var img := GDTagLib.get_cover(music_record.full_path)
+				if img != null:
+					cover_image = img
 					break
 
 
-		# --- Resize and Save (for all methods) ---
+		# --- Normalise and save (for all methods) ---
 		if cover_image:
-			var min_size = 300
-			var w = cover_image.get_width()
-			var h = cover_image.get_height()
-			if w > 0 and h > 0:
-				var scale = float(min_size) / min(w, h)
-				var new_w = int(w * scale)
-				var new_h = int(h * scale)
-				cover_image.resize(new_w, new_h, Image.INTERPOLATE_LANCZOS)
+			var min_size := 500
+			var w := cover_image.get_width()
+			var h := cover_image.get_height()
 
-			# Always save — if existing image, overwrite in place
-			#cover_path = "user://album_covers/"+sanitize_name(album.name)+".png"
-			var err = cover_image.save_png(cover_path)
-			
-			#if err == OK:
-			#	album.cover_path = cover_path#.to_utf8_buffer().get_string_from_utf8()
-			#else:
-			#	pass
-				#print("Failed to save cover for album %s" % album.name)
+			# Only pay for a resample when the source is actually oversized.
+			# INTERPOLATE_CUBIC is visually ~identical to LANCZOS at this size
+			# and several times cheaper on ARM.
+			var smallest := mini(w, h)
+			if w > 0 and h > 0 and smallest > min_size:
+				var scale := float(min_size) / float(smallest)
+				cover_image.resize(int(w * scale), int(h * scale), Image.INTERPOLATE_CUBIC)
+
+			# Lossy WebP: much faster to encode than PNG, smaller on disk.
+			cover_image.save_webp(cover_path, true, 0.9)
 		else:
-			album.set_dicebear_image()
+			Artwork.ensure_dicebear(album.asset_id, "album")
 		call_deferred("_increment_images_rebuilt")
 
 		
@@ -533,17 +480,17 @@ func _on_album_image_rebuild_complete():
 	import_finished.emit()
 	
 func _on_import_complete():
-	print("ENDED")
 	import_step = 0
-	music_records = get_music_records_alphabetical()
-	albums = get_albums_alphabetical()
-	artists = get_artists_sorted_song_count()
 	save()
 	
 	var elapsed = Time.get_unix_time_from_system() - import_start_time
 	UiHelper.flash_message("Import finished. Duration: %.2f seconds" % elapsed)
 	importing = false
+	# music_records are rebuilt as fresh instances each import, so re-point the
+	# playlists at them (identity matters for collection overlap checks).
 	M3uCollection.build_lookup(music_records)
+	for playlist in playlists:
+		playlist.music_records = playlist.get_music_records_from_lookup()
 	import_finished.emit()
 	
 func add_music_directory_path(path):

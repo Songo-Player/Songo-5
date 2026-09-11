@@ -11,9 +11,9 @@ func _process(delta: float) -> void:
 	pass
 
 
-func setup_display_for(music_record: MusicRecord):
+func setup_display_for(music_record: TagLibMusicRecord):
 	#current_song_duration = music_record.raw_length
-	#%EndTimeLabel.text = music_record.length
+	#%EndTimeLabel.text = music_record.get_length_string()
 	var song_title = "%s ~ %s" % [music_record.title, music_record.artist]
 	%CurrentSongTitle.set_carousel_text(song_title)
 	

@@ -34,6 +34,9 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		
 func handle_input(delta: float):
+	if Input.is_action_just_pressed("select"):
+		UiHelper.emit_signal("ui_event", UiHelper.EVENT.TOGGLE_INFO)
+		
 	if Input.is_action_just_pressed("start"):
 		match songo_settings.start_btn_behavior:
 			SongoSettings.START_BEHAVIOR.LOCK:
@@ -130,13 +133,9 @@ func _on_screen_idle_timer_timeout() -> void:
 			DeviceOS.start_screen_fade()
 			$ScreenIdleTimer.stop()
 			
-func _on_started_new_song(music_record: MusicRecord):
-	music_record.album_cover_texture = null
-	var image = songo_data.get_album_cover(music_record.album)
-	if image != null:
-		music_record.album_cover_texture = ImageTexture.create_from_image(image)
-	if music_record.album_cover_texture == null:
-		music_record.album_cover_texture = music_record.image_texture
+func _on_started_new_song(music_record: TagLibMusicRecord):
+	if music_record == null:
+		return
 	if theme_element && 'setup_display_for' in theme_element:
 		theme_element.setup_display_for(music_record)
 	

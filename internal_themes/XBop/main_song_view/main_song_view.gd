@@ -22,7 +22,7 @@ func _process(delta):
 	update_play_time()
 
 	
-func setup_display_for(music_record: MusicRecord):
+func setup_display_for(music_record: TagLibMusicRecord):
 	display_play_button()
 	##var label_string = "%s ~ %s ~ %s" % [music_record.title, music_record.artist, music_record.album]
 	%SongLabel.set_carousel_text(music_record.title)
@@ -32,9 +32,9 @@ func setup_display_for(music_record: MusicRecord):
 
 	if loaded_song == music_record.full_path: return
 
-	if music_record.album_cover_texture:
+	if Artwork.song_cover_texture(music_record):
 		%MusicImage.show()
-		%MusicImage.texture = music_record.album_cover_texture
+		%MusicImage.texture = Artwork.song_cover_texture(music_record)
 		#%PanelContainer.remove_theme_stylebox_override("panel")
 		%DefaultSongImage.hide()
 	else:
@@ -59,7 +59,7 @@ func update_play_mode_icons():
 	%RepeatingIcon.visible = SongoPlayerV2.repeating
 	
 
-func set_end_time(music_record: MusicRecord):
+func set_end_time(music_record: TagLibMusicRecord):
 	var length_sec: float = music_record.raw_length
 	
 	if length_sec < 0: 

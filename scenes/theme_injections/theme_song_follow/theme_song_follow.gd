@@ -74,14 +74,8 @@ func _kill_theme_element():
 		theme_element.queue_free()
 		theme_element = null
 		
-func _on_started_new_song(music_record: MusicRecord):
-	if theme_element == null: return
-	music_record.album_cover_texture = null
-	var image = songo_data.get_album_cover(music_record.album)
-	if image != null:
-		music_record.album_cover_texture = ImageTexture.create_from_image(image)
-	if music_record.album_cover_texture == null:
-		music_record.album_cover_texture = music_record.image_texture
+func _on_started_new_song(music_record: TagLibMusicRecord):
+	if theme_element == null or music_record == null: return
 	if theme_element && 'setup_display_for' in theme_element:
 		theme_element.setup_display_for(music_record)
 	

@@ -131,7 +131,7 @@ func _on_auto_import_toggle_button_pressed() -> void:
 func _on_rebuild_artist_image_data_button_pressed() -> void:
 	var update_count = 0
 	for artist in songo_data.artists:
-		if artist.set_dicebear_image():
+		if Artwork.ensure_dicebear(artist.asset_id, "artist"):
 			update_count += 1
 	UiHelper.flash_message("Artist images rebuilt (%d images added)" % update_count)
 
