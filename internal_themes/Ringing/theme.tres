@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=10 format=3 uid="uid://bhmt8rt664jqw"]
 
-[ext_resource type="FontFile" uid="uid://fhmejhs3d6m0" path="res://theme_dev/themes_raw/XBopRed/fonts/NotoSansCJKjp-Medium.otf" id="1_22c5f"]
+[ext_resource type="FontFile" uid="uid://fhmejhs3d6m0" path="res://fonts/NotoSansCJKjp-Medium.otf" id="1_22c5f"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eatph"]
 content_margin_left = 20.0
@@ -67,6 +67,7 @@ expand_margin_left = 2.0
 expand_margin_right = 2.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kg685"]
+content_margin_right = 18.0
 bg_color = Color(0.98, 0.663, 0.408, 0.8)
 border_width_left = 2
 border_width_top = 2
@@ -125,14 +126,13 @@ ListSectionInnerMargin/constants/margin_left = 2
 ListSectionInnerMargin/constants/margin_right = 2
 ListSectionInnerMargin/constants/margin_top = 4
 ListSectionMargin/base_type = &"MarginContainer"
-ListSectionMargin/constants/margin_right = 24
 ListSectionOuterMargin/base_type = &"MarginContainer"
 ListSectionOuterMargin/constants/margin_bottom = 16
-ListSectionOuterMargin/constants/margin_left = 8
+ListSectionOuterMargin/constants/margin_left = 80
 ListSectionOuterMargin/constants/margin_right = 3
 ListSectionOuterMargin/constants/margin_top = 16
 SongoSettingsContentMargin/base_type = &"MarginContainer"
-SongoSettingsContentMargin/constants/margin_left = 80
+SongoSettingsContentMargin/constants/margin_left = 84
 VScrollBar/styles/grabber = SubResource("StyleBoxFlat_uhhb4")
 VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_d7fln")
 VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_uq36u")

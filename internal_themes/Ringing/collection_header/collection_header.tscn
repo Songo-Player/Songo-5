@@ -26,15 +26,8 @@ theme_override_constants/margin_top = 0
 theme_override_constants/margin_bottom = 0
 script = ExtResource("1_26oj6")
 
-[node name="BallLineMusicVisualizer" type="Control" parent="."]
-visible = false
-layout_mode = 2
-script = ExtResource("2_24hbu")
-ball_count = 20
-total_ranges = 5
-smoothing = 0.8
-
 [node name="PanelContainer" type="PanelContainer" parent="."]
+visible = false
 clip_children = 1
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
@@ -42,7 +35,8 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_kqgi6")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
 layout_mode = 2
-alignment = 2
+size_flags_horizontal = 8
+alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/HBoxContainer"]
 layout_mode = 2
@@ -51,7 +45,6 @@ layout_mode = 2
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 script = ExtResource("2_24hbu")
-ball_count = 20
 ball_radius = 10.0
 ball_color = Color(0.596, 0.42, 0.608, 0.6)
 total_ranges = 5
@@ -67,7 +60,6 @@ layout_mode = 2
 custom_minimum_size = Vector2(18, 0)
 layout_mode = 2
 script = ExtResource("2_24hbu")
-ball_count = 20
 ball_radius = 9.0
 ball_color = Color(0.004, 0.125, 0.306, 0.7)
 total_ranges = 5
@@ -83,7 +75,6 @@ layout_mode = 2
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 script = ExtResource("2_24hbu")
-ball_count = 20
 ball_radius = 8.0
 ball_color = Color(0.008, 0.514, 0.569, 0.8)
 total_ranges = 5
@@ -99,7 +90,6 @@ layout_mode = 2
 custom_minimum_size = Vector2(14, 0)
 layout_mode = 2
 script = ExtResource("2_24hbu")
-ball_count = 20
 ball_radius = 7.0
 ball_color = Color(0.973, 0.333, 0.145, 0.9)
 total_ranges = 5
@@ -115,7 +105,6 @@ layout_mode = 2
 custom_minimum_size = Vector2(12, 0)
 layout_mode = 2
 script = ExtResource("2_24hbu")
-ball_count = 20
 ball_color = Color(0.980392, 0.662745, 0.407843, 1)
 total_ranges = 5
 max_speed = 150.0

@@ -3,6 +3,8 @@
 [ext_resource type="Script" path="res://scenes/theme_injections/theme_footer/theme_footer.gd" id="1_0tyx7"]
 
 [node name="ThemeFooter" type="MarginContainer"]
+z_index = 20
+z_as_relative = false
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_0tyx7")

@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://c4h5kdh7vvnrs"]
+[gd_scene load_steps=11 format=3 uid="uid://c4h5kdh7vvnrs"]
 
 [ext_resource type="Script" path="res://scenes/settings_container/sub_containers/development_credit/development_credit.gd" id="1_d5ns1"]
+[ext_resource type="Script" path="res://utilities/smooth_scroll_container.gd" id="2_5n51p"]
 [ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="2_jhxhv"]
 [ext_resource type="Texture2D" uid="uid://bto3cdnmrap1x" path="res://assets/Sparkles.svg" id="3_tyuya"]
 [ext_resource type="Texture2D" uid="uid://cquysexdmp80s" path="res://assets/Emerald.svg" id="4_1yu4m"]
@@ -44,6 +45,7 @@ unique_name_in_owner = true
 clip_contents = false
 layout_mode = 2
 follow_focus = true
+script = ExtResource("2_5n51p")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
 layout_mode = 2
@@ -102,7 +104,6 @@ text = "Alpha Testers:"
 
 [node name="FlowContainer" type="FlowContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-focus_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer"]
 layout_mode = 2
@@ -325,7 +326,6 @@ text = "Bega Testers:"
 
 [node name="FlowContainer" type="FlowContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer5/MarginContainer/VBoxContainer"]
 layout_mode = 2
-focus_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer5/MarginContainer/VBoxContainer/FlowContainer"]
 layout_mode = 2
@@ -362,7 +362,6 @@ text = "Technical Assistance:"
 
 [node name="FlowContainer" type="FlowContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
 layout_mode = 2
-focus_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer"]
 layout_mode = 2
@@ -534,7 +533,6 @@ text = "Media Coverage:"
 
 [node name="FlowContainer" type="FlowContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer4/MarginContainer/VBoxContainer"]
 layout_mode = 2
-focus_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer4/MarginContainer/VBoxContainer/FlowContainer"]
 layout_mode = 2
@@ -604,7 +602,6 @@ autowrap_mode = 2
 [node name="HBoxContainer4" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
-focus_mode = 2
 theme_override_constants/separation = 8
 
 [node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer4"]
@@ -633,7 +630,6 @@ autowrap_mode = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
-focus_mode = 2
 theme_override_constants/separation = 8
 
 [node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
@@ -661,7 +657,6 @@ autowrap_mode = 2
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
 layout_mode = 2
-focus_mode = 2
 theme_override_constants/separation = 8
 
 [node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer2"]
@@ -689,7 +684,6 @@ autowrap_mode = 2
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
 layout_mode = 2
-focus_mode = 2
 theme_override_constants/separation = 8
 
 [node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer3"]
@@ -718,7 +712,6 @@ autowrap_mode = 2
 
 [node name="HBoxContainer6" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
 layout_mode = 2
-focus_mode = 2
 theme_override_constants/separation = 8
 
 [node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer6"]
@@ -773,14 +766,12 @@ theme_override_constants/margin_bottom = 8
 [node name="PageLabel" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/MarginContainer/PanelContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-focus_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Development Credit"
 
 [node name="DevCredit" type="Label" parent="ScrollContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-focus_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 0.392157)
 text = "App developed and ported by Riley"
 horizontal_alignment = 1

@@ -1,33 +1,120 @@
 extends ScrollContainer
 class_name SmoothScrollContainer
-## Smooth drag-to-scroll (mouse + touch) with inertia, for Godot 4.3.
-##
-## Attach this script directly to any ScrollContainer node. No other setup
-## needed — it works with the container's existing children.
-##
-## How it works:
-## - Press and drag (mouse or touch) inside the container to scroll it.
-## - A small drag_threshold lets normal clicks on children (buttons, etc.)
-##   still pass through if you didn't actually move the pointer much.
-## - On release, the last measured drag velocity keeps scrolling and
-##   decays over time (friction), giving a "flick to scroll" feel.
 
 @export var drag_enabled: bool = true
 @export_range(0.0, 0.999, 0.001) var friction: float = 0.96 ## higher = slides further after release
-@export var min_velocity: float = 20.0   ## px/sec below which momentum stops
-@export var drag_threshold: float = 8.0  ## px of movement before a press becomes a drag
+@export var min_velocity: float = 20.0   
+@export var drag_threshold: float = 8.0  
 @export var scroll_multiplier: float = 1.0
 
+
+@export var focus_search_root: NodePath
+
 var _dragging: bool = false
-var _captured: bool = false        # true once movement has exceeded drag_threshold
-var _pointer_index: int = -999     # -1 = mouse, >=0 = touch index
+var _captured: bool = false    
+var _pointer_index: int = -999    
 var _press_pos: Vector2
 var _last_pos: Vector2
 var _last_time: int = 0
 var _velocity: Vector2 = Vector2.ZERO
 
+var _v_scroll_bar: VScrollBar
+
+
 func _ready() -> void:
 	set_process(true)
+	_setup_scrollbar_focus()
+
+
+func _setup_scrollbar_focus() -> void:
+	_v_scroll_bar = get_v_scroll_bar()
+	_v_scroll_bar.focus_mode = Control.FOCUS_ALL
+
+	_v_scroll_bar.focus_neighbor_bottom = _v_scroll_bar.get_path()
+	_v_scroll_bar.focus_neighbor_top = _v_scroll_bar.get_path()
+
+	var normal_grabber = _v_scroll_bar.get_theme_stylebox("grabber")
+	var focused_grabber_style = _v_scroll_bar.get_theme_stylebox("grabber_pressed")
+
+	_v_scroll_bar.focus_entered.connect(func():
+		_v_scroll_bar.add_theme_stylebox_override("grabber", focused_grabber_style)
+	)
+	_v_scroll_bar.focus_exited.connect(func():
+		_v_scroll_bar.add_theme_stylebox_override("grabber", normal_grabber)
+	)
+
+	_v_scroll_bar.gui_input.connect(_on_v_scroll_bar_gui_input)
+
+	scroll_vertical_custom_step = 20
+
+
+func _on_v_scroll_bar_gui_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_left"):
+		var target := _find_closest_left_control()
+		if target:
+			target.grab_focus()
+			_v_scroll_bar.accept_event()
+	
+func _find_closest_left_control() -> Control:
+	var scrollbar_center_y := _get_grabber_center_y()
+	var scrollbar_left_x := _v_scroll_bar.global_position.x
+
+	var search_root: Node = get_node_or_null(focus_search_root)
+	if search_root == null:
+		search_root = get_tree().root
+
+	var best_control: Control = null
+	var best_distance := INF
+
+	for control in _collect_focusable(search_root):
+		if control == _v_scroll_bar:
+			continue
+		# Only consider controls whose center is to the left of the scrollbar.
+		var control_center_x := control.global_position.x + control.size.x * 0.5
+		if control_center_x >= scrollbar_left_x:
+			continue
+
+		var control_center_y := control.global_position.y + control.size.y * 0.5
+		var distance = abs(control_center_y - scrollbar_center_y)
+		if distance < best_distance:
+			best_distance = distance
+			best_control = control
+
+	return best_control
+
+
+func _get_grabber_center_y() -> float:
+	var track_top := _v_scroll_bar.global_position.y
+	var track_height := _v_scroll_bar.size.y
+
+	var scrollable_range: float = (_v_scroll_bar.max_value - _v_scroll_bar.page) - _v_scroll_bar.min_value
+
+
+	var range_span: float = _v_scroll_bar.max_value - _v_scroll_bar.min_value
+	var grabber_size_ratio: float = 1.0
+	if range_span > 0.0:
+		grabber_size_ratio = clamp(_v_scroll_bar.page / range_span, 0.0, 1.0)
+	var grabber_height: float = track_height * grabber_size_ratio
+
+	var grabber_offset: float = 0.0
+	if scrollable_range > 0.0:
+		var value_ratio: float = (_v_scroll_bar.value - _v_scroll_bar.min_value) / scrollable_range
+		grabber_offset = value_ratio * (track_height - grabber_height)
+
+	return track_top + grabber_offset + grabber_height * 0.5
+
+
+func _collect_focusable(root: Node) -> Array[Control]:
+	var result: Array[Control] = []
+	for child in root.get_children():
+		if child is Control:
+			var c := child as Control
+			if c.focus_mode != Control.FOCUS_NONE and c.is_visible_in_tree():
+				result.append(c)
+		if child.get_child_count() > 0:
+			result.append_array(_collect_focusable(child))
+	return result
+
 
 func _gui_input(event: InputEvent) -> void:
 	if not drag_enabled:
@@ -85,10 +172,6 @@ func _on_drag(pos: Vector2, index: int) -> void:
 
 
 func _cancel_pending_button_press() -> void:
-	# Once a drag is confirmed, cancel whatever button the press started on
-	# so it doesn't fire its "pressed" signal on release. Toggling `disabled`
-	# clears BaseButton's internal press-attempt state without affecting
-	# normal clicks, since this only runs after drag_threshold is exceeded.
 	var hovered: Control = get_viewport().gui_get_hovered_control()
 	if hovered is BaseButton and not hovered.disabled:
 		hovered.disabled = true
@@ -98,8 +181,6 @@ func _cancel_pending_button_press() -> void:
 
 func _process(delta: float) -> void:
 	if _velocity != Vector2.ZERO and get_viewport().gui_get_focus_owner() != null:
-		# Keep stripping focus for the whole duration of the drag, in case
-		# something the pointer moves over tries to grab it mid-drag.
 		get_viewport().gui_release_focus()
 
 	if _dragging or _velocity.length() < min_velocity:

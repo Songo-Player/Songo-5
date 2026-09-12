@@ -52,6 +52,9 @@ func setup_collection(collection_arg):
 	virtualized_list.scroll_vertical = 0
 	var scroll_bar = virtualized_list.get_v_scroll_bar()
 	scroll_bar.focus_entered.connect(func(): bar_scrolling = true )
+	
+	if "SONGS" in CollectionHelper.collection_type:
+		%VirtualizedList.top_wrap_button = %ShuffleButton
 
 func _on_item_removed(music_record):
 	$CollectionHeader.record_count = music_records.size()

@@ -21,6 +21,9 @@ var spacer_bottom: Control
 var item_pool: Array[Control] = []
 var focused_item
 var focused_index
+var _down_can_wrap: bool = false
+var _up_can_wrap: bool = true
+var top_wrap_button
 
 static var item_heights = {}
 
@@ -74,7 +77,6 @@ func setup(data_items_arg, item_scene_path_arg):
 	# Initial update
 	update_spacers()
 	update_visible_items()
-	get_v_scroll_bar().custom_minimum_size.x = 20
 	# Connect scroll event
 	get_v_scroll_bar().value_changed.connect(_on_scroll_changed)
 	if focus_first_item: focus_first()
@@ -96,6 +98,69 @@ func setup(data_items_arg, item_scene_path_arg):
 	)
 	scroll_vertical_custom_step = (item_height*data_items.size())/50.0
 	
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_released("ui_down"):
+		_down_can_wrap = (focused_index != null and focused_index == total_items - 1)
+
+	elif event.is_action_pressed("ui_down"):
+		if _down_can_wrap and focused_index != null and focused_index == total_items - 1:
+			_down_can_wrap = false
+			wrap_to_top()
+			get_viewport().set_input_as_handled()
+
+	elif event.is_action_released("ui_up"):
+		_up_can_wrap = _is_focus_at_top()
+
+	elif event.is_action_pressed("ui_up"):
+		if _up_can_wrap and _is_focus_at_top():
+			_up_can_wrap = false
+			wrap_to_bottom()
+			get_viewport().set_input_as_handled()
+
+
+func _is_focus_at_top() -> bool:
+	if top_wrap_button:
+		return get_viewport().gui_get_focus_owner() == top_wrap_button
+	else:
+		return focused_index != null and focused_index == 0
+
+
+func wrap_to_bottom() -> void:
+	first_visible_index = max(0, total_items - visible_item_count)
+	update_spacers()
+	update_visible_items()
+	scroll_vertical = int(item_height * total_items)
+	_down_can_wrap = true
+	focus_last()
+
+func wrap_to_top() -> void:
+	first_visible_index = 0
+	update_spacers()
+	update_visible_items()
+	scroll_vertical = 0
+
+	_up_can_wrap = true
+	if top_wrap_button:
+		top_wrap_button.grab_focus()
+	else:
+		focus_first()
+
+func focus_last() -> void:
+	if item_pool.is_empty():
+		return
+
+	var root: Control = null
+	for i in range(item_pool.size() - 1, -1, -1):
+		if item_pool[i].visible:
+			root = item_pool[i]
+			break
+	if root == null:
+		return
+
+	var focus_target = _find_first_focusable(root)
+	if focus_target:
+		focus_target.grab_focus()
+
 func focus_first():
 	if item_pool.is_empty():
 		return
@@ -193,11 +258,11 @@ func _on_focus_changed(item: Control):
 	if is_inside_tree():
 		if item.has_meta("item_index") && data_items.size() > item.get_meta("item_index"):
 			focused_index = item.get_meta("item_index")
-			focused_item = data_items[focused_index]	
+			focused_item = data_items[focused_index]
 		else:
 			focused_index = null
 			focused_item = null
-	
+			
 	if scroll_vertical < top_scroll_deadzone:
 		scroll_vertical = 0
 		

@@ -58,9 +58,11 @@ func _input(event):
 	#pass
 	if visible:
 		get_viewport().set_input_as_handled()
+	
+func handle_inputs(delta: float):
+	pass
 		
 func _process(delta: float) -> void:
-
 	if visible && Input.is_action_just_pressed("back"):
 		hide()
 	if visible && Input.is_action_just_pressed("select"):

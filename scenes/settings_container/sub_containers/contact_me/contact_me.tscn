@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://db1vaxtrlj7bh"]
+[gd_scene load_steps=9 format=3 uid="uid://db1vaxtrlj7bh"]
 
 [ext_resource type="Script" path="res://scenes/settings_container/sub_containers/contact_me/contact_me.gd" id="1_6xog3"]
+[ext_resource type="Script" path="res://utilities/smooth_scroll_container.gd" id="2_nler0"]
 [ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="2_pboqb"]
 [ext_resource type="Texture2D" uid="uid://bs7k45oality7" path="res://assets/Discord-Symbol-Black.png" id="3_7h557"]
 [ext_resource type="Texture2D" uid="uid://cbkyktsj8jpj3" path="res://assets/songo-number-five-qr.png" id="4_uou6y"]
@@ -38,6 +39,8 @@ script = ExtResource("1_6xog3")
 clip_contents = false
 layout_mode = 2
 follow_focus = true
+horizontal_scroll_mode = 0
+script = ExtResource("2_nler0")
 
 [node name="CFWSection" type="MarginContainer" parent="ScrollContainer"]
 layout_mode = 2
@@ -77,14 +80,12 @@ theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-focus_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "This app is a work in progress, if you are reporting a bug please remember this. When reporting a bug include your device model and the cfw you are using."
 autowrap_mode = 2
 
 [node name="Label2" type="Label" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-focus_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "For specific inquiries you can email me at songo5.dev@gmail.com"
 autowrap_mode = 2
@@ -113,12 +114,12 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="portmasterQr" type="TextureRect" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(164, 164)
+custom_minimum_size = Vector2(140, 140)
 layout_mode = 2
 size_flags_horizontal = 4
-focus_mode = 2
+size_flags_vertical = 4
 texture = ExtResource("4_uou6y")
-expand_mode = 2
+expand_mode = 1
 stretch_mode = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
@@ -130,11 +131,13 @@ theme_override_constants/separation = 0
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "PortMaster"
+autowrap_mode = 2
 
 [node name="Label2" type="Label" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "#songo-number-five"
+autowrap_mode = 2
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -167,7 +170,6 @@ theme_override_constants/margin_bottom = 8
 [node name="PageLabel" type="Label" parent="ScrollContainer/CFWSection/MarginContainer/PanelContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-focus_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Contact Me"
 

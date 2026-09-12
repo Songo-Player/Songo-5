@@ -1,9 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://31km2j27a611"]
+[gd_scene load_steps=7 format=3 uid="uid://31km2j27a611"]
 
 [ext_resource type="Script" path="res://internal_themes/Ringing/background_root/background_root.gd" id="1_ehnhb"]
+[ext_resource type="Script" path="res://internal_themes/Ringing/assets/BallLineMusicVisualizer.gd" id="2_c3344"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ja08r"]
 bg_color = Color(0.964706, 0.862745, 0.67451, 1)
+
+[sub_resource type="Gradient" id="Gradient_h8l1r"]
+offsets = PackedFloat32Array(0, 0.1, 0.8, 0.9)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_t4jym"]
+gradient = SubResource("Gradient_h8l1r")
+fill_from = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qe5vs"]
+texture = SubResource("GradientTexture2D_t4jym")
 
 [node name="BackgroundRoot" type="PanelContainer"]
 z_index = -2
@@ -14,3 +27,93 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ja08r")
 script = ExtResource("1_ehnhb")
+
+[node name="ListLevelVisualizerContainer" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_bottom = 20
+
+[node name="PanelContainer" type="PanelContainer" parent="ListLevelVisualizerContainer"]
+clip_children = 1
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_qe5vs")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ListLevelVisualizerContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="ListLevelVisualizerContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="BallLineMusicVisualizer1" type="Control" parent="ListLevelVisualizerContainer/PanelContainer/HBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+script = ExtResource("2_c3344")
+ball_radius = 10.0
+ball_color = Color(0.596, 0.42, 0.608, 0.6)
+total_ranges = 5
+range_index = 4
+min_speed = 12.0
+max_speed = 150.0
+smoothing = 0.8
+
+[node name="MarginContainer2" type="MarginContainer" parent="ListLevelVisualizerContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="BallLineMusicVisualizer1" type="Control" parent="ListLevelVisualizerContainer/PanelContainer/HBoxContainer/MarginContainer2"]
+custom_minimum_size = Vector2(18, 0)
+layout_mode = 2
+script = ExtResource("2_c3344")
+ball_radius = 9.0
+ball_color = Color(0.004, 0.125, 0.306, 0.7)
+total_ranges = 5
+range_index = 3
+min_speed = 14.0
+max_speed = 150.0
+smoothing = 0.8
+
+[node name="MarginContainer3" type="MarginContainer" parent="ListLevelVisualizerContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="BallLineMusicVisualizer1" type="Control" parent="ListLevelVisualizerContainer/PanelContainer/HBoxContainer/MarginContainer3"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+script = ExtResource("2_c3344")
+ball_radius = 8.0
+ball_color = Color(0.008, 0.514, 0.569, 0.8)
+total_ranges = 5
+range_index = 2
+min_speed = 16.0
+max_speed = 150.0
+smoothing = 0.8
+
+[node name="MarginContainer4" type="MarginContainer" parent="ListLevelVisualizerContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="BallLineMusicVisualizer1" type="Control" parent="ListLevelVisualizerContainer/PanelContainer/HBoxContainer/MarginContainer4"]
+custom_minimum_size = Vector2(14, 0)
+layout_mode = 2
+script = ExtResource("2_c3344")
+ball_radius = 7.0
+ball_color = Color(0.973, 0.333, 0.145, 0.9)
+total_ranges = 5
+range_index = 1
+min_speed = 18.0
+max_speed = 150.0
+smoothing = 0.8
+
+[node name="MarginContainer5" type="MarginContainer" parent="ListLevelVisualizerContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="BallLineMusicVisualizer1" type="Control" parent="ListLevelVisualizerContainer/PanelContainer/HBoxContainer/MarginContainer5"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+script = ExtResource("2_c3344")
+ball_color = Color(0.980392, 0.662745, 0.407843, 1)
+total_ranges = 5
+max_speed = 150.0
+smoothing = 0.8

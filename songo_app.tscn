@@ -422,6 +422,7 @@ layout_mode = 2
 mouse_filter = 1
 
 [node name="ThemeFooter" type="MarginContainer" parent="CanvasLayer/TransformContainer/VBoxContainer"]
+z_index = 1
 layout_mode = 2
 script = ExtResource("15_mra02")
 

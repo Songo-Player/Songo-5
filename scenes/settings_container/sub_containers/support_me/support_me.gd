@@ -5,7 +5,7 @@ func setup():
 	
 func _ready():
 	await get_tree().process_frame
-	%PageLabel.grab_focus()
+	$ScrollContainer.get_v_scroll_bar().grab_focus()
 	$ScrollContainer.scroll_vertical = 0
 
 func render_ui():
@@ -14,6 +14,3 @@ func render_ui():
 func handle_input(delta: float):
 	if Input.is_action_just_pressed("back"):
 		Controller.nav_back()
-
-func _on_roadmap_items_focus_entered() -> void:
-	$ScrollContainer.scroll_vertical = 9999

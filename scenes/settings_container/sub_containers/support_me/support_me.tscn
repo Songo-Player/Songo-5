@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://d4lwixt02hu8a"]
+[gd_scene load_steps=10 format=3 uid="uid://d4lwixt02hu8a"]
 
 [ext_resource type="Script" path="res://scenes/settings_container/sub_containers/support_me/support_me.gd" id="1_palf5"]
+[ext_resource type="Script" path="res://utilities/smooth_scroll_container.gd" id="2_1iq2r"]
 [ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="2_f18mt"]
 [ext_resource type="Texture2D" uid="uid://ccwtlfnw12jnr" path="res://assets/kofi_logo.png" id="3_flak3"]
 [ext_resource type="Texture2D" uid="uid://lvm43pmjissc" path="res://assets/ko-fi-qr-code.png" id="3_uk8w7"]
@@ -53,6 +54,7 @@ script = ExtResource("1_palf5")
 clip_contents = false
 layout_mode = 2
 follow_focus = true
+script = ExtResource("2_1iq2r")
 
 [node name="MainPanel" type="MarginContainer" parent="ScrollContainer"]
 layout_mode = 2
@@ -92,7 +94,6 @@ theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/MainPanel/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-focus_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "If you have an abundance of cash and would rather not have as much, send some my way. Anything sent will go towards handhelds for testing and expanding Songo#5 compatibility."
 autowrap_mode = 2
@@ -122,12 +123,11 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_mi1tc")
 
 [node name="KoFiQr" type="TextureRect" parent="ScrollContainer/MainPanel/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/PanelContainer/PanelContainer2"]
-custom_minimum_size = Vector2(164, 164)
+custom_minimum_size = Vector2(140, 140)
 layout_mode = 2
 size_flags_horizontal = 4
-focus_mode = 2
 texture = ExtResource("3_uk8w7")
-expand_mode = 2
+expand_mode = 1
 stretch_mode = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MainPanel/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
@@ -177,7 +177,6 @@ theme_override_constants/separation = 8
 
 [node name="Label" type="Label" parent="ScrollContainer/MainPanel/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
 layout_mode = 2
-focus_mode = 2
 theme_override_font_sizes/font_size = 18
 text = "Development Roadmap:"
 
@@ -190,7 +189,6 @@ autowrap_mode = 2
 [node name="RoadmapItems" type="FlowContainer" parent="ScrollContainer/MainPanel/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-focus_mode = 2
 theme_override_constants/h_separation = 8
 
 [node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/MainPanel/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/RoadmapItems"]
@@ -284,7 +282,6 @@ theme_override_constants/margin_bottom = 8
 [node name="PageLabel" type="Label" parent="ScrollContainer/MainPanel/MarginContainer/PanelContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-focus_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Support Me"
 
