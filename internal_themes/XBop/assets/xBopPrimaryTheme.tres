@@ -34,11 +34,6 @@ expand_margin_left = 2.0
 expand_margin_right = 2.0
 
 [resource]
-Button/colors/font_color = Color(1, 1, 1, 1)
-Button/colors/font_focus_color = Color(0.192157, 0.192157, 0.192157, 1)
-Button/colors/font_hover_color = Color(0.192157, 0.192157, 0.192157, 1)
-Button/colors/font_hover_pressed_color = Color(0.192157, 0.192157, 0.192157, 1)
-Button/colors/font_pressed_color = Color(0.192157, 0.192157, 0.192157, 1)
 Button/styles/focus = ExtResource("1_aousd")
 Button/styles/normal = ExtResource("2_5llhy")
 ListButton/base_type = &"Button"

@@ -8,6 +8,13 @@ var theme_index = 0
 const SETTING_LINE_ITEM_PATH = "res://scenes/settings_container/sub_containers/ui_and_customization/setting_line_item/setting_line_item.tscn"
 const THEME_TAG_PATH = "res://scenes/settings_container/sub_containers/ui_and_customization/theme_tag/theme_tag.tscn"
 
+const MENU_VISIBILITY_ITEMS := [
+	["all_songs", "All Songs"],
+	["albums", "Albums"],
+	["artists", "Artists"],
+	["playlists", "Playlists"],
+]
+
 func _ready():
 	await get_tree().process_frame
 	%PageLabel.grab_focus()
@@ -16,6 +23,25 @@ func _ready():
 	max_content_margin = int(UiHelper.content_body.size.x / 4.0)
 	update_theme_options_ui()
 	update_current_theme_ui()
+	_setup_menu_visibility_settings()
+
+func _setup_menu_visibility_settings() -> void:
+	for entry in MENU_VISIBILITY_ITEMS:
+		var key: String = entry[0]
+		var display_name: String = entry[1]
+		var setting_line_item = load(SETTING_LINE_ITEM_PATH).instantiate()
+		setting_line_item.setup({
+			"display_name": display_name,
+			"values": [true, false],
+			"labels": ["Visible", "Hidden"],
+			"button_text": ["Hide", "Show"],
+		}, songo_settings.menu_visibility[key])
+		setting_line_item.value_updated.connect(_on_menu_visibility_updated.bind(key))
+		%MenuVisibilityContainer.add_child(setting_line_item)
+
+func _on_menu_visibility_updated(new_value, key: String) -> void:
+	songo_settings.menu_visibility[key] = new_value
+	songo_settings.save()
 
 func _on_theme_setting_value_updated(new_value, key):
 	print("Updating: %s, %s" % [key, new_value])

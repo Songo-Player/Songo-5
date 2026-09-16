@@ -101,7 +101,6 @@ expand_margin_left = 2.0
 expand_margin_right = 2.0
 
 [resource]
-Button/colors/font_focus_color = Color(0.00392157, 0.12549, 0.305882, 1)
 Button/fonts/font = ExtResource("1_22c5f")
 DirSelectContentMargin/base_type = &"MarginContainer"
 DirSelectContentMargin/constants/margin_left = 80
@@ -109,6 +108,7 @@ ItemList/fonts/font = ExtResource("1_22c5f")
 Label/fonts/font = ExtResource("1_22c5f")
 ListButton/base_type = &"Button"
 ListButton/colors/font_color = Color(0.00392157, 0.12549, 0.305882, 1)
+ListButton/colors/font_focus_color = Color(0.00392157, 0.12549, 0.305882, 1)
 ListButton/colors/font_hover_pressed_color = Color(0.00392157, 0.12549, 0.305882, 1)
 ListButton/colors/icon_focus_color = Color(0.00392157, 0.12549, 0.305882, 1)
 ListButton/colors/icon_normal_color = Color(0.00392157, 0.12549, 0.305882, 1)

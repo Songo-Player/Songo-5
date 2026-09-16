@@ -126,6 +126,7 @@ func _is_focus_at_top() -> bool:
 
 
 func wrap_to_bottom() -> void:
+	if total_items == 0: return
 	first_visible_index = max(0, total_items - visible_item_count)
 	update_spacers()
 	update_visible_items()
@@ -134,6 +135,7 @@ func wrap_to_bottom() -> void:
 	focus_last()
 
 func wrap_to_top() -> void:
+	if total_items == 0: return
 	first_visible_index = 0
 	update_spacers()
 	update_visible_items()
@@ -308,15 +310,16 @@ func remove_focused_item():
 	if Controller.active_container is ThemeMainSongView: return
 	
 	#await get_tree().process_frame
-	for item in item_pool:
-		if item.visible and item.get_meta("item_index") == new_focus_index:
+	var target_pool_index = new_focus_index - first_visible_index
+	if target_pool_index >= 0 and target_pool_index < item_pool.size():
+		var item = item_pool[target_pool_index]
+		if item.visible:
 			if "set_focus" in item:
 				item.set_focus()
 			else:
 				var focus_target = _find_first_focusable(item)
 				if focus_target:
 					focus_target.grab_focus()
-			break
 			
 	# Update focused_item reference
 	focused_item = data_items[new_focus_index]

@@ -93,6 +93,7 @@ func _get_collection_size():
 		
 func _get_target_item():
 	if _list_items && target_item_index >= 0:
+		if target_item_index >= _list_items.size(): return false
 		return _list_items[target_item_index]
 	return false
 	

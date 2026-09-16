@@ -2,8 +2,10 @@ extends MarginContainer
 class_name ThemeMainMenu
 
 const DEFAULT_SCENE_PATH = "res://internal_themes/SongoClassic/main_menu/main_menu.tscn"
+var songo_settings = SongoSettings.get_instance()
 var theme_element: Control
 var theme_path
+var _menu_visibility_snapshot: Dictionary = {}
 
 
 func setup():
@@ -37,15 +39,19 @@ func _setup_from_theme():
 		new_element = load(DEFAULT_SCENE_PATH).instantiate()
 	theme_path = ThemeManager.theme_path
 	theme_element = new_element
+	_menu_visibility_snapshot = songo_settings.menu_visibility.duplicate()
 	add_child(new_element)
 
 func _tear_down_theme():
 	if theme_element:
 		theme_element.queue_free()
 		theme_element = null
-	
+
+func _menu_visibility_changed() -> bool:
+	return songo_settings.menu_visibility != _menu_visibility_snapshot
+
 func _on_tree_entered() -> void:
-	if theme_element == null || ThemeManager.theme_path != theme_path:
+	if theme_element == null || ThemeManager.theme_path != theme_path || _menu_visibility_changed():
 		_setup_from_theme()
 	await get_tree().process_frame
 	$FocusFixTimer.start()
@@ -67,8 +73,6 @@ func focus_first_control(node: Node) -> bool:
 
 func _on_focus_fix_timer_timeout() -> void:
 	var focused = get_viewport().gui_get_focus_owner() 
-	if not is_instance_valid(focused):
-		print("HAHAHA FOUDN YOU ")
 	if focused: return
 	UiHelper.flash_message("Failed to focus menu item, manually focusing now.")
 	focus_first_control(theme_element)

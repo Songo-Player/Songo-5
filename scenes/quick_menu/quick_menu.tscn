@@ -1,0 +1,229 @@
+[gd_scene load_steps=14 format=3 uid="uid://byrf2kolyhycf"]
+
+[ext_resource type="Theme" uid="uid://wvqbwd6ybd6m" path="res://songo_base_theme.tres" id="1_lpvo1"]
+[ext_resource type="Script" path="res://scenes/quick_menu/quick_menu.gd" id="1_r0ng0"]
+[ext_resource type="Texture2D" uid="uid://1o1io0kieplc" path="res://assets/arrowUp.svg" id="2_kv1tt"]
+[ext_resource type="Texture2D" uid="uid://d3d3mtv7v4hhe" path="res://assets/Switch_Dpad_Up.png" id="3_37gpj"]
+[ext_resource type="Texture2D" uid="uid://bwcq1o41yc4qh" path="res://assets/arrowDown.svg" id="4_48rqc"]
+[ext_resource type="Texture2D" uid="uid://btjv8vx32m5y1" path="res://assets/Switch_Dpad_Down.png" id="5_gl7mc"]
+[ext_resource type="Texture2D" uid="uid://cugg5pnrtgmxg" path="res://assets/arrowLeft.svg" id="6_fpvj6"]
+[ext_resource type="Texture2D" uid="uid://bw0rxqtvk4f66" path="res://assets/Switch_Dpad_Left.png" id="7_p0p2n"]
+[ext_resource type="Texture2D" uid="uid://c8jp7o8xasf1x" path="res://assets/arrowRight.svg" id="8_e5r00"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xg1yw"]
+bg_color = Color(0, 0, 0, 0.784314)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5oa4s"]
+border_width_top = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pdjf6"]
+content_margin_left = 4.0
+content_margin_right = 4.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sm4ou"]
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="QuickMenu" type="MarginContainer"]
+z_index = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_r0ng0")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xg1yw")
+
+[node name="QuickMenu" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 12
+
+[node name="QuickMenuTop" type="PanelContainer" parent="PanelContainer/QuickMenu"]
+z_index = 2
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("1_lpvo1")
+theme_type_variation = &"SongoPanel"
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/QuickMenu/QuickMenuTop"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/QuickMenu/QuickMenuTop/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/QuickMenu/QuickMenuTop/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Quick Menu
+"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/QuickMenu/QuickMenuTop/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_5oa4s")
+
+[node name="AddRemoveInPlaylistQuick" type="HBoxContainer" parent="PanelContainer/QuickMenu/QuickMenuTop/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/QuickMenu/QuickMenuTop/MarginContainer/VBoxContainer/AddRemoveInPlaylistQuick"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pdjf6")
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/QuickMenu/QuickMenuTop/MarginContainer/VBoxContainer/AddRemoveInPlaylistQuick/PanelContainer"]
+layout_mode = 2
+texture = ExtResource("2_kv1tt")
+expand_mode = 3
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/QuickMenu/QuickMenuTop/MarginContainer/VBoxContainer/AddRemoveInPlaylistQuick"]
+visible = false
+layout_mode = 2
+texture = ExtResource("3_37gpj")
+expand_mode = 3
+
+[node name="AddRemoveInPlaylistLabel" type="Label" parent="PanelContainer/QuickMenu/QuickMenuTop/MarginContainer/VBoxContainer/AddRemoveInPlaylistQuick"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Add to  playlist"
+
+[node name="QueueSong" type="HBoxContainer" parent="PanelContainer/QuickMenu/QuickMenuTop/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/QuickMenu/QuickMenuTop/MarginContainer/VBoxContainer/QueueSong"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pdjf6")
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/QuickMenu/QuickMenuTop/MarginContainer/VBoxContainer/QueueSong/PanelContainer"]
+layout_mode = 2
+texture = ExtResource("4_48rqc")
+expand_mode = 3
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/QuickMenu/QuickMenuTop/MarginContainer/VBoxContainer/QueueSong"]
+visible = false
+layout_mode = 2
+texture = ExtResource("5_gl7mc")
+expand_mode = 3
+
+[node name="QueueSongLabel" type="Label" parent="PanelContainer/QuickMenu/QuickMenuTop/MarginContainer/VBoxContainer/QueueSong"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Queue song  "
+
+[node name="RotateDisplay" type="HBoxContainer" parent="PanelContainer/QuickMenu/QuickMenuTop/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/QuickMenu/QuickMenuTop/MarginContainer/VBoxContainer/RotateDisplay"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pdjf6")
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/QuickMenu/QuickMenuTop/MarginContainer/VBoxContainer/RotateDisplay/PanelContainer"]
+layout_mode = 2
+texture = ExtResource("6_fpvj6")
+expand_mode = 3
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/QuickMenu/QuickMenuTop/MarginContainer/VBoxContainer/RotateDisplay"]
+visible = false
+layout_mode = 2
+texture = ExtResource("7_p0p2n")
+expand_mode = 3
+
+[node name="RotateDisplayLabel" type="Label" parent="PanelContainer/QuickMenu/QuickMenuTop/MarginContainer/VBoxContainer/RotateDisplay"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Rotate Display"
+
+[node name="NoQuickMenuActions" type="PanelContainer" parent="PanelContainer/QuickMenu/QuickMenuTop/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_sm4ou")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/QuickMenu/QuickMenuTop/MarginContainer/VBoxContainer/NoQuickMenuActions"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 4
+
+[node name="Label" type="Label" parent="PanelContainer/QuickMenu/QuickMenuTop/MarginContainer/VBoxContainer/NoQuickMenuActions/MarginContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "No Quick Menu Actions Available"
+
+[node name="PlaylistSwitchContainer" type="PanelContainer" parent="PanelContainer/QuickMenu"]
+unique_name_in_owner = true
+z_index = 2
+layout_mode = 2
+theme = ExtResource("1_lpvo1")
+theme_type_variation = &"SongoPanel"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/QuickMenu/PlaylistSwitchContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PanelContainer2" type="PanelContainer" parent="PanelContainer/QuickMenu/PlaylistSwitchContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_lpvo1")
+theme_type_variation = &"SongoGrayInputPanel"
+
+[node name="TargetPlaylistLabel" type="Label" parent="PanelContainer/QuickMenu/PlaylistSwitchContainer/VBoxContainer/PanelContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
+text = "Playlist name"
+horizontal_alignment = 1
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/QuickMenu/PlaylistSwitchContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/QuickMenu/PlaylistSwitchContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pdjf6")
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/QuickMenu/PlaylistSwitchContainer/VBoxContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+texture = ExtResource("6_fpvj6")
+expand_mode = 3
+
+[node name="Label2" type="Label" parent="PanelContainer/QuickMenu/PlaylistSwitchContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+text = "Target Playlist"
+horizontal_alignment = 1
+
+[node name="PanelContainer2" type="PanelContainer" parent="PanelContainer/QuickMenu/PlaylistSwitchContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pdjf6")
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/QuickMenu/PlaylistSwitchContainer/VBoxContainer/HBoxContainer/PanelContainer2"]
+layout_mode = 2
+texture = ExtResource("8_e5r00")
+expand_mode = 3

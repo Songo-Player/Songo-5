@@ -11,6 +11,7 @@ var content_body: Control
 var content_margin_container: Control
 var keyboard: Control
 var flash_message_box: Control
+var info_panel: Control
 #var debug_info: Control
 var songo_settings = SongoSettings.get_instance()
 var vol_container: Control
@@ -25,8 +26,8 @@ func register_focus_change(item: Control):
 	focus_chain.append(item)
 	if focus_chain.size() > 2: focus_chain.remove_at(0)
 
-func flash_message(message, persist_time: float = 3.0):
-	flash_message_box.add_message(message, persist_time)
+func flash_message(message, persist_time: float = 3.0, type: FlashMessage.TYPE = FlashMessage.TYPE.NONE):
+	flash_message_box.add_message(message, persist_time, type)
 	
 func focus_back():
 	if is_instance_valid(focus_chain[0]): focus_chain[0].grab_focus()

@@ -5,14 +5,14 @@ class_name SmoothScrollContainer
 @export_range(0.0, 0.999, 0.001) var friction: float = 0.96 ## higher = slides further after release
 @export var min_velocity: float = 20.0   
 @export var drag_threshold: float = 8.0  
-@export var scroll_multiplier: float = 1.0
+@export var scroll_multiplier: float = 1.01
 
 
 @export var focus_search_root: NodePath
 
 var _dragging: bool = false
 var _captured: bool = false    
-var _pointer_index: int = -999    
+var _pointer_index: int = -999  
 var _press_pos: Vector2
 var _last_pos: Vector2
 var _last_time: int = 0

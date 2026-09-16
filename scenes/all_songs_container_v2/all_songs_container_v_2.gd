@@ -55,12 +55,14 @@ func setup_collection(collection_arg):
 	
 	if "SONGS" in CollectionHelper.collection_type:
 		%VirtualizedList.top_wrap_button = %ShuffleButton
+	
+	if collection is M3uCollection:
+		collection.item_removed.connect(_on_item_removed)
 
 func _on_item_removed(music_record):
-	$CollectionHeader.record_count = music_records.size()
 	%VirtualizedList.remove_focused_item()
-	if Controller.active_container is ThemeMainSongView:
-		Controller.skip_refocus = true
+	#if Controller.active_container is ThemeMainSongView:
+		#Controller.skip_refocus = true
 
 	
 func render_ui():
@@ -130,11 +132,11 @@ func _on_shuffle_button_mouse_entered() -> void:
 	
 
 func _on_shuffle_button_focus_entered() -> void:
-	var focus_color: Color = %ShuffleButton.get_theme_color("font_focus_color")
+	var focus_color: Color = %ShuffleButton.get_theme_color("font_focus_color", "ListButton")
 	for mod_node in [%ShuffleIcon, %ShuffleText1, %ShuffleText2]:
 		mod_node.modulate = focus_color
 
 func _on_shuffle_button_focus_exited() -> void:
-	var normal_color: Color = %ShuffleButton.get_theme_color("font_color")
+	var normal_color: Color = %ShuffleButton.get_theme_color("font_color", "ListButton")
 	for mod_node in [%ShuffleIcon, %ShuffleText1, %ShuffleText2]:
 		mod_node.modulate = normal_color

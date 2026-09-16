@@ -1,0 +1,59 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://internal_themes/Sakura/main_menu/main_menu_item.gd" id="1_item"]
+[ext_resource type="StyleBox" uid="uid://b1g84jn4br3bq" path="res://internal_themes/Sakura/main_menu/focus_main_menu_button.tres" id="2_focus"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pill"]
+bg_color = Color(1, 0.332764, 0.355709, 1)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inner"]
+bg_color = Color(0.2, 0.2, 0.2, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_normal"]
+bg_color = Color(0.197937, 0.197937, 0.197937, 1)
+
+[node name="MainMenuItem" type="PanelContainer"]
+layout_mode = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_pill")
+script = ExtResource("1_item")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
+clip_children = 1
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_inner")
+
+[node name="ItemButton" type="Button" parent="MarginContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/focus = ExtResource("2_focus")
+theme_override_styles/normal = SubResource("StyleBoxFlat_normal")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1

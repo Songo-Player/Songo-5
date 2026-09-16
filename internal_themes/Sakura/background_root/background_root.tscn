@@ -19,6 +19,7 @@ script = ExtResource("1_82oto")
 
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
 unique_name_in_owner = true
+texture_filter = 1
 material = SubResource("ShaderMaterial_oj5x3")
 layout_mode = 2
 expand = true

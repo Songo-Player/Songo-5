@@ -34,6 +34,8 @@ func set_for_track(track: TagLibMusicRecord):
 	%MbAlbumId.visible = track.musicbrainz_album_id != ""
 	%AlbumIdLiteralLabel.visible = track.musicbrainz_album_id != ""
 	%MbAlbumIdLabel.text = track.musicbrainz_album_id
+	
+	%HasLyrics.visible = FileAccess.file_exists(LrcScrape.get_lrc_path(track.full_path))
 
 
 func format_file_size(bytes: int) -> String:

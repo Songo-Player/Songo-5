@@ -1,6 +1,7 @@
 extends Node
 
 var songo_data = SongoDataResource.get_instance()
+var songo_settings = SongoSettings.get_instance()
 var content_body_node
 var nav_label_node
 var active_container
@@ -42,7 +43,7 @@ var settings_collection : Array[SettingRecord] = [
 	SettingRecord.new("Support Me / Dev Roadmap", "support_me", true),
 ]
 
-var menu_items: Array[MenuItemData] = [
+var _menu_items: Array[MenuItemData] = [
 	MenuItemData.new("All Songs", "res://assets/music.svg", songs_index),
 	MenuItemData.new("Albums", "res://assets/record.svg", albums_index),
 	MenuItemData.new("Artists", "res://assets/user.svg", artists_index),
@@ -50,6 +51,24 @@ var menu_items: Array[MenuItemData] = [
 	MenuItemData.new("Settings", "res://assets/gear.svg", settings_index),
 	MenuItemData.new("Exit", "res://assets/exit_walk.svg", quit_songo),
 ]
+
+# Maps a menu item's label to its key in SongoSettings.menu_visibility.
+# Items with no entry here (Settings, Exit) are never hideable.
+const _MENU_ITEM_VISIBILITY_KEYS := {
+	"All Songs": "all_songs",
+	"Albums": "albums",
+	"Artists": "artists",
+	"Playlists": "playlists",
+}
+
+var menu_items: Array[MenuItemData]:
+	get:
+		var visible_items: Array[MenuItemData] = []
+		for item in _menu_items:
+			var visibility_key = _MENU_ITEM_VISIBILITY_KEYS.get(item.label)
+			if visibility_key == null or songo_settings.menu_visibility.get(visibility_key, true):
+				visible_items.append(item)
+		return visible_items
 
 
 func collection_list(collection = null):

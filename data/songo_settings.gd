@@ -21,16 +21,27 @@ enum START_BEHAVIOR {LOCK, SLEEP, LOCK_SLEEP, KEEP_AWAKE}
 @export var content_margin: int = 16
 @export var sfx_volume: float = 1.0
 @export var music_volume: float = 1.0
+@export var playback_blend_time: float = 4.0
+@export var use_equalizer: bool = false
+@export var equalizer: SongoEqualizer = SongoEqualizer.new()
 #@export var theme_color_index = 0
 #@export var clock_24_hour = false
 #@export var main_menu_size = 1
 @export var song_following = true
+@export var scrape_lyrics = false
+@export var render_lyrics = true
 @export var ab_layout_swapped = false
 @export var xy_layout_swapped = false
 @export var seek_backward_time_index = 1
 @export var seek_forward_time_index = 1
 @export var lock_inputs_on_sleep = false
 @export var rotate_display = false
+@export var menu_visibility = {
+	"all_songs": true,
+	"albums": true,
+	"artists": true,
+	"playlists": true
+}
 
 # --- Controls Settings --- #
 @export var start_btn_behavior: START_BEHAVIOR = START_BEHAVIOR.LOCK

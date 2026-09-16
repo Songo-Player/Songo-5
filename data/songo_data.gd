@@ -12,7 +12,7 @@ const DATA_VERSION = "46TaglibNative"
 @export var data_version = ""
 @export var artists: Array[TagLibArtistRecord] = []
 @export var albums: Array[TagLibAlbumRecord] = []
-@export var recent_playlist_name = ""
+@export var target_playlist_index: int = -1
 
 # music_records / albums / artists above are produced wholesale by
 # GDTagLib.refresh_music_library each import -- GDTagLib parses the files and
@@ -41,8 +41,8 @@ var artist_count: int:
 var album_count: int:
 	get: return albums.size()
 	
-var recent_playlist:
-	get: return get_recent_playlist()
+var target_playlist:
+	get: return get_target_playlist()
 
 
 static var _instance : SongoDataResource = null
@@ -75,13 +75,22 @@ static func get_instance() -> SongoDataResource:
 
 	return _instance
 	 
-func get_recent_playlist():
-	var target = playlists.filter(func(playlist): return recent_playlist_name == playlist.name)
-	if target.size() == 0: 
-		if playlists.size() == 0: return null
-		else: recent_playlist_name = playlists[0].name
-		return playlists[0]
-	else: return target[0]
+func get_target_playlist():
+	if playlists.size() == 0: return null
+	if target_playlist_index < 0 or target_playlist_index >= playlists.size():
+		target_playlist_index = 0
+	return playlists[target_playlist_index]
+
+func remove_playlist(playlist: M3uCollection) -> void:
+	var idx = playlists.find(playlist)
+	if idx == -1: return
+	playlists.erase(playlist)
+	if playlists.size() == 0:
+		target_playlist_index = -1
+	elif idx == target_playlist_index:
+		target_playlist_index = mini(target_playlist_index, playlists.size() - 1)
+	elif idx < target_playlist_index:
+		target_playlist_index -= 1
 		
 func songs_in_album(album_name):
 	var albums = albums.filter(func(album): return album.name == album_name)

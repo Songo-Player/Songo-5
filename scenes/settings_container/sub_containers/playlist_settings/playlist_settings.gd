@@ -69,7 +69,7 @@ func _keyboard_playlist_entered(new_playlist_name):
 		if new_playlist:
 			new_playlist.set_dicebear_image()
 			songo_data.playlists.append(new_playlist)
-			songo_data.recent_playlist_name = new_playlist.name
+			songo_data.target_playlist_index = songo_data.playlists.size() - 1
 			songo_data.save()
 			build_playlists_list()
 		else:

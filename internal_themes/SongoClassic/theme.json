@@ -68,37 +68,5 @@
 			"display_name": "Main Menu Size",
 			"dependents": ["main_menu"]
 		},
-		"songo_all_songs_menu_visibility": {
-			"values": [true, false],
-			"labels": ["Visible", "Hidden"],
-			"button_text": ["Hide", "Show"],
-			"default": true,
-			"display_name": "All Songs Menu Item",
-			"dependents": ["main_menu"]
-		},
-		"songo_albums_menu_visibility": {
-			"values": [true, false],
-			"labels": ["Visible", "Hidden"],
-			"button_text": ["Hide", "Show"],
-			"default": true,
-			"display_name": "Albums Menu Item",
-			"dependents": ["main_menu"]
-		},
-		"songo_artists_menu_visibility": {
-			"values": [true, false],
-			"labels": ["Visible", "Hidden"],
-			"button_text": ["Hide", "Show"],
-			"default": true,
-			"display_name": "Artists Menu Item",
-			"dependents": ["main_menu"]
-		},
-		"songo_playlists_menu_visibility": {
-			"values": [true, false],
-			"labels": ["Visible", "Hidden"],
-			"button_text": ["Hide", "Show"],
-			"default": true,
-			"display_name": "Playlists Menu Item",
-			"dependents": ["main_menu"]
-		},
 	}
 }

@@ -14,6 +14,8 @@ func setup():
 	update_song_following_ui()
 	update_song_sleep_ui()
 	update_song_sleep_type_ui()
+	update_scrape_lyrics_ui()
+	update_render_lyrics_ui()
 	
 func _ready():
 	await get_tree().process_frame
@@ -50,6 +52,36 @@ func _on_song_following_button_pressed() -> void:
 	songo_settings.song_following = not songo_settings.song_following
 	songo_settings.save()
 	update_song_following_ui()
+
+func update_scrape_lyrics_ui():
+	if songo_settings.scrape_lyrics:
+		%ScrapeLyricsEnabled.show()
+		%ScrapeLyricsDisabled.hide()
+		%ScrapeLyricsButton.text = "Disable"
+	else:
+		%ScrapeLyricsEnabled.hide()
+		%ScrapeLyricsDisabled.show()
+		%ScrapeLyricsButton.text = "Enable"
+
+func _on_scrape_lyrics_button_pressed() -> void:
+	songo_settings.scrape_lyrics = not songo_settings.scrape_lyrics
+	songo_settings.save()
+	update_scrape_lyrics_ui()
+
+func update_render_lyrics_ui():
+	if songo_settings.render_lyrics:
+		%RenderLyricsEnabled.show()
+		%RenderLyricsDisabled.hide()
+		%RenderLyricsButton.text = "Disable"
+	else:
+		%RenderLyricsEnabled.hide()
+		%RenderLyricsDisabled.show()
+		%RenderLyricsButton.text = "Enable"
+
+func _on_render_lyrics_button_pressed() -> void:
+	songo_settings.render_lyrics = not songo_settings.render_lyrics
+	songo_settings.save()
+	update_render_lyrics_ui()
 
 func _on_song_sleep_timer_down_pressed() -> void:
 	songo_settings.song_sleep_timer_index -= 1

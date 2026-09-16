@@ -1,6 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://cc5a5b5kyusy3"]
+[gd_scene load_steps=9 format=3 uid="uid://cc5a5b5kyusy3"]
 
 [ext_resource type="Script" path="res://internal_themes/XBop/main_menu/main_menu.gd" id="1_k8yx5"]
+[ext_resource type="Texture2D" uid="uid://ddyoohdxmjdhb" path="res://internal_themes/XBop/assets/music_glow.png" id="2_w85fu"]
+[ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="3_g4gtq"]
 [ext_resource type="Script" path="res://internal_themes/XBop/assets/line_visualizer.gd" id="4_yku81"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w5ty1"]
@@ -88,12 +90,14 @@ theme_override_constants/margin_bottom = -16
 unique_name_in_owner = true
 modulate = Color(0.576471, 0.772549, 0.447059, 1)
 layout_mode = 2
+texture = ExtResource("2_w85fu")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="MenuIcon" type="TextureRect" parent="Control/ScaleControl/PanelContainer/PanelContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+texture = ExtResource("3_g4gtq")
 expand_mode = 1
 stretch_mode = 5
 
@@ -118,193 +122,6 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(20, 20)
-
-[node name="MarginContainer" type="MarginContainer" parent="Control/ScaleControl/Control/ButtonContainer"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-rotation = 0.523599
-pivot_offset = Vector2(20, 20)
-theme_override_constants/margin_left = -150
-
-[node name="MarginContainer" type="MarginContainer" parent="Control/ScaleControl/Control/ButtonContainer/MarginContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = -300
-theme_override_constants/margin_right = 170
-
-[node name="AllSongsButton" type="Button" parent="Control/ScaleControl/Control/ButtonContainer/MarginContainer/MarginContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-focus_neighbor_top = NodePath("../../../MarginContainer6/MarginContainer/ExitButton")
-focus_neighbor_bottom = NodePath("../../../MarginContainer2/MarginContainer/AlbumsButton")
-text = "All Songs"
-
-[node name="MarginContainer2" type="MarginContainer" parent="Control/ScaleControl/Control/ButtonContainer"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-rotation = 0.314159
-pivot_offset = Vector2(20, 20)
-theme_override_constants/margin_left = -150
-
-[node name="MarginContainer" type="MarginContainer" parent="Control/ScaleControl/Control/ButtonContainer/MarginContainer2"]
-layout_mode = 2
-theme_override_constants/margin_left = -300
-theme_override_constants/margin_right = 170
-
-[node name="AlbumsButton" type="Button" parent="Control/ScaleControl/Control/ButtonContainer/MarginContainer2/MarginContainer"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-focus_neighbor_top = NodePath("../../../MarginContainer/MarginContainer/AllSongsButton")
-focus_neighbor_bottom = NodePath("../../../MarginContainer3/MarginContainer/ArtistsButton")
-text = "Albums"
-
-[node name="MarginContainer3" type="MarginContainer" parent="Control/ScaleControl/Control/ButtonContainer"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-rotation = 0.10472
-pivot_offset = Vector2(20, 20)
-theme_override_constants/margin_left = -150
-
-[node name="MarginContainer" type="MarginContainer" parent="Control/ScaleControl/Control/ButtonContainer/MarginContainer3"]
-layout_mode = 2
-theme_override_constants/margin_left = -300
-theme_override_constants/margin_right = 170
-
-[node name="ArtistsButton" type="Button" parent="Control/ScaleControl/Control/ButtonContainer/MarginContainer3/MarginContainer"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-focus_neighbor_top = NodePath("../../../MarginContainer2/MarginContainer/AlbumsButton")
-focus_neighbor_bottom = NodePath("../../../MarginContainer4/MarginContainer/PlaylistsButton")
-text = "Artists"
-
-[node name="MarginContainer4" type="MarginContainer" parent="Control/ScaleControl/Control/ButtonContainer"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-rotation = -0.10472
-pivot_offset = Vector2(20, 20)
-theme_override_constants/margin_left = -150
-
-[node name="MarginContainer" type="MarginContainer" parent="Control/ScaleControl/Control/ButtonContainer/MarginContainer4"]
-layout_mode = 2
-theme_override_constants/margin_left = -300
-theme_override_constants/margin_right = 170
-
-[node name="PlaylistsButton" type="Button" parent="Control/ScaleControl/Control/ButtonContainer/MarginContainer4/MarginContainer"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-focus_neighbor_top = NodePath("../../../MarginContainer3/MarginContainer/ArtistsButton")
-focus_neighbor_bottom = NodePath("../../../MarginContainer5/MarginContainer/SettingsButton")
-text = "Playlists"
-
-[node name="MarginContainer5" type="MarginContainer" parent="Control/ScaleControl/Control/ButtonContainer"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-rotation = -0.314159
-pivot_offset = Vector2(20, 20)
-theme_override_constants/margin_left = -150
-
-[node name="MarginContainer" type="MarginContainer" parent="Control/ScaleControl/Control/ButtonContainer/MarginContainer5"]
-layout_mode = 2
-theme_override_constants/margin_left = -300
-theme_override_constants/margin_right = 170
-
-[node name="SettingsButton" type="Button" parent="Control/ScaleControl/Control/ButtonContainer/MarginContainer5/MarginContainer"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-focus_neighbor_top = NodePath("../../../MarginContainer4/MarginContainer/PlaylistsButton")
-focus_neighbor_bottom = NodePath("../../../MarginContainer6/MarginContainer/ExitButton")
-text = "Settings"
-
-[node name="MarginContainer6" type="MarginContainer" parent="Control/ScaleControl/Control/ButtonContainer"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-rotation = -0.523599
-pivot_offset = Vector2(20, 20)
-theme_override_constants/margin_left = -150
-
-[node name="MarginContainer" type="MarginContainer" parent="Control/ScaleControl/Control/ButtonContainer/MarginContainer6"]
-layout_mode = 2
-theme_override_constants/margin_left = -300
-theme_override_constants/margin_right = 170
-
-[node name="ExitButton" type="Button" parent="Control/ScaleControl/Control/ButtonContainer/MarginContainer6/MarginContainer"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-focus_neighbor_top = NodePath("../../../MarginContainer5/MarginContainer/SettingsButton")
-focus_neighbor_bottom = NodePath("../../../MarginContainer/MarginContainer/AllSongsButton")
-text = "Exit"
 
 [node name="StringContainer" type="Control" parent="Control/ScaleControl/Control"]
 layout_mode = 1
@@ -671,6 +488,7 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+rotation = 0.523599
 pivot_offset = Vector2(20, 20)
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/ScaleControl/Control/FocusedIndicator"]
@@ -699,10 +517,3 @@ grow_vertical = 2
 rotation = 0.785398
 pivot_offset = Vector2(10, 10)
 theme_override_styles/panel = SubResource("StyleBoxFlat_7pij6")
-
-[connection signal="pressed" from="Control/ScaleControl/Control/ButtonContainer/MarginContainer/MarginContainer/AllSongsButton" to="." method="_on_all_songs_button_pressed"]
-[connection signal="pressed" from="Control/ScaleControl/Control/ButtonContainer/MarginContainer2/MarginContainer/AlbumsButton" to="." method="_on_albums_button_pressed"]
-[connection signal="pressed" from="Control/ScaleControl/Control/ButtonContainer/MarginContainer3/MarginContainer/ArtistsButton" to="." method="_on_artists_button_pressed"]
-[connection signal="pressed" from="Control/ScaleControl/Control/ButtonContainer/MarginContainer4/MarginContainer/PlaylistsButton" to="." method="_on_playlists_button_pressed"]
-[connection signal="pressed" from="Control/ScaleControl/Control/ButtonContainer/MarginContainer5/MarginContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
-[connection signal="pressed" from="Control/ScaleControl/Control/ButtonContainer/MarginContainer6/MarginContainer/ExitButton" to="." method="_on_exit_button_pressed"]

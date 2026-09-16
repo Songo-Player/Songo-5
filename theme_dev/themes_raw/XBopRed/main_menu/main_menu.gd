@@ -1,40 +1,86 @@
+@tool
 extends MarginContainer
 
 var songo_settings = SongoSettings.get_instance()
 var tween
 
-var icons = [
-	preload("../assets/music.svg"),
-	preload("../assets/record.svg"),
-	preload("../assets/user.svg"),
-	preload("../assets/layergroup.svg"),
-	preload("../assets/gear.svg"),
-	preload("../assets/exit_walk.svg"),
-]
-var glow_icons = [
-	preload("../assets/music_glow.png"),
-	preload("../assets/record_glow.png"),
-	preload("../assets/user_glow.png"),
-	preload("../assets/layer_group_glow.png"),
-	preload("../assets/gear_glow.png"),
-	preload("../assets/exit_walk_glow.png"),
+@onready var menu_item_scn = load("res://theme_dev/themes_raw/XBopRed/main_menu/main_menu_item.tscn")
+
+const ITEM_ANGLE_STEP_DEG := 12.0
+
+const GLOW_ICONS := {
+	"music": preload("../assets/music_glow.png"),
+	"record": preload("../assets/record_glow.png"),
+	"user": preload("../assets/user_glow.png"),
+	"layergroup": preload("../assets/layer_group_glow.png"),
+	"gear": preload("../assets/gear_glow.png"),
+	"exit_walk": preload("../assets/exit_walk_glow.png"),
+}
+
+const EDITOR_PREVIEW_ITEMS := [
+	["All Songs", "res://assets/music.svg"],
+	["Albums", "res://assets/record.svg"],
+	["Artists", "res://assets/user.svg"],
+	["Playlists", "res://assets/layergroup.svg"],
+	["Settings", "res://assets/gear.svg"],
+	["Exit", "res://assets/exit_walk.svg"],
 ]
 
+var buttons: Array[Button] = []
+
 func _ready():
-	var nodes = %ButtonContainer.get_children()
-	for i in nodes.size():
-		var child = nodes[i]
-		var button = child.get_child(0).get_child(0)
-		button.focus_entered.connect(func():
-			%FocusedIndicator.rotation = child.rotation
-			%MenuIcon.texture = icons[i]
-			%MenuIcon2.texture = glow_icons[i]
-			)
-	%AllSongsButton.grab_focus()
+	var menu_items := _resolve_menu_items()
+	var total := menu_items.size()
+	var step := deg_to_rad(ITEM_ANGLE_STEP_DEG)
+	var first_visual_args := []
+	for i in range(total):
+		var menu_item = menu_items[i]
+		var item = menu_item_scn.instantiate()
+		item.rotation = ((total - 1) / 2.0 - i) * step
+		%ButtonContainer.add_child(item)
+
+		var icon_tex: Texture2D = menu_item.icon()
+		var glow_tex: Texture2D = GLOW_ICONS.get(menu_item.icon_path.get_file().get_basename(), icon_tex)
+		if i == 0:
+			first_visual_args = [item.rotation, icon_tex, glow_tex]
+
+		item.button.text = menu_item.label
+		item.button.focus_entered.connect(_on_item_focus_entered.bind(item.rotation, icon_tex, glow_tex))
+		if menu_item.action.is_valid():
+			item.button.pressed.connect(menu_item.action)
+		buttons.append(item.button)
+
+	for i in range(total):
+		var left := buttons[(i - 1 + total) % total]
+		var right := buttons[(i + 1) % total]
+		buttons[i].focus_neighbor_top = buttons[i].get_path_to(left)
+		buttons[i].focus_neighbor_bottom = buttons[i].get_path_to(right)
+
+	if Engine.is_editor_hint():
+		_on_item_focus_entered(first_visual_args[0], first_visual_args[1], first_visual_args[2])
+		return
+
+	buttons[0].grab_focus()
 	_start_flicker()
 	_on_theme_settings_updated()
 	ThemeManager.theme_settings_updated.connect(_on_theme_settings_updated)
-	
+
+# Controller/menu_items isn't available while editing (it's an autoload, only
+# present at runtime), so the editor gets a fixed placeholder set just to
+# render a preview of the layout.
+func _resolve_menu_items() -> Array[MenuItemData]:
+	if Engine.is_editor_hint():
+		var preview: Array[MenuItemData] = []
+		for entry in EDITOR_PREVIEW_ITEMS:
+			preview.append(MenuItemData.new(entry[0], entry[1], Callable()))
+		return preview
+	return Controller.menu_items
+
+func _on_item_focus_entered(item_rotation: float, icon_tex: Texture2D, glow_tex: Texture2D) -> void:
+	%FocusedIndicator.rotation = item_rotation
+	%MenuIcon.texture = icon_tex
+	%MenuIcon2.texture = glow_tex
+
 func _start_flicker() -> void:
 	tween = create_tween().set_loops()
 	tween.tween_property(%MenuIcon2, "modulate:a", 0.8, 1.5) \
@@ -44,28 +90,7 @@ func _start_flicker() -> void:
 
 func _process(delta):
 	pass
-	
-	#var new_scale = 1.0/songo_settings.ui_scale
-	#%ScaleControl.scale = Vector2(new_scale, new_scale)
 
-func _on_settings_button_pressed() -> void:
-	Controller.settings_index()
-
-func _on_all_songs_button_pressed() -> void:
-	Controller.songs_index()
-
-func _on_albums_button_pressed() -> void:
-	Controller.albums_index()
-
-func _on_artists_button_pressed() -> void:
-	Controller.artists_index()
-
-func _on_playlists_button_pressed() -> void:
-	Controller.playlists_index()
-
-func _on_exit_button_pressed() -> void:
-	Controller.quit_songo()
-	
 func _on_theme_settings_updated():
 	var content_scale = ThemeManager.settings["content_scale"]
 	%ScaleControl.scale = Vector2(content_scale, content_scale)

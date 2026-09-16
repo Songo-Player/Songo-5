@@ -1,0 +1,44 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://internal_themes/SongoClassic/main_menu/main_menu_item_large.gd" id="1_item"]
+
+[node name="MainMenuItemLarge" type="PanelContainer"]
+layout_mode = 3
+size_flags_vertical = 4
+mouse_filter = 1
+script = ExtResource("1_item")
+
+[node name="ItemButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="GradientPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/VBoxContainer/GradientPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(172, 172)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 3
+
+[node name="ItemLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+horizontal_alignment = 1

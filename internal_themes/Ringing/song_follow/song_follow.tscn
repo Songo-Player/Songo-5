@@ -38,6 +38,8 @@ theme_override_constants/margin_bottom = -8
 script = ExtResource("1_xivob")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
+z_index = 1
+z_as_relative = false
 layout_mode = 2
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_unq85")

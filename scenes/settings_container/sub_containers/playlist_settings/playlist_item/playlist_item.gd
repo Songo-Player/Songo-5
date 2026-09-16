@@ -10,6 +10,6 @@ func setup(playlist_arg: M3uCollection):
 	$SongCount.text = "%d Songs" % playlist.music_records.size()
 
 func _on_button_pressed() -> void:
-	songo_data.playlists.erase(playlist)
-	DirAccess.remove_absolute(playlist.m3u_path) 
+	songo_data.remove_playlist(playlist)
+	DirAccess.remove_absolute(playlist.m3u_path)
 	removed_playlist.emit()

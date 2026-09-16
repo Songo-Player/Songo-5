@@ -27,8 +27,16 @@ var blend_tween: Tween = null
 var is_blending: bool = false
 var blend_finishing: bool = false
 var blend_triggered_for_current: bool = false
-var blend_lead_time: float = 4.0
-var blend_duration: float = 4.0
+var blend_lead_time: float:
+	get: return songo_settings.playback_blend_time
+var blend_duration: float:
+	get: return songo_settings.playback_blend_time
+
+# -------- Equalizer -------- #
+const EQ_BUS_NAME := "Visualizer"
+var eq_effect: AudioEffectEQ10
+var eq_effect_index: int = -1
+var eq_bus_idx: int = -1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -44,6 +52,25 @@ func _ready() -> void:
 	player_b.stream_finished.connect(_on_finished.bind(player_b))
 	ffmpeg_audio_playback = player_a
 	set_vol(songo_settings.music_volume)
+	_setup_equalizer()
+
+func _setup_equalizer():
+	eq_bus_idx = AudioServer.get_bus_index(EQ_BUS_NAME)
+	if eq_bus_idx == -1:
+		push_error("SongoPlayerV2: audio bus '%s' not found for equalizer" % EQ_BUS_NAME)
+		return
+	eq_effect = AudioEffectEQ10.new()
+	AudioServer.add_bus_effect(eq_bus_idx, eq_effect)
+	eq_effect_index = AudioServer.get_bus_effect_count(eq_bus_idx) - 1
+	apply_equalizer_settings()
+
+func apply_equalizer_settings():
+	if not is_instance_valid(eq_effect) or eq_bus_idx == -1:
+		return
+	# Bypass the effect entirely when disabled, rather than relying on zeroed gains.
+	AudioServer.set_bus_effect_enabled(eq_bus_idx, eq_effect_index, songo_settings.use_equalizer)
+	for i in range(SongoEqualizer.BAND_COUNT):
+		eq_effect.set_band_gain_db(i, songo_settings.equalizer.get_band_gain(i))
 
 func _process(delta: float) -> void:
 	_check_auto_blend()

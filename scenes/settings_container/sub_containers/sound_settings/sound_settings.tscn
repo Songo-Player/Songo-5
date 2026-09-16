@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://baxqre4t8cm6"]
+[gd_scene load_steps=9 format=3 uid="uid://baxqre4t8cm6"]
 
 [ext_resource type="Script" path="res://scenes/settings_container/sub_containers/sound_settings/sound_settings.gd" id="1_8q3vs"]
 [ext_resource type="Script" path="res://utilities/smooth_scroll_container.gd" id="2_qlrew"]
 [ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="2_rm64k"]
 [ext_resource type="PackedScene" uid="uid://0m5yrmj03xdi" path="res://scenes/settings_container/settings_button.tscn" id="3_1t4tl"]
+[ext_resource type="Script" path="res://utilities/left_right_btn_container.gd" id="4_hcabh"]
 [ext_resource type="Texture2D" uid="uid://cugg5pnrtgmxg" path="res://assets/arrowLeft.svg" id="4_pby56"]
 [ext_resource type="Texture2D" uid="uid://c8jp7o8xasf1x" path="res://assets/arrowRight.svg" id="5_q46vm"]
 
@@ -100,6 +101,7 @@ expand_to_text_length = true
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/SfxVolumeSetting"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
+script = ExtResource("4_hcabh")
 
 [node name="SfxVolumeDown" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/SfxVolumeSetting/HBoxContainer" instance=ExtResource("3_1t4tl")]
 layout_mode = 2
@@ -140,6 +142,7 @@ expand_to_text_length = true
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MusicVolumeSetting"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
+script = ExtResource("4_hcabh")
 
 [node name="MusicVolumeDown" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MusicVolumeSetting/HBoxContainer" instance=ExtResource("3_1t4tl")]
 layout_mode = 2
@@ -209,6 +212,7 @@ expand_to_text_length = true
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StreamBufferLengthSettingContainer/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
+script = ExtResource("4_hcabh")
 
 [node name="BufferLengthDown" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StreamBufferLengthSettingContainer/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
 layout_mode = 2
@@ -231,6 +235,588 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "If this is too low your music may pop, crackle, or stutter. If this is too high then you will have noticeable delay when quickly skipping songs. 100ms should be ideal."
 autowrap_mode = 2
+
+[node name="PlaybackBlendSettingContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_rm64k")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackBlendSettingContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackBlendSettingContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PlaybackBlendSetting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackBlendSettingContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackBlendSettingContainer/MarginContainer/VBoxContainer/PlaybackBlendSetting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackBlendSettingContainer/MarginContainer/VBoxContainer/PlaybackBlendSetting/Hbox"]
+layout_mode = 2
+text = "Playback Blend"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackBlendSettingContainer/MarginContainer/VBoxContainer/PlaybackBlendSetting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PlaybackBlendDisplayLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackBlendSettingContainer/MarginContainer/VBoxContainer/PlaybackBlendSetting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 0
+text = "4.0s"
+alignment = 1
+max_length = 5
+expand_to_text_length = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackBlendSettingContainer/MarginContainer/VBoxContainer/PlaybackBlendSetting/Hbox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+script = ExtResource("4_hcabh")
+
+[node name="PlaybackBlendDown" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackBlendSettingContainer/MarginContainer/VBoxContainer/PlaybackBlendSetting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("4_pby56")
+
+[node name="PlaybackBlendUp" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackBlendSettingContainer/MarginContainer/VBoxContainer/PlaybackBlendSetting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("5_q46vm")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackBlendSettingContainer/MarginContainer/VBoxContainer/PlaybackBlendSetting"]
+layout_mode = 2
+theme_override_constants/margin_top = 6
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackBlendSettingContainer/MarginContainer/VBoxContainer/PlaybackBlendSetting/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "How long songs crossfade into each other near the end of playback. Set to 0 to disable blending."
+autowrap_mode = 2
+
+[node name="EQSettingContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_rm64k")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="UseEqualizerSetting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/UseEqualizerSetting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/UseEqualizerSetting/Hbox"]
+layout_mode = 2
+text = "Use Equalizer"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/UseEqualizerSetting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="UseEqualizerEnabled" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/UseEqualizerSetting/Hbox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
+text = "Enabled"
+
+[node name="UseEqualizerDisabled" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/UseEqualizerSetting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
+text = "Disabled"
+
+[node name="UseEqualizerButton" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/UseEqualizerSetting/Hbox" instance=ExtResource("3_1t4tl")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Enable"
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/UseEqualizerSetting"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "When enabled, applies the 10-band equalizer to playback."
+autowrap_mode = 2
+
+[node name="EQBandsContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Band1Setting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band1Setting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band1Setting/Hbox"]
+layout_mode = 2
+text = "Band 1 (31hz)"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band1Setting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Band1DecibalAdjustment" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band1Setting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 0
+text = "0db"
+alignment = 1
+max_length = 5
+expand_to_text_length = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band1Setting/Hbox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+script = ExtResource("4_hcabh")
+
+[node name="dbDown" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band1Setting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("4_pby56")
+
+[node name="dbUp" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band1Setting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("5_q46vm")
+
+[node name="Band2Setting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band2Setting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band2Setting/Hbox"]
+layout_mode = 2
+text = "Band 2 (62hz)"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band2Setting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Band2DecibalAdjustment" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band2Setting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 0
+text = "0db"
+alignment = 1
+max_length = 5
+expand_to_text_length = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band2Setting/Hbox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+script = ExtResource("4_hcabh")
+
+[node name="dbDown" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band2Setting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("4_pby56")
+
+[node name="dbUp" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band2Setting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("5_q46vm")
+
+[node name="Band3Setting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band3Setting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band3Setting/Hbox"]
+layout_mode = 2
+text = "Band 3 (125hz)"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band3Setting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Band3DecibalAdjustment" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band3Setting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 0
+text = "0db"
+alignment = 1
+max_length = 5
+expand_to_text_length = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band3Setting/Hbox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+script = ExtResource("4_hcabh")
+
+[node name="dbDown" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band3Setting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("4_pby56")
+
+[node name="dbUp" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band3Setting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("5_q46vm")
+
+[node name="Band4Setting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band4Setting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band4Setting/Hbox"]
+layout_mode = 2
+text = "Band 4 (250hz)"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band4Setting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Band4DecibalAdjustment" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band4Setting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 0
+text = "0db"
+alignment = 1
+max_length = 5
+expand_to_text_length = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band4Setting/Hbox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+script = ExtResource("4_hcabh")
+
+[node name="dbDown" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band4Setting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("4_pby56")
+
+[node name="dbUp" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band4Setting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("5_q46vm")
+
+[node name="Band5Setting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band5Setting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band5Setting/Hbox"]
+layout_mode = 2
+text = "Band 5 (500hz)"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band5Setting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Band5DecibalAdjustment" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band5Setting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 0
+text = "0db"
+alignment = 1
+max_length = 5
+expand_to_text_length = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band5Setting/Hbox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+script = ExtResource("4_hcabh")
+
+[node name="dbDown" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band5Setting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("4_pby56")
+
+[node name="dbUp" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band5Setting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("5_q46vm")
+
+[node name="Band6Setting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band6Setting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band6Setting/Hbox"]
+layout_mode = 2
+text = "Band 6 (1khz)"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band6Setting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Band6DecibalAdjustment" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band6Setting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 0
+text = "0db"
+alignment = 1
+max_length = 5
+expand_to_text_length = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band6Setting/Hbox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+script = ExtResource("4_hcabh")
+
+[node name="dbDown" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band6Setting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("4_pby56")
+
+[node name="dbUp" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band6Setting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("5_q46vm")
+
+[node name="Band7Setting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band7Setting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band7Setting/Hbox"]
+layout_mode = 2
+text = "Band 7 (2khz)"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band7Setting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Band7DecibalAdjustment" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band7Setting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 0
+text = "0db"
+alignment = 1
+max_length = 5
+expand_to_text_length = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band7Setting/Hbox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+script = ExtResource("4_hcabh")
+
+[node name="dbDown" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band7Setting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("4_pby56")
+
+[node name="dbUp" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band7Setting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("5_q46vm")
+
+[node name="Band8Setting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band8Setting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band8Setting/Hbox"]
+layout_mode = 2
+text = "Band 8 (4khz)"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band8Setting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Band8DecibalAdjustment" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band8Setting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 0
+text = "0db"
+alignment = 1
+max_length = 5
+expand_to_text_length = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band8Setting/Hbox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+script = ExtResource("4_hcabh")
+
+[node name="dbDown" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band8Setting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("4_pby56")
+
+[node name="dbUp" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band8Setting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("5_q46vm")
+
+[node name="Band9Setting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band9Setting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band9Setting/Hbox"]
+layout_mode = 2
+text = "Band 9 (8khz)"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band9Setting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Band9DecibalAdjustment" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band9Setting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 0
+text = "0db"
+alignment = 1
+max_length = 5
+expand_to_text_length = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band9Setting/Hbox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+script = ExtResource("4_hcabh")
+
+[node name="dbDown" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band9Setting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("4_pby56")
+
+[node name="dbUp" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band9Setting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("5_q46vm")
+
+[node name="Band10Setting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band10Setting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band10Setting/Hbox"]
+layout_mode = 2
+text = "Band 10 (16khz)"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band10Setting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Band10DecibalAdjustment" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band10Setting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 0
+text = "0db"
+alignment = 1
+max_length = 5
+expand_to_text_length = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band10Setting/Hbox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+script = ExtResource("4_hcabh")
+
+[node name="dbDown" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band10Setting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("4_pby56")
+
+[node name="dbUp" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band10Setting/Hbox/HBoxContainer" instance=ExtResource("3_1t4tl")]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("5_q46vm")
 
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection"]
 layout_mode = 2
@@ -281,4 +867,27 @@ text = "Reset to Defaults
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MusicVolumeSetting/HBoxContainer/MusicVolumeUp" to="." method="_on_music_volume_up_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StreamBufferLengthSettingContainer/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox/HBoxContainer/BufferLengthDown" to="." method="_on_buffer_length_down_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StreamBufferLengthSettingContainer/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox/HBoxContainer/BufferLengthUp" to="." method="_on_buffer_length_up_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackBlendSettingContainer/MarginContainer/VBoxContainer/PlaybackBlendSetting/Hbox/HBoxContainer/PlaybackBlendDown" to="." method="_on_playback_blend_down_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackBlendSettingContainer/MarginContainer/VBoxContainer/PlaybackBlendSetting/Hbox/HBoxContainer/PlaybackBlendUp" to="." method="_on_playback_blend_up_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/UseEqualizerSetting/Hbox/UseEqualizerButton" to="." method="_on_use_equalizer_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band1Setting/Hbox/HBoxContainer/dbDown" to="." method="_on_eq_band_down_pressed" binds= [1]]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band1Setting/Hbox/HBoxContainer/dbUp" to="." method="_on_eq_band_up_pressed" binds= [1]]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band2Setting/Hbox/HBoxContainer/dbDown" to="." method="_on_eq_band_down_pressed" binds= [2]]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band2Setting/Hbox/HBoxContainer/dbUp" to="." method="_on_eq_band_up_pressed" binds= [2]]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band3Setting/Hbox/HBoxContainer/dbDown" to="." method="_on_eq_band_down_pressed" binds= [3]]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band3Setting/Hbox/HBoxContainer/dbUp" to="." method="_on_eq_band_up_pressed" binds= [3]]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band4Setting/Hbox/HBoxContainer/dbDown" to="." method="_on_eq_band_down_pressed" binds= [4]]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band4Setting/Hbox/HBoxContainer/dbUp" to="." method="_on_eq_band_up_pressed" binds= [4]]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band5Setting/Hbox/HBoxContainer/dbDown" to="." method="_on_eq_band_down_pressed" binds= [5]]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band5Setting/Hbox/HBoxContainer/dbUp" to="." method="_on_eq_band_up_pressed" binds= [5]]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band6Setting/Hbox/HBoxContainer/dbDown" to="." method="_on_eq_band_down_pressed" binds= [6]]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band6Setting/Hbox/HBoxContainer/dbUp" to="." method="_on_eq_band_up_pressed" binds= [6]]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band7Setting/Hbox/HBoxContainer/dbDown" to="." method="_on_eq_band_down_pressed" binds= [7]]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band7Setting/Hbox/HBoxContainer/dbUp" to="." method="_on_eq_band_up_pressed" binds= [7]]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band8Setting/Hbox/HBoxContainer/dbDown" to="." method="_on_eq_band_down_pressed" binds= [8]]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band8Setting/Hbox/HBoxContainer/dbUp" to="." method="_on_eq_band_up_pressed" binds= [8]]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band9Setting/Hbox/HBoxContainer/dbDown" to="." method="_on_eq_band_down_pressed" binds= [9]]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band9Setting/Hbox/HBoxContainer/dbUp" to="." method="_on_eq_band_up_pressed" binds= [9]]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band10Setting/Hbox/HBoxContainer/dbDown" to="." method="_on_eq_band_down_pressed" binds= [10]]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band10Setting/Hbox/HBoxContainer/dbUp" to="." method="_on_eq_band_up_pressed" binds= [10]]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MarginContainer/PanelContainer/ResetToDefaultsButton" to="." method="_on_reset_to_defaults_button_pressed"]
