@@ -4,7 +4,6 @@ This page will be updated rapidly (hopefully) over the next week as I update lic
 
 ## In Progress Initiaves
 - Wrapping up initial theme system and themes for v1.0 release
-- Cleaning up the repo (Ive left a lot of experimental garbage in the repo during dev)
 - Tightening up integrations with hardware/cfw 
 
 ## Forking Songo#5
