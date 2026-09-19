@@ -130,6 +130,53 @@ layout_mode = 2
 size_flags_horizontal = 1
 text = "Swap"
 
+[node name="StickNavContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_oahca")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StickNavContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StickNavContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="StickNavSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StickNavContainer/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StickNavContainer/MarginContainer/VBox/StickNavSetting"]
+layout_mode = 2
+text = "Joy Stick Navigation"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StickNavContainer/MarginContainer/VBox/StickNavSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StickNavEnabled" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StickNavContainer/MarginContainer/VBox/StickNavSetting"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
+text = "Enabled"
+
+[node name="StickNavDisabled" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StickNavContainer/MarginContainer/VBox/StickNavSetting"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
+text = "Disabled"
+
+[node name="StickNavButton" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StickNavContainer/MarginContainer/VBox/StickNavSetting" instance=ExtResource("3_w8b5a")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Swap"
+
 [node name="SeekSettingsContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("2_oahca")
@@ -324,6 +371,7 @@ text = "Reset to Defaults
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/ABLayoutSetting/ABLayoutButton" to="." method="_on_ab_layout_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/XYLayoutSetting/XYLayoutButton" to="." method="_on_xy_layout_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StickNavContainer/MarginContainer/VBox/StickNavSetting/StickNavButton" to="." method="_on_stick_nav_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox/HBoxContainer/SeekForwardTimerDown" to="." method="_on_seek_forward_timer_down_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox/HBoxContainer/SeekForwardTimerUp" to="." method="_on_seek_forward_timer_up_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox2/HBoxContainer/SeekBackwardTimerDown" to="." method="_on_seek_backward_timer_down_pressed"]

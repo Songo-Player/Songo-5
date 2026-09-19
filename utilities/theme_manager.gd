@@ -45,7 +45,7 @@ func set_current_theme(theme_path_arg):
 		print(full_gd_theme_path)
 		UiHelper.apply_user_theme(load(full_gd_theme_path))
 	else:
-		var base_theme = load("res://songo_base_theme.tres")
+		var base_theme = load("res://assets/songo_base_theme.tres")
 		get_tree().root.theme = base_theme
 		if UiHelper.transform_container:
 			UiHelper.transform_container.theme = base_theme

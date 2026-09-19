@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://s8fqkdqnsk48"]
+[gd_scene load_steps=25 format=3 uid="uid://s8fqkdqnsk48"]
 
 [ext_resource type="Script" path="res://internal_themes/Ringing/main_song_view/main_song_view.gd" id="1_q0h4w"]
 [ext_resource type="Texture2D" uid="uid://beq3xrq55bgua" path="res://assets/Play.svg" id="2_q7cxj"]
@@ -8,7 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://dt2pe77pksx87" path="res://assets/shuffle.svg" id="4_ey1ow"]
 [ext_resource type="Script" path="res://internal_themes/Ringing/assets/RingMusicVisualizer.gd" id="4_wdwoa"]
 [ext_resource type="Texture2D" uid="uid://dsstr0fb8yo33" path="res://assets/Repeat.svg" id="5_68o8e"]
-[ext_resource type="Script" path="res://utilities/carousel_label.gd" id="5_kansb"]
 [ext_resource type="Texture2D" uid="uid://ecyapgsdhese" path="res://assets/XboxSeriesX_X.png" id="6_ubllw"]
 [ext_resource type="Script" path="res://internal_themes/Ringing/assets/circular_progress_bar.gd" id="7_1gd2h"]
 [ext_resource type="Texture2D" uid="uid://cshjgdxugm3gb" path="res://assets/lock.svg" id="7_n1aub"]
@@ -94,18 +93,6 @@ fill_to = Vector2(1, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8qqbx"]
 texture = SubResource("GradientTexture2D_pwdtm")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ml8v8"]
-bg_color = Color(0.965, 0.863, 0.675, 0.85)
-border_width_top = 2
-border_color = Color(1, 0.333333, 0.356863, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mle3l"]
-bg_color = Color(0.98, 0.663, 0.408, 0.7)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
 
 [node name="MainSongView" type="MarginContainer"]
 anchors_preset = 15
@@ -388,85 +375,6 @@ script = ExtResource("7_1gd2h")
 radius = 158.0
 progress_color = Color(0.450569, 0.624954, 0.332662, 1)
 track_color = Color(1, 1, 1, 0)
-
-[node name="MarginContainer" type="MarginContainer" parent="."]
-z_index = 1
-layout_mode = 2
-size_flags_vertical = 8
-theme_override_constants/margin_left = -300
-theme_override_constants/margin_right = -300
-theme_override_constants/margin_bottom = -12
-
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ml8v8")
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer"]
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/margin_left = 312
-theme_override_constants/margin_top = 6
-theme_override_constants/margin_right = 312
-theme_override_constants/margin_bottom = 6
-
-[node name="MainSongViewCompanion" type="HBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Label2" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/MainSongViewCompanion"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.00392157, 0.12549, 0.305882, 1)
-theme_override_constants/shadow_offset_x = 0
-theme_override_constants/shadow_offset_y = 0
-theme_override_constants/shadow_outline_size = 6
-text = "Playing"
-
-[node name="PanelContainer3" type="PanelContainer" parent="MarginContainer/PanelContainer/MarginContainer/MainSongViewCompanion"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_mle3l")
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/MarginContainer/MainSongViewCompanion/PanelContainer3"]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_right = 8
-
-[node name="CurrentSongTitle" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/MainSongViewCompanion/PanelContainer3/MarginContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0.972549, 0.333333, 0.145098, 1)
-script = ExtResource("5_kansb")
-font_color = Color(0.972549, 0.333333, 0.145098, 1)
-
-[node name="Spacer" type="MarginContainer" parent="MarginContainer/PanelContainer/MarginContainer/MainSongViewCompanion"]
-layout_mode = 2
-theme_override_constants/margin_left = 40
-
-[node name="Label3" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/MainSongViewCompanion"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.00392157, 0.12549, 0.305882, 1)
-theme_override_constants/shadow_offset_x = 0
-theme_override_constants/shadow_offset_y = 0
-theme_override_constants/shadow_outline_size = 6
-text = "Next:"
-
-[node name="PanelContainer4" type="PanelContainer" parent="MarginContainer/PanelContainer/MarginContainer/MainSongViewCompanion"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_mle3l")
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/MarginContainer/MainSongViewCompanion/PanelContainer4"]
-custom_minimum_size = Vector2(170, 0)
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_right = 8
-
-[node name="NextSongTitle" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/MainSongViewCompanion/PanelContainer4/MarginContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0.972549, 0.333333, 0.145098, 1)
-script = ExtResource("5_kansb")
-font_color = Color(0.972549, 0.333333, 0.145098, 1)
 
 [connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
 [connection signal="tree_exited" from="." to="." method="_on_tree_exited"]

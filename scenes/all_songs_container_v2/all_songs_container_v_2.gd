@@ -30,7 +30,7 @@ func get_focused_song():
 
 func setup_collection(collection_arg):
 	collection = collection_arg
-	if "music_records" in collection:
+	if collection is Object and "music_records" in collection:
 		list_items = collection.music_records
 	else:
 		list_items = collection

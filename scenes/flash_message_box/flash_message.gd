@@ -2,7 +2,7 @@ extends PanelContainer
 class_name FlashMessage
 enum TYPE {NONE, LYRIC, WARN, INFO}
 
-@onready var tween := create_tween()
+var tween: Tween
 
 func setup(message, persist_time_arg, type:TYPE):
 	$Timer.wait_time = persist_time_arg

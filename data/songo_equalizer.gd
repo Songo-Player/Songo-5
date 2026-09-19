@@ -3,8 +3,8 @@ class_name SongoEqualizer
 
 const BAND_COUNT := 10
 const BAND_FREQUENCIES: Array[int] = [31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]
-const MIN_GAIN_DB := -60.0
-const MAX_GAIN_DB := 24.0
+const MIN_GAIN_DB := -30.0
+const MAX_GAIN_DB := 12.0
 
 @export var band_gains_db: Array[float] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 

@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://qlr7cgr7nlc7"]
+[gd_scene load_steps=12 format=3 uid="uid://qlr7cgr7nlc7"]
 
 [ext_resource type="Script" path="res://internal_themes/SongoClassic/background_root/background_root.gd" id="1_3djgj"]
 [ext_resource type="Shader" path="res://internal_themes/SongoClassic/assets/oopsNoColor.gdshader" id="2_86e4v"]
+[ext_resource type="Shader" path="res://internal_themes/SongoClassic/assets/crt.gdshader" id="3_msq2v"]
+[ext_resource type="Shader" path="res://internal_themes/SongoClassic/assets/theGrid.gdshader" id="4_50nw5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w353m"]
 bg_color = Color(0.882353, 0.541176, 0.666667, 1)
@@ -10,6 +12,38 @@ bg_color = Color(0.882353, 0.541176, 0.666667, 1)
 shader = ExtResource("2_86e4v")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hvade"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mcahw"]
+shader = ExtResource("3_msq2v")
+shader_parameter/intensity = 0.2
+shader_parameter/glitch_frequency = 2.0
+shader_parameter/glitch_duration = 0.1
+shader_parameter/red_displacement = 0.01
+shader_parameter/green_displacement = 0.01
+shader_parameter/blue_displacement = 0.01
+shader_parameter/scanline_intensity = 0.5
+shader_parameter/noise_intensity = 0.2
+shader_parameter/slice_intensity = 1.0
+shader_parameter/ghost_intensity = 0.1
+shader_parameter/negative_intensity = 0.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r2i1r"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xij4b"]
+shader = ExtResource("4_50nw5")
+shader_parameter/brightness = 0.7
+shader_parameter/darkness = 1.0
+shader_parameter/anchor = -0.5
+shader_parameter/speed_scale = 0.5
+shader_parameter/fov = 0.15
+shader_parameter/line_count = 1.0
+shader_parameter/background_color = Color(0.235497, 0.488333, 1, 1)
+shader_parameter/grid_color = Color(1, 0.5, 1, 1)
+shader_parameter/rainbow_intensity = 0.4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s60mp"]
 bg_color = Color(1, 1, 1, 1)
 
 [node name="BackgroundRoot" type="PanelContainer"]
@@ -30,3 +64,19 @@ material = SubResource("ShaderMaterial_4lspt")
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_hvade")
+
+[node name="CrtOverlay" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 5
+material = SubResource("ShaderMaterial_mcahw")
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_r2i1r")
+
+[node name="TheGridOverlay" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+material = SubResource("ShaderMaterial_xij4b")
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s60mp")

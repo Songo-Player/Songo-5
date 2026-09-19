@@ -29,6 +29,7 @@ func _process(_delta):
 func play(path: String, seek_time: float = 0.0):
 	var song_path = ProjectSettings.globalize_path(path)
 	set_buffer_length_ms(songo_settings.stream_buffer_length)
+	set_force_44100hz(songo_settings.force_44100hz)
 	song_player.play(song_path, seek_time)
 
 func stop():
@@ -59,6 +60,10 @@ func get_actual_playback_position() -> float:
 func set_buffer_length_ms(ms: int):
 	if song_player.generator:
 		song_player.generator.buffer_length = snapped(ms / 1000.0, 0.001)
+
+func set_force_44100hz(force: bool):
+	if song_player:
+		song_player.force_44100hz = force
 
 func _on_song_finished():
 	print("FINISHED")

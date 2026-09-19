@@ -34,7 +34,11 @@ layout_mode = 2
 follow_focus = true
 script = ExtResource("2_acvha")
 
-[node name="MiscSection" type="MarginContainer" parent="ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MiscSection" type="MarginContainer" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
@@ -42,107 +46,107 @@ theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 0
 
-[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/MiscSection"]
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MiscSection"]
 layout_mode = 2
 
-[node name="MarginContainer2" type="MarginContainer" parent="ScrollContainer/MiscSection/PanelContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 38
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2"]
 layout_mode = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("1_ieslp")
 
-[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="SongFollowingSetting" type="VBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer"]
+[node name="SongFollowingSetting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="SongSleepTimerSetting" type="HBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting"]
+[node name="SongSleepTimerSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting/SongSleepTimerSetting"]
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting/SongSleepTimerSetting"]
 layout_mode = 2
 text = "Song Following"
 
-[node name="HSeparator" type="HSeparator" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting/SongSleepTimerSetting"]
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting/SongSleepTimerSetting"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SongFollowingEnabled" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting/SongSleepTimerSetting"]
+[node name="SongFollowingEnabled" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting/SongSleepTimerSetting"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
 text = "Enabled"
 
-[node name="SongFollowingDisabled" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting/SongSleepTimerSetting"]
+[node name="SongFollowingDisabled" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting/SongSleepTimerSetting"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
 text = "Disabled"
 
-[node name="SongFollowingButton" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting/SongSleepTimerSetting" instance=ExtResource("2_if6m3")]
+[node name="SongFollowingButton" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting/SongSleepTimerSetting" instance=ExtResource("2_if6m3")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_horizontal = 1
 text = "Enable"
 
-[node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting"]
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "When enabled, songs will continue playing when you nav out of a song."
 autowrap_mode = 2
 
-[node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer"]
+[node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("1_ieslp")
 
-[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2"]
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="SongSleepAllSettings" type="VBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer"]
+[node name="SongSleepAllSettings" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer"]
 layout_mode = 2
 
-[node name="SongSleepTimerSection" type="VBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings"]
+[node name="SongSleepTimerSection" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings"]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="SongSleepFadeSetting" type="VBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection"]
+[node name="SongSleepFadeSetting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting"]
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox"]
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox"]
 layout_mode = 2
 text = "Screen Fade Type"
 
-[node name="HSeparator" type="HSeparator" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox"]
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SongSleepFadeTypeLabel" type="LineEdit" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox"]
+[node name="SongSleepFadeTypeLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox"]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
@@ -151,44 +155,44 @@ theme_override_constants/minimum_character_width = 3
 text = "Black Fade"
 expand_to_text_length = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 script = ExtResource("5_2ck0i")
 
-[node name="SongSleepFadeTypeDown" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox/HBoxContainer" instance=ExtResource("2_if6m3")]
+[node name="SongSleepFadeTypeDown" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox/HBoxContainer" instance=ExtResource("2_if6m3")]
 layout_mode = 2
 text = "
 "
 icon = ExtResource("4_06yt1")
 
-[node name="SongSleepFadeTypeUp" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox/HBoxContainer" instance=ExtResource("2_if6m3")]
+[node name="SongSleepFadeTypeUp" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox/HBoxContainer" instance=ExtResource("2_if6m3")]
 layout_mode = 2
 text = ""
 icon = ExtResource("5_www0p")
 
-[node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting"]
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "The method in which fade is applied, 'Black Fade' is ideal for OLED/AMOLED screens. For best results try out each of these and use what you like."
 autowrap_mode = 2
 
-[node name="SongSleepTimerSetting" type="VBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection"]
+[node name="SongSleepTimerSetting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection"]
 layout_mode = 2
 
-[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting"]
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox"]
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox"]
 layout_mode = 2
 text = "Song Sleep Timer"
 
-[node name="HSeparator" type="HSeparator" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox"]
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SongSleepTimerLabel" type="LineEdit" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox"]
+[node name="SongSleepTimerLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox"]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
@@ -196,202 +200,280 @@ mouse_filter = 2
 theme_override_constants/minimum_character_width = 3
 text = "10s"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 focus_mode = 2
 script = ExtResource("5_2ck0i")
 
-[node name="SongSleepTimerDown" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox/HBoxContainer" instance=ExtResource("2_if6m3")]
+[node name="SongSleepTimerDown" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox/HBoxContainer" instance=ExtResource("2_if6m3")]
 unique_name_in_owner = true
 layout_mode = 2
 text = ""
 icon = ExtResource("4_06yt1")
 
-[node name="SongSleepTimerUp" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox/HBoxContainer" instance=ExtResource("2_if6m3")]
+[node name="SongSleepTimerUp" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox/HBoxContainer" instance=ExtResource("2_if6m3")]
 unique_name_in_owner = true
 layout_mode = 2
 text = ""
 icon = ExtResource("5_www0p")
 
-[node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting"]
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "This fades out the screen and turns it off after (n) seconds of inactivity after selecting a song."
 autowrap_mode = 2
 
-[node name="PanelContainer3" type="PanelContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer"]
+[node name="PanelContainer3" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("1_ieslp")
 
-[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3"]
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="LyricsAllSettings" type="VBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer"]
+[node name="LyricsAllSettings" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="ScrapeLyricsSetting" type="VBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings"]
+[node name="ScrapeLyricsSetting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/ScrapeLyricsSetting"]
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/ScrapeLyricsSetting"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/ScrapeLyricsSetting/Hbox"]
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/ScrapeLyricsSetting/Hbox"]
 layout_mode = 2
 text = "Scrape Lyrics"
 
-[node name="HSeparator" type="HSeparator" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/ScrapeLyricsSetting/Hbox"]
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/ScrapeLyricsSetting/Hbox"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ScrapeLyricsEnabled" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/ScrapeLyricsSetting/Hbox"]
+[node name="ScrapeLyricsEnabled" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/ScrapeLyricsSetting/Hbox"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
 text = "Enabled"
 
-[node name="ScrapeLyricsDisabled" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/ScrapeLyricsSetting/Hbox"]
+[node name="ScrapeLyricsDisabled" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/ScrapeLyricsSetting/Hbox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
 text = "Disabled"
 
-[node name="ScrapeLyricsButton" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/ScrapeLyricsSetting/Hbox" instance=ExtResource("2_if6m3")]
+[node name="ScrapeLyricsButton" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/ScrapeLyricsSetting/Hbox" instance=ExtResource("2_if6m3")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_horizontal = 1
 text = "Enable"
 
-[node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/ScrapeLyricsSetting"]
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/ScrapeLyricsSetting"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "When enabled, Songo will automatically fetch a synced .lrc lyrics file from lrclib.net for songs that don't already have one."
 autowrap_mode = 2
 
-[node name="RenderLyricsSetting" type="VBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings"]
+[node name="RenderLyricsSetting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/RenderLyricsSetting"]
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/RenderLyricsSetting"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/RenderLyricsSetting/Hbox"]
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/RenderLyricsSetting/Hbox"]
 layout_mode = 2
 text = "Render Lyrics"
 
-[node name="HSeparator" type="HSeparator" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/RenderLyricsSetting/Hbox"]
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/RenderLyricsSetting/Hbox"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="RenderLyricsEnabled" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/RenderLyricsSetting/Hbox"]
+[node name="RenderLyricsEnabled" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/RenderLyricsSetting/Hbox"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
 text = "Enabled"
 
-[node name="RenderLyricsDisabled" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/RenderLyricsSetting/Hbox"]
+[node name="RenderLyricsDisabled" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/RenderLyricsSetting/Hbox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
 text = "Disabled"
 
-[node name="RenderLyricsButton" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/RenderLyricsSetting/Hbox" instance=ExtResource("2_if6m3")]
+[node name="RenderLyricsButton" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/RenderLyricsSetting/Hbox" instance=ExtResource("2_if6m3")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_horizontal = 1
 text = "Enable"
 
-[node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/RenderLyricsSetting"]
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/RenderLyricsSetting"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "When enabled, synced lyrics will flash on screen at the right time for songs that have an .lrc file."
 autowrap_mode = 2
 
-[node name="DetonatePanel" type="PanelContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer"]
-unique_name_in_owner = true
+[node name="PanelContainer4" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("1_ieslp")
 
-[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel"]
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer4"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="SongFollowingSetting" type="VBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer"]
+[node name="TargetFpsSetting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer4/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="SongSleepTimerSetting" type="HBoxContainer" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer/SongFollowingSetting"]
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer4/MarginContainer/TargetFpsSetting"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer/SongFollowingSetting/SongSleepTimerSetting"]
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer4/MarginContainer/TargetFpsSetting/Hbox"]
 layout_mode = 2
-text = "Handheld Self Destruct"
+text = "Target FPS"
 
-[node name="HSeparator" type="HSeparator" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer/SongFollowingSetting/SongSleepTimerSetting"]
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer4/MarginContainer/TargetFpsSetting/Hbox"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="DetonateButton" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer/SongFollowingSetting/SongSleepTimerSetting" instance=ExtResource("2_if6m3")]
+[node name="TargetFpsLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer4/MarginContainer/TargetFpsSetting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 3
+text = "60"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer4/MarginContainer/TargetFpsSetting/Hbox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+focus_mode = 2
+script = ExtResource("5_2ck0i")
+
+[node name="TargetFpsDown" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer4/MarginContainer/TargetFpsSetting/Hbox/HBoxContainer" instance=ExtResource("2_if6m3")]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+icon = ExtResource("4_06yt1")
+
+[node name="TargetFpsUp" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer4/MarginContainer/TargetFpsSetting/Hbox/HBoxContainer" instance=ExtResource("2_if6m3")]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+icon = ExtResource("5_www0p")
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer4/MarginContainer/TargetFpsSetting"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Lower this if your handheld is particularly weak or battery life is especially important to you"
+autowrap_mode = 2
+
+[node name="DetonatePanel" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_ieslp")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="SongFollowingSetting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SongSleepTimerSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer/SongFollowingSetting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer/SongFollowingSetting/SongSleepTimerSetting"]
+layout_mode = 2
+text = "Handheld Self Destruct"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer/SongFollowingSetting/SongSleepTimerSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DetonateButton" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer/SongFollowingSetting/SongSleepTimerSetting" instance=ExtResource("2_if6m3")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_horizontal = 1
 text = "Do it"
 
-[node name="Label" type="Label" parent="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer/SongFollowingSetting"]
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer/SongFollowingSetting"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "This will cause your handheld to suddenly (and violently) stop existing"
 autowrap_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/MiscSection"]
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MiscSection"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_constants/margin_left = -10
 theme_override_constants/margin_top = -25
 
-[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/MiscSection/MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MiscSection/MarginContainer"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_fn5hl")
 
-[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/MiscSection/MarginContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MiscSection/MarginContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="PageLabel" type="Label" parent="ScrollContainer/MiscSection/MarginContainer/PanelContainer/MarginContainer"]
+[node name="PageLabel" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/MarginContainer/PanelContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Misc Feature Settings"
 
+[node name="MarginContainer3" type="MarginContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 6
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MarginContainer3"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="ResetToDefaultsButton" parent="ScrollContainer/VBoxContainer/MarginContainer3/PanelContainer" instance=ExtResource("2_if6m3")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Reset to Defaults
+"
+
 [connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
-[connection signal="pressed" from="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting/SongSleepTimerSetting/SongFollowingButton" to="." method="_on_song_following_button_pressed"]
-[connection signal="pressed" from="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox/HBoxContainer/SongSleepFadeTypeDown" to="." method="_on_song_sleep_fade_type_down_pressed"]
-[connection signal="pressed" from="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox/HBoxContainer/SongSleepFadeTypeUp" to="." method="_on_song_sleep_fade_type_up_pressed"]
-[connection signal="pressed" from="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox/HBoxContainer/SongSleepTimerDown" to="." method="_on_song_sleep_timer_down_pressed"]
-[connection signal="pressed" from="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox/HBoxContainer/SongSleepTimerUp" to="." method="_on_song_sleep_timer_up_pressed"]
-[connection signal="pressed" from="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/ScrapeLyricsSetting/Hbox/ScrapeLyricsButton" to="." method="_on_scrape_lyrics_button_pressed"]
-[connection signal="pressed" from="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/RenderLyricsSetting/Hbox/RenderLyricsButton" to="." method="_on_render_lyrics_button_pressed"]
-[connection signal="pressed" from="ScrollContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer/SongFollowingSetting/SongSleepTimerSetting/DetonateButton" to="." method="_on_detonate_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting/SongSleepTimerSetting/SongFollowingButton" to="." method="_on_song_following_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox/HBoxContainer/SongSleepFadeTypeDown" to="." method="_on_song_sleep_fade_type_down_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox/HBoxContainer/SongSleepFadeTypeUp" to="." method="_on_song_sleep_fade_type_up_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox/HBoxContainer/SongSleepTimerDown" to="." method="_on_song_sleep_timer_down_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox/HBoxContainer/SongSleepTimerUp" to="." method="_on_song_sleep_timer_up_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/ScrapeLyricsSetting/Hbox/ScrapeLyricsButton" to="." method="_on_scrape_lyrics_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/RenderLyricsSetting/Hbox/RenderLyricsButton" to="." method="_on_render_lyrics_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer4/MarginContainer/TargetFpsSetting/Hbox/HBoxContainer/TargetFpsDown" to="." method="_on_target_fps_down_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer4/MarginContainer/TargetFpsSetting/Hbox/HBoxContainer/TargetFpsUp" to="." method="_on_target_fps_up_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer/SongFollowingSetting/SongSleepTimerSetting/DetonateButton" to="." method="_on_detonate_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MarginContainer3/PanelContainer/ResetToDefaultsButton" to="." method="_on_reset_to_defaults_button_pressed"]

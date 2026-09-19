@@ -6,7 +6,6 @@ signal ui_event(event: EVENT)
 
 var dark_out: Control
 var app_message: Control
-var main_color_panel: Control
 var content_body: Control
 var content_margin_container: Control
 var keyboard: Control
@@ -15,8 +14,6 @@ var info_panel: Control
 #var debug_info: Control
 var songo_settings = SongoSettings.get_instance()
 var vol_container: Control
-var crt_overlay: Control
-var the_grid_overlay: Control
 var transform_container: Control
 
 var focus_chain = []
@@ -93,7 +90,7 @@ func fire_focus_next():
 	Input.parse_input_event(event)
 	
 func apply_user_theme(user_theme: Theme) -> void:
-	var my_base_theme = load("res://songo_base_theme.tres")
+	var my_base_theme = load("res://assets/songo_base_theme.tres")
 	var final_theme := my_base_theme.duplicate()
 	for type in user_theme.get_type_list():
 		

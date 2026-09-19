@@ -20,6 +20,7 @@ func _ui_settings_refresh():
 	update_playback_blend_ui()
 	update_use_equalizer_ui()
 	update_eq_ui()
+	update_force_44100hz_ui()
 
 		
 func handle_input(delta: float):
@@ -55,6 +56,21 @@ func _on_use_equalizer_button_pressed() -> void:
 	songo_settings.save()
 	SongoPlayerV2.apply_equalizer_settings()
 	update_use_equalizer_ui()
+
+func update_force_44100hz_ui():
+	if songo_settings.force_44100hz:
+		%Force44100hzEnabled.show()
+		%Force44100hzDisabled.hide()
+		%Force44100hzButton.text = "Disable"
+	else:
+		%Force44100hzEnabled.hide()
+		%Force44100hzDisabled.show()
+		%Force44100hzButton.text = "Enable"
+
+func _on_force_44100hz_button_pressed() -> void:
+	songo_settings.force_44100hz = not songo_settings.force_44100hz
+	songo_settings.save()
+	update_force_44100hz_ui()
 
 func update_eq_ui():
 	for band_index in range(1, SongoEqualizer.BAND_COUNT + 1):
@@ -152,6 +168,7 @@ func _on_reset_to_defaults_button_pressed() -> void:
 	songo_settings.playback_blend_time = 4.0
 	songo_settings.use_equalizer = false
 	songo_settings.equalizer.reset()
+	songo_settings.force_44100hz = false
 	songo_settings.save()
 	SongoPlayerV2.apply_equalizer_settings()
 	_ui_settings_refresh()

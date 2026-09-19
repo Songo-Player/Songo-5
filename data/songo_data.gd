@@ -3,7 +3,7 @@ class_name SongoDataResource extends Resource
 signal import_finished
 
 const SAVE_PATH = "user://songo_data.tres"
-const VERSION = "v1.0.0 RC3"
+const VERSION = "v1.0.0 RC4"
 const DATA_VERSION = "46TaglibNative"
 
 @export var music_directory_path = "No Path"
@@ -243,9 +243,11 @@ func start_import():
 	_import_thread.start(Callable(self, "_thread_import"))
 
 func stop_import():
+	# Just raise the flag here — _thread_import notices it and always routes
+	# through a call_deferred to _on_import_early_exit/_on_import_complete,
+	# which join the thread on the main thread. Joining here would deadlock
+	# when stop_import() is called from within _thread_import itself.
 	_stop_flag = true
-	if _import_thread and _import_thread.is_alive():
-		_import_thread.wait_to_finish()
 
 func _thread_rebuild():
 	import_progress = 0
@@ -477,21 +479,27 @@ func safe_load_image(path: String) -> Image:
 	
 	
 func _on_import_early_exit():
+	if _import_thread and _import_thread.is_started():
+		_import_thread.wait_to_finish()
 	import_step = 0
 	importing = false
 	import_finished.emit()
-	
+
 func _on_album_image_rebuild_complete():
+	if _rebuild_thread and _rebuild_thread.is_started():
+		_rebuild_thread.wait_to_finish()
 	import_step = 0
 	save()
 	UiHelper.flash_message("Album images rebuilt (%d images added)" % images_rebuilt)
 	importing = false
 	import_finished.emit()
-	
+
 func _on_import_complete():
+	if _import_thread and _import_thread.is_started():
+		_import_thread.wait_to_finish()
 	import_step = 0
 	save()
-	
+
 	var elapsed = Time.get_unix_time_from_system() - import_start_time
 	UiHelper.flash_message("Import finished. Duration: %.2f seconds" % elapsed)
 	importing = false
@@ -502,6 +510,43 @@ func _on_import_complete():
 		playlist.music_records = playlist.get_music_records_from_lookup()
 	import_finished.emit()
 	
+func remove_music_directory_path(path: String) -> void:
+	if not music_directory_paths.has(path):
+		return
+	music_directory_paths.erase(path)
+
+	var prefix := path.rstrip("/") + "/"
+	var removed_records: Array[TagLibMusicRecord] = []
+	var remaining_paths: PackedStringArray = []
+	for record: TagLibMusicRecord in music_records:
+		if record.full_path == path or record.full_path.begins_with(prefix):
+			removed_records.append(record)
+		else:
+			remaining_paths.append(record.full_path)
+
+	if removed_records.is_empty():
+		save()
+		return
+
+	# Drop the songs from any playlists (rewrites their .m3u files) while the
+	# lookup still resolves them, then rebuild albums/artists from what's left.
+	for playlist in playlists:
+		playlist.remove_tracks(removed_records)
+
+	var lib := GDTagLib.refresh_music_library(music_records, remaining_paths, {"follow_retags": false})
+	music_records = []
+	music_records.assign(lib.music_records)
+	albums = []
+	albums.assign(lib.albums)
+	artists = []
+	artists.assign(lib.artists)
+
+	for record in removed_records:
+		M3uCollection.lookup.erase(record.full_path)
+	M3uCollection.build_lookup(music_records)
+
+	save()
+
 func add_music_directory_path(path):
 	if music_directory_paths.has(path): 
 		path_error = "This directory is already added."

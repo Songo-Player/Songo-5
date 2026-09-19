@@ -19,6 +19,7 @@ func _ui_settings_refresh():
 	update_seek_forward_ui()
 	update_seek_backward_ui()
 	update_start_behavior_ui()
+	update_stick_nav_ui()
 
 func handle_input(delta: float):
 	if Input.is_action_just_pressed("back"):
@@ -40,6 +41,16 @@ func update_seek_forward_ui():
 		
 func update_seek_backward_ui():
 	%SeekBackwardTimerLabel.text = "%ss" % songo_settings.seek_backward_time
+	
+func update_stick_nav_ui():
+	if songo_settings.enable_stick_nav:
+		%StickNavEnabled.show()
+		%StickNavDisabled.hide()
+		%StickNavButton.text = "Disable"
+	else:
+		%StickNavEnabled.hide()
+		%StickNavDisabled.show()
+		%StickNavButton.text = "Enable"
 		
 func update_xy_layout_ui():
 	if songo_settings.xy_layout_swapped:
@@ -106,6 +117,11 @@ func _on_seek_backward_timer_up_pressed() -> void:
 	update_seek_backward_ui()
 
 
+func _on_stick_nav_button_pressed() -> void:
+	songo_settings.enable_stick_nav = !songo_settings.enable_stick_nav
+	songo_settings.save()
+	update_stick_nav_ui()
+
 
 func _on_reset_to_defaults_button_pressed() -> void:
 	songo_settings.ab_layout_swapped = false
@@ -113,6 +129,7 @@ func _on_reset_to_defaults_button_pressed() -> void:
 	songo_settings.seek_backward_time_index = 1
 	songo_settings.seek_forward_time_index = 1
 	songo_settings.start_btn_behavior = SongoSettings.START_BEHAVIOR.LOCK
+	songo_settings.enable_stick_nav = false
 	songo_settings.save()
 	_ui_settings_refresh()
 	

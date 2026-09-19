@@ -3,10 +3,12 @@ class_name NetworkStatus
 
 signal status_checked(connected: bool)
 
+var _thread: Thread
+
 func is_connected_to_network() -> void:
 	# Run the check in a background thread so it doesn’t block the main loop
-	var thread := Thread.new()
-	thread.start(Callable(self, "_thread_check_connectivity"))
+	_thread = Thread.new()
+	_thread.start(Callable(self, "_thread_check_connectivity"))
 
 
 func _thread_check_connectivity() -> void:
@@ -59,4 +61,8 @@ func _thread_check_connectivity() -> void:
 
 # Helper to emit from static context
 func _emit_status(connected: bool) -> void:
-	call_deferred("emit_signal", "status_checked", connected)
+	call_deferred("_finish_thread", connected)
+
+func _finish_thread(connected: bool) -> void:
+	_thread.wait_to_finish()
+	emit_signal("status_checked", connected)

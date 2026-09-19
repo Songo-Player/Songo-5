@@ -55,7 +55,7 @@ func _set_current_collection(collection):
 		_list_items = null
 	else:
 		_current_collection = collection
-		if "music_records" in _current_collection:
+		if _current_collection is Object and "music_records" in _current_collection:
 			_list_items = _current_collection.music_records
 		else:
 			_list_items = _current_collection

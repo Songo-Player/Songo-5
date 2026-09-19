@@ -88,7 +88,7 @@ func _draw():
 		points.append(Vector2(x, y))
 
 	var smooth = smooth_points(points, 2)
-	draw_polyline(smooth, Color("8B0000"), line_width, true)
+	draw_polyline(smooth, Color(ThemeManager.settings["accent_color"]), line_width, true)
 	#draw_polyline(points, Color("93c572"), line_width, true)
 
 func smooth_points(points: PackedVector2Array, iterations := 2) -> PackedVector2Array:

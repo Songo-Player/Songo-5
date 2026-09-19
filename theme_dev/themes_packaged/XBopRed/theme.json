@@ -1,7 +1,7 @@
 {
 	"name": "xBopRed",
 	"rootDir": "XBopRed",
-	"version": "0.5",
+	"version": "0.6",
 	"author": "Morris",
 	"description": "A dark minimal UI with accents of color to liven it up a bit",
 	"godot_theme_path": "/theme.tres",
@@ -48,6 +48,14 @@
 			"display_name": "Content Scale",
 			"dependents": ["main_menu", "main_song_view"],
 			"description": "Controls UI scale of the main menu and main song view."
+		},
+		"accent_color": {
+			"values": ["8b0000", "b3541e", "1f7a4d", "0f6ba8", "5b3ea6", "c2185b"],
+			"labels": ["Crimson", "Amber", "Emerald", "Ocean", "Violet", "Magenta"],
+			"default": "8b0000",
+			"display_name": "Accent Color",
+			"dependents": ["background_root", "header", "main_menu", "main_song_view", "song_follow", "collection_header"],
+			"description": "Sets the accent color used throughout the theme."
 		},
 	}
 }

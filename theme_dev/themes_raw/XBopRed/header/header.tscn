@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://c3jkqim1bcewp"]
 
 [ext_resource type="Script" path="res://theme_dev/themes_raw/XBopRed/header/header.gd" id="1_7lmyj"]
-[ext_resource type="FontFile" uid="uid://ckx8hptr33csi" path="res://fonts/CourierPrime-Bold.ttf" id="2_ga2oq"]
+[ext_resource type="FontFile" uid="uid://ckx8hptr33csi" path="res://assets/fonts/CourierPrime-Bold.ttf" id="2_ga2oq"]
 [ext_resource type="Texture2D" uid="uid://bg3m0fx0o1p6s" path="res://theme_dev/themes_raw/XBopRed/assets/wifi.svg" id="3_6b5x0"]
 [ext_resource type="Texture2D" uid="uid://b0ow3cw6m3rkc" path="res://theme_dev/themes_raw/XBopRed/assets/clock.svg" id="4_i5g8v"]
 [ext_resource type="Texture2D" uid="uid://bagg3gyg0srba" path="res://theme_dev/themes_raw/XBopRed/assets/battery.svg" id="5_8loti"]

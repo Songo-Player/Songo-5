@@ -197,7 +197,8 @@ grow_horizontal = 0
 grow_vertical = 2
 theme_override_constants/margin_right = -10
 
-[node name="PanelContainer" type="PanelContainer" parent="Control/ScaleControl/Control/StringContainer/Control4/Control/MarginContainer"]
+[node name="AccentDot" type="PanelContainer" parent="Control/ScaleControl/Control/StringContainer/Control4/Control/MarginContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 size_flags_horizontal = 8

@@ -1,11 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://djiexkcjcvae4"]
+[gd_scene load_steps=13 format=3 uid="uid://djiexkcjcvae4"]
 
 [ext_resource type="Script" path="res://internal_themes/XBop/collection_button/collection_button.gd" id="1_vw0uk"]
 [ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="2_d3ijc"]
 [ext_resource type="Texture2D" uid="uid://byeluf85nlgra" path="res://assets/record.svg" id="3_xaphc"]
 [ext_resource type="Texture2D" uid="uid://faqv22wj0cw1" path="res://icon.svg" id="4_so6yd"]
 [ext_resource type="Texture2D" uid="uid://dcqtgyrr3fac2" path="res://assets/user.svg" id="5_0pntl"]
-[ext_resource type="StyleBox" uid="uid://d2sx58pf8pij1" path="res://shared_resources/playlists_gradient.tres" id="6_014gb"]
 [ext_resource type="Texture2D" uid="uid://md788wp04yb1" path="res://assets/layergroup.svg" id="7_fre88"]
 
 [sub_resource type="Gradient" id="Gradient_1drjx"]
@@ -216,7 +215,6 @@ theme_override_constants/margin_bottom = 3
 [node name="PanelContainer" type="PanelContainer" parent="PlaylistButtonContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_styles/panel = ExtResource("6_014gb")
 
 [node name="PlaylistFallbackCover" type="TextureRect" parent="PlaylistButtonContainer/HBoxContainer/MarginContainer/PanelContainer"]
 unique_name_in_owner = true

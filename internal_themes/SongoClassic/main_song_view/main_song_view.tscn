@@ -1,7 +1,7 @@
 [gd_scene load_steps=25 format=3 uid="uid://dng47i26xt4ae"]
 
 [ext_resource type="Script" path="res://internal_themes/SongoClassic/main_song_view/main_song_view.gd" id="1_meagc"]
-[ext_resource type="Script" path="res://scenes/visualizer/music_visualizer.gd" id="2_g3335"]
+[ext_resource type="Script" path="res://internal_themes/SongoClassic/assets/music_visualizer.gd" id="2_g3335"]
 [ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="3_ct88k"]
 [ext_resource type="Texture2D" uid="uid://faqv22wj0cw1" path="res://icon.svg" id="4_vv6x2"]
 [ext_resource type="Script" path="res://utilities/carousel_label.gd" id="5_mudwf"]

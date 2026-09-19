@@ -11,3 +11,6 @@ func _update_element():
 	add_theme_stylebox_override("panel", style)
 	style.bg_color = color
 	%OopsNoColorOverlay.visible = color == "777"
+	%TheGridOverlay.visible = color == "555"
+	
+	%CrtOverlay.visible = ThemeManager.settings["crt_mode"] == true

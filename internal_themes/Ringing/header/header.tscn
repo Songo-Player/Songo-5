@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://internal_themes/Ringing/header/header.gd" id="1_i6gca"]
 [ext_resource type="Texture2D" uid="uid://inruw0c6rdua" path="res://assets/wifi.svg" id="3_8dtni"]
 [ext_resource type="FontFile" uid="uid://7qxv18dwsw0i" path="res://internal_themes/Ringing/assets/Knewave-Regular.ttf" id="3_vtm66"]
-[ext_resource type="FontFile" uid="uid://fhmejhs3d6m0" path="res://fonts/NotoSansCJKjp-Medium.otf" id="4_fscf2"]
+[ext_resource type="FontFile" uid="uid://fhmejhs3d6m0" path="res://assets/fonts/NotoSansCJKjp-Medium.otf" id="4_fscf2"]
 [ext_resource type="Texture2D" uid="uid://nqpdbtqncxh4" path="res://assets/clock.svg" id="4_lyjk4"]
 [ext_resource type="Texture2D" uid="uid://ds1hiniyche5x" path="res://assets/battery.svg" id="5_7n00u"]
 [ext_resource type="Script" path="res://internal_themes/Ringing/assets/BallLineMusicVisualizer.gd" id="8_1aspx"]

@@ -77,7 +77,8 @@ alignment = 1
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/MarginContainer/HBoxContainer/Control"]
+[node name="SortSpoke1" type="TextureRect" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/MarginContainer/HBoxContainer/Control"]
+unique_name_in_owner = true
 modulate = Color(0.545098, 0, 0, 1)
 layout_mode = 1
 anchors_preset = 8
@@ -99,7 +100,8 @@ texture = SubResource("GradientTexture2D_a60ye")
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/MarginContainer/HBoxContainer/Control3"]
+[node name="SortSpoke2" type="TextureRect" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/MarginContainer/HBoxContainer/Control3"]
+unique_name_in_owner = true
 modulate = Color(0.545098, 0, 0, 1)
 layout_mode = 1
 anchors_preset = 8
@@ -121,7 +123,8 @@ texture = SubResource("GradientTexture2D_a60ye")
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/MarginContainer/HBoxContainer/Control4"]
+[node name="SortSpoke3" type="TextureRect" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/MarginContainer/HBoxContainer/Control4"]
+unique_name_in_owner = true
 modulate = Color(0.545098, 0, 0, 1)
 layout_mode = 1
 anchors_preset = 8
@@ -142,7 +145,8 @@ texture = SubResource("GradientTexture2D_a60ye")
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/MarginContainer/HBoxContainer/Control5"]
+[node name="SortSpoke4" type="TextureRect" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/MarginContainer/HBoxContainer/Control5"]
+unique_name_in_owner = true
 modulate = Color(0.545098, 0, 0, 1)
 layout_mode = 1
 anchors_preset = 8
@@ -163,7 +167,8 @@ texture = SubResource("GradientTexture2D_a60ye")
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/MarginContainer/HBoxContainer/Control2"]
+[node name="SortSpoke5" type="TextureRect" parent="MarginContainer2/VBoxContainer/SortIndicatorContainer/MarginContainer/HBoxContainer/Control2"]
+unique_name_in_owner = true
 modulate = Color(0.545098, 0, 0, 1)
 layout_mode = 1
 anchors_preset = 8

@@ -71,19 +71,20 @@ script = ExtResource("1_2cptf")
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
+[node name="TitlePanel" type="PanelContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_6jmi4")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/TitlePanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 2
 
-[node name="SongTitle" type="Label" parent="HBoxContainer/PanelContainer/MarginContainer"]
+[node name="SongTitle" type="Label" parent="HBoxContainer/TitlePanel/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -95,6 +96,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="StopMusicButton" type="Button" parent="HBoxContainer/StopMusicButtonContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 theme_override_styles/hover = SubResource("StyleBoxFlat_ivey4")
@@ -147,6 +149,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="ReturnToMusicButton" type="Button" parent="HBoxContainer/ReturnToMusicButtonContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 theme_override_styles/hover = SubResource("StyleBoxFlat_ivey4")

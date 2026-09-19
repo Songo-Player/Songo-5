@@ -1,8 +1,6 @@
-[gd_scene load_steps=22 format=3 uid="uid://x6a7h67rwoqo"]
+[gd_scene load_steps=15 format=3 uid="uid://x6a7h67rwoqo"]
 
 [ext_resource type="Script" path="res://songo_app.gd" id="1_einrm"]
-[ext_resource type="Shader" path="res://crt.gdshader" id="2_yqef3"]
-[ext_resource type="Shader" path="res://theGrid.gdshader" id="4_ain8k"]
 [ext_resource type="PackedScene" uid="uid://cbel1ghs36ym0" path="res://scenes/theme_injections/theme_background_root/theme_background_root.tscn" id="5_77hak"]
 [ext_resource type="PackedScene" uid="uid://brbab8sr2wk7f" path="res://scenes/info_panel/info_panel.tscn" id="5_fjfn2"]
 [ext_resource type="PackedScene" uid="uid://byrf2kolyhycf" path="res://scenes/quick_menu/quick_menu.tscn" id="6_0cuee"]
@@ -16,41 +14,6 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_75gu8"]
 bg_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i4t4x"]
-bg_color = Color(0.882353, 0.541176, 0.666667, 1)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_f7lsk"]
-shader = ExtResource("4_ain8k")
-shader_parameter/brightness = 0.7
-shader_parameter/darkness = 1.0
-shader_parameter/anchor = -0.5
-shader_parameter/speed_scale = 0.5
-shader_parameter/fov = 0.15
-shader_parameter/line_count = 1.0
-shader_parameter/background_color = Color(0.235497, 0.488333, 1, 1)
-shader_parameter/grid_color = Color(1, 0.5, 1, 1)
-shader_parameter/rainbow_intensity = 0.4
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_56ra3"]
-bg_color = Color(1, 1, 1, 1)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hb3wi"]
-shader = ExtResource("2_yqef3")
-shader_parameter/intensity = 0.2
-shader_parameter/glitch_frequency = 2.0
-shader_parameter/glitch_duration = 0.1
-shader_parameter/red_displacement = 0.01
-shader_parameter/green_displacement = 0.01
-shader_parameter/blue_displacement = 0.01
-shader_parameter/scanline_intensity = 0.5
-shader_parameter/noise_intensity = 0.2
-shader_parameter/slice_intensity = 1.0
-shader_parameter/ghost_intensity = 0.1
-shader_parameter/negative_intensity = 0.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dfwxj"]
-bg_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gs5fl"]
 bg_color = Color(5.53504e-07, 0.19923, 0.271238, 1)
@@ -107,34 +70,6 @@ z_index = 10
 layout_mode = 2
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_75gu8")
-
-[node name="MainColorPanel" type="PanelContainer" parent="CanvasLayer/TransformContainer"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxFlat_i4t4x")
-
-[node name="TheGridOverlay" type="PanelContainer" parent="CanvasLayer/TransformContainer/MainColorPanel"]
-unique_name_in_owner = true
-visible = false
-material = SubResource("ShaderMaterial_f7lsk")
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_56ra3")
-
-[node name="CrtOverlay" type="PanelContainer" parent="CanvasLayer/TransformContainer/MainColorPanel"]
-unique_name_in_owner = true
-visible = false
-z_index = 5
-material = SubResource("ShaderMaterial_hb3wi")
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_dfwxj")
 
 [node name="ThemeBackgroundRoot" parent="CanvasLayer/TransformContainer" instance=ExtResource("5_77hak")]
 layout_mode = 1

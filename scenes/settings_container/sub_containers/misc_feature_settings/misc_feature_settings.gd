@@ -2,6 +2,8 @@ extends MarginContainer
 
 var songo_settings = SongoSettings.get_instance()
 var detonate_count = 0
+var starting_fps
+
 const DETONATE_MSGS = [
 	"Why would you click that? Next time it'll be for real",
 	"Trying to call my bluff huh? You're lucky I'm in a good mood",
@@ -11,12 +13,17 @@ const DETONATE_MSGS = [
 ]
 
 func setup():
+	starting_fps = songo_settings.target_fps
+	_ui_settings_refresh()
+
+func _ui_settings_refresh():
 	update_song_following_ui()
 	update_song_sleep_ui()
 	update_song_sleep_type_ui()
 	update_scrape_lyrics_ui()
 	update_render_lyrics_ui()
-	
+	update_target_fps_ui()
+
 func _ready():
 	await get_tree().process_frame
 	%PageLabel.grab_focus()
@@ -27,6 +34,8 @@ func render_ui():
 	
 func handle_input(delta: float):
 	if Input.is_action_just_pressed("back"):
+		if starting_fps != 15 && songo_settings.target_fps == 15:
+			UiHelper.flash_message("Eeewwwww did you just set target fps to 15???")
 		Controller.nav_back()
 		
 func update_song_sleep_type_ui():
@@ -117,6 +126,24 @@ func _on_song_sleep_fade_type_down_pressed() -> void:
 	if songo_settings.song_sleep_type < 0: songo_settings.song_sleep_type = 2
 	_apply_song_sleep_type(initial_type)
 	
+func update_target_fps_ui():
+	%TargetFpsLabel.text = "%d" % songo_settings.target_fps
+
+func _on_target_fps_down_pressed() -> void:
+	songo_settings.target_fps_index -= 1
+	if songo_settings.target_fps_index < 0: songo_settings.target_fps_index = songo_settings.TARGET_FPS_OPTIONS.size()-1
+	_apply_target_fps()
+
+func _on_target_fps_up_pressed() -> void:
+	songo_settings.target_fps_index += 1
+	if songo_settings.target_fps_index >= songo_settings.TARGET_FPS_OPTIONS.size(): songo_settings.target_fps_index = 0
+	_apply_target_fps()
+
+func _apply_target_fps() -> void:
+	Engine.max_fps = songo_settings.target_fps
+	songo_settings.save()
+	update_target_fps_ui()
+
 func _on_tree_entered() -> void:
 	get_viewport().gui_focus_changed.connect(_on_focus_changed)
 
@@ -126,9 +153,19 @@ func _on_tree_exiting() -> void:
 func _on_focus_changed(item: Control):
 	if item == %SongFollowingButton:
 		%ScrollContainer.scroll_vertical = 0
-	if item == %DetonateButton:
+	if item == %ResetToDefaultsButton:
 		%ScrollContainer.scroll_vertical = 999
 
+func _on_reset_to_defaults_button_pressed() -> void:
+	songo_settings.song_following = true
+	songo_settings.scrape_lyrics = false
+	songo_settings.render_lyrics = true
+	songo_settings.song_sleep_timer_index = 3
+	songo_settings.song_sleep_type = 0
+	songo_settings.target_fps_index = 2
+	songo_settings.save()
+	Engine.max_fps = songo_settings.target_fps
+	_ui_settings_refresh()
 
 func _on_detonate_button_pressed() -> void:
 	UiHelper.flash_message("BOOOOM!!!")

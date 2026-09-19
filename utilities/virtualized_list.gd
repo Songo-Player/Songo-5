@@ -63,10 +63,10 @@ func setup(data_items_arg, item_scene_path_arg):
 	if item_height == 0.0:
 		item_height = first_item.get_combined_minimum_size().y
 		#item_heights[item_scene_path] = item_height
-	#print(UiHelper.main_color_panel.size.y)
 	#await get_tree().process_frame
 	#visible_item_count = int(size.y/item_height)+5
-	visible_item_count = int(UiHelper.main_color_panel.size.y/item_height)+5
+	visible_item_count = int(UiHelper.content_margin_container.size.y/item_height)+20
+	
 	# Now create the rest of the items
 	for i in range(1, visible_item_count):
 		var item = create_item()

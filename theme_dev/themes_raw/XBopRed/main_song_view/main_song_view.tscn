@@ -249,7 +249,8 @@ grow_horizontal = 0
 grow_vertical = 2
 theme_override_constants/margin_right = -10
 
-[node name="PanelContainer" type="PanelContainer" parent="Control/ScaleControl/Control/StringContainer/Control4/Control/MarginContainer"]
+[node name="AccentDot" type="PanelContainer" parent="Control/ScaleControl/Control/StringContainer/Control4/Control/MarginContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -804,7 +805,8 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "00:00"
 
-[node name="Label" type="Label" parent="Control/ScaleControl/Control/Control/VBoxContainer/PanelContainer4/MarginContainer/HBoxContainer"]
+[node name="TimeSeparatorLabel" type="Label" parent="Control/ScaleControl/Control/Control/VBoxContainer/PanelContainer4/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.545098, 0, 0, 1)
 text = "//"

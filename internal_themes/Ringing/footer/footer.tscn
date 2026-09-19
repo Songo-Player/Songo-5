@@ -1,4 +1,19 @@
-[gd_scene format=3 uid="uid://bsi0tjefjf374"]
+[gd_scene load_steps=5 format=3 uid="uid://bsi0tjefjf374"]
+
+[ext_resource type="Script" path="res://internal_themes/Ringing/footer/footer.gd" id="1_m02jl"]
+[ext_resource type="Script" path="res://utilities/carousel_label.gd" id="2_seo1d"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f3ykk"]
+bg_color = Color(0.965, 0.863, 0.675, 0.85)
+border_width_top = 2
+border_color = Color(1, 0.333333, 0.356863, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a3lrg"]
+bg_color = Color(0.98, 0.663, 0.408, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [node name="Footer" type="MarginContainer"]
 anchors_preset = 12
@@ -7,3 +22,79 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_constants/margin_left = -300
+theme_override_constants/margin_right = -300
+script = ExtResource("1_m02jl")
+
+[node name="MainSongViewFooter" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_f3ykk")
+
+[node name="MarginContainer" type="MarginContainer" parent="MainSongViewFooter"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 312
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 312
+theme_override_constants/margin_bottom = 6
+
+[node name="MainSongViewCompanion" type="HBoxContainer" parent="MainSongViewFooter/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="MainSongViewFooter/MarginContainer/MainSongViewCompanion"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.00392157, 0.12549, 0.305882, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/shadow_outline_size = 6
+text = "Playing"
+
+[node name="PanelContainer3" type="PanelContainer" parent="MainSongViewFooter/MarginContainer/MainSongViewCompanion"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_a3lrg")
+
+[node name="MarginContainer" type="MarginContainer" parent="MainSongViewFooter/MarginContainer/MainSongViewCompanion/PanelContainer3"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="CurrentSongTitle" type="Label" parent="MainSongViewFooter/MarginContainer/MainSongViewCompanion/PanelContainer3/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.972549, 0.333333, 0.145098, 1)
+script = ExtResource("2_seo1d")
+font_color = Color(0.972549, 0.333333, 0.145098, 1)
+
+[node name="Spacer" type="MarginContainer" parent="MainSongViewFooter/MarginContainer/MainSongViewCompanion"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+
+[node name="Label3" type="Label" parent="MainSongViewFooter/MarginContainer/MainSongViewCompanion"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.00392157, 0.12549, 0.305882, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/shadow_outline_size = 6
+text = "Next:"
+
+[node name="PanelContainer4" type="PanelContainer" parent="MainSongViewFooter/MarginContainer/MainSongViewCompanion"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_a3lrg")
+
+[node name="MarginContainer" type="MarginContainer" parent="MainSongViewFooter/MarginContainer/MainSongViewCompanion/PanelContainer4"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="NextSongTitle" type="Label" parent="MainSongViewFooter/MarginContainer/MainSongViewCompanion/PanelContainer4/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.972549, 0.333333, 0.145098, 1)
+script = ExtResource("2_seo1d")
+font_color = Color(0.972549, 0.333333, 0.145098, 1)

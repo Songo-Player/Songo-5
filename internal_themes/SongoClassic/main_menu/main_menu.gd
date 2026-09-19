@@ -9,10 +9,10 @@ var buttons: Array[Button] = []
 @onready var small_item_scn = load("res://internal_themes/SongoClassic/main_menu/main_menu_item_small.tscn")
 
 const LARGE_STYLES := [
-	preload("res://shared_resources/all_songs_gradient_v2.tres"),
-	preload("res://shared_resources/albums_gradient.tres"),
-	preload("res://shared_resources/artists_gradient.tres"),
-	preload("res://shared_resources/playlists_gradient.tres"),
+	preload("../assets/all_songs_gradient_v2.tres"),
+	preload("../assets/albums_gradient.tres"),
+	preload("../assets/artists_gradient.tres"),
+	preload("../assets/playlists_gradient.tres"),
 ]
 
 const SMALL_STYLE_COLOR := Color(0.286155, 0.272626, 0.260969, 1)

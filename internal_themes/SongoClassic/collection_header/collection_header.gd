@@ -5,23 +5,23 @@ enum DEFAULT_TYPE {SONG, ARTIST, ALBUM, PLAYLIST, SETTING}
 var _default_type: DEFAULT_TYPE = DEFAULT_TYPE.SONG
 const DEFAULTS = [
 	{
-		"gradient": "res://shared_resources/all_songs_gradient_v2.tres",
+		"gradient": "res://internal_themes/SongoClassic/assets/all_songs_gradient_v2.tres",
 		"image": "res://assets/music.svg"
 	},
 	{
-		"gradient": "res://shared_resources/artists_gradient.tres",
+		"gradient": "res://internal_themes/SongoClassic/assets/artists_gradient.tres",
 		"image": "res://assets/user.svg"
 	},
 	{
-		"gradient": "res://shared_resources/albums_gradient.tres",
+		"gradient": "res://internal_themes/SongoClassic/assets/albums_gradient.tres",
 		"image": "res://assets/record.svg"
 	},
 	{
-		"gradient": "res://shared_resources/playlists_gradient.tres",
+		"gradient": "res://internal_themes/SongoClassic/assets/playlists_gradient.tres",
 		"image": "res://assets/layergroup.svg"
 	},
 	{
-		"gradient": "res://shared_resources/settings_gradient.tres",
+		"gradient": "res://internal_themes/SongoClassic/assets/settings_gradient.tres",
 		"image": "res://assets/gear.svg"
 	},
 ]

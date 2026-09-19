@@ -25,10 +25,14 @@ static func song_alpha_desc(music_records):
 	music_records.sort_custom(func(a: TagLibMusicRecord, b: TagLibMusicRecord): return a.title > b.title)
 
 static func song_track_asc(music_records):
-	music_records.sort_custom(func(a: TagLibMusicRecord, b: TagLibMusicRecord): return a.track < b.track)
+	music_records.sort_custom(func(a: TagLibMusicRecord, b: TagLibMusicRecord):
+		if a.disc != b.disc: return a.disc < b.disc
+		return a.track < b.track)
 
 static func song_track_desc(music_records):
-	music_records.sort_custom(func(a: TagLibMusicRecord, b: TagLibMusicRecord): return a.track > b.track)
+	music_records.sort_custom(func(a: TagLibMusicRecord, b: TagLibMusicRecord):
+		if a.disc != b.disc: return a.disc > b.disc
+		return a.track > b.track)
 	
 static func album_alpha_asc(albums):
 	albums.sort_custom(func(a: TagLibAlbumRecord, b: TagLibAlbumRecord): return a.name < b.name)

@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=10 format=3 uid="uid://bhmt8rt664jqw"]
 
-[ext_resource type="FontFile" uid="uid://fhmejhs3d6m0" path="res://fonts/NotoSansCJKjp-Medium.otf" id="1_22c5f"]
+[ext_resource type="FontFile" uid="uid://fhmejhs3d6m0" path="res://assets/fonts/NotoSansCJKjp-Medium.otf" id="1_22c5f"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eatph"]
 content_margin_left = 20.0

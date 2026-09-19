@@ -3,10 +3,18 @@ extends MarginContainer
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_update_widgets()
+	_apply_accent_color()
+	ThemeManager.theme_settings_updated.connect(_apply_accent_color)
+
+func _apply_accent_color() -> void:
+	var accent = Color(ThemeManager.settings["accent_color"])
+	for node in [%NetworkConnection, %CurrentOsTimeContainer, %BatteryPercentContainer]:
+		var style = node.get_theme_stylebox("panel")
+		if style: style.bg_color = accent
 
 func _on_timer_timeout() -> void:
 	_update_widgets()
-	
+
 func _update_widgets():
 	update_time()
 	network_check_display()

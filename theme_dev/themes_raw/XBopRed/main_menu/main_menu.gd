@@ -94,4 +94,7 @@ func _process(delta):
 func _on_theme_settings_updated():
 	var content_scale = ThemeManager.settings["content_scale"]
 	%ScaleControl.scale = Vector2(content_scale, content_scale)
-	pass
+	var accent = Color(ThemeManager.settings["accent_color"])
+	%MenuIcon2.modulate = Color(accent.r, accent.g, accent.b, %MenuIcon2.modulate.a)
+	var dot_style = %AccentDot.get_theme_stylebox("panel")
+	if dot_style: dot_style.bg_color = accent

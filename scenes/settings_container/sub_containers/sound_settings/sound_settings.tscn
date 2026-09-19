@@ -306,6 +306,63 @@ theme_override_font_sizes/font_size = 14
 text = "How long songs crossfade into each other near the end of playback. Set to 0 to disable blending."
 autowrap_mode = 2
 
+[node name="Force44100SettingContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_rm64k")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/Force44100SettingContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/Force44100SettingContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Force44100Setting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/Force44100SettingContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/Force44100SettingContainer/MarginContainer/VBoxContainer/Force44100Setting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/Force44100SettingContainer/MarginContainer/VBoxContainer/Force44100Setting/Hbox"]
+layout_mode = 2
+text = "Force 44100Hz"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/Force44100SettingContainer/MarginContainer/VBoxContainer/Force44100Setting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Force44100hzEnabled" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/Force44100SettingContainer/MarginContainer/VBoxContainer/Force44100Setting/Hbox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
+text = "Enabled"
+
+[node name="Force44100hzDisabled" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/Force44100SettingContainer/MarginContainer/VBoxContainer/Force44100Setting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
+text = "Disabled"
+
+[node name="Force44100hzButton" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/Force44100SettingContainer/MarginContainer/VBoxContainer/Force44100Setting/Hbox" instance=ExtResource("3_1t4tl")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Enable"
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/Force44100SettingContainer/MarginContainer/VBoxContainer/Force44100Setting"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Only use this if encountering audio issues."
+autowrap_mode = 2
+
 [node name="EQSettingContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("2_rm64k")
@@ -869,6 +926,7 @@ text = "Reset to Defaults
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StreamBufferLengthSettingContainer/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox/HBoxContainer/BufferLengthUp" to="." method="_on_buffer_length_up_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackBlendSettingContainer/MarginContainer/VBoxContainer/PlaybackBlendSetting/Hbox/HBoxContainer/PlaybackBlendDown" to="." method="_on_playback_blend_down_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackBlendSettingContainer/MarginContainer/VBoxContainer/PlaybackBlendSetting/Hbox/HBoxContainer/PlaybackBlendUp" to="." method="_on_playback_blend_up_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/Force44100SettingContainer/MarginContainer/VBoxContainer/Force44100Setting/Hbox/Force44100hzButton" to="." method="_on_force_44100hz_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/UseEqualizerSetting/Hbox/UseEqualizerButton" to="." method="_on_use_equalizer_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band1Setting/Hbox/HBoxContainer/dbDown" to="." method="_on_eq_band_down_pressed" binds= [1]]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band1Setting/Hbox/HBoxContainer/dbUp" to="." method="_on_eq_band_up_pressed" binds= [1]]

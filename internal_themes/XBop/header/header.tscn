@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://c3jkqim1bcewp"]
 
 [ext_resource type="Script" path="res://internal_themes/XBop/header/header.gd" id="1_7lmyj"]
-[ext_resource type="FontFile" uid="uid://ckx8hptr33csi" path="res://fonts/CourierPrime-Bold.ttf" id="2_x5ykq"]
+[ext_resource type="FontFile" uid="uid://ckx8hptr33csi" path="res://assets/fonts/CourierPrime-Bold.ttf" id="2_x5ykq"]
 [ext_resource type="Texture2D" uid="uid://inruw0c6rdua" path="res://assets/wifi.svg" id="3_6b5x0"]
 [ext_resource type="Texture2D" uid="uid://nqpdbtqncxh4" path="res://assets/clock.svg" id="4_i5g8v"]
 [ext_resource type="Texture2D" uid="uid://ds1hiniyche5x" path="res://assets/battery.svg" id="5_8loti"]

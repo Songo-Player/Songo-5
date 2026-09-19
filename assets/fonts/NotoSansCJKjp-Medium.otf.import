@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://fhmejhs3d6m0"
-path="res://.godot/imported/NotoSansCJKjp-Medium.otf-be5daac30fccff10832f581c10195b46.fontdata"
+path="res://.godot/imported/NotoSansCJKjp-Medium.otf-13e73020c76b4f29e64c8dc55585dbcb.fontdata"
 
 [deps]
 
-source_file="res://fonts/NotoSansCJKjp-Medium.otf"
-dest_files=["res://.godot/imported/NotoSansCJKjp-Medium.otf-be5daac30fccff10832f581c10195b46.fontdata"]
+source_file="res://assets/fonts/NotoSansCJKjp-Medium.otf"
+dest_files=["res://.godot/imported/NotoSansCJKjp-Medium.otf-13e73020c76b4f29e64c8dc55585dbcb.fontdata"]
 
 [params]
 

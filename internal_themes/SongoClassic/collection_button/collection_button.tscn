@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://choknc2kgb1h5"]
+[gd_scene load_steps=15 format=3 uid="uid://choknc2kgb1h5"]
 
 [ext_resource type="Script" path="res://internal_themes/SongoClassic/collection_button/collection_button.gd" id="1_fcwni"]
 [ext_resource type="Texture2D" uid="uid://4lwbxso23g8o" path="res://assets/folder_nested_line_long.png" id="2_bt62x"]
@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://byeluf85nlgra" path="res://assets/record.svg" id="4_1esgy"]
 [ext_resource type="Texture2D" uid="uid://faqv22wj0cw1" path="res://icon.svg" id="5_h3lj2"]
 [ext_resource type="Texture2D" uid="uid://dcqtgyrr3fac2" path="res://assets/user.svg" id="6_3wxin"]
-[ext_resource type="StyleBox" uid="uid://d2sx58pf8pij1" path="res://shared_resources/playlists_gradient.tres" id="7_6obyp"]
 [ext_resource type="Texture2D" uid="uid://md788wp04yb1" path="res://assets/layergroup.svg" id="8_qrxjs"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rbvca"]
@@ -260,7 +259,6 @@ theme_override_constants/margin_bottom = 3
 [node name="PanelContainer" type="PanelContainer" parent="PlaylistButtonContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_styles/panel = ExtResource("7_6obyp")
 
 [node name="PlaylistFallbackCover" type="TextureRect" parent="PlaylistButtonContainer/HBoxContainer/MarginContainer/PanelContainer"]
 unique_name_in_owner = true

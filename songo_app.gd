@@ -15,10 +15,10 @@ var debug_press_count = 0
 var _last_back_msec := 0
 
 func _ready() -> void:
-	var my_theme := load("res://songo_base_theme.tres")
+	var my_theme := load("res://assets/songo_base_theme.tres")
 	get_tree().root.theme = my_theme
 	Engine.physics_ticks_per_second = 1
-	Engine.max_fps = 60
+	Engine.max_fps = songo_settings.target_fps
 	UiHelper.transform_container = %TransformContainer
 
 	await get_tree().process_frame
@@ -38,15 +38,12 @@ func _ready() -> void:
 	
 	UiHelper.dark_out = %DarkOut
 	UiHelper.app_message = %AppMessage
-	UiHelper.main_color_panel = %MainColorPanel
 	UiHelper.content_body = %ContentBody
 	UiHelper.content_margin_container = %ContentMargin
 	UiHelper.keyboard = %Keyboard
 	UiHelper.flash_message_box = %FlashMessageBox
 	UiHelper.info_panel = %InfoPanel
 	UiHelper.vol_container = %VolumeContainer
-	UiHelper.crt_overlay = %CrtOverlay
-	UiHelper.the_grid_overlay = %TheGridOverlay
 	
 	UiHelper.apply_scale(songo_settings.ui_scale)
 	UiHelper.apply_content_margin(songo_settings.content_margin)
@@ -104,6 +101,11 @@ func _fire_action(action: StringName) -> void:
 	Input.parse_input_event(release)
 	
 func _input(event: InputEvent) -> void:
+	
+	if event is InputEventJoypadMotion and event.axis in [JOY_AXIS_LEFT_X, JOY_AXIS_LEFT_Y]:
+		if songo_settings.enable_stick_nav == false:
+			get_viewport().set_input_as_handled()
+			
 	# Use this to track down what element is eating your mouse click in dev
 	if false && event is InputEventMouseButton and event.pressed:
 		var hovered := get_viewport().gui_get_hovered_control()
@@ -188,6 +190,10 @@ func boot_up_message():
 		"Songo#5, now with 3% less malware!",
 		"Don't read CSM part 2",
 		"Make yourself at hom- DON'T TOUCH THAT",
-		"We dont talk about Songo#1-4"
+		"We dont talk about Songo#1-4",
+		"Forwarding good vibes to the Xongles",
+		"Are you listening to TWRP? You should be.",
+		"Six seasons and a movie!",
+		"I'm tired boss"
 	]
 	UiHelper.flash_message(message_opts.pick_random(), 5.0)

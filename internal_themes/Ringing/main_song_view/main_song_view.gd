@@ -20,8 +20,6 @@ func _process(delta):
 	
 func setup_display_for(music_record: TagLibMusicRecord):
 	display_play_button()
-	var song_title = "%s ~ %s" % [music_record.title, music_record.artist]
-	%CurrentSongTitle.set_carousel_text(song_title)
 	
 	%FileTypeLabel.text = music_record.full_path.get_extension()
 
@@ -63,8 +61,6 @@ func update_play_time():
 		%CircularProgressBar.progress = progress_ratio
 		
 func setup_playlist_info():
-	var next_song = SongoPlayerV2.get_next_mp3_record()
-	%NextSongTitle.text = next_song.title
 	%PlaylistProgress.text = "%d / %d" % [SongoPlayerV2.play_index+1, SongoPlayerV2.music_files.size()]
 
 func display_play_button():

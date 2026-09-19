@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://cc5a5b5kyusy3"]
 
 [ext_resource type="Script" path="res://internal_themes/XBop/main_menu/main_menu.gd" id="1_k8yx5"]
-[ext_resource type="Texture2D" uid="uid://ddyoohdxmjdhb" path="res://internal_themes/XBop/assets/music_glow.png" id="2_w85fu"]
+[ext_resource type="Texture2D" uid="uid://ddyoohdxmjdhb" path="res://internal_themes/XBop/assets/music_glow.png" id="2_dubc1"]
 [ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="3_g4gtq"]
 [ext_resource type="Script" path="res://internal_themes/XBop/assets/line_visualizer.gd" id="4_yku81"]
 
@@ -90,7 +90,7 @@ theme_override_constants/margin_bottom = -16
 unique_name_in_owner = true
 modulate = Color(0.576471, 0.772549, 0.447059, 1)
 layout_mode = 2
-texture = ExtResource("2_w85fu")
+texture = ExtResource("2_dubc1")
 expand_mode = 1
 stretch_mode = 5
 

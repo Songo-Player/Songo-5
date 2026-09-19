@@ -11,6 +11,8 @@ const SONG_SLEEP_TYPES = ["Bright Fade", "Black Fade", "Disabled"]
 
 const SEEK_TIMES = [5,10,15,25,30]
 
+const TARGET_FPS_OPTIONS = [15, 30, 60, 120]
+
 enum START_BEHAVIOR {LOCK, SLEEP, LOCK_SLEEP, KEEP_AWAKE}
 
 # --- Generic Settings ---
@@ -45,21 +47,27 @@ enum START_BEHAVIOR {LOCK, SLEEP, LOCK_SLEEP, KEEP_AWAKE}
 
 # --- Controls Settings --- #
 @export var start_btn_behavior: START_BEHAVIOR = START_BEHAVIOR.LOCK
+@export var enable_stick_nav: bool = false
 
 # --- Data Settings --- #
 @export var auto_import: bool = true
 
 # --- Advanced Settings --- #
 @export var stream_buffer_length: int = 100
+@export var force_44100hz: bool = false
 
 # --- CFW Settings --- #
 @export var use_generic_strategy = false
 @export var song_sleep_timer_index = 3 # 10s
 @export var song_sleep_type = 0
 @export var theme_path = "res://internal_themes/SongoClassic"
+@export var target_fps_index = 2 # 60
 
 var song_sleep_timer:
 	get: return SONG_SLEEP_TIMES[song_sleep_timer_index]
+
+var target_fps:
+	get: return TARGET_FPS_OPTIONS[target_fps_index]
 	
 var song_sleep_type_name:
 	get: return SONG_SLEEP_TYPES[song_sleep_type]

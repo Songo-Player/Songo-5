@@ -33,6 +33,18 @@ var collection_label:
 var _record_count := 0
 var _count_tween: Tween
 
+func _ready() -> void:
+	_apply_accent_color()
+	ThemeManager.theme_settings_updated.connect(_apply_accent_color)
+
+func _apply_accent_color() -> void:
+	var accent = Color(ThemeManager.settings["accent_color"])
+	for node in [%SortSpoke1, %SortSpoke2, %SortSpoke3, %SortSpoke4, %SortSpoke5]:
+		node.modulate = Color(accent.r, accent.g, accent.b, node.modulate.a)
+	%DefaultIcon2.modulate = Color(accent.r, accent.g, accent.b, %DefaultIcon2.modulate.a)
+	var sort_style = %SortIndicator.get_theme_stylebox("panel")
+	if sort_style: sort_style.border_color = accent
+
 var record_count:
 	set(value):
 		# Kill existing tween so it doesn't stack

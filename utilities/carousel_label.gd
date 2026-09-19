@@ -6,6 +6,8 @@ class_name CarouselLabel
 @export var gap: float = 50.0             # space between repeated texts
 @export var font_color: Color = Color(1,1,1,1)
 
+const SCROLL_THRESHOLD_MARGIN: float = 1.0  # avoid flip-flopping when text width ~= label width
+
 var _full_text: String = ""
 var _text_width: float = 0.0
 var _is_scrolling: bool = false
@@ -26,7 +28,10 @@ func _process(delta: float) -> void:
 		_pause_timer -= delta
 		return
 
-	_offset += carousel_speed * delta
+	# Clamp delta so resuming from a suspended/backgrounded app (which can
+	# report a large delta on the first frame back) can't overshoot the
+	# wrap point by a huge margin in one step.
+	_offset += carousel_speed * minf(delta, 0.1)
 	if _offset >= _text_width + gap:
 		_offset = 0.0
 		_pause_timer = pause_duration
@@ -38,6 +43,8 @@ func _draw() -> void:
 		return
 
 	var font := get_theme_font("font")
+	if font == null:
+		return
 	var font_size := get_theme_font_size("font_size")
 
 	# Draw original text and repeated copy
@@ -50,29 +57,24 @@ func set_carousel_text(new_text: String) -> void:
 	#await get_tree().process_frame
 	_check_scroll_needed()
 
-func _check_scroll_needed_old() -> void:
-	var font := get_theme_font("font")
-	var font_size := get_theme_font_size("font_size")
-	_text_width = font.get_string_size(_full_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
-	_is_scrolling = _text_width > size.x
-	_offset = 0.0
-	_pause_timer = pause_duration
-	queue_redraw()
-	
 func _check_scroll_needed() -> void:
 	var font := get_theme_font("font")
+	if font == null:
+		return
 	var font_size := get_theme_font_size("font_size")
 	_text_width = font.get_string_size(_full_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
-	# Scroll only if the text is wider than the label
-	_is_scrolling = _text_width > size.x
+
+	# Require the text to overflow by more than a small margin before
+	# scrolling kicks in. Without this margin, when the text width lands
+	# almost exactly on the label's width, sub-pixel jitter in size.x
+	# across layout passes flips _is_scrolling back and forth every time
+	# `resized` fires, which was observed to hang/crash on lower-powered
+	# ARM64 devices.
+	_is_scrolling = _text_width > size.x + SCROLL_THRESHOLD_MARGIN
 
 	_offset = 0.0
 	_pause_timer = pause_duration
-
-	if _is_scrolling:
-		visible_characters = 0
-	else:
-		visible_characters = -1  # show text normally
+	visible_characters = 0 if _is_scrolling else -1  # -1 shows text normally
 
 	queue_redraw()
 

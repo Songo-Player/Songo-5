@@ -79,7 +79,7 @@ func collection_list(collection = null):
 	if collection is Array && collection.size() == 0:
 		UiHelper.app_message.show_message("You need to import music first, go to Settings.")
 		return
-	if "music_records" in collection && collection.music_records.size() == 0 && collection is not M3uCollection:
+	if collection is Object && "music_records" in collection && collection.music_records.size() == 0 && collection is not M3uCollection:
 		UiHelper.app_message.show_message("This Collection is empty, try reimporting.")
 		return
 	
@@ -242,6 +242,7 @@ func append_container_history(container):
 	container_history.append(new_history)
 	
 func nav_back():
+	SfxPlayer.play_back_sfx()
 	var target_container = container_history.pop_back()
 	if target_container != null:
 		content_body_node.remove_child(active_container)

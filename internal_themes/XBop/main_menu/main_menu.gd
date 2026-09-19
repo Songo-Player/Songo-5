@@ -8,13 +8,13 @@ var tween
 
 const ITEM_ANGLE_STEP_DEG := 12.0
 
-const GLOW_ICONS := {
-	"music": preload("../assets/music_glow.png"),
-	"record": preload("../assets/record_glow.png"),
-	"user": preload("../assets/user_glow.png"),
-	"layergroup": preload("../assets/layer_group_glow.png"),
-	"gear": preload("../assets/gear_glow.png"),
-	"exit_walk": preload("../assets/exit_walk_glow.png"),
+var GLOW_ICONS := {
+	"music": load("res://internal_themes/XBop/assets/music_glow.png"),
+	"record": load("res://internal_themes/XBop/assets/record_glow.png"),
+	"user": load("res://internal_themes/XBop/assets/user_glow.png"),
+	"layergroup": load("res://internal_themes/XBop/assets/layer_group_glow.png"),
+	"gear": load("res://internal_themes/XBop/assets/gear_glow.png"),
+	"exit_walk": load("res://internal_themes/XBop/assets/exit_walk_glow.png"),
 }
 
 const EDITOR_PREVIEW_ITEMS := [

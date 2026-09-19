@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://0n5jcx7qcd07"
+path="res://.godot/imported/Cancel 2 (Square).mp3-46320fec37c2bf6d0de50e5a4e6a97c7.mp3str"
+
+[deps]
+
+source_file="res://assets/sound_effects/Cancel 2 (Square).mp3"
+dest_files=["res://.godot/imported/Cancel 2 (Square).mp3-46320fec37c2bf6d0de50e5a4e6a97c7.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

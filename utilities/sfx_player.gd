@@ -1,8 +1,8 @@
 extends AudioStreamPlayer
 
-@onready var nav_sfx = load("res://sound_effects/Abstract1.mp3")
-@onready var accept_sfx = load("res://sound_effects/Cursor 1 (Sine).mp3")
-@onready var back_sfx = load("res://sound_effects/Cancel 2 (Square).mp3")
+@onready var nav_sfx = load("res://assets/sound_effects/Abstract1.mp3")
+@onready var accept_sfx = load("res://assets/sound_effects/Cursor 1 (Sine).mp3")
+@onready var back_sfx = load("res://assets/sound_effects/Cancel 2 (Square).mp3")
 
 func _ready():
 	volume_db = 5.0

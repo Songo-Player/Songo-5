@@ -123,6 +123,7 @@ func setup_device_hallkey():
 		printerr("INFO: No hallkey path found")
 
 func start_screen_fade():
+	if UiHelper.info_panel.visible: return # Controls are locked in this state
 	if sleeping: return #Possibly manually put to sleep
 	
 	var output = []
@@ -135,7 +136,7 @@ func start_screen_fade():
 	match songo_settings.song_sleep_type:
 		0:
 			if no_bright_fade_available == true:
-				UiHelper.flash_message("Error: 'Bright Fade' attempted on unsupported cfw.")
+				songo_settings.song_sleep_type = 1 # This should really be an enum
 				return
 			fade_tween = create_tween()
 			fade_val = target_brightness

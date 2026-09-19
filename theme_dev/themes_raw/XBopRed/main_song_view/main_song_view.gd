@@ -118,3 +118,11 @@ func _on_updated_repeat():
 func _on_theme_settings_updated():
 	var content_scale = ThemeManager.settings["content_scale"]
 	%ScaleControl.scale = Vector2(content_scale, content_scale)
+	var accent = Color(ThemeManager.settings["accent_color"])
+	var dot_style = %AccentDot.get_theme_stylebox("panel")
+	if dot_style: dot_style.bg_color = accent
+	var focus_style = %PlayButton.get_theme_stylebox("focus")
+	if focus_style: focus_style.bg_color = accent
+	var normal_style = %PlayButton.get_theme_stylebox("normal")
+	if normal_style: normal_style.bg_color = accent
+	%TimeSeparatorLabel.add_theme_color_override("font_color", accent)
