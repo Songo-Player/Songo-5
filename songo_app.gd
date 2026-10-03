@@ -104,7 +104,7 @@ func _input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 			
 	# Use this to track down what element is eating your mouse click in dev
-	if true && event is InputEventMouseButton and event.pressed:
+	if false && event is InputEventMouseButton and event.pressed:
 		var hovered := get_viewport().gui_get_hovered_control()
 
 		if hovered:

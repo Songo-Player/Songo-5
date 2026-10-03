@@ -36,8 +36,15 @@ func setup(data_items_arg, item_scene_path_arg):
 	# Some item scenes (e.g. song_button_v2.tscn) render a different layout/height
 	# depending on the data item's type (song vs album vs artist vs playlist), so
 	# the height cache has to be keyed on both.
-	var item_script = data_items[0].get_script()
-	var item_type_key = item_script.resource_path if item_script else data_items[0].get_class()
+	# Non-Object items (e.g. directory path Strings) have no script/class, so
+	# fall back to their built-in type name.
+	var first_item_data = data_items[0]
+	var item_type_key: String
+	if first_item_data is Object:
+		var item_script = first_item_data.get_script()
+		item_type_key = item_script.resource_path if item_script else first_item_data.get_class()
+	else:
+		item_type_key = type_string(typeof(first_item_data))
 	var item_height_key = "%s::%s" % [item_scene_path, item_type_key]
 
 	# Setup scroll container

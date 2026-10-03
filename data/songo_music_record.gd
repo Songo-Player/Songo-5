@@ -3,7 +3,7 @@ class_name SongoMusicRecord extends TagLibMusicRecord
 # Songo-side extension of GDTagLib's native TagLibMusicRecord. GDTagLib always
 # builds plain TagLibMusicRecords, so rather than instantiating this directly
 # SongoData attaches this script to each record after an import (see adopt).
-# The script reference is saved alongside the record in songo_data.tres.
+# The script reference is saved alongside the record in songo_data.res.
 
 @export var times_listened: int = 0
 
