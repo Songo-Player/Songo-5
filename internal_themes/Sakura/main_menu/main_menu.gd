@@ -81,7 +81,12 @@ func _update_element():
 	if alignment == "left": %AlignmentContainer.alignment = HBoxContainer.ALIGNMENT_BEGIN
 	if alignment == "center": %AlignmentContainer.alignment = HBoxContainer.ALIGNMENT_CENTER
 	if alignment == "right": %AlignmentContainer.alignment = HBoxContainer.ALIGNMENT_END
-
+	
+	if ThemeManager.settings["background"] == "almost_bedtime":
+		%Separator.modulate = "ffffff"
+	else:
+		%Separator.modulate = "292929"
 
 func _on_tree_entered() -> void:
+	_on_clock_timer_timeout()
 	_update_element()

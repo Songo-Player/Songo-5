@@ -29,6 +29,16 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [node name="VolumeContainer" type="MarginContainer"]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -200.0
+offset_bottom = 200.0
+grow_horizontal = 0
+grow_vertical = 2
 size_flags_horizontal = 8
 mouse_filter = 2
 theme_override_constants/margin_top = 100
@@ -37,7 +47,9 @@ theme_override_constants/margin_bottom = 100
 script = ExtResource("1_xq60c")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_8n611")
 

@@ -3,9 +3,8 @@
 [ext_resource type="Script" path="res://internal_themes/Sakura/main_menu/main_menu.gd" id="1_jwyav"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v7nvc"]
-bg_color = Color(0.15967, 0.15967, 0.15967, 1)
 border_width_left = 2
-border_color = Color(0.217101, 0.217101, 0.217101, 1)
+border_color = Color(1, 1, 1, 1)
 
 [node name="MainMenu" type="MarginContainer"]
 anchors_preset = 15
@@ -44,7 +43,7 @@ layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 72
-text = "02"
+text = "08"
 
 [node name="MinuteLabel" type="Label" parent="MarginContainer/AlignmentContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -52,7 +51,7 @@ layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 72
-text = "45"
+text = "29"
 
 [node name="AmPmLabel" type="Label" parent="MarginContainer/AlignmentContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -60,10 +59,10 @@ layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 52
-text = "pm
-"
+text = "am"
 
-[node name="VSeparator" type="VSeparator" parent="MarginContainer/AlignmentContainer/VBoxContainer"]
+[node name="Separator" type="VSeparator" parent="MarginContainer/AlignmentContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 20
 theme_override_styles/separator = SubResource("StyleBoxFlat_v7nvc")
@@ -82,7 +81,7 @@ layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 45
-text = "All songs"
+text = "All Songs"
 
 [node name="MenuItemsContainer" type="VBoxContainer" parent="MarginContainer/AlignmentContainer/VBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true

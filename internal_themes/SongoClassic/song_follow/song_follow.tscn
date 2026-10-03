@@ -1,8 +1,7 @@
-[gd_scene load_steps=20 format=3 uid="uid://b55wppuuyq4rw"]
+[gd_scene load_steps=19 format=3 uid="uid://b55wppuuyq4rw"]
 
 [ext_resource type="Script" path="res://internal_themes/SongoClassic/song_follow/song_follow.gd" id="1_h6u5t"]
 [ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="2_5t6cu"]
-[ext_resource type="Texture2D" uid="uid://faqv22wj0cw1" path="res://icon.svg" id="3_bnd6k"]
 [ext_resource type="Script" path="res://utilities/carousel_label.gd" id="4_c3dw8"]
 [ext_resource type="Texture2D" uid="uid://d2w46rb0x433k" path="res://assets/PSMove_Start.png" id="5_a881d"]
 [ext_resource type="Texture2D" uid="uid://bfyp8wy0eadt" path="res://assets/PSMove_Select.png" id="6_bthl2"]
@@ -118,9 +117,10 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_vjqtq")
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/PanelContainer/PanelContainer"]
+custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture = ExtResource("2_5t6cu")
-expand_mode = 2
+expand_mode = 1
 stretch_mode = 6
 
 [node name="CoverImage" type="TextureRect" parent="HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/PanelContainer"]
@@ -128,7 +128,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 size_flags_horizontal = 0
-texture = ExtResource("3_bnd6k")
+texture = ExtResource("2_5t6cu")
 expand_mode = 1
 stretch_mode = 6
 

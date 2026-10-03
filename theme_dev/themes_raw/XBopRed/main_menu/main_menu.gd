@@ -88,7 +88,7 @@ func _start_flicker() -> void:
 	tween.tween_property(%MenuIcon2, "modulate:a", 2.0, 1.5) \
 		.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
 
-func _process(delta):
+func _process(_delta):
 	pass
 
 func _on_theme_settings_updated():

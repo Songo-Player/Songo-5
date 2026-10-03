@@ -1,5 +1,7 @@
 extends Node
 
+signal volume_updated(new_val)
+
 const PORT := 23456
 var server := TCPServer.new()
 
@@ -26,4 +28,4 @@ func _process(_delta):
 func on_volume_changed(value: String):
 	print("Volume changed:", value)
 	var vol := int(value)
-	UiHelper.vol_container.update_volume(vol)
+	volume_updated.emit(vol)

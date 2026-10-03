@@ -26,8 +26,8 @@ enum START_BEHAVIOR {LOCK, SLEEP, LOCK_SLEEP, KEEP_AWAKE}
 @export var playback_blend_time: float = 4.0
 @export var use_equalizer: bool = false
 @export var equalizer: SongoEqualizer = SongoEqualizer.new()
+@export var clock_24_hour: bool = true
 #@export var theme_color_index = 0
-#@export var clock_24_hour = false
 #@export var main_menu_size = 1
 @export var song_following = true
 @export var scrape_lyrics = false
@@ -60,8 +60,8 @@ enum START_BEHAVIOR {LOCK, SLEEP, LOCK_SLEEP, KEEP_AWAKE}
 @export var use_generic_strategy = false
 @export var song_sleep_timer_index = 3 # 10s
 @export var song_sleep_type = 0
-@export var theme_path = "res://internal_themes/SongoClassic"
-@export var target_fps_index = 2 # 60
+@export var theme_path = "res://internal_themes/Ringing"
+@export var target_fps_index = 2 # 60fps
 
 var song_sleep_timer:
 	get: return SONG_SLEEP_TIMES[song_sleep_timer_index]
@@ -78,6 +78,18 @@ var seek_forward_time:
 var seek_backward_time:
 	get: return SEEK_TIMES[seek_backward_time_index]
 
+var formatted_time:
+	get: return _get_formatted_time()
+
+func _get_formatted_time() -> String:
+	var now = Time.get_datetime_dict_from_system()
+	var hour_12 = now.hour % 12
+	if hour_12 == 0: hour_12 = 12
+	var hour = str(hour_12)
+	if clock_24_hour: hour = str(now.hour)
+	var minute = str(now.minute).pad_zeros(2)
+	return "%s:%s" % [hour, minute]
+
 # --- Internal static reference (optional safety) ---
 static var _instance: SongoSettings = null
 
@@ -92,10 +104,16 @@ static func get_instance() -> SongoSettings:
 			_instance = ResourceLoader.load(SAVE_PATH)
 			if _instance == null || _instance.settings_version != SETTINGS_VERSION:
 				_instance = SongoSettings.new()
+				_instance._apply_first_time_defaults()
 				print("Busting saved data")
 		else:
 			_instance = SongoSettings.new()
+			_instance._apply_first_time_defaults()
 	return _instance
+
+func _apply_first_time_defaults():
+	ab_layout_swapped = OS.get_environment("SONGO_AB_SWAP") == "1"
+	xy_layout_swapped = OS.get_environment("SONGO_XY_SWAP") == "1"
 
 func save():
 	print("Saving Settings")

@@ -1,5 +1,7 @@
 extends MarginContainer
 
+var songo_settings = SongoSettings.get_instance()
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_update_widgets()
@@ -39,17 +41,8 @@ func _update_battery_ui(capacity, status) -> void:
 	
 	#if status.to_lower() == "charging":
 
-func get_time_string() -> String:
-	var now = Time.get_datetime_dict_from_system()
-	var hour_12 = now.hour % 12
-	if hour_12 == 0: hour_12 = 12
-	var hour = str(hour_12)
-	if ThemeManager.settings["clock_24_hour"]: hour = now.hour
-	var minute = str(now.minute).pad_zeros(2)
-	return "%s:%s" % [hour, minute]
-
 func update_time():
-	%CurrentOsTimeLabel.text = get_time_string()
+	%CurrentOsTimeLabel.text = songo_settings.formatted_time
 	
 func network_check_display():
 	var network_checker = NetworkStatus.new()

@@ -7,12 +7,14 @@ var nav_label_node
 var active_container
 var container_history = []
 signal page_changed
+signal quitting_songo
 
 var history = []
 var nav_label = [] 
 var navigating_back = false
 var stored_state = null
 var skip_refocus: bool = false
+var _rebuilding_nav: bool = false
 
 const MAIN_MENU = "res://scenes/theme_injections/theme_main_menu/theme_main_menu.tscn"
 const ALL_SONGS_CONTAINER = "res://scenes/all_songs_container_v2/all_songs_container_v2.tscn"
@@ -23,7 +25,6 @@ const SETTINGS_SUB_PATH = "res://scenes/settings_container/sub_containers"
 const DATA_AND_STORAGE_SUB_CONTAINER = SETTINGS_SUB_PATH + "/data_and_storage/data_and_storage.tscn"
 const UI_AND_CUSTOMIZATIONS_SUB_CONTAINER = SETTINGS_SUB_PATH + "/ui_and_customization/ui_and_customization.tscn"
 const MISC_FEATURE_SETTINGS_SUB_CONTAINER = SETTINGS_SUB_PATH + "/misc_feature_settings/misc_feature_settings.tscn"
-const PLAYLIST_SETTINGS_SUB_CONTAINER = SETTINGS_SUB_PATH + "/playlist_settings/playlist_settings.tscn"
 const DEVELOPMENT_CREDIT_SUB_CONTAINER = SETTINGS_SUB_PATH + "/development_credit/development_credit.tscn"
 const CONTACT_ME_SUB_CONTAINER = SETTINGS_SUB_PATH + "/contact_me/contact_me.tscn"
 const SUPPORT_ME_SUB_CONTAINER = SETTINGS_SUB_PATH + "/support_me/support_me.tscn"
@@ -35,7 +36,6 @@ var settings_collection : Array[SettingRecord] = [
 	SettingRecord.new("Data and Storage", "settings_data_and_storage", false),
 	SettingRecord.new("UI and Customization", "settings_ui_and_customizations", false),
 	SettingRecord.new("Misc Feature Settings", "misc_feature_settings", false),
-	SettingRecord.new("Playlist Settings", "playlist_settings", false),
 	SettingRecord.new("Controller Settings", "controller_settings", false),
 	SettingRecord.new("Sound Settings", "sound_settings", false),
 	SettingRecord.new("Development Credit", "settings_development_credit", true),
@@ -97,7 +97,7 @@ func collection_list(collection = null):
 		"ALBUM_SONGS": nav_label = ["Main Menu", "Albums", CollectionHelper.collection_name]
 		"ARTIST_SONGS": nav_label = ["Main Menu", "Artists", CollectionHelper.collection_name]
 		"PLAYLIST_SONGS": nav_label = ["Main Menu", "Playlists", CollectionHelper.collection_name]
-		_: nav_label = ["Main menu", "Collection"]
+		_: nav_label = ["Main Menu", CollectionHelper.collection_name]
 	finish_up_nav()
 
 func songs_index():
@@ -116,16 +116,16 @@ func playlists_index():
 	var playlists = songo_data.playlists
 	collection_list(playlists)
 	
-func songs_panel(music_records, play_index, play_mode = SongoPlayerV2.MODE.LINEAR):
+func songs_panel(music_records, play_index, play_mode = SongoPlayer.MODE.LINEAR):
 	clean_up_old_container()
 
-	SongoPlayerV2.play_index = play_index
-	SongoPlayerV2.set_music_records(music_records)
-	SongoPlayerV2.repeating = false
-	SongoPlayerV2.setMode(play_mode)
+	SongoPlayer.play_index = play_index
+	SongoPlayer.set_music_records(music_records)
+	SongoPlayer.repeating = false
+	SongoPlayer.setMode(play_mode)
 	
-	if SongoPlayerV2.is_playing() == false || SongoPlayerV2.get_current_music_record() != music_records[play_index]:
-		SongoPlayerV2.play_from_start()
+	if SongoPlayer.is_playing() == false || SongoPlayer.get_current_music_record() != music_records[play_index]:
+		SongoPlayer.play_from_start()
 		
 	active_container = load(SONG_PANEL_CONTAINER).instantiate()
 	active_container.setup()
@@ -170,14 +170,6 @@ func misc_feature_settings():
 	nav_label = ["Main Menu", "Settings", "Misc Feature Settings"]
 	finish_up_nav()
 	
-func playlist_settings():
-	clean_up_old_container()
-	
-	active_container = load(PLAYLIST_SETTINGS_SUB_CONTAINER).instantiate()
-	active_container.setup()
-	nav_label = ["Main Menu", "Settings", "Playlist Settings"]
-	finish_up_nav()
-	
 func settings_development_credit():
 	clean_up_old_container()
 	
@@ -215,6 +207,32 @@ func sound_settings():
 	nav_label = ["Main Menu", "Settings", "Sound Settings"]
 	finish_up_nav()
 	
+func plugin_settings(plugin: SongoPlugin, scene_path: String):
+	clean_up_old_container()
+	active_container = load(scene_path).instantiate()
+	if active_container.has_method("setup"): active_container.setup(plugin)
+	nav_label = ["Main Menu", "Settings", plugin.plugin_name]
+	finish_up_nav()
+
+## Plugin items slot in ahead of Settings/Exit, which themes render as the
+## trailing pair.
+func add_menu_item(item: MenuItemData):
+	var insert_at = _menu_items.size()
+	for i in range(_menu_items.size()):
+		if _menu_items[i].action == settings_index:
+			insert_at = i
+			break
+	_menu_items.insert(insert_at, item)
+
+## Plugin settings pages slot in ahead of the info pages (credits, contact...).
+func add_settings_record(record: SettingRecord):
+	var insert_at = settings_collection.size()
+	for i in range(settings_collection.size()):
+		if settings_collection[i].is_info:
+			insert_at = i
+			break
+	settings_collection.insert(insert_at, record)
+
 func main_menu():
 	CollectionHelper.current_collection = null
 	clean_up_old_container()
@@ -225,11 +243,29 @@ func main_menu():
 	
 func quit_songo():
 	SfxPlayer.play_accept_sfx()
-	UiHelper.dark_out.show()
-	content_body_node.get_node("ExitingOverlay").show()
+	quitting_songo.emit()
+	#UiHelper.darkout.show()
+	#content_body_node.get_node("ExitingOverlay").show()
+	SongoPlayer.save_listens()
 	await get_tree().create_timer(0.5).timeout
 	get_tree().quit()
-	
+
+## Quits and leaves the queue playing: writes it out, stops our playback and
+## hands over to the background player in the same frame, along with the
+## playback blend time. The launcher's start script detaches the player, so
+## it isn't Songo's child once Songo exits, and it takes over the playback
+## suppressions. Quits normally if the launcher doesn't support it or nothing
+## is playing.
+func quit_songo_with_music():
+	var playlist_path := OS.get_environment("SONGO_BG_PLAYLIST_PATH")
+	var start_path := OS.get_environment("SONGO_BG_PLAY_START_PATH")
+	if not playlist_path.is_empty() and not start_path.is_empty() \
+			and SongoPlayer.write_background_playlist(playlist_path):
+		SongoPlayer.stop_for_background_handoff()
+		var blend_time := "%.2f" % songo_settings.playback_blend_time
+		OS.create_process("sh", [start_path, playlist_path, blend_time])
+	quit_songo()
+
 ##################################
 #           HELPERS              #
 ##################################
@@ -238,7 +274,7 @@ func quit_songo():
 func append_container_history(container):
 	var focused = get_viewport().gui_get_focus_owner()
 	var new_history = [container, focused, nav_label]
-	SfxPlayer.play_accept_sfx()
+	if not _rebuilding_nav: SfxPlayer.play_accept_sfx()
 	container_history.append(new_history)
 	
 func nav_back():
@@ -272,7 +308,7 @@ func nav_back_to_settings():
 func restore_focus(control: Control):
 	if skip_refocus:
 		skip_refocus = false
-	else:
+	elif is_instance_valid(control) && control.is_inside_tree():
 		control.grab_focus()
 
 func clean_up_old_container():
@@ -306,3 +342,95 @@ func restore_state():
 	finish_up_nav()
 	await get_tree().process_frame
 	call_deferred("restore_focus", focus_target)
+
+## Throws away the navigation history and rebuilds it as if the user had walked
+## Main Menu > index page > collection by hand, so back navigation behaves
+## normally afterwards. `index_action` is the main menu action whose list holds
+## `collection` (e.g. albums_index). The final list lands on its first item.
+## Leaving the song view follows the same rules as pressing back.
+func rebuild_nav_to_collection(index_action: Callable, collection) -> void:
+	if _rebuilding_nav: return
+	_rebuilding_nav = true
+	SfxPlayer.play_accept_sfx()
+
+	var song_view = active_container if active_container is ThemeMainSongView else null
+	var keep_song_view = song_view != null && SongoPlayer.is_playing() && songo_settings.song_following
+	# Grab the song view's focus (e.g. play/pause) before detaching it, so
+	# returning via song follow restores it like a normal back press would.
+	var song_view_focus = null
+	if keep_song_view:
+		var focused = get_viewport().gui_get_focus_owner()
+		if focused != null && song_view.is_ancestor_of(focused): song_view_focus = focused
+	if song_view != null && not keep_song_view:
+		SongoPlayer.stop()
+
+	# Detach and free everything the old history references, except the song
+	# view when it's being kept around for song following.
+	var stale = [active_container]
+	for entry in container_history: stale.append(entry[0])
+	if stored_state != null:
+		stale.append(stored_state["active_container"])
+		for entry in stored_state["container_history"]: stale.append(entry[0])
+	if is_instance_valid(active_container) && active_container.is_inside_tree():
+		content_body_node.remove_child(active_container)
+	for container in stale:
+		if is_instance_valid(container) && container != song_view:
+			container.queue_free()
+	if song_view != null && not keep_song_view:
+		song_view.queue_free()
+
+	active_container = null
+	container_history = []
+	stored_state = null
+	nav_label = []
+	get_viewport().gui_release_focus()
+
+	# Frames are awaited between steps so each page's deferred focus grabs land
+	# before we move on, and our own focus wins.
+	main_menu()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_focus_button_for_action(active_container, index_action)
+
+	# collection_list() bails with an app message on empty collections, leaving
+	# us on the previous page; stop there rather than building on the wrong one.
+	index_action.call()
+	await get_tree().process_frame
+	if active_container is AllSongsContainerV2:
+		active_container.virtualized_list.focus_index(active_container.list_items.find(collection))
+
+		collection_list(collection)
+		await get_tree().process_frame
+		if active_container is AllSongsContainerV2 && active_container.collection == collection:
+			active_container.virtualized_list.focus_first()
+			if keep_song_view: _swap_player_queue_to(active_container.list_items)
+
+	if keep_song_view:
+		# Mirrors save_state() from the song view, as if the song had been
+		# picked from this list, so select/back from song follow line up.
+		stored_state = {
+			"active_container": song_view,
+			"container_history": container_history + [[active_container, get_viewport().gui_get_focus_owner(), nav_label]],
+			"nav_label": nav_label,
+			"focused": song_view_focus,
+		}
+	_rebuilding_nav = false
+
+# Points the player's queue at `music_records` (in list order) without
+# interrupting playback. Skipped if the current song isn't in the list, e.g. the
+# track changed while the info panel was open.
+func _swap_player_queue_to(music_records) -> void:
+	var current = SongoPlayer.get_current_music_record()
+	if current == null: return
+	for i in range(music_records.size()):
+		if music_records[i].full_path == current.full_path:
+			SongoPlayer.swap_music_records_silently(music_records, i)
+			return
+
+func _focus_button_for_action(node: Node, action: Callable) -> bool:
+	if node is BaseButton && node.is_visible_in_tree() && node.pressed.is_connected(action):
+		node.grab_focus()
+		return true
+	for child in node.get_children():
+		if _focus_button_for_action(child, action): return true
+	return false

@@ -3,18 +3,13 @@ extends Node
 signal pseudo_sleep
 signal pseudo_sleep_wake
 
-const CFW_MUOS = "muOS"
-const CFW_KNULLI = "knulli"
-const CFW_ROCKNIX = "ROCKNIX"
-const CFW_TRIM_UI = "TrimUI"
-
 var fade_out_overlay: Control
-var device_strategy: DeviceOsStrategy
-var device_strategy_name: get = get_device_strategy_name
-var music_dir_tip: get = get_music_dir_tip
+
 var songo_data = SongoDataResource.get_instance()
 var songo_settings = SongoSettings.get_instance()
-var battery_info_path = ""
+var battery_info_path = "" # Set only when a battery was found, themes check this before showing it
+var battery_percent_path = ""
+var charging_path = ""
 # Screen Brightness Adjustments
 var fade_val: float
 var fade_tween = null
@@ -23,7 +18,6 @@ var keep_screen_awake = false
 var inputs_locked = false
 var device_name = ""
 var hallkey_path = false
-var bin_path = ""
 var set_brightness_path = ""
 var get_brightness_path = ""
 var set_playback_suppressions_path = ""
@@ -31,19 +25,9 @@ var remove_playback_suppressions_path = ""
 var no_bright_fade_available = false
 var target_brightness = 155
 
-const HALLKEY_PATHS = {
-	"/boot/boot/batocera.board.capability": "/batocera_board_capability_override",
-	"/sys/class/power_supply/axp2202-battery/hallkey": "/hall_override/hallkey", # Rg35xx-SP, RG34xx-SP (muos Confirmed)
-	"/sys/devices/platform/hall-mh248/hallvalue": "/hall_override/hallkey" # Miyoo Flip
-}
-
 func _init():
-	#Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	set_device_os_strategy()
 	set_battery_info_path()
-
 	device_name = OS.get_environment("DEVICE_NAME")
-	bin_path = OS.get_environment("SONGO_BINARIES_DIR")
 	set_backlight_info()
 	
 
@@ -59,21 +43,9 @@ func set_backlight_info():
 	if no_bright_fade_available:
 		print("No bright fade available")
 		
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if fade_tween != null && songo_settings.song_sleep_type == 0:
 		set_backlight(int(round(fade_val)))
-	
-func get_device_strategy_name():
-	if device_strategy:
-		return device_strategy.get_script().get_global_name()
-	else:
-		return "None"
-
-func get_music_dir_tip():
-	if device_strategy:
-		return device_strategy.music_dir_tip
-	else:
-		return "Looks like you're using unsupported CFW, good luck!"
 
 func get_os_name():
 	var initial_name = OS.get_name()
@@ -83,47 +55,20 @@ func get_os_name():
 	else:
 		return initial_name
 	
-func get_valid_os_strategy():
-	if WindowsStrategy.being_used():
-		return WindowsStrategy
-	elif MuosStrategy.being_used():
-		return MuosStrategy
-	elif KnulliStrategy.being_used():
-		return KnulliStrategy
-	elif RocknixStrategy.being_used():
-		return RocknixStrategy
-	elif NextUIStrategy.being_used():
-		return NextUIStrategy
-	return GenericLinuxStrategy
-	
-func set_device_os_strategy():
-	if songo_settings.use_generic_strategy == true:
-		device_strategy = GenericLinuxStrategy.new()
-		return
 
-	var valid_strategy = get_valid_os_strategy().new()
-	if valid_strategy: device_strategy = valid_strategy
-	else: device_strategy = GenericLinuxStrategy.new()
-	
+
 func setup_device_hallkey():
-	for target_path in HALLKEY_PATHS.keys():
-		if FileAccess.file_exists(target_path):
-			hallkey_path = target_path
-			break
+
 	set_playback_suppressions_path = OS.get_environment("SET_PLAYBACK_SUPPRESSIONS_PATH")
 	remove_playback_suppressions_path = OS.get_environment("REMOVE_PLAYBACK_SUPPRESSIONS_PATH")
 	
 	printerr("INFO: Supression paths: [%s, %s]" % [set_playback_suppressions_path, remove_playback_suppressions_path])
-	SongoPlayerV2.music_started.connect(_on_music_started)
-	SongoPlayerV2.music_stopped.connect(_on_music_stopped)
+	SongoPlayer.music_started.connect(_on_music_started)
+	SongoPlayer.music_stopped.connect(_on_music_stopped)
 	
-	if hallkey_path:
-		printerr("INFO: Hallkey set to %s | %s" % [hallkey_path, HALLKEY_PATHS[hallkey_path]])
-	else:
-		printerr("INFO: No hallkey path found")
 
 func start_screen_fade():
-	if UiHelper.info_panel.visible: return # Controls are locked in this state
+	if UiHelper.overlay_window && UiHelper.overlay_window.visible: return # Controls are locked in this state
 	if sleeping: return #Possibly manually put to sleep
 	
 	var output = []
@@ -181,30 +126,30 @@ func wake_screen():
 	pseudo_sleep_wake.emit()
 		
 func set_battery_info_path():
-	var likely_paths = [
-		"/sys/class/power_supply/cw221X-bat/",
-		"/sys/class/power_supply/axp2202-battery/",
-		"/sys/class/power_supply/battery/",
-	]
-	for path in likely_paths:
-		if DirAccess.dir_exists_absolute(path):
-			battery_info_path = path
-			break
-	
+	battery_percent_path = OS.get_environment("SONGO_GET_BATTERY_PERCENT_PATH")
+	charging_path = OS.get_environment("SONGO_GET_CHARGING_PATH")
+
+	# The percent script prints nothing when it can't find a battery
+	if run_battery_script(battery_percent_path) != "":
+		battery_info_path = battery_percent_path
+
 func get_battery_info(info_key: String):
-	if battery_info_path == "" && info_key == "capacity" && !(device_strategy is WindowsStrategy): 
-		return device_strategy.get_battery_capacity()
-		
-	if !['status', 'capacity'].has(info_key): 
-		print("Unkown battery info key: %s" % info_key)
-		return ""
-		
+	match info_key:
+		"capacity":
+			return run_battery_script(battery_percent_path)
+		"status":
+			# The charging script only reports 1 (charging) or 0 (anything else)
+			return "Charging" if run_battery_script(charging_path) == "1" else "Not charging"
+		_:
+			print("Unkown battery info key: %s" % info_key)
+			return ""
+
+func run_battery_script(path: String) -> String:
+	if path == "": return ""
 	var output = []
-	var cmd = "%s/%s" % [battery_info_path, info_key]
-	var exit_code = OS.execute("cat", [cmd], output)
-	var result = output[0].strip_edges() if output.size() > 0 else ""
-	return result
-	
+	OS.execute("sh", [path], output)
+	return output[0].strip_edges() if output.size() > 0 else ""
+
 func swap_input_actions(action_a: String, action_b: String) -> void:
 	# Get current events
 	var events_a := InputMap.action_get_events(action_a)
@@ -222,30 +167,51 @@ func swap_input_actions(action_a: String, action_b: String) -> void:
 		InputMap.action_add_event(action_a, event.duplicate(true))
 	
 func _on_music_started():
-	# print("Music Started")
-	if hallkey_path:
-		var override_path = "%s%s" % [bin_path, HALLKEY_PATHS[hallkey_path]]
-		var target_path = hallkey_path
-		var args := ["--bind", override_path, target_path]
-		var output := []
-		var exit_code := OS.execute("mount", args, output, true)
-		if exit_code != 0:
-			push_error("Failed to bind mount hallkey: %s" % output)
-	
 	if set_playback_suppressions_path != "" && set_playback_suppressions_path != null:
-		#OS.execute("sh", ["-c", set_playback_suppressions_path])
 		OS.create_process(set_playback_suppressions_path, [])
 		
 func _on_music_stopped():
-	# print("Music Stopped")
-	
-	if hallkey_path:
-		if FileAccess.file_exists(hallkey_path):
-			# Lazy unmount to handle busy sysfs files
-			var exit_code := OS.execute("umount", ["-l", hallkey_path], [], true)
-			if exit_code != 0:
-				push_error("Failed to unmount hallkey override at %s" % hallkey_path)
-	
 	if remove_playback_suppressions_path != "" && remove_playback_suppressions_path != null:
-		#OS.execute("sh", ["-c", remove_playback_suppressions_path])
 		OS.create_process(remove_playback_suppressions_path, [])
+	
+		
+var initial_delay := 0.5   # seconds to wait before first repeat
+var timer := 0.0
+var held_action := ""
+var idle := true
+
+func translate_inputs(delta):
+	var action_name = ""
+	if Input.is_joy_button_pressed(0, JOY_BUTTON_DPAD_UP):
+		action_name = "ui_up"
+	elif Input.is_joy_button_pressed(0, JOY_BUTTON_DPAD_DOWN):
+		action_name = "ui_down"
+
+	if action_name == "":
+		idle = true
+		held_action = ""
+		timer = 0.0
+		return
+
+	# First input after idle fires immediately
+	if idle or held_action != action_name:
+		held_action = action_name
+		timer = 0.0
+		idle = false
+		return
+
+	# Held input: wait initial delay, then fire every frame
+	timer += delta
+	if timer >= initial_delay:
+		fake_input(action_name)
+	
+func fake_input(action_name):
+	var a = InputEventAction.new()
+	a.action = action_name
+	a.pressed = true
+	Input.parse_input_event(a)
+	
+	var b = InputEventAction.new()
+	b.action = action_name
+	b.pressed = false
+	Input.parse_input_event(b)

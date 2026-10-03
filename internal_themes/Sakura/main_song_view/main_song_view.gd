@@ -16,7 +16,7 @@ func _ready() -> void:
 func setup():
 	pass
 	
-func _process(delta):
+func _process(_delta):
 	update_play_time()
 
 	
@@ -44,6 +44,7 @@ func set_end_time(music_record: TagLibMusicRecord):
 	var length_sec: float = music_record.raw_length
 	
 	if length_sec < 0: 
+		current_song_duration = 0.0
 		%EndTimeLabel.text = "00:00"
 		return
 		
@@ -53,12 +54,12 @@ func set_end_time(music_record: TagLibMusicRecord):
 	%EndTimeLabel.text = "%d:%02d" % [minutes, seconds]
 	
 func update_play_time():
-	if SongoPlayerV2.is_playing():
-		var pos_sec: float = SongoPlayerV2.get_playback_position()
+	if SongoPlayer.is_playing():
+		var pos_sec: float = SongoPlayer.get_playback_position()
 		var minutes: int = int(pos_sec) / 60
 		var seconds: int = int(pos_sec) % 60
 		%CurrentTimeLabel.text = "%d:%02d" % [minutes, seconds]
-		var progress_ratio = pos_sec / current_song_duration
+		var progress_ratio = pos_sec / current_song_duration if current_song_duration > 0 else 0.0
 		%ProgressLine.scale.x = progress_ratio
 		
 func display_play_button():
@@ -77,11 +78,11 @@ func display_pause_button():
 
 	
 func _on_play_button_pressed() -> void:
-	SongoPlayerV2.resume()
+	SongoPlayer.resume()
 	display_play_button()
 
 func _on_pause_button_pressed() -> void:
-	SongoPlayerV2.pause()
+	SongoPlayer.pause()
 	display_pause_button()
 	
 
@@ -104,3 +105,11 @@ func _update_element():
 	if alignment == "left": %AlignmentContainer.alignment = HBoxContainer.ALIGNMENT_BEGIN
 	if alignment == "center": %AlignmentContainer.alignment = HBoxContainer.ALIGNMENT_CENTER
 	if alignment == "right": %AlignmentContainer.alignment = HBoxContainer.ALIGNMENT_END
+	if ThemeManager.settings["background"] == "almost_bedtime":
+		%Separator.modulate = "ffffff"
+	else:
+		%Separator.modulate = "292929"
+
+
+func _on_tree_entered() -> void:
+	_on_clock_timer_timeout()

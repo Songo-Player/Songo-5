@@ -7,7 +7,7 @@ func _ready() -> void:
 	ThemeManager.theme_settings_updated.connect(_update_element)
 	Controller.page_changed.connect(_on_page_changed)
 
-func _process(delta: float):
+func _process(_delta: float):
 	%ListLevelVisualizerContainer.add_theme_constant_override("margin_left", songo_settings.content_margin-20)
 	
 func _update_element():

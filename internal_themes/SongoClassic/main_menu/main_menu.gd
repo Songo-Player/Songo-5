@@ -86,7 +86,7 @@ func update_main_menu_size():
 	if Engine.is_editor_hint():
 		return
 	var size = ThemeManager.settings["songo_main_menu_size"]
-	if SongoPlayerV2.is_playing() && size == 220:
+	if SongoPlayer.is_playing() && size == 220:
 		size = 172
 
 	for tex_panel in tex_panels:

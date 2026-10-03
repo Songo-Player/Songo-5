@@ -1,6 +1,7 @@
-[gd_resource type="Theme" load_steps=10 format=3 uid="uid://bhmt8rt664jqw"]
+[gd_resource type="Theme" load_steps=11 format=3 uid="uid://bhmt8rt664jqw"]
 
 [ext_resource type="FontFile" uid="uid://fhmejhs3d6m0" path="res://assets/fonts/NotoSansCJKjp-Medium.otf" id="1_22c5f"]
+[ext_resource type="FontFile" uid="uid://7qxv18dwsw0i" path="res://internal_themes/Ringing/assets/Knewave-Regular.ttf" id="2_yuign"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eatph"]
 content_margin_left = 20.0
@@ -110,6 +111,7 @@ ListButton/base_type = &"Button"
 ListButton/colors/font_color = Color(0.00392157, 0.12549, 0.305882, 1)
 ListButton/colors/font_focus_color = Color(0.00392157, 0.12549, 0.305882, 1)
 ListButton/colors/font_hover_pressed_color = Color(0.00392157, 0.12549, 0.305882, 1)
+ListButton/colors/font_pressed_color = Color(0.00392157, 0.12549, 0.305882, 1)
 ListButton/colors/icon_focus_color = Color(0.00392157, 0.12549, 0.305882, 1)
 ListButton/colors/icon_normal_color = Color(0.00392157, 0.12549, 0.305882, 1)
 ListButton/colors/icon_pressed_color = Color(0.00392157, 0.12549, 0.305882, 1)
@@ -138,3 +140,7 @@ VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_d7fln")
 VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_uq36u")
 VScrollBar/styles/scroll = SubResource("StyleBoxFlat_kg685")
 VScrollBar/styles/scroll_focus = SubResource("StyleBoxFlat_swjdt")
+h1_label/base_type = &"Label"
+h1_label/colors/font_color = Color(0.00392157, 0.12549, 0.305882, 1)
+h1_label/font_sizes/font_size = 24
+h1_label/fonts/font = ExtResource("2_yuign")

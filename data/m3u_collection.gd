@@ -5,61 +5,78 @@ signal item_removed(resource)
 
 var name: String
 var m3u_path: String
+# Where generated placeholder images live. Plugin collections point this
+# elsewhere so they don't collide with, or get wiped along with, playlists.
+var image_dir: String = "user://playlist_images"
 var music_records: Array[TagLibMusicRecord]
 var img_path:
-	get: return _get_playlist_image_path()
-	#get: return get_img_path()
-	
-static var lookup = {}
-	
-func get_img_path():
-	if m3u_path.is_empty():
-		return ""
-		
-	var base_path = m3u_path.trim_suffix(".m3u")
-	var image_extensions = ["png", "svg", "webp", "jpeg", "jpg"]
-		
-	for ext in image_extensions:
-		var potential_path = base_path + "." + ext
-		if FileAccess.file_exists(potential_path):
-			return potential_path
-	return ""
-	
-func _get_playlist_image_path():
-	var base_path = "user://playlist_images"
-	var image_extensions = ["png", "svg", "webp", "jpeg", "jpg"]
-	for ext in image_extensions:
-		var file_path = "%s/%s-override.%s" % [base_path, name, ext]
-		if FileAccess.file_exists(file_path): return file_path
+	get: return _resolve_img_path()
 
-	for ext in image_extensions:
-		var file_path = "%s/%s.%s" % [base_path, name, ext]
-		if FileAccess.file_exists(file_path): return file_path
-	
-	return ""
+# The playlist's on-disk file name (without extension). Kept distinct from
+# `name` so image lookups stay pinned to the actual .m3u file even if `name`
+# is ever prettified for display.
+var file_stem:
+	get: return m3u_path.get_file().get_basename()
+
+static var lookup = {}
 
 var img:
-	get: 
+	get:
 		var image = Image.new()
 		image.load(img_path)
 		return image
-	
-# --- Static factory method ---
-static func create_collection(collection_type: String, name: String) -> M3uCollection:
-	var dir_path := "user://%s" % collection_type
-	var m3u_path := "%s/%s.m3u" % [dir_path, name]
 
-	# Ensure directory exists (make_dir_recursive works on a DirAccess)
-	var dir := DirAccess.open("user://")
-	if dir == null:
-		push_error("Failed to open user:// DirAccess")
+# Looks for a playlist image in priority order: an image living next to the
+# .m3u file (so imported playlists from other apps keep working), then a
+# generated placeholder.
+func _resolve_img_path() -> String:
+	if m3u_path.is_empty():
+		return ""
+
+	var image_extensions := ["png", "svg", "webp", "jpeg", "jpg"]
+
+	var adjacent_base := m3u_path.get_basename()
+	for ext in image_extensions:
+		var adjacent_path := "%s.%s" % [adjacent_base, ext]
+		if FileAccess.file_exists(adjacent_path):
+			return adjacent_path
+
+	for ext in image_extensions:
+		var generated_path := "%s/%s.%s" % [image_dir, file_stem, ext]
+		if FileAccess.file_exists(generated_path):
+			return generated_path
+
+	return ""
+
+# Turns a raw file basename (e.g. "lofi_jamz") into a display-friendly name
+# (e.g. "Lofi jamz") for playlists discovered on disk rather than created
+# in-app.
+static func humanize_name(raw_name: String) -> String:
+	var humanized := raw_name.replace("_", " ").strip_edges()
+	if humanized.is_empty():
+		return humanized
+	return humanized[0].to_upper() + humanized.substr(1)
+
+# --- Static factory method ---
+# Creates a new .m3u directly inside the user's first configured music
+# directory (instead of the app's private user:// sandbox) so the playlist
+# is a normal file other music apps can see and use.
+static func create_collection(name: String) -> M3uCollection:
+	if name.contains("/") or name.contains("\\"):
+		push_error("Playlist name can't contain path separators: %s" % name)
 		return null
 
-	if not dir.dir_exists(dir_path):
-		var err := dir.make_dir_recursive(dir_path)
-		if err != OK:
-			push_error("Failed to create directory: %s" % dir_path)
-			return null
+	var songo_data := SongoDataResource.get_instance()
+	if songo_data.music_directory_paths.is_empty():
+		push_error("Add a music directory before creating a playlist.")
+		return null
+
+	var root_dir: String = songo_data.music_directory_paths[0]
+	if not DirAccess.dir_exists_absolute(root_dir):
+		push_error("Music directory does not exist: %s" % root_dir)
+		return null
+
+	var m3u_path := root_dir.path_join("%s.m3u" % name)
 
 	# Write initial header (overwrite if it exists)
 	var file := FileAccess.open(m3u_path, FileAccess.WRITE)
@@ -70,8 +87,7 @@ static func create_collection(collection_type: String, name: String) -> M3uColle
 	file.store_line("#EXTM3U")
 	file.store_line("")  # blank line for readability
 	file.close()
-	
-	#WikiScrape.fetch_dicebear_collection_img(collection_type, name, "shapes")
+
 	# Return initialized instance
 	var instance := M3uCollection.new()
 	instance.name = name
@@ -81,6 +97,7 @@ static func create_collection(collection_type: String, name: String) -> M3uColle
 # --- Instance Methods ---
 
 # Adds a track (absolute path). No EXTINF or metadata; prevents duplicates.
+# Stored on disk as a path relative to this playlist's own .m3u location.
 func add_track(absolute_track_path: String) -> void:
 	if m3u_path == "":
 		push_error("Collection not initialized properly.")
@@ -95,16 +112,15 @@ func add_track(absolute_track_path: String) -> void:
 	var header_lines := _extract_header_lines(content)
 	var track_lines := _extract_track_lines(content)
 
-	# Normalize
-	absolute_track_path = absolute_track_path.strip_edges()
+	var relative_path := _to_relative(absolute_track_path.strip_edges())
 
-	if absolute_track_path in track_lines:
+	if relative_path in track_lines:
 		# already present
 		return
 
-	track_lines.append(absolute_track_path)
+	track_lines.append(relative_path)
 	_write_file(header_lines, track_lines)
-	print("Added track: %s" % absolute_track_path)
+	print("Added track: %s" % relative_path)
 
 func add_tracks(operating_music_records: Array[TagLibMusicRecord]) -> int:
 	var modified_item_count = 0
@@ -114,16 +130,17 @@ func add_tracks(operating_music_records: Array[TagLibMusicRecord]) -> int:
 
 	for music_record in operating_music_records:
 		var record = lookup[music_record.full_path]
-		if record != null && !(music_record.full_path in track_lines):
+		var relative_path := _to_relative(music_record.full_path)
+		if record != null && !(relative_path in track_lines):
 			music_records.append(record)
-			track_lines.append(music_record.full_path)
+			track_lines.append(relative_path)
 			modified_item_count += 1
-			
+
 	_write_file(header_lines, track_lines)
 	print("Added tracks: %d" % modified_item_count)
 	return modified_item_count
-	
-	
+
+
 # Removes all exact-matching track lines
 func remove_track(absolute_track_path: String) -> void:
 	if m3u_path == "":
@@ -138,20 +155,20 @@ func remove_track(absolute_track_path: String) -> void:
 	var header_lines := _extract_header_lines(content)
 	var track_lines := _extract_track_lines(content)
 
-	absolute_track_path = absolute_track_path.strip_edges()
+	var relative_path := _to_relative(absolute_track_path.strip_edges())
 
 	# Filter out exact matches
 	var new_tracks := []
 	for t in track_lines:
-		if t != absolute_track_path:
+		if t != relative_path:
 			new_tracks.append(t)
 
 	_write_file(header_lines, new_tracks)
-	
+
 	item_removed.emit(lookup[absolute_track_path])
-	
+
 func remove_tracks(operating_music_records: Array[TagLibMusicRecord]) -> int:
-	
+
 	var modified_item_count = 0
 	var content := _read_lines()
 	var header_lines := _extract_header_lines(content)
@@ -161,10 +178,11 @@ func remove_tracks(operating_music_records: Array[TagLibMusicRecord]) -> int:
 	for music_record in operating_music_records:
 		var record = lookup[music_record.full_path]
 		if record != null:
-			if music_record.full_path in track_lines:
+			var relative_path := _to_relative(music_record.full_path)
+			if relative_path in track_lines:
 				music_records.erase(record)
 				modified_item_count += 1
-				removed_lines.append(music_record.full_path)
+				removed_lines.append(relative_path)
 
 
 	# Filter out exact matches
@@ -175,7 +193,7 @@ func remove_tracks(operating_music_records: Array[TagLibMusicRecord]) -> int:
 
 	_write_file(header_lines, new_tracks)
 	return modified_item_count
-	
+
 
 # Returns true if exact track path exists
 func contains_track(absolute_track_path: String) -> bool:
@@ -185,8 +203,8 @@ func contains_track(absolute_track_path: String) -> bool:
 
 	var content := _read_lines()
 	var track_lines := _extract_track_lines(content)
-	absolute_track_path = absolute_track_path.strip_edges()
-	return absolute_track_path in track_lines
+	var relative_path := _to_relative(absolute_track_path.strip_edges())
+	return relative_path in track_lines
 
 
 func get_music_records_from_lookup() -> Array[TagLibMusicRecord]:
@@ -197,30 +215,68 @@ func get_music_records_from_lookup() -> Array[TagLibMusicRecord]:
 	var track_paths := _extract_track_lines(_read_lines())
 	if track_paths.is_empty():
 		return []
-	
+
 	# Build ordered filtered result
 	var result: Array[TagLibMusicRecord] = []
 	for path in track_paths:
-		var clean := str(path).strip_edges()
-		if lookup.has(clean):
-			result.append(lookup[clean])
+		var abs_path := _to_absolute(str(path))
+		if lookup.has(abs_path):
+			result.append(lookup[abs_path])
 
 	return result
-	
+
 func get_collection_overlap(music_array: Array[TagLibMusicRecord]) -> float:
 	var matches = 0
 	for music in music_array:
 		if music_records.has(music):
 			matches += 1
 	return float(matches) / music_array.size()
-	
+
 # --- Helpers ---
 static func build_lookup(music_array):
 	for record in music_array:
 		if record is Resource and record.has_method("get"):
 			var fp := str(record.full_path).strip_edges()
 			lookup[fp] = record
-			
+
+# Converts an absolute track path into a path relative to this playlist's
+# .m3u file, so the file stays portable and usable from wherever it lives
+# (including a folder other music apps also read/write it from).
+func _to_relative(absolute_path: String) -> String:
+	return _relative_path(absolute_path.simplify_path(), m3u_path.get_base_dir().simplify_path())
+
+# Resolves a path stored in the .m3u (relative or absolute, "/" or "\"
+# separated) back into an absolute path usable as a `lookup` key.
+func _to_absolute(stored_path: String) -> String:
+	var p := stored_path.strip_edges().replace("\\", "/")
+	if p.is_empty():
+		return ""
+	if p.is_absolute_path():
+		return p.simplify_path()
+	return m3u_path.get_base_dir().path_join(p).simplify_path()
+
+# Builds `target_path` relative to `base_dir`, using "../" hops as needed.
+# The two directories aren't assumed to share a common root (a track can
+# live under a different music directory entirely).
+static func _relative_path(target_path: String, base_dir: String) -> String:
+	var target_parts := target_path.split("/", false)
+	var base_parts := base_dir.split("/", false)
+
+	var common := 0
+	while common < target_parts.size() and common < base_parts.size() and target_parts[common] == base_parts[common]:
+		common += 1
+
+	var rel_parts: Array = []
+	for i in range(common, base_parts.size()):
+		rel_parts.append("..")
+	for i in range(common, target_parts.size()):
+		rel_parts.append(target_parts[i])
+
+	if rel_parts.is_empty():
+		return target_parts[-1]
+
+	return "/".join(rel_parts)
+
 # Reads file and returns array of raw lines (preserves order, including comments and blanks)
 func _read_lines() -> Array:
 	var result := []
@@ -291,41 +347,17 @@ func _write_file(header_lines: Array, track_lines: Array) -> void:
 
 	file.close()
 
-static func load_collection_type(type: String) -> Array[M3uCollection]:
-	var directory_path = ProjectSettings.globalize_path("user://%s" % type)
-	var collections: Array[M3uCollection] = []
-	var dir := DirAccess.open(directory_path)
-	
-	if dir == null:
-		push_error("Failed to open directory: %s" % directory_path)
-		return collections
-
-	dir.list_dir_begin()
-	var file_name := dir.get_next()
-	while file_name != "":
-		if not dir.current_is_dir() and file_name.ends_with(".m3u"):
-			var loaded_collection = M3uCollection.new()
-			loaded_collection.m3u_path = directory_path.path_join(file_name)
-			loaded_collection.name = file_name.get_basename()
-			collections.append(loaded_collection)
-		file_name = dir.get_next()
-	dir.list_dir_end()
-	return collections
-	
 func set_dicebear_image():
 	var source_img_path = "res://assets/dicebear/shapes/shapes-%d.svg" % randi_range(0, 199)
-	#var save_path = m3u_path.get_basename()+".svg"
-	
-	var save_path := "user://playlist_images/%s.svg" % name
+	var save_path := "%s/%s.svg" % [image_dir, file_stem]
 
-	var dir := DirAccess.open("user://")
-	if dir.dir_exists("playlist_images") and FileAccess.file_exists(save_path):
+	if FileAccess.file_exists(save_path):
 		return false
 
-	if not dir.dir_exists("playlist_images"):
-		dir.make_dir("playlist_images")
-	
-	
+	if not DirAccess.dir_exists_absolute(image_dir):
+		DirAccess.make_dir_recursive_absolute(image_dir)
+
+
 	if not FileAccess.file_exists(source_img_path):
 		print("Trying to load non-existant image: %s" % source_img_path)
 		return false

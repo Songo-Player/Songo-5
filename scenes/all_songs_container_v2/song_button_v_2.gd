@@ -32,6 +32,8 @@ func setup(record, index_arg):
 		content_component.setup_artist_record(record)
 	if record is M3uCollection:
 		content_component.setup_playlist_record(record)
+		if record.has_method("get_list_summary"):
+			_override_playlist_summary(record.get_list_summary())
 	if record is SettingRecord:
 		_setup_settings_button(record)
 	index = index_arg
@@ -40,6 +42,12 @@ func setup(record, index_arg):
 	if !%Button.pressed.is_connected(_song_button_pressed):
 		%Button.pressed.connect(_song_button_pressed)
 	
+# Plugin lists reuse the playlist button, but "N songs totaling..." doesn't fit
+# every list (e.g. radio streams have no length), so they can supply their own.
+func _override_playlist_summary(summary: String):
+	var summary_label = content_component.get_node_or_null("%PlaylistSummary")
+	if summary_label is Label: summary_label.text = summary
+
 func _setup_settings_button(setting_record):
 	%Button.text = setting_record.name
 	%Button.icon = setting_record.icon
@@ -49,8 +57,10 @@ func _song_button_pressed():
 	if current_page.list_items is Array[TagLibMusicRecord]:
 		Controller.songs_panel(current_page.list_items, index)
 	elif current_page.list_items is Array[SettingRecord]:
-		Controller.call(current_page.list_items[index].controller_method)
-	else: 
+		current_page.list_items[index].trigger()
+	elif current_page.list_items[index].has_method("activate"):
+		current_page.list_items[index].activate()
+	else:
 		Controller.collection_list(current_page.list_items[index])
 
 func _on_button_mouse_entered() -> void:

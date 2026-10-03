@@ -8,7 +8,7 @@ func _ready() -> void:
 	if "virtualized_list" in Controller.active_container:
 		virtualized_list = Controller.active_container.virtualized_list
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 	
 func setup_last_item():

@@ -1,0 +1,76 @@
+#EXTM3U
+
+#EXTINF:-1,FIP
+http://direct.fipradio.fr/live/fip-midfi.mp3
+http://icecast.radiofrance.fr/fip-midfi.mp3
+https://stream.radiofrance.fr/fip/fip.m3u8?id=radiofrance
+https://icecast.radiofrance.fr/fip-hifi.aac?id=radiofrance
+
+#EXTINF:-1,FIP Rock
+http://direct.fipradio.fr/live/fip-webradio1.mp3
+https://stream.radiofrance.fr/fiprock/fiprock.m3u8?id=radiofrance
+https://icecast.radiofrance.fr/fiprock-hifi.aac?id=radiofrance
+
+#EXTINF:-1,FIP Jazz
+http://direct.fipradio.fr/live/fip-webradio2.mp3
+https://stream.radiofrance.fr/fipjazz/fipjazz.m3u8?id=radiofrance
+https://icecast.radiofrance.fr/fipjazz-hifi.aac?id=radiofrance
+
+#EXTINF:-1,FIP Groove
+http://direct.fipradio.fr/live/fip-webradio3.mp3
+https://stream.radiofrance.fr/fipgroove/fipgroove.m3u8?id=radiofrance
+https://icecast.radiofrance.fr/fipgroove-hifi.aac?id=radiofrance
+
+#EXTINF:-1,FIP Monde
+http://direct.fipradio.fr/live/fip-webradio4.mp3
+https://stream.radiofrance.fr/fipworld/fipworld.m3u8?id=radiofrance
+https://icecast.radiofrance.fr/fipmonde-hifi.aac?id=radiofrance
+
+#EXTINF:-1,FIP Nouveautes
+http://direct.fipradio.fr/live/fip-webradio5.mp3
+https://stream.radiofrance.fr/fipnouveautes/fipnouveautes.m3u8?id=radiofrance
+https://icecast.radiofrance.fr/fipnouvates-hifi.aac?id=radiofrance
+
+#EXTINF:-1,FIP Reggae
+http://direct.fipradio.fr/live/fip-webradio6.mp3
+https://stream.radiofrance.fr/fipreggae/fipreggae.m3u8?id=radiofrance
+https://icecast.radiofrance.fr/fipreggae-hifi.aac?id=radiofrance
+
+#EXTINF:-1,FIP Electro
+https://stream.radiofrance.fr/fipelectro/fipelectro.m3u8?id=radiofrance
+https://icecast.radiofrance.fr/fipelectro-hifi.aac?id=radiofrance
+
+#EXTINF:-1,FIP Metal
+https://stream.radiofrance.fr/fipmetal/fipmetal.m3u8?id=radiofrance
+https://icecast.radiofrance.fr/fipmetal-hifi.aac?id=radiofrance
+
+#EXTINF:-1,FIP Pop
+https://stream.radiofrance.fr/fippop/fippop.m3u8?id=radiofrance
+https://icecast.radiofrance.fr/fippop-hifi.aac?id=radiofrance
+
+#EXTINF:-1,FIP Hip-Hop
+https://stream.radiofrance.fr/fiphop/fiphiphop.m3u8?id=radiofrance
+https://icecast.radiofrance.fr/fiphiphiphop-hifi.aac?id=radiofrance
+
+#EXTINF:-1,FIP Sacre Francais
+https://stream.radiofrance.fr/fipsacrefrancais/fipsacrefrancais.m3u8?id=radiofrance
+https://icecast.radiofrance.fr/fipsacre-hifi.aac?id=radiofrance
+
+#EXTINF:-1,FIP Cultes
+https://stream.radiofrance.fr/fipcultes/fipcultes.m3u8?id=radiofrance
+https://icecast.radiofrance.fr/fipcultes-hifi.aac?id=radiofrance
+
+#EXTINF:-1,Radio Perfecto
+http://radioperfecto.net-radio.fr/perfecto.mp3
+
+#EXTINF:-1,France Culture
+http://direct.franceculture.fr/live/franceculture-midfi.mp3
+
+#EXTINF:-1,France Inter
+http://direct.franceinter.fr/live/franceinter-midfi.mp3
+
+#EXTINF:-1,France Musique
+http://direct.francemusique.fr/live/francemusique-midfi.mp3
+
+#EXTINF:-1,France Info
+https://stream.radiofrance.fr/franceinfo/franceinfo_hifi.m3u8

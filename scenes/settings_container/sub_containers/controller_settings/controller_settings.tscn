@@ -309,12 +309,25 @@ theme_override_constants/minimum_character_width = 3
 text = "Lock"
 expand_to_text_length = true
 
-[node name="StartBehaviorButton" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_w8b5a")]
+[node name="StartBehaviorBtnContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_horizontal = 8
-text = "Swap"
+focus_mode = 2
+script = ExtResource("5_isikj")
+
+[node name="StartBehaviorLeft" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer/StartBehaviorBtnContainer" instance=ExtResource("3_w8b5a")]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+icon = ExtResource("4_g3ggg")
+
+[node name="StartBehaviorRight" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer/StartBehaviorBtnContainer" instance=ExtResource("3_w8b5a")]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+icon = ExtResource("5_mrvw8")
 
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -376,5 +389,6 @@ text = "Reset to Defaults
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox/HBoxContainer/SeekForwardTimerUp" to="." method="_on_seek_forward_timer_up_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox2/HBoxContainer/SeekBackwardTimerDown" to="." method="_on_seek_backward_timer_down_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox2/HBoxContainer/SeekBackwardTimerUp" to="." method="_on_seek_backward_timer_up_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer/StartBehaviorButton" to="." method="_on_start_behavior_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer/StartBehaviorBtnContainer/StartBehaviorLeft" to="." method="_on_start_behavior_left_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer/StartBehaviorBtnContainer/StartBehaviorRight" to="." method="_on_start_behavior_right_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MarginContainer/PanelContainer/ResetToDefaultsButton" to="." method="_on_reset_to_defaults_button_pressed"]

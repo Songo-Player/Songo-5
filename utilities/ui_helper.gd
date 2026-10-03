@@ -3,21 +3,25 @@ extends Node
 # Using this to decouple some tight crap in the main script
 enum EVENT {TOGGLE_INFO}
 signal ui_event(event: EVENT)
+# Sent by OverlayContainer as its transition fades in (faded_out = true) and back
+# out (false), so the main UI can fade in step with it over `duration`.
+signal transition_fade(faded_out: bool, duration: float)
 
-var dark_out: Control
+var darkout: Control
 var app_message: Control
 var content_body: Control
 var content_margin_container: Control
 var keyboard: Control
 var flash_message_box: Control
-var info_panel: Control
+var overlay_window: Window
 #var debug_info: Control
 var songo_settings = SongoSettings.get_instance()
-var vol_container: Control
 var transform_container: Control
 
 var focus_chain = []
 var original_size = null
+
+
 
 func register_focus_change(item: Control):
 	focus_chain.append(item)
@@ -66,10 +70,7 @@ func route_inputs(active_container, delta):
 		if app_message.visible:
 			app_message.dismiss()
 			return
-		if keyboard.visible:
-			keyboard.dismiss()
-			return
-			
+		
 	if is_instance_valid(active_container): active_container.handle_input(delta)
 
 func fire_focus_next():

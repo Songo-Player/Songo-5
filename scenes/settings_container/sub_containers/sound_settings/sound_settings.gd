@@ -54,7 +54,7 @@ func update_use_equalizer_ui():
 func _on_use_equalizer_button_pressed() -> void:
 	songo_settings.use_equalizer = not songo_settings.use_equalizer
 	songo_settings.save()
-	SongoPlayerV2.apply_equalizer_settings()
+	SongoPlayer.apply_equalizer_settings()
 	update_use_equalizer_ui()
 
 func update_force_44100hz_ui():
@@ -85,8 +85,6 @@ func _on_tree_exiting() -> void:
 	get_viewport().gui_focus_changed.disconnect(_on_focus_changed)
 
 func _on_focus_changed(item: Control):
-	if item == %ABLayoutButton:
-		%ScrollContainer.scroll_vertical = 0
 	if item == %ResetToDefaultsButton:
 		%ScrollContainer.scroll_vertical = 999
 
@@ -105,13 +103,13 @@ func _on_sfx_volume_up_pressed() -> void:
 func _on_music_volume_down_pressed() -> void:
 	songo_settings.music_volume = clamp(songo_settings.music_volume - 0.1, 0, 2.0)
 	songo_settings.save()
-	SongoPlayerV2.set_vol(songo_settings.music_volume)
+	SongoPlayer.set_vol(songo_settings.music_volume)
 	update_music_volume_ui()
 
 func _on_music_volume_up_pressed() -> void:
 	songo_settings.music_volume = clamp(songo_settings.music_volume + 0.1, 0, 2.0)
 	songo_settings.save()
-	SongoPlayerV2.set_vol(songo_settings.music_volume)
+	SongoPlayer.set_vol(songo_settings.music_volume)
 	update_music_volume_ui()
 
 func _on_buffer_length_down_pressed() -> void:
@@ -128,9 +126,9 @@ func _on_buffer_length_up_pressed() -> void:
 	
 func _update_buffer_length():
 	songo_settings.save()
-	SongoPlayerV2.ffmpeg_audio_playback.set_buffer_length_ms(songo_settings.stream_buffer_length)
-	var target_playback = SongoPlayerV2.get_playback_position()
-	SongoPlayerV2.ffmpeg_audio_playback.seek(target_playback)
+	SongoPlayer.ffmpeg_audio_playback.set_buffer_length_ms(songo_settings.stream_buffer_length)
+	var target_playback = SongoPlayer.get_playback_position()
+	SongoPlayer.ffmpeg_audio_playback.seek(target_playback)
 	update_stream_buffer_length_ui()
 
 func _on_playback_blend_down_pressed() -> void:
@@ -158,7 +156,7 @@ func _adjust_eq_band(band_number: int, delta_db: float) -> void:
 		new_gain = SongoEqualizer.MAX_GAIN_DB
 	songo_settings.equalizer.set_band_gain(band_index, new_gain)
 	songo_settings.save()
-	SongoPlayerV2.apply_equalizer_settings()
+	SongoPlayer.apply_equalizer_settings()
 	update_eq_ui()
 
 func _on_reset_to_defaults_button_pressed() -> void:
@@ -170,5 +168,5 @@ func _on_reset_to_defaults_button_pressed() -> void:
 	songo_settings.equalizer.reset()
 	songo_settings.force_44100hz = false
 	songo_settings.save()
-	SongoPlayerV2.apply_equalizer_settings()
+	SongoPlayer.apply_equalizer_settings()
 	_ui_settings_refresh()

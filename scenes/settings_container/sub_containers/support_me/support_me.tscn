@@ -203,7 +203,7 @@ theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/MainPanel/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/RoadmapItems/PanelContainer/MarginContainer"]
 layout_mode = 2
-text = "Display Lyrics from .lrc file"
+text = "Better Equalizer"
 
 [node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/MainPanel/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/RoadmapItems"]
 layout_mode = 2

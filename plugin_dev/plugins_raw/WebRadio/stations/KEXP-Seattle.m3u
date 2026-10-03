@@ -1,0 +1,5 @@
+#EXTM3U
+
+#EXTINF:-1, KEXP Seattle Public Radio
+http://live-mp3-128.kexp.org
+http://live-aacplus-64.kexp.org/kexp64.aac

@@ -1,7 +1,7 @@
 extends Node
 
 # Fetches a synced .lrc file from lrclib.net and saves it next to the song
-# file on disk, whenever SongoPlayerV2 starts a song that doesn't have one.
+# file on disk, whenever SongoPlayer starts a song that doesn't have one.
 
 const LRCLIB_BASE_URL := "https://lrclib.net/api"
 
@@ -18,7 +18,7 @@ func _ready() -> void:
 	_http_request = HTTPRequest.new()
 	add_child(_http_request)
 	_http_request.request_completed.connect(_on_request_completed)
-	SongoPlayerV2.started_new_song.connect(_on_started_new_song)
+	SongoPlayer.started_new_song.connect(_on_started_new_song)
 
 static func get_lrc_path(song_path: String) -> String:
 	return song_path.get_basename() + ".lrc"
@@ -29,6 +29,9 @@ func _on_started_new_song(music_record: TagLibMusicRecord) -> void:
 		return
 	if music_record == null or music_record.full_path.is_empty():
 		if logging: print("LrcScrape: started_new_song with no usable music_record, skipping")
+		return
+	if SongoPlayer.is_stream_record(music_record):
+		if logging: print("LrcScrape: '%s' is a network stream, skipping" % music_record.full_path)
 		return
 	if music_record.title.is_empty():
 		if logging: print("LrcScrape: '%s' has no title tag, skipping lyric fetch" % music_record.full_path)

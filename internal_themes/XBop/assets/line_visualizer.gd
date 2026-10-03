@@ -25,7 +25,8 @@ func _ready() -> void:
 		)
 	
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
+	if not is_inside_tree(): return
 	if DeviceOS.sleeping == false:
 		queue_redraw()
 
@@ -76,7 +77,7 @@ func _draw():
 		var magnitude: float = spectrum.get_magnitude_for_frequency_range(prev_hz, hz).length()
 
 		var energy = clamp((linear_to_db(magnitude) + 60) / 60, 0.0, 1.0)
-		if not SongoPlayerV2.is_playing():
+		if not SongoPlayer.is_playing():
 			energy = 0.0
 
 		values[i] = lerp(values[i], energy, 0.2)

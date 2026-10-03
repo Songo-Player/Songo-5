@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://djxkyjoaqwghc"]
 
 [ext_resource type="Script" path="res://internal_themes/Sakura/main_menu/main_menu_item.gd" id="1_item"]
-[ext_resource type="StyleBox" uid="uid://b1g84jn4br3bq" path="res://internal_themes/Sakura/main_menu/focus_main_menu_button.tres" id="2_focus"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pill"]
 bg_color = Color(1, 0.332764, 0.355709, 1)
@@ -21,7 +20,6 @@ corner_radius_bottom_left = 32
 bg_color = Color(0.197937, 0.197937, 0.197937, 1)
 
 [node name="MainMenuItem" type="PanelContainer"]
-layout_mode = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_pill")
 script = ExtResource("1_item")
 
@@ -40,7 +38,6 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_inner")
 [node name="ItemButton" type="Button" parent="MarginContainer/PanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/focus = ExtResource("2_focus")
 theme_override_styles/normal = SubResource("StyleBoxFlat_normal")
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer"]
@@ -57,3 +54,6 @@ unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
 expand_mode = 1
+
+[connection signal="focus_entered" from="MarginContainer/PanelContainer/ItemButton" to="." method="_on_item_button_focus_entered"]
+[connection signal="focus_exited" from="MarginContainer/PanelContainer/ItemButton" to="." method="_on_item_button_focus_exited"]

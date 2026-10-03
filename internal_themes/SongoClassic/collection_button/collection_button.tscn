@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://4lwbxso23g8o" path="res://assets/folder_nested_line_long.png" id="2_bt62x"]
 [ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="3_1ddtq"]
 [ext_resource type="Texture2D" uid="uid://byeluf85nlgra" path="res://assets/record.svg" id="4_1esgy"]
-[ext_resource type="Texture2D" uid="uid://faqv22wj0cw1" path="res://icon.svg" id="5_h3lj2"]
 [ext_resource type="Texture2D" uid="uid://dcqtgyrr3fac2" path="res://assets/user.svg" id="6_3wxin"]
 [ext_resource type="Texture2D" uid="uid://md788wp04yb1" path="res://assets/layergroup.svg" id="8_qrxjs"]
 
@@ -153,7 +152,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("5_h3lj2")
+texture = ExtResource("3_1ddtq")
 expand_mode = 1
 stretch_mode = 6
 
@@ -214,7 +213,7 @@ visible = false
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("5_h3lj2")
+texture = ExtResource("3_1ddtq")
 expand_mode = 1
 stretch_mode = 6
 
@@ -274,7 +273,7 @@ visible = false
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("5_h3lj2")
+texture = ExtResource("3_1ddtq")
 expand_mode = 1
 stretch_mode = 6
 

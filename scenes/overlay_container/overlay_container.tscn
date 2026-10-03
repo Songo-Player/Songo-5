@@ -1,0 +1,124 @@
+[gd_scene load_steps=10 format=3 uid="uid://ctuex0ktcjrg0"]
+
+[ext_resource type="Script" path="res://utilities/window_overlay.gd" id="1_geivj"]
+[ext_resource type="Script" path="res://scenes/overlay_container/overlay_container.gd" id="1_wvgni"]
+[ext_resource type="PackedScene" uid="uid://brbab8sr2wk7f" path="res://scenes/info_panel/info_panel.tscn" id="2_fvidk"]
+[ext_resource type="PackedScene" uid="uid://byrf2kolyhycf" path="res://scenes/quick_menu/quick_menu.tscn" id="4_tkbd0"]
+[ext_resource type="PackedScene" uid="uid://d04khqj3ibmkx" path="res://scenes/volume_container/volume_container.tscn" id="5_vol01"]
+[ext_resource type="PackedScene" uid="uid://dpkuxp51tlyqk" path="res://keyboard.tscn" id="6_kbd01"]
+[ext_resource type="Theme" uid="uid://wvqbwd6ybd6m" path="res://assets/songo_base_theme.tres" id="7_wxuk6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c4qk5"]
+bg_color = Color(0, 0, 0, 0.729412)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l38bv"]
+bg_color = Color(0, 0, 0, 0.784314)
+
+[node name="OverlayContainer" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_wvgni")
+
+[node name="OverlayWindow" type="Window" parent="."]
+unique_name_in_owner = true
+auto_translate_mode = 1
+transparent_bg = true
+visible = false
+borderless = true
+transparent = true
+script = ExtResource("1_geivj")
+
+[node name="InfoPanel" parent="OverlayWindow" instance=ExtResource("2_fvidk")]
+unique_name_in_owner = true
+visible = false
+offset_left = -115.0
+offset_top = -102.0
+offset_right = 115.0
+offset_bottom = 102.0
+
+[node name="QuickMenu" parent="OverlayWindow" instance=ExtResource("4_tkbd0")]
+unique_name_in_owner = true
+visible = false
+
+[node name="KeyboardCenter" type="CenterContainer" parent="OverlayWindow"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Keyboard" parent="OverlayWindow/KeyboardCenter" instance=ExtResource("6_kbd01")]
+unique_name_in_owner = true
+visible = false
+z_index = 3
+layout_mode = 2
+mouse_filter = 0
+
+[node name="ExitingOverlayContainer" type="MarginContainer" parent="OverlayWindow"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ExitingOverlay" type="PanelContainer" parent="OverlayWindow/ExitingOverlayContainer"]
+z_index = 3
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_c4qk5")
+
+[node name="MarginContainer" type="MarginContainer" parent="OverlayWindow/ExitingOverlayContainer/ExitingOverlay"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="OverlayWindow/ExitingOverlayContainer/ExitingOverlay/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "See ya later"
+
+[node name="DarkOut" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_l38bv")
+
+[node name="VolumeContainer" parent="." instance=ExtResource("5_vol01")]
+unique_name_in_owner = true
+z_index = 1
+layout_mode = 2
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="DarkOutTransition" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="DarkOutTransition"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("7_wxuk6")
+theme_type_variation = &"SongoPanel"
+
+[node name="Label" type="Label" parent="DarkOutTransition/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 24
+text = "Fast Travelling..."

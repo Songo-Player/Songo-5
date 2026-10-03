@@ -76,7 +76,7 @@ func song_cover_texture(record: TagLibMusicRecord) -> Texture2D:
 	var album_img: Image = SongoDataResource.get_instance().get_album_cover(record.album)
 	if album_img != null:
 		texture = ImageTexture.create_from_image(album_img)
-	if texture == null:
+	if texture == null && not SongoPlayer.is_stream_record(record):
 		texture = GDTagLib.get_cover_image(record.full_path)
 
 	_song_cover_cache[record.full_path] = texture

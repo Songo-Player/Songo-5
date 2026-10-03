@@ -1,16 +1,15 @@
-[gd_scene load_steps=18 format=3 uid="uid://dh2xv2ymu7ce"]
+[gd_scene load_steps=17 format=3 uid="uid://dh2xv2ymu7ce"]
 
 [ext_resource type="Script" path="res://internal_themes/Sakura/main_song_view/main_song_view.gd" id="1_oc7h2"]
 [ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="3_77cur"]
-[ext_resource type="Texture2D" uid="uid://faqv22wj0cw1" path="res://icon.svg" id="4_y8buj"]
 [ext_resource type="Script" path="res://utilities/carousel_label.gd" id="5_a2itq"]
 [ext_resource type="Texture2D" uid="uid://beq3xrq55bgua" path="res://assets/Play.svg" id="8_vu8tw"]
 [ext_resource type="Texture2D" uid="uid://dlegkxypq8u32" path="res://assets/Pause.svg" id="9_ftwpn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ivef0"]
-bg_color = Color(0.15967, 0.15967, 0.15967, 1)
+bg_color = Color(1, 1, 1, 1)
 border_width_left = 2
-border_color = Color(0.217101, 0.217101, 0.217101, 1)
+border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_frcu5"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -149,7 +148,9 @@ theme_override_font_sizes/font_size = 52
 text = "pm
 "
 
-[node name="VSeparator" type="VSeparator" parent="MarginContainer/AlignmentContainer/VBoxContainer2/VBoxContainer"]
+[node name="Separator" type="VSeparator" parent="MarginContainer/AlignmentContainer/VBoxContainer2/VBoxContainer"]
+unique_name_in_owner = true
+modulate = Color(0.160784, 0.160784, 0.160784, 1)
 layout_mode = 2
 theme_override_constants/separation = 20
 theme_override_styles/separator = SubResource("StyleBoxFlat_ivef0")
@@ -186,7 +187,7 @@ stretch_mode = 6
 [node name="MusicImage" type="TextureRect" parent="MarginContainer/AlignmentContainer/VBoxContainer2/VBoxContainer/MarginContainer2/AspectRatioContainer/PanelContainer/PanelContainer2/PanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-texture = ExtResource("4_y8buj")
+texture = ExtResource("3_77cur")
 expand_mode = 1
 stretch_mode = 6
 

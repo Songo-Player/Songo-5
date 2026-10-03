@@ -23,6 +23,7 @@ func _ready():
 	max_content_margin = int(UiHelper.content_body.size.x / 4.0)
 	update_theme_options_ui()
 	update_current_theme_ui()
+	update_clock_24_hour_ui()
 	_setup_menu_visibility_settings()
 
 func _setup_menu_visibility_settings() -> void:
@@ -179,7 +180,21 @@ func update_current_theme_ui():
 	
 func update_content_margin_ui():
 	%ContentMarginDisplayLabel.text = "%dpx" % songo_settings.content_margin
-	
+
+func update_clock_24_hour_ui():
+	%Clock24HourDisplayLabel.text = "24 Hour" if songo_settings.clock_24_hour else "12 Hour"
+
+func _on_clock_24_hour_down_pressed() -> void:
+	_toggle_clock_24_hour()
+
+func _on_clock_24_hour_up_pressed() -> void:
+	_toggle_clock_24_hour()
+
+func _toggle_clock_24_hour() -> void:
+	songo_settings.clock_24_hour = not songo_settings.clock_24_hour
+	songo_settings.save()
+	update_clock_24_hour_ui()
+
 func update_global_scale_ui():
 	%GlobalScaleDisplayLabel.text = "%.2fx" % songo_settings.ui_scale 
 		
@@ -243,7 +258,7 @@ func _on_apply_theme_pressed() -> void:
 	if ThemeManager.theme_path != theme_options[theme_index]:
 		ThemeManager.set_current_theme(theme_options[theme_index])
 		Controller.history = []
-		SongoPlayerV2.stop()
+		SongoPlayer.stop()
 		Controller.main_menu()
 	else:
 		UiHelper.flash_message("This theme is already being applied")

@@ -3,28 +3,26 @@ extends MarginContainer
 var songo_data = SongoDataResource.get_instance()
 var songo_settings = SongoSettings.get_instance()
 
+# Opened/closed by OverlayContainer, which owns the Y hold and keeps this and
+# the info panel from showing at the same time.
 var showing: bool = false
 
+# Set by the SBC launcher when the background player is available
+var bg_play_available: bool = OS.get_environment("SONGO_SBC_BG_PLAY") == "1"
 
-func _info_panel_visible() -> bool:
-	return UiHelper.info_panel != null and UiHelper.info_panel.visible
 
+func open_menu() -> void:
+	showing = true
+	update_quick_menu_vals()
+	show()
 
-func _process(delta: float) -> void:
-	if _info_panel_visible():
-		return
-
-	if Input.is_action_pressed("Y"):
-		showing = true
-		update_quick_menu_vals()
-	else:
-		showing = false
-
-	visible = showing
+func close_menu() -> void:
+	showing = false
+	hide()
 
 
 func _input(event: InputEvent) -> void:
-	if showing && not _info_panel_visible():
+	if showing:
 		for action_event in InputMap.action_get_events("ui_up"):
 			if event.is_match(action_event) and event.is_pressed():
 				handle_playlist_quick_edit()
@@ -49,6 +47,8 @@ func _input(event: InputEvent) -> void:
 			if event.is_match(action_event) and event.is_pressed():
 				if Controller.nav_label.size() != 1:
 					change_target_playlist(1)
+				elif bg_play_available && %QuitWithMusic.visible:
+					Controller.quit_songo_with_music()
 				break  # Stop after finding a match
 
 	if showing:
@@ -62,18 +62,21 @@ func change_target_playlist(direction: int) -> void:
 	songo_data.save()
 
 func handle_queue_music():
-	if "music_records" in Controller.active_container && SongoPlayerV2.is_playing():
+	if "music_records" in Controller.active_container && SongoPlayer.is_playing():
 		var queue_song = Controller.active_container.focused_song
-		SongoPlayerV2.queue_music(queue_song)
+		SongoPlayer.queue_music(queue_song)
 		UiHelper.flash_message("Queued %s" % queue_song.title)
 
 func get_playlist_target_song():
+	if Controller.active_container is ThemeMainSongView:
+		# Network streams aren't library files, so they can't go in playlists.
+		if SongoPlayer.is_current_stream(): return null
+		return SongoPlayer.get_current_music_record()
+
 	var target = CollectionHelper.target_item
 	if target && target is TagLibMusicRecord:
 		return target
 
-	if Controller.active_container is ThemeMainSongView:
-		return SongoPlayerV2.get_current_music_record()
 	return null
 
 func get_playlist_target_collection():
@@ -125,7 +128,7 @@ func update_quick_menu_vals():
 	if (target_collection == null && target_song == null) || songo_data.target_playlist == null:
 		%AddRemoveInPlaylistQuick.hide()
 
-	if Controller.active_container is AllSongsContainerV2 && target_song && SongoPlayerV2.is_playing():
+	if Controller.active_container is AllSongsContainerV2 && target_song && SongoPlayer.is_playing():
 		actions_available = true
 		%QueueSong.show()
 	else:
@@ -136,6 +139,13 @@ func update_quick_menu_vals():
 		actions_available = true
 	else:
 		%RotateDisplay.hide()
+
+	# Only when there's music to carry on, otherwise it'd just be a normal quit
+	if bg_play_available && Controller.nav_label.size() == 1 && SongoPlayer.is_playing():
+		%QuitWithMusic.show()
+		actions_available = true
+	else:
+		%QuitWithMusic.hide()
 	%NoQuickMenuActions.visible = not actions_available
 
 func handle_playlist_quick_edit():

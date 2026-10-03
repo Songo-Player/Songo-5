@@ -11,6 +11,7 @@ var first_visible_index: int = 0
 var item_height: float = 0.0
 var data_items = []
 var item_scene_path = ""
+var _item_scene: PackedScene
 var total_items: int: 
 	get: return data_items.size()
 # Nodes
@@ -31,7 +32,14 @@ func setup(data_items_arg, item_scene_path_arg):
 	if data_items_arg.size() == 0: return
 	data_items = data_items_arg
 	item_scene_path = item_scene_path_arg
-	
+	_item_scene = load(item_scene_path)
+	# Some item scenes (e.g. song_button_v2.tscn) render a different layout/height
+	# depending on the data item's type (song vs album vs artist vs playlist), so
+	# the height cache has to be keyed on both.
+	var item_script = data_items[0].get_script()
+	var item_type_key = item_script.resource_path if item_script else data_items[0].get_class()
+	var item_height_key = "%s::%s" % [item_scene_path, item_type_key]
+
 	# Setup scroll container
 	vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_ALWAYS
 	if vbox == null:
@@ -59,13 +67,13 @@ func setup(data_items_arg, item_scene_path_arg):
 	vbox.add_child(spacer_bottom)
 	
 	# Measure the first item's height
-	item_height = item_heights.get(item_scene_path, 0.0)
+	item_height = item_heights.get(item_height_key, 0.0)
 	if item_height == 0.0:
 		item_height = first_item.get_combined_minimum_size().y
-		#item_heights[item_scene_path] = item_height
+		item_heights[item_height_key] = item_height
 	#await get_tree().process_frame
 	#visible_item_count = int(size.y/item_height)+5
-	visible_item_count = int(UiHelper.content_margin_container.size.y/item_height)+20
+	visible_item_count = int(UiHelper.content_margin_container.size.y/item_height)+6
 	
 	# Now create the rest of the items
 	for i in range(1, visible_item_count):
@@ -99,6 +107,14 @@ func setup(data_items_arg, item_scene_path_arg):
 	scroll_vertical_custom_step = (item_height*data_items.size())/50.0
 	
 func _unhandled_input(event: InputEvent) -> void:
+	# DeviceOsStrategy.translate_inputs() synthesizes fresh InputEventAction
+	# press/release pairs every frame while a controller D-pad button is held
+	# (to drive repeat-scrolling). Those fake releases would satisfy the wrap
+	# arm/trigger checks below without the button ever being physically
+	# released, so only real hardware events are allowed to arm/trigger a wrap.
+	if event is InputEventAction:
+		return
+
 	if event.is_action_released("ui_down"):
 		_down_can_wrap = (focused_index != null and focused_index == total_items - 1)
 
@@ -147,6 +163,24 @@ func wrap_to_top() -> void:
 	else:
 		focus_first()
 
+## Scrolls so data_items[index] is realised in the pool, then focuses it.
+func focus_index(index: int) -> void:
+	if index < 0 or index >= total_items or item_pool.is_empty(): return
+	# Matches _on_scroll_changed's (value / item_height) - 2 so the scroll
+	# below doesn't recycle the pool out from under us.
+	first_visible_index = clamp(index - 2, 0, max(0, total_items - visible_item_count))
+	update_spacers()
+	update_visible_items()
+	scroll_vertical = int(item_height * index)
+
+	var item = item_pool[index - first_visible_index]
+	if "set_focus" in item:
+		item.set_focus()
+	else:
+		var focus_target = _find_first_focusable(item)
+		if focus_target:
+			focus_target.grab_focus()
+
 func focus_last() -> void:
 	if item_pool.is_empty():
 		return
@@ -184,7 +218,7 @@ func _find_first_focusable(node: Node) -> Control:
 	return null
 	
 func create_item() -> Control:
-	return load(item_scene_path).instantiate()
+	return _item_scene.instantiate()
 
 func update_item_content(item: Control, index: int):
 	item.setup(data_items[index], index)

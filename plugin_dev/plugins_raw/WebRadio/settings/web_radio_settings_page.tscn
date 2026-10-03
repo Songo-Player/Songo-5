@@ -1,0 +1,367 @@
+[gd_scene load_steps=9 format=3 uid="uid://d0nusrv1pwqno"]
+
+[ext_resource type="Script" path="res://plugin_dev/plugins_raw/WebRadio/settings/web_radio_settings_page.gd" id="1_page"]
+[ext_resource type="Script" path="res://utilities/smooth_scroll_container.gd" id="2_scroll"]
+[ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="3_section"]
+[ext_resource type="PackedScene" uid="uid://0m5yrmj03xdi" path="res://scenes/settings_container/settings_button.tscn" id="4_button"]
+[ext_resource type="Script" path="res://utilities/left_right_btn_container.gd" id="5_leftright"]
+[ext_resource type="Texture2D" uid="uid://cugg5pnrtgmxg" path="res://assets/arrowLeft.svg" id="6_left"]
+[ext_resource type="Texture2D" uid="uid://c8jp7o8xasf1x" path="res://assets/arrowRight.svg" id="7_right"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab"]
+bg_color = Color(0.130772, 0.130772, 0.130772, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="WebRadioSettingsPage" type="MarginContainer"]
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"SongoSettingsContentMargin"
+theme_override_constants/margin_top = 29
+theme_override_constants/margin_right = 4
+script = ExtResource("1_page")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+unique_name_in_owner = true
+clip_contents = false
+layout_mode = 2
+follow_focus = true
+script = ExtResource("2_scroll")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="WebRadioSection" type="MarginContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 38
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="PlaybackPanel" type="PanelContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("3_section")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Settings" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="FailoverSetting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/FailoverSetting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/FailoverSetting/Hbox"]
+layout_mode = 2
+text = "Stream Failover"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/FailoverSetting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FailoverEnabled" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/FailoverSetting/Hbox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
+text = "Enabled"
+
+[node name="FailoverDisabled" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/FailoverSetting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
+text = "Disabled"
+
+[node name="FailoverButton" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/FailoverSetting/Hbox" instance=ExtResource("4_button")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Enable"
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/FailoverSetting"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "When a stream can't be reached, move on to the station's next stream."
+autowrap_mode = 2
+
+[node name="StreamTitlesSetting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/StreamTitlesSetting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/StreamTitlesSetting/Hbox"]
+layout_mode = 2
+text = "Now Playing Info"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/StreamTitlesSetting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StreamTitlesEnabled" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/StreamTitlesSetting/Hbox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
+text = "Enabled"
+
+[node name="StreamTitlesDisabled" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/StreamTitlesSetting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
+text = "Disabled"
+
+[node name="StreamTitlesButton" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/StreamTitlesSetting/Hbox" instance=ExtResource("4_button")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Enable"
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/StreamTitlesSetting"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Show the current track for stations that broadcast it."
+autowrap_mode = 2
+
+[node name="ConnectionPanel" type="PanelContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("3_section")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Settings" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="StreamBufferSetting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/StreamBufferSetting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/StreamBufferSetting/Hbox"]
+layout_mode = 2
+text = "Stream Buffer"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/StreamBufferSetting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StreamBufferLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/StreamBufferSetting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 3
+text = "1s"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/StreamBufferSetting/Hbox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+focus_mode = 2
+script = ExtResource("5_leftright")
+
+[node name="StreamBufferDown" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/StreamBufferSetting/Hbox/HBoxContainer" instance=ExtResource("4_button")]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+icon = ExtResource("6_left")
+
+[node name="StreamBufferUp" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/StreamBufferSetting/Hbox/HBoxContainer" instance=ExtResource("4_button")]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+icon = ExtResource("7_right")
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/StreamBufferSetting"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Longer buffers ride out spotty wifi, but streams take longer to start."
+autowrap_mode = 2
+
+[node name="NetworkTimeoutSetting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/NetworkTimeoutSetting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/NetworkTimeoutSetting/Hbox"]
+layout_mode = 2
+text = "Connection Timeout"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/NetworkTimeoutSetting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NetworkTimeoutLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/NetworkTimeoutSetting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 3
+text = "1s"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/NetworkTimeoutSetting/Hbox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+focus_mode = 2
+script = ExtResource("5_leftright")
+
+[node name="NetworkTimeoutDown" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/NetworkTimeoutSetting/Hbox/HBoxContainer" instance=ExtResource("4_button")]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+icon = ExtResource("6_left")
+
+[node name="NetworkTimeoutUp" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/NetworkTimeoutSetting/Hbox/HBoxContainer" instance=ExtResource("4_button")]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+icon = ExtResource("7_right")
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/NetworkTimeoutSetting"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "How long to wait on an unresponsive stream before giving up."
+autowrap_mode = 2
+
+[node name="ImagesPanel" type="PanelContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("3_section")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ImagesPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Settings" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ImagesPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="StationImagesSetting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ImagesPanel/MarginContainer/Settings"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ImagesPanel/MarginContainer/Settings/StationImagesSetting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ImagesPanel/MarginContainer/Settings/StationImagesSetting/Hbox"]
+layout_mode = 2
+text = "Default Station Images"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ImagesPanel/MarginContainer/Settings/StationImagesSetting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RebuildStationImagesButton" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ImagesPanel/MarginContainer/Settings/StationImagesSetting/Hbox" instance=ExtResource("4_button")]
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Rebuild"
+
+[node name="DeleteStationImagesButton" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ImagesPanel/MarginContainer/Settings/StationImagesSetting/Hbox" instance=ExtResource("4_button")]
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Delete"
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ImagesPanel/MarginContainer/Settings/StationImagesSetting"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Rebuild fills in missing station images. Delete clears them; new ones are made on the next startup or rebuild."
+autowrap_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -25
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tab")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/WebRadioSection/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PageLabel" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/MarginContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Web Radio"
+
+[node name="MarginContainer3" type="MarginContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 6
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MarginContainer3"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="ResetToDefaultsButton" parent="ScrollContainer/VBoxContainer/MarginContainer3/PanelContainer" instance=ExtResource("4_button")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Reset to Defaults"
+
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/FailoverSetting/Hbox/FailoverButton" to="." method="_on_failover_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/StreamTitlesSetting/Hbox/StreamTitlesButton" to="." method="_on_stream_titles_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/StreamBufferSetting/Hbox/HBoxContainer/StreamBufferDown" to="." method="_on_stream_buffer_down_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/StreamBufferSetting/Hbox/HBoxContainer/StreamBufferUp" to="." method="_on_stream_buffer_up_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/NetworkTimeoutSetting/Hbox/HBoxContainer/NetworkTimeoutDown" to="." method="_on_network_timeout_down_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/NetworkTimeoutSetting/Hbox/HBoxContainer/NetworkTimeoutUp" to="." method="_on_network_timeout_up_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ImagesPanel/MarginContainer/Settings/StationImagesSetting/Hbox/RebuildStationImagesButton" to="." method="_on_rebuild_station_images_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ImagesPanel/MarginContainer/Settings/StationImagesSetting/Hbox/DeleteStationImagesButton" to="." method="_on_delete_station_images_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MarginContainer3/PanelContainer/ResetToDefaultsButton" to="." method="_on_reset_to_defaults_button_pressed"]

@@ -1,0 +1,14 @@
+{
+  "name": "chainsaw",
+  "file": "chainsaw_spritesheet.webp",
+  "format": "WebP lossless",
+  "source": "chainsaw_maybe_og.mp4 (found wider/cleaner original, 1280x720, much lower compression than the earlier 1920x1080 chainsaw.mp4) -- cropped to 744x360 at (536,298) [flush right edge, 2.06 aspect ratio matching train_rain] then plain nearest-neighbor downscale at scale=2 to 372x180, validated via building-window hard-edge measurement (14px window = 7 art-pixels) and block-deviation test. Native 10fps, all 56 frames used, no resampling.",
+  "frame_width": 372,
+  "frame_height": 180,
+  "columns": 8,
+  "rows": 7,
+  "frame_count": 56,
+  "fps": 10,
+  "sheet_width": 2976,
+  "sheet_height": 1260
+}

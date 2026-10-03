@@ -164,10 +164,10 @@ func enter_dir(dir_name = null):
 	
 func reimport():
 	importing = true
-	UiHelper.dark_out.show()
+	UiHelper.darkout.show()
 	songo_data.index_mp3s()
 	await songo_data.import_finished
-	UiHelper.dark_out.hide()
+	UiHelper.darkout.hide()
 	Controller.nav_back_to_settings()
 	
 func _on_select_directory_button_pressed() -> void:
@@ -178,12 +178,12 @@ func _on_select_directory_button_pressed() -> void:
 	var path = "".join(path_array)
 	if songo_data.add_music_directory_path(path):
 		importing = true
-		UiHelper.dark_out.show()
+		UiHelper.darkout.show()
 		songo_data.save()
 		await get_tree().process_frame
 		songo_data.index_mp3s()
 		await songo_data.import_finished
-		UiHelper.dark_out.hide()
+		UiHelper.darkout.hide()
 		Controller.nav_back_to_settings()
 	else:
 		var message = songo_data.path_error

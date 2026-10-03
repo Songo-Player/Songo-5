@@ -74,7 +74,8 @@ func handle_input(delta: float):
 	if Input.is_action_just_pressed("back"):
 		Controller.nav_back()
 	if Input.is_action_just_pressed("x"):
-		kick_off_shuffle()
+		if "SONGS" in CollectionHelper.collection_type:
+			kick_off_shuffle()
 	if Input.is_action_just_pressed("ui_left"):
 		if bar_scrolling:
 			bar_scrolling = false;
@@ -101,7 +102,7 @@ func handle_input(delta: float):
 	
 func kick_off_shuffle():
 	if list_items.size() == 0: return
-	Controller.songs_panel(list_items, 0, SongoPlayerV2.MODE.SHUFFLE)
+	Controller.songs_panel(list_items, 0, SongoPlayer.MODE.SHUFFLE)
 
 func truncate_with_ellipsis(text: String, limit: int) -> String:
 	if text.length() <= limit:

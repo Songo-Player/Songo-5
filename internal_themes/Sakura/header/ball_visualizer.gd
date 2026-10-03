@@ -9,7 +9,8 @@ class_name BallMusicVisualizer
 var spectrum: AudioEffectSpectrumAnalyzerInstance
 var max_values := []
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
+	if not is_inside_tree(): return
 	if DeviceOS.sleeping == false:
 		queue_redraw()
 
@@ -28,11 +29,11 @@ func _update_element():
 	max_values.fill(0.0)
 	
 	var background = ThemeManager.settings["background"]
-	if "train" in background: 
+	if background == "train_rain":
 		%BallMusicVisualizer.ball_color = Color("ff555bc8")
-	if "chainsaw" in background:
+	if background == "chainsaw":
 		%BallMusicVisualizer.ball_color = Color("000000c8")
-	if "sunset" in background:
+	if background == "almost_bedtime":
 		%BallMusicVisualizer.ball_color = Color("ffffffdc")
 		
 	
@@ -57,7 +58,7 @@ func _draw():
 		var magnitude: float = spectrum.get_magnitude_for_frequency_range(prev_hz, hz).length()
 
 		var energy = clamp((linear_to_db(magnitude) + 60) / 60, 0.0, 1.0)
-		if SongoPlayerV2.is_playing() == false:
+		if SongoPlayer.is_playing() == false:
 			energy = 0.0
 
 		max_values[i] = lerp(max_values[i], energy, 0.2)

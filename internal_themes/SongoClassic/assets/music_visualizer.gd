@@ -10,7 +10,8 @@ var min_values := [] # Used for smoothing
 var max_values := []
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
+	if not is_inside_tree(): return
 	if DeviceOS.sleeping == false:
 		queue_redraw()
 # Called when the node enters the scene tree for the first time.
@@ -53,7 +54,7 @@ func _draw():
 		# 5. Normalize and Smooth
 		# Adjust -60 and 0 to change the sensitivity (db range)
 		var energy = clamp((linear_to_db(magnitude) + 60) / 60, 0.0, 1.0)
-		if SongoPlayerV2.is_playing() == false: energy = 0.0
+		if SongoPlayer.is_playing() == false: energy = 0.0
 		
 		max_values[i] = lerp(max_values[i], energy, 0.2) # Slightly faster lerp for responsiveness
 		

@@ -14,15 +14,15 @@ var _active: bool = false
 var logging: bool = false
 
 func _ready() -> void:
-	SongoPlayerV2.started_new_song.connect(_on_started_new_song)
-	SongoPlayerV2.music_stopped.connect(_on_music_stopped)
-	SongoPlayerV2.music_started.connect(_on_music_started)
+	SongoPlayer.started_new_song.connect(_on_started_new_song)
+	SongoPlayer.music_stopped.connect(_on_music_stopped)
+	SongoPlayer.music_started.connect(_on_music_started)
 	LrcScrape.lrc_saved.connect(_on_lrc_saved)
 
 func _process(_delta: float) -> void:
-	if not _active or not SongoPlayerV2.is_playing(): return
+	if not _active or not SongoPlayer.is_playing(): return
 
-	var pos: float = SongoPlayerV2.get_playback_position()
+	var pos: float = SongoPlayer.get_playback_position()
 	if pos < 0: return
 
 	if absf(pos - _last_pos) > SEEK_THRESHOLD_SECONDS:
@@ -53,7 +53,7 @@ func _on_started_new_song(music_record: TagLibMusicRecord) -> void:
 	_lyrics = _parse_lrc(lrc_path)
 	if _lyrics.is_empty(): return
 
-	_last_pos = SongoPlayerV2.get_playback_position()
+	_last_pos = SongoPlayer.get_playback_position()
 	_resync(_last_pos)
 	_active = true
 
@@ -62,19 +62,19 @@ func _on_music_stopped() -> void:
 
 func _on_music_started() -> void:
 	if _lyrics.is_empty(): return
-	_last_pos = SongoPlayerV2.get_playback_position()
+	_last_pos = SongoPlayer.get_playback_position()
 	_resync(_last_pos)
 	_active = true
 
 func _on_lrc_saved(song_path: String, lrc_path: String) -> void:
-	var current_song: TagLibMusicRecord = SongoPlayerV2.get_current_music_record()
+	var current_song: TagLibMusicRecord = SongoPlayer.get_current_music_record()
 	if current_song == null or current_song.full_path != song_path: return
 
 	if logging: print("LrcProcess: freshly scraped lrc for currently playing song, loading it now")
 	_lyrics = _parse_lrc(lrc_path)
 	if _lyrics.is_empty(): return
 
-	_last_pos = SongoPlayerV2.get_playback_position()
+	_last_pos = SongoPlayer.get_playback_position()
 	_resync(_last_pos)
 	_active = true
 

@@ -16,7 +16,7 @@ func _ready() -> void:
 func setup():
 	pass
 	
-func _process(delta):
+func _process(_delta):
 	%LockIcon.visible = DeviceOS.inputs_locked
 	%StayAwakeIcon.visible = DeviceOS.keep_screen_awake
 	update_play_time()
@@ -42,21 +42,21 @@ func setup_display_for(music_record: TagLibMusicRecord):
 		%MusicImage.hide()
 		#%PanelContainer.add_theme_stylebox_override("panel", panel_style)
 	
-	%FileTypeLabel.text = music_record.full_path.get_extension().to_upper() + " File"
+	%FileTypeLabel.text = "Web Stream" if SongoPlayer.is_stream_record(music_record) else music_record.file_type.to_upper() + " File"
 
 	loaded_song = music_record.full_path
 	set_end_time(music_record)
 	setup_playlist_info()
 	
 func setup_playlist_info():
-	#var next_song = SongoPlayerV2.get_next_mp3_record()
+	#var next_song = SongoPlayer.get_next_mp3_record()
 	#%NextSongTitle.text = next_song.title
-	%PlaylistProgress.text = "%d / %d" % [SongoPlayerV2.play_index+1, SongoPlayerV2.music_files.size()]
+	%PlaylistProgress.text = "%d / %d" % [SongoPlayer.play_index+1, SongoPlayer.music_files.size()]
 
 func update_play_mode_icons():
-	%PlaylistProgress.visible = SongoPlayerV2.play_mode == SongoPlayerV2.MODE.LINEAR && SongoPlayerV2.repeating == false
-	%ShuffleIcon.visible = SongoPlayerV2.play_mode == SongoPlayerV2.MODE.SHUFFLE && SongoPlayerV2.repeating == false
-	%RepeatingIcon.visible = SongoPlayerV2.repeating
+	%PlaylistProgress.visible = SongoPlayer.play_mode == SongoPlayer.MODE.LINEAR && SongoPlayer.repeating == false
+	%ShuffleIcon.visible = SongoPlayer.play_mode == SongoPlayer.MODE.SHUFFLE && SongoPlayer.repeating == false
+	%RepeatingIcon.visible = SongoPlayer.repeating
 	
 
 func set_end_time(music_record: TagLibMusicRecord):
@@ -72,8 +72,8 @@ func set_end_time(music_record: TagLibMusicRecord):
 	%EndTimeLabel.text = "%d:%02d" % [minutes, seconds]
 	
 func update_play_time():
-	if SongoPlayerV2.is_playing():
-		var pos_sec: float = SongoPlayerV2.get_playback_position()
+	if SongoPlayer.is_playing():
+		var pos_sec: float = SongoPlayer.get_playback_position()
 		var minutes: int = int(pos_sec) / 60
 		var seconds: int = int(pos_sec) % 60
 		%CurrentTimeLabel.text = "%d:%02d" % [minutes, seconds]
@@ -96,20 +96,20 @@ func display_pause_button():
 
 	
 func _on_play_button_pressed() -> void:
-	SongoPlayerV2.resume()
+	SongoPlayer.resume()
 	display_play_button()
 
 func _on_pause_button_pressed() -> void:
-	SongoPlayerV2.pause()
+	SongoPlayer.pause()
 	display_pause_button()
 
 func _on_tree_entered() -> void:
-	SongoPlayerV2.updated_repeat.connect(_on_updated_repeat)
+	SongoPlayer.updated_repeat.connect(_on_updated_repeat)
 	await get_tree().process_frame
 	update_play_mode_icons()
 	
 func _on_tree_exited() -> void:
-	SongoPlayerV2.updated_repeat.disconnect(_on_updated_repeat)
+	SongoPlayer.updated_repeat.disconnect(_on_updated_repeat)
 	
 func _on_updated_repeat():
 	update_play_mode_icons()

@@ -29,7 +29,8 @@ enum TYPE {
 	ALBUM_SONGS,
 	ARTIST_SONGS,
 	PLAYLIST_SONGS,
-	SETTINGS
+	SETTINGS,
+	PLUGIN
 }
 const SORT_OPTION_ARR = [
 	[], # INVALID
@@ -40,7 +41,8 @@ const SORT_OPTION_ARR = [
 	["song_track_asc", "song_track_desc", "song_alpha_asc", "song_alpha_desc"], # ALBUM_SONGS
 	["song_alpha_asc", "song_alpha_desc"], # ARTIST_SONGS
 	["song_alpha_asc", "song_alpha_desc"], # PLAYLIST_SONGS
-	[] # SETTINGS
+	[], # SETTINGS
+	[] # PLUGIN
 ]
 
 var collection_type:
@@ -72,6 +74,7 @@ func _get_collection_type():
 	if coll is TagLibAlbumRecord: return TYPE.ALBUM_SONGS
 	if coll is TagLibArtistRecord: return TYPE.ARTIST_SONGS
 	if coll is M3uCollection: return TYPE.PLAYLIST_SONGS
+	if coll is PluginCollection: return TYPE.PLUGIN
 	
 	return TYPE.INVALID
 
@@ -83,7 +86,7 @@ func _get_collection_name():
 		TYPE.ARTISTS: return "Artists"
 		TYPE.PLAYLISTS: return "Playlists"
 		TYPE.SETTINGS: return "Settings"
-		TYPE.ALBUM_SONGS, TYPE.ARTIST_SONGS, TYPE.PLAYLIST_SONGS: return _current_collection.name
+		TYPE.ALBUM_SONGS, TYPE.ARTIST_SONGS, TYPE.PLAYLIST_SONGS, TYPE.PLUGIN: return _current_collection.name
 	
 func _get_collection_size():
 	if _list_items:

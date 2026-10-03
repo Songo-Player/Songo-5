@@ -1,9 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://djiexkcjcvae4"]
+[gd_scene load_steps=12 format=3 uid="uid://djiexkcjcvae4"]
 
 [ext_resource type="Script" path="res://internal_themes/XBop/collection_button/collection_button.gd" id="1_vw0uk"]
 [ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="2_d3ijc"]
 [ext_resource type="Texture2D" uid="uid://byeluf85nlgra" path="res://assets/record.svg" id="3_xaphc"]
-[ext_resource type="Texture2D" uid="uid://faqv22wj0cw1" path="res://icon.svg" id="4_so6yd"]
 [ext_resource type="Texture2D" uid="uid://dcqtgyrr3fac2" path="res://assets/user.svg" id="5_0pntl"]
 [ext_resource type="Texture2D" uid="uid://md788wp04yb1" path="res://assets/layergroup.svg" id="7_fre88"]
 
@@ -107,7 +106,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("4_so6yd")
+texture = ExtResource("2_d3ijc")
 expand_mode = 1
 stretch_mode = 6
 
@@ -169,7 +168,7 @@ visible = false
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("4_so6yd")
+texture = ExtResource("2_d3ijc")
 expand_mode = 1
 stretch_mode = 6
 
@@ -230,7 +229,7 @@ visible = false
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("4_so6yd")
+texture = ExtResource("2_d3ijc")
 expand_mode = 1
 stretch_mode = 6
 

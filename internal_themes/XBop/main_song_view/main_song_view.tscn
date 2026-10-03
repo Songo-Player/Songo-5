@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" path="res://internal_themes/XBop/main_song_view/main_song_view.gd" id="1_64fdy"]
 [ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="2_4rvf3"]
-[ext_resource type="Texture2D" uid="uid://faqv22wj0cw1" path="res://icon.svg" id="2_6vufp"]
 [ext_resource type="Script" path="res://internal_themes/XBop/assets/line_visualizer.gd" id="3_fgd23"]
 [ext_resource type="Script" path="res://utilities/carousel_label.gd" id="5_tubym"]
 [ext_resource type="Texture2D" uid="uid://byeluf85nlgra" path="res://assets/record.svg" id="6_5r05p"]
@@ -161,7 +160,7 @@ stretch_mode = 5
 [node name="MusicImage" type="TextureRect" parent="Control/ScaleControl/PanelContainer/PanelContainer/PanelContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
-texture = ExtResource("2_6vufp")
+texture = ExtResource("2_4rvf3")
 expand_mode = 1
 stretch_mode = 5
 

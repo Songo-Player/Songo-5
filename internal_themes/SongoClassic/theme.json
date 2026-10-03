@@ -1,8 +1,9 @@
 {
 	"name": "Songo Classic",
-	"version": "0.10",
+	"version": "0.11",
 	"author": "Riley",
 	"description": "Original Songo#5 theme, based on minimalism and being user friendly.",
+	"godot_theme_path": "/theme.tres",
 	"components": {
 		"background_root": "background_root/background_root.tscn",
 		"main_menu": "main_menu/main_menu.tscn",
@@ -24,12 +25,6 @@
 		"customizable"
 	],
 	"settings": {
-		"songo_clock_24_hour": {
-			"values": [true, false],
-			"default": true,
-			"display_name": "24 Hour Clock",
-			"dependents": ["header"]
-		},
 		"songo_background_color": {
 			"values": [
 				"48486d", 

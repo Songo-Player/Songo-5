@@ -1,7 +1,5 @@
 extends Control
 
-@onready var dark_out = %DarkOut
-
 var directory_container
 var song_panel_container
 var all_songs_container
@@ -13,6 +11,7 @@ var original_size
 
 var debug_press_count = 0
 var _last_back_msec := 0
+var _body_fade_tween: Tween
 
 func _ready() -> void:
 	var my_theme := load("res://assets/songo_base_theme.tres")
@@ -20,6 +19,7 @@ func _ready() -> void:
 	Engine.physics_ticks_per_second = 1
 	Engine.max_fps = songo_settings.target_fps
 	UiHelper.transform_container = %TransformContainer
+	UiHelper.transition_fade.connect(_on_transition_fade)
 
 	await get_tree().process_frame
 	ThemeManager.set_current_theme(songo_settings.theme_path)
@@ -36,14 +36,10 @@ func _ready() -> void:
 	get_tree().root.set_process(true)
 	get_tree().root.set_process_input(true)
 	
-	UiHelper.dark_out = %DarkOut
 	UiHelper.app_message = %AppMessage
 	UiHelper.content_body = %ContentBody
 	UiHelper.content_margin_container = %ContentMargin
-	UiHelper.keyboard = %Keyboard
 	UiHelper.flash_message_box = %FlashMessageBox
-	UiHelper.info_panel = %InfoPanel
-	UiHelper.vol_container = %VolumeContainer
 	
 	UiHelper.apply_scale(songo_settings.ui_scale)
 	UiHelper.apply_content_margin(songo_settings.content_margin)
@@ -54,6 +50,8 @@ func _ready() -> void:
 	Controller.content_body_node = %ContentBody
 	SfxPlayer.set_vol(songo_settings.sfx_volume)
 	
+	# Before the first main menu so plugin menu items/settings pages are in place.
+	PluginManager.load_plugins()
 	Controller.main_menu()
 	if songo_settings.auto_import && songo_data.music_directory_paths.size() > 0:
 		songo_data.index_mp3s()
@@ -64,7 +62,6 @@ func _ready() -> void:
 		
 	get_window().go_back_requested.connect(_on_system_back_requested)
 	boot_up_message()
-
 	
 func print_tree_path(node: Node):
 	var path := []
@@ -107,7 +104,7 @@ func _input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 			
 	# Use this to track down what element is eating your mouse click in dev
-	if false && event is InputEventMouseButton and event.pressed:
+	if true && event is InputEventMouseButton and event.pressed:
 		var hovered := get_viewport().gui_get_hovered_control()
 
 		if hovered:
@@ -125,17 +122,17 @@ func _process(delta: float) -> void:
 	#	%TransformContainer.position.x = - size.y
 	#	%TransformContainer.get_parent().rotation = deg_to_rad(270)
 
-	if %InfoPanel.visible:
+	if UiHelper.overlay_window.visible:
 		return
-		
-	DeviceOS.device_strategy.translate_inputs(delta)
+	
+	DeviceOS.translate_inputs(delta)
 	if Input.is_action_just_pressed("start") && Input.is_action_just_pressed("select"):
 		DeviceOS.wake_screen()
 		Controller.quit_songo()
 
 	if Controller.active_container: Controller.active_container.render_ui()
 
-	if %QuickMenu.showing: return
+	#if %QuickMenu.showing: return
 
 	if Input.is_action_just_pressed("L2") && Input.is_action_just_pressed("R2"):
 		%DebugInfo.visible = not %DebugInfo.visible
@@ -144,6 +141,12 @@ func _process(delta: float) -> void:
 
 	UiHelper.route_inputs(Controller.active_container, delta)
 
+func _on_transition_fade(faded_out: bool, duration: float) -> void:
+	if _body_fade_tween and _body_fade_tween.is_running():
+		_body_fade_tween.kill()
+	_body_fade_tween = create_tween()
+	_body_fade_tween.tween_property(%BodyMarginContainer, "modulate:a", 0.0 if faded_out else 1.0, duration)
+
 func add_debug_info():
 	%OSNameLabel.text = "OS name: %s" % DeviceOS.get_os_name()
 	%DeviceIdLabel.text = "Device ID: %s" % OS.get_environment("DEVICE_NAME")
@@ -151,9 +154,6 @@ func add_debug_info():
 	%WindowSize.text = "Window Size: %s" % str(DisplayServer.window_get_size())
 	%DeviceOrientation.text = "Device Orientation: %s" % string_screen_orientation()
 	%RootSize.text = "Root Size: %s" % str(get_parent().size)
-	if DeviceOS.device_strategy.can_fade_screen:
-		%BrightnessLabel.text = "Initial Brightness: %d" % DeviceOS.device_strategy.target_brightness
-
 	
 func string_screen_orientation():
 	var orientation = DisplayServer.screen_get_orientation()

@@ -1,10 +1,9 @@
-[gd_scene load_steps=25 format=3 uid="uid://s8fqkdqnsk48"]
+[gd_scene load_steps=22 format=3 uid="uid://s8fqkdqnsk48"]
 
 [ext_resource type="Script" path="res://internal_themes/Ringing/main_song_view/main_song_view.gd" id="1_q0h4w"]
 [ext_resource type="Texture2D" uid="uid://beq3xrq55bgua" path="res://assets/Play.svg" id="2_q7cxj"]
 [ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="3_eldce"]
 [ext_resource type="Texture2D" uid="uid://dlegkxypq8u32" path="res://assets/Pause.svg" id="3_gsd4c"]
-[ext_resource type="Texture2D" uid="uid://faqv22wj0cw1" path="res://icon.svg" id="4_dy1ue"]
 [ext_resource type="Texture2D" uid="uid://dt2pe77pksx87" path="res://assets/shuffle.svg" id="4_ey1ow"]
 [ext_resource type="Script" path="res://internal_themes/Ringing/assets/RingMusicVisualizer.gd" id="4_wdwoa"]
 [ext_resource type="Texture2D" uid="uid://dsstr0fb8yo33" path="res://assets/Repeat.svg" id="5_68o8e"]
@@ -83,16 +82,8 @@ corner_radius_bottom_right = 500
 corner_radius_bottom_left = 500
 corner_detail = 20
 
-[sub_resource type="Gradient" id="Gradient_qxwin"]
-colors = PackedColorArray(0.584314, 0, 0.286275, 1, 0.435294, 0.741176, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_pwdtm"]
-gradient = SubResource("Gradient_qxwin")
-fill_from = Vector2(1, 0)
-fill_to = Vector2(1, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8qqbx"]
-texture = SubResource("GradientTexture2D_pwdtm")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y8oe1"]
+bg_color = Color(0.97, 0.337883, 0.1455, 0.588235)
 
 [node name="MainSongView" type="MarginContainer"]
 anchors_preset = 15
@@ -282,11 +273,19 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_iqe34")
 unique_name_in_owner = true
 custom_minimum_size = Vector2(180, 180)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_8qqbx")
+theme_override_styles/panel = SubResource("StyleBoxFlat_y8oe1")
 
-[node name="DefaultSongImage" type="TextureRect" parent="HBoxContainer/MarginContainer/AspectRatioContainer/PanelContainer2/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer/AspectRatioContainer/PanelContainer2/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="DefaultSongImage" type="TextureRect" parent="HBoxContainer/MarginContainer/AspectRatioContainer/PanelContainer2/PanelContainer/MarginContainer"]
 unique_name_in_owner = true
 visible = false
+modulate = Color(0.00392157, 0.12549, 0.305882, 1)
 layout_mode = 2
 texture = ExtResource("3_eldce")
 expand_mode = 1
@@ -295,7 +294,7 @@ stretch_mode = 5
 [node name="MusicImage" type="TextureRect" parent="HBoxContainer/MarginContainer/AspectRatioContainer/PanelContainer2/PanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-texture = ExtResource("4_dy1ue")
+texture = ExtResource("3_eldce")
 expand_mode = 1
 stretch_mode = 6
 
@@ -314,7 +313,7 @@ ring_radius = 315.0
 ball_color = Color(0.596078, 0.419608, 0.607843, 1)
 total_ranges = 5
 range_index = 4
-min_speed = 0.05
+min_speed = 0.06
 max_speed = 1.1
 smoothing = 0.8
 
@@ -327,7 +326,7 @@ ring_radius = 265.0
 ball_color = Color(0.00392157, 0.12549, 0.305882, 1)
 total_ranges = 5
 range_index = 3
-min_speed = 0.05
+min_speed = 0.08
 max_speed = 1.2
 smoothing = 0.8
 
@@ -340,7 +339,7 @@ ring_radius = 225.0
 ball_color = Color(0.00784314, 0.513726, 0.568627, 1)
 total_ranges = 5
 range_index = 2
-min_speed = 0.05
+min_speed = 0.1
 max_speed = 1.3
 smoothing = 0.8
 
@@ -353,7 +352,7 @@ ring_radius = 195.0
 ball_color = Color(0.972549, 0.333333, 0.145098, 1)
 total_ranges = 5
 range_index = 1
-min_speed = 0.05
+min_speed = 0.12
 max_speed = 1.4
 smoothing = 0.8
 
@@ -364,7 +363,7 @@ ball_count = 24
 ring_radius = 175.0
 ball_color = Color(0.980392, 0.662745, 0.407843, 1)
 total_ranges = 5
-min_speed = 0.05
+min_speed = 0.14
 max_speed = 1.5
 smoothing = 0.8
 

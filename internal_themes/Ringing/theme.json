@@ -1,6 +1,6 @@
 {
 	"name": "Ringing",
-	"version": "0.2",
+	"version": "0.3",
 	"author": "Spoon",
 	"description": "A bubbly colorful interface that makes you forget the pain",
 	"godot_theme_path": "/theme.tres",
@@ -25,11 +25,35 @@
 		"colorful"
 	],
 	"settings": {
-		"clock_24_hour": {
-			"values": [true, false],
-			"default": true,
-			"display_name": "24 Hour Clock",
-			"dependents": ["header"]
+		"ring_dots_mode": {
+			"values": [
+				"visualizer",
+				"passive",
+				"static",
+			],
+			"labels": [
+				"Visualizer",
+				"Passive",
+				"Static",
+			],
+			"default": "visualizer",
+			"display_name": "Ring Dots Mode",
+			"dependents": ["main_menu", "main_song_view"]
+		},
+		"line_dots_mode": {
+			"values": [
+				"visualizer",
+				"passive",
+				"static",
+			],
+			"labels": [
+				"Visualizer",
+				"Passive",
+				"Static",
+			],
+			"default": "visualizer",
+			"display_name": "Line Dots Mode",
+			"dependents": ["background_root"]
 		},
 	}
 }

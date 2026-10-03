@@ -64,7 +64,7 @@ func _resolve_menu_items() -> Array[MenuItemData]:
 		return preview
 	return Controller.menu_items
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 func _rotate_menu_to(degrees: float) -> void:

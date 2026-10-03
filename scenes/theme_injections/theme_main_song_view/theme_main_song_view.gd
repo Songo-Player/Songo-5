@@ -27,14 +27,16 @@ func _setup_from_theme():
 		new_element = load(DEFAULT_SCENE_PATH).instantiate()
 	theme_element = new_element
 	add_child(new_element)
-	_on_started_new_song(SongoPlayerV2.get_current_music_record())
+	_on_started_new_song(SongoPlayer.get_current_music_record())
 	
 func _input(event: InputEvent) -> void:
 	if DeviceOS.inputs_locked:
 		get_viewport().set_input_as_handled()
 		
 func handle_input(delta: float):
+
 	if Input.is_action_just_pressed("select"):
+		#UiHelper.show_info_panel()
 		UiHelper.emit_signal("ui_event", UiHelper.EVENT.TOGGLE_INFO)
 		
 	if Input.is_action_just_pressed("start"):
@@ -61,44 +63,49 @@ func handle_input(delta: float):
 	if DeviceOS.inputs_locked: return
 	
 	if Input.is_action_just_pressed("x"):
-		SongoPlayerV2.setRepeating(!SongoPlayerV2.repeating)
+		SongoPlayer.setRepeating(!SongoPlayer.repeating)
 	
-	if Input.is_action_just_pressed("ui_right") || Input.is_action_just_pressed("R1"):
-		SongoPlayerV2.play_next()
+	# Streams can't restart or seek, so left/right just move between the
+	# collection's streams, and do nothing when there's only the one.
+	var is_stream = SongoPlayer.is_current_stream()
+	var can_skip = not is_stream || SongoPlayer.music_files.size() > 1
+
+	if can_skip && (Input.is_action_just_pressed("ui_right") || Input.is_action_just_pressed("R1")):
+		SongoPlayer.play_next()
 		#display_play_button()
 	
-	if Input.is_action_just_pressed("ui_left") || Input.is_action_just_pressed("L1"):
-		var playback_position: float = SongoPlayerV2.get_playback_position()
+	if can_skip && (Input.is_action_just_pressed("ui_left") || Input.is_action_just_pressed("L1")):
+		var playback_position: float = SongoPlayer.get_playback_position()
 		#display_play_button()
-		if playback_position >= 3.0:
-			SongoPlayerV2.play_from_start()
+		if playback_position >= 3.0 && not is_stream:
+			SongoPlayer.play_from_start()
 		else:
-			SongoPlayerV2.play_previous()
+			SongoPlayer.play_previous()
 	
 	if Input.is_action_just_pressed("back"):
-		if SongoPlayerV2.is_playing() && songo_settings.song_following:
+		if SongoPlayer.is_playing() && songo_settings.song_following:
 			Controller.save_state()
 		else:
-			SongoPlayerV2.stop()
+			SongoPlayer.stop()
 		Controller.nav_back()
 	
-	if SongoPlayerV2.is_playing():
+	if SongoPlayer.is_playing() && not is_stream:
 		if Input.is_action_just_pressed("ui_up") || Input.is_action_just_pressed("L2"):
-			var target_playback = SongoPlayerV2.get_playback_position() - float(songo_settings.seek_backward_time)
-			SongoPlayerV2.ffmpeg_audio_playback.seek(max(target_playback, 0.0))
+			var target_playback = SongoPlayer.get_playback_position() - float(songo_settings.seek_backward_time)
+			SongoPlayer.ffmpeg_audio_playback.seek(max(target_playback, 0.0))
 			
 		if Input.is_action_just_pressed("ui_down") || Input.is_action_just_pressed("R2"):
-			var target_playback = SongoPlayerV2.get_playback_position() + float(songo_settings.seek_forward_time)
-			var song_length = SongoPlayerV2.current_song.raw_length
+			var target_playback = SongoPlayer.get_playback_position() + float(songo_settings.seek_forward_time)
+			var song_length = SongoPlayer.current_song.raw_length
 			if song_length > 0.0: target_playback = min(target_playback, song_length)
-			SongoPlayerV2.ffmpeg_audio_playback.seek(target_playback)
+			SongoPlayer.ffmpeg_audio_playback.seek(target_playback)
 
 
 func render_ui():
 	pass
 	
 func try_sleep():
-	if SongoPlayerV2.is_playing():
+	if SongoPlayer.is_playing():
 		if DeviceOS.fade_tween: 
 			try_wake()
 			return
@@ -126,13 +133,18 @@ func _is_any_target_action_pressed() -> bool:
 	return false
 
 func _on_screen_idle_timer_timeout() -> void:
-	if SongoPlayerV2.is_playing():
+	if SongoPlayer.is_playing():
 		if DeviceOS.keep_screen_awake:
 			$ScreenIdleTimer.start()
 		else:
 			DeviceOS.start_screen_fade()
 			$ScreenIdleTimer.stop()
 			
+## Re-renders the current track, e.g. after a plugin updates a stream's
+## "now playing" info on the record.
+func refresh_display():
+	_on_started_new_song(SongoPlayer.get_current_music_record())
+
 func _on_started_new_song(music_record: TagLibMusicRecord):
 	if music_record == null:
 		return
@@ -142,8 +154,8 @@ func _on_started_new_song(music_record: TagLibMusicRecord):
 func _on_tree_entered() -> void:
 	# Might need to move this after the await
 	if is_node_ready():
-		_on_started_new_song(SongoPlayerV2.get_current_music_record())
-	SongoPlayerV2.started_new_song.connect(_on_started_new_song)
+		_on_started_new_song(SongoPlayer.get_current_music_record())
+	SongoPlayer.started_new_song.connect(_on_started_new_song)
 	
 func _on_tree_exited() -> void:
-	SongoPlayerV2.started_new_song.disconnect(_on_started_new_song)
+	SongoPlayer.started_new_song.disconnect(_on_started_new_song)

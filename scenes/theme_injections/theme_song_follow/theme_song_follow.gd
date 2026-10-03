@@ -8,14 +8,14 @@ var songo_data = SongoDataResource.get_instance()
 
 func _ready() -> void:
 	ThemeManager.theme_updated.connect(_setup_from_theme)
-	SongoPlayerV2.started_new_song.connect(func(music_record):
+	SongoPlayer.started_new_song.connect(func(music_record):
 		_on_started_new_song(music_record)
 		)
 	Controller.page_changed.connect(_on_page_change)
 
 
 func _process(delta):
-	if SongoPlayerV2.is_playing() && Controller.active_container is not ThemeMainSongView:
+	if SongoPlayer.is_playing() && Controller.active_container is not ThemeMainSongView:
 		handle_input(delta)
 	
 func setup():
@@ -28,7 +28,7 @@ func _setup_from_theme():
 		theme_element.queue_free()
 		theme_element = null
 		await Engine.get_main_loop().process_frame
-	if not SongoPlayerV2.is_playing(): return
+	if not SongoPlayer.is_playing(): return
 	var theme_component_path = ThemeManager.get_scene_path('song_follow')
 	if theme_component_path:
 		new_element = load(theme_component_path).instantiate()
@@ -36,36 +36,38 @@ func _setup_from_theme():
 		new_element = load(DEFAULT_SCENE_PATH).instantiate()
 	theme_element = new_element
 	add_child(new_element)
-	_on_started_new_song(SongoPlayerV2.get_current_music_record())
+	_on_started_new_song(SongoPlayer.get_current_music_record())
 	
 func handle_input(delta: float):
 		if Input.is_action_just_pressed("L2"):
-			var target_playback = SongoPlayerV2.get_playback_position() - float(songo_settings.seek_backward_time)
-			SongoPlayerV2.ffmpeg_audio_playback.seek(max(target_playback, 0.0))
+			var target_playback = SongoPlayer.get_playback_position() - float(songo_settings.seek_backward_time)
+			SongoPlayer.ffmpeg_audio_playback.seek(max(target_playback, 0.0))
 			
 		if Input.is_action_just_pressed("R2"):
-			var target_playback = SongoPlayerV2.get_playback_position() + float(songo_settings.seek_forward_time)
-			var song_length = SongoPlayerV2.current_song.raw_length
+			var target_playback = SongoPlayer.get_playback_position() + float(songo_settings.seek_forward_time)
+			var song_length = SongoPlayer.current_song.raw_length
 			if song_length > 0.0: target_playback = min(target_playback, song_length)
-			SongoPlayerV2.ffmpeg_audio_playback.seek(target_playback)
+			SongoPlayer.ffmpeg_audio_playback.seek(target_playback)
 		
 		if Input.is_action_just_pressed("L1"):
-			var playback_position: float = SongoPlayerV2.get_playback_position()
+			var playback_position: float = SongoPlayer.get_playback_position()
 			if playback_position >= 3.0:
-				SongoPlayerV2.play_from_start()
+				SongoPlayer.play_from_start()
 			else:
-				SongoPlayerV2.play_previous()
+				SongoPlayer.play_previous()
 				
 		if Input.is_action_just_pressed("R1"):
-			SongoPlayerV2.play_next()
+			SongoPlayer.play_next()
 		
 		if Input.is_action_just_pressed("start"):
 			_kill_theme_element()
 			Controller.stored_state = null
-			SongoPlayerV2.stop()
+			SongoPlayer.stop()
 			Input.action_release("start") # In case triggered synthetically
 			
 		if Input.is_action_just_pressed("select"):
+			if UiHelper.overlay_window.visible:
+				return
 			Controller.restore_state()
 			Input.action_release("select") # In case triggered synthetically
 
@@ -82,6 +84,6 @@ func _on_started_new_song(music_record: TagLibMusicRecord):
 func _on_page_change():
 	if Controller.active_container is ThemeMainSongView:
 		_kill_theme_element()
-	elif SongoPlayerV2.is_playing() && theme_element == null:
+	elif SongoPlayer.is_playing() && theme_element == null:
 		_setup_from_theme()
 	else: return

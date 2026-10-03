@@ -3,7 +3,6 @@
 [ext_resource type="Script" path="res://internal_themes/SongoClassic/main_song_view/main_song_view.gd" id="1_meagc"]
 [ext_resource type="Script" path="res://internal_themes/SongoClassic/assets/music_visualizer.gd" id="2_g3335"]
 [ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="3_ct88k"]
-[ext_resource type="Texture2D" uid="uid://faqv22wj0cw1" path="res://icon.svg" id="4_vv6x2"]
 [ext_resource type="Script" path="res://utilities/carousel_label.gd" id="5_mudwf"]
 [ext_resource type="Texture2D" uid="uid://dcqtgyrr3fac2" path="res://assets/user.svg" id="6_6ja7m"]
 [ext_resource type="Texture2D" uid="uid://byeluf85nlgra" path="res://assets/record.svg" id="7_mcemn"]
@@ -135,7 +134,7 @@ stretch_mode = 6
 [node name="MusicImage" type="TextureRect" parent="MarginContainer/SongPanel/MarginContainer/HBoxContainer/PanelContainer2/PanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-texture = ExtResource("4_vv6x2")
+texture = ExtResource("3_ct88k")
 expand_mode = 1
 stretch_mode = 6
 

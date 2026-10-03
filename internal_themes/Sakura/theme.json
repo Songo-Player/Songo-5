@@ -1,9 +1,9 @@
 {
 	"name": "Sakura",
-	"version": "0.8",
+	"version": "0.9",
 	"author": "Beck",
 	"description": "Similar layout to Songo Classic with a chill animated pixel background",
-	"godot_theme_path": "/assets/sakuraPrimaryTheme.tres",
+	"godot_theme_path": "/theme.tres",
 	"components": {
 		"background_root": "background_root/background_root.tscn",
 		"main_menu": "main_menu/main_menu.tscn",
@@ -27,16 +27,16 @@
 	"settings": {
 		"background": {
 			"values": [
-				"assets/train_rain_540p.ogv", 
-				"assets/chainsaw_540p.ogv",
-				"assets/sunset_540p.ogv", 
+				"train_rain",
+				"chainsaw",
+				"almost_bedtime",
 			],
 			"labels": [
 				"Watching the train",
 				"Chainsaw",
-				"Sunset",
+				"Almost Bedtime",
 			],
-			"default": "assets/train_rain_540p.ogv",
+			"default": "train_rain",
 			"display_name": "Background"
 		},
 		"visualizer_density": {

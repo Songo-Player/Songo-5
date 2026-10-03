@@ -135,10 +135,14 @@ func _on_reset_to_defaults_button_pressed() -> void:
 	
 
 
-func _on_start_behavior_button_pressed() -> void:
-	var new_val = songo_settings.start_btn_behavior + 1
-	if new_val >= SongoSettings.START_BEHAVIOR.size():
-		new_val = 0
+func _on_start_behavior_left_pressed() -> void:
+	_step_start_behavior(-1)
+
+func _on_start_behavior_right_pressed() -> void:
+	_step_start_behavior(1)
+
+func _step_start_behavior(step: int) -> void:
+	var new_val = wrapi(songo_settings.start_btn_behavior + step, 0, SongoSettings.START_BEHAVIOR.size())
 	DeviceOS.keep_screen_awake = false
 	songo_settings.start_btn_behavior = new_val
 	songo_settings.save()

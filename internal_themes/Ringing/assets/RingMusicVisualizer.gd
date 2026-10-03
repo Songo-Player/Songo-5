@@ -23,36 +23,47 @@ class_name RingMusicVisualizer
 var spectrum: AudioEffectSpectrumAnalyzerInstance
 var energy := 0.0
 var angle := 0.0
+var visualizer_mode := "visualizer"
 
 
 func _ready() -> void:
 	var bus_index = AudioServer.get_bus_index(bus_name)
 	spectrum = AudioServer.get_bus_effect_instance(bus_index, 0)
+	_update_visualizer_mode()
+	ThemeManager.theme_settings_updated.connect(_update_visualizer_mode)
+
+func _update_visualizer_mode() -> void:
+	visualizer_mode = ThemeManager.settings.get("ring_dots_mode", "visualizer")
 
 func _process(delta: float) -> void:
+	if not is_inside_tree(): return
+	if visualizer_mode == "static":
+		return
 	if not spectrum:
 		return
 
-	# Full spectrum range
-	var min_hz = 20.0
-	var max_hz = 20000.0
+	var target_energy := 0.0
+	if visualizer_mode == "visualizer":
+		# Full spectrum range
+		var min_hz = 20.0
+		var max_hz = 20000.0
 
-	# Convert to log space for proper splitting
-	var log_min = log(min_hz)
-	var log_max = log(max_hz)
-	var log_range_size = (log_max - log_min) / total_ranges
+		# Convert to log space for proper splitting
+		var log_min = log(min_hz)
+		var log_max = log(max_hz)
+		var log_range_size = (log_max - log_min) / total_ranges
 
-	# This visualizer's slice
-	var slice_min_log = log_min + log_range_size * range_index
-	var slice_max_log = slice_min_log + log_range_size
-	var slice_min_hz = exp(slice_min_log)
-	var slice_max_hz = exp(slice_max_log)
+		# This visualizer's slice
+		var slice_min_log = log_min + log_range_size * range_index
+		var slice_max_log = slice_min_log + log_range_size
+		var slice_min_hz = exp(slice_min_log)
+		var slice_max_hz = exp(slice_max_log)
 
-	var magnitude: float = spectrum.get_magnitude_for_frequency_range(slice_min_hz, slice_max_hz).length()
-	var target_energy = clamp((linear_to_db(magnitude) + 60) / 60, 0.0, 1.0)
+		var magnitude: float = spectrum.get_magnitude_for_frequency_range(slice_min_hz, slice_max_hz).length()
+		target_energy = clamp((linear_to_db(magnitude) + 60) / 60, 0.0, 1.0)
 
-	if not SongoPlayerV2.is_playing():
-		target_energy = 0.0
+		if not SongoPlayer.is_playing():
+			target_energy = 0.0
 
 	energy = lerp(energy, target_energy, smoothing)
 

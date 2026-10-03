@@ -1,9 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://mv2juhh8vy6c"]
+[gd_scene load_steps=13 format=3 uid="uid://mv2juhh8vy6c"]
 
 [ext_resource type="Script" path="res://internal_themes/Sakura/collection_button/collection_button.gd" id="1_2ep5y"]
 [ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="3_d40os"]
 [ext_resource type="Texture2D" uid="uid://byeluf85nlgra" path="res://assets/record.svg" id="4_pebdj"]
-[ext_resource type="Texture2D" uid="uid://faqv22wj0cw1" path="res://icon.svg" id="5_n1cca"]
 [ext_resource type="Texture2D" uid="uid://dcqtgyrr3fac2" path="res://assets/user.svg" id="6_ywrdl"]
 [ext_resource type="Texture2D" uid="uid://md788wp04yb1" path="res://assets/layergroup.svg" id="8_oht7k"]
 
@@ -125,7 +124,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("5_n1cca")
+texture = ExtResource("3_d40os")
 expand_mode = 1
 stretch_mode = 6
 
@@ -186,7 +185,7 @@ visible = false
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("5_n1cca")
+texture = ExtResource("3_d40os")
 expand_mode = 1
 stretch_mode = 6
 
@@ -246,7 +245,7 @@ visible = false
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("5_n1cca")
+texture = ExtResource("3_d40os")
 expand_mode = 1
 stretch_mode = 6
 

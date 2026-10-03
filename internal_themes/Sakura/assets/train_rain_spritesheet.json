@@ -1,0 +1,14 @@
+{
+  "name": "train_rain",
+  "file": "train_rain_spritesheet.webp",
+  "format": "WebP lossless",
+  "source": "train_rain_og.mp4 (found original, 1280x620, 64:31 aspect, near-zero compression/anti-aliasing) -- plain nearest-neighbor downscale to 320x155 (scale=4, validated via lamp-post pixel-width measurement showing a hard 4px edge with zero blur), 12fps",
+  "frame_width": 320,
+  "frame_height": 155,
+  "columns": 10,
+  "rows": 10,
+  "frame_count": 96,
+  "fps": 12,
+  "sheet_width": 3200,
+  "sheet_height": 1550
+}

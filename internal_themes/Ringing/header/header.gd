@@ -1,5 +1,7 @@
 extends MarginContainer
 
+var songo_settings = SongoSettings.get_instance()
+
 var icons = [
 	preload("res://assets/music.svg"),
 	preload("res://assets/record.svg"),
@@ -48,17 +50,8 @@ func _update_battery_ui(capacity, status) -> void:
 	
 	#if status.to_lower() == "charging":
 
-func get_time_string() -> String:
-	var now = Time.get_datetime_dict_from_system()
-	var hour_12 = now.hour % 12
-	if hour_12 == 0: hour_12 = 12
-	var hour = str(hour_12)
-	if ThemeManager.settings["clock_24_hour"]: hour = now.hour
-	var minute = str(now.minute).pad_zeros(2)
-	return "%s:%s" % [hour, minute]
-
 func update_time():
-	%CurrentOsTimeLabel.text = get_time_string()
+	%CurrentOsTimeLabel.text = songo_settings.formatted_time
 	
 func network_check_display():
 	var network_checker = NetworkStatus.new()
@@ -71,8 +64,6 @@ func network_check_display():
 func _on_page_changed():
 	var new_header_label = Controller.nav_label[Controller.nav_label.size()-1]
 	%PageHeaderLabel.text = new_header_label
-	%TestThing.hide()
-	%TestThing.process_mode = Node.PROCESS_MODE_DISABLED
 	if Controller.nav_label.size() > 1:
 		var nav_layer_2 = Controller.nav_label[1]
 		if nav_layer_2 == "All Songs": %PageImage.texture = icons[0]
@@ -83,8 +74,6 @@ func _on_page_changed():
 			%PageImage.texture = icons[4]
 			if Controller.nav_label.size() >= 3:
 				%PageHeaderLabel.text = "Settings" #These pages have large labels
-				#%TestThing.show()
-				#%TestThing.process_mode = Node.PROCESS_MODE_INHERIT	
 	else:
 		%PageImage.texture = icons[5]
 

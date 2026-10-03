@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://theme_dev/themes_raw/XBopRed/main_song_view/main_song_view.gd" id="1_64fdy"]
 [ext_resource type="Texture2D" uid="uid://b1eqfkb3qaaal" path="res://theme_dev/themes_raw/XBopRed/assets/music.svg" id="2_4rvf3"]
-[ext_resource type="Texture2D" uid="uid://faqv22wj0cw1" path="res://icon.svg" id="2_6vufp"]
+[ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="2_6vufp"]
 [ext_resource type="Script" path="res://theme_dev/themes_raw/XBopRed/assets/line_visualizer.gd" id="3_fgd23"]
 [ext_resource type="Script" path="res://utilities/carousel_label.gd" id="5_tubym"]
 [ext_resource type="Texture2D" uid="uid://dqu7xe5phy06t" path="res://theme_dev/themes_raw/XBopRed/assets/record.svg" id="6_5r05p"]

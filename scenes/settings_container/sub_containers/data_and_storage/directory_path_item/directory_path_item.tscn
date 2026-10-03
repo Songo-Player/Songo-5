@@ -34,9 +34,12 @@ script = ExtResource("1_djfey")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 modulate = Color(0.137255, 0.129412, 0.121569, 1)
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
+size_flags_vertical = 4
 texture = ExtResource("1_ln64q")
-stretch_mode = 5
+expand_mode = 1
+stretch_mode = 4
 
 [node name="CarouselLabel" type="Label" parent="."]
 layout_mode = 2

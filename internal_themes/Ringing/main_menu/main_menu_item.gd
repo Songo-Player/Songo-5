@@ -9,5 +9,5 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	%InnerRotate.rotation_degrees = (rotation_degrees * -1) - get_parent().rotation_degrees

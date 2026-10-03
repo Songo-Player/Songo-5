@@ -1,11 +1,45 @@
-[gd_scene load_steps=4 format=3 uid="uid://bk6i7p6s8xvgk"]
+[gd_scene load_steps=18 format=3 uid="uid://bk6i7p6s8xvgk"]
 
 [ext_resource type="Script" path="res://internal_themes/Sakura/background_root/background_root.gd" id="1_82oto"]
 [ext_resource type="Shader" path="res://internal_themes/Sakura/background_root/x_mirror.gdshader" id="2_axscr"]
+[ext_resource type="Texture2D" uid="uid://c86tromvx5d57" path="res://internal_themes/Sakura/assets/City Landscape/Sky.png" id="3_dy73g"]
+[ext_resource type="Shader" path="res://internal_themes/Sakura/assets/paralax_helper.gdshader" id="3_rt75y"]
+[ext_resource type="Texture2D" uid="uid://bpgug8pjdewnt" path="res://internal_themes/Sakura/assets/City Landscape/Buildings 4.png" id="4_ruwts"]
+[ext_resource type="Texture2D" uid="uid://qyxryyhsm8ks" path="res://internal_themes/Sakura/assets/City Landscape/Buildings 3.png" id="6_xu0c2"]
+[ext_resource type="Texture2D" uid="uid://dh7y2tjqfsoov" path="res://internal_themes/Sakura/assets/City Landscape/Shade 3.png" id="7_itw8e"]
+[ext_resource type="Texture2D" uid="uid://cnx3uirx35p4v" path="res://internal_themes/Sakura/assets/City Landscape/Buildings 2.png" id="8_bn7p1"]
+[ext_resource type="Texture2D" uid="uid://dsvi50s4civvt" path="res://internal_themes/Sakura/assets/City Landscape/Shade 2.png" id="9_8mcs4"]
+[ext_resource type="Texture2D" uid="uid://wbpcem0qxlah" path="res://internal_themes/Sakura/assets/City Landscape/Buildings 1.png" id="10_bmu8s"]
+[ext_resource type="Texture2D" uid="uid://b0lvqq68icidm" path="res://internal_themes/Sakura/assets/City Landscape/Lights.png" id="11_yoe6w"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oj5x3"]
 shader = ExtResource("2_axscr")
 shader_parameter/mirrored = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0bcsp"]
+shader = ExtResource("3_rt75y")
+shader_parameter/scroll_speed = 5.00002
+shader_parameter/elapsed_time = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1sr4g"]
+shader = ExtResource("3_rt75y")
+shader_parameter/scroll_speed = 7.00002
+shader_parameter/elapsed_time = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c7cx5"]
+shader = ExtResource("3_rt75y")
+shader_parameter/scroll_speed = 9.00002
+shader_parameter/elapsed_time = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qpd8m"]
+shader = ExtResource("3_rt75y")
+shader_parameter/scroll_speed = 11.0
+shader_parameter/elapsed_time = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rv7uo"]
+shader = ExtResource("3_rt75y")
+shader_parameter/scroll_speed = 13.0
+shader_parameter/elapsed_time = 0.0
 
 [node name="BackgroundRoot" type="AspectRatioContainer"]
 anchors_preset = 15
@@ -13,7 +47,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-ratio = 1.77
+ratio = 2.06
 stretch_mode = 3
 script = ExtResource("1_82oto")
 
@@ -24,3 +58,102 @@ material = SubResource("ShaderMaterial_oj5x3")
 layout_mode = 2
 expand = true
 loop = true
+
+[node name="BackgroundSprite" type="TextureRect" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+material = SubResource("ShaderMaterial_oj5x3")
+layout_mode = 2
+expand_mode = 1
+
+[node name="CityLanscape" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Sky" type="TextureRect" parent="CityLanscape"]
+texture_filter = 1
+texture_repeat = 2
+material = SubResource("ShaderMaterial_0bcsp")
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("3_dy73g")
+expand_mode = 1
+
+[node name="Buildings4" type="TextureRect" parent="CityLanscape"]
+texture_filter = 1
+texture_repeat = 2
+material = SubResource("ShaderMaterial_1sr4g")
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("4_ruwts")
+expand_mode = 1
+
+[node name="Buildings3" type="TextureRect" parent="CityLanscape"]
+texture_filter = 1
+texture_repeat = 2
+material = SubResource("ShaderMaterial_c7cx5")
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("6_xu0c2")
+expand_mode = 1
+
+[node name="Shade3Container" type="MarginContainer" parent="CityLanscape"]
+layout_mode = 2
+theme_override_constants/margin_left = -30
+theme_override_constants/margin_right = -30
+
+[node name="Shade3" type="TextureRect" parent="CityLanscape/Shade3Container"]
+texture_filter = 1
+texture_repeat = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("7_itw8e")
+expand_mode = 1
+
+[node name="Buildings2" type="TextureRect" parent="CityLanscape"]
+texture_filter = 1
+texture_repeat = 2
+material = SubResource("ShaderMaterial_qpd8m")
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("8_bn7p1")
+expand_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CityLanscape"]
+layout_mode = 2
+theme_override_constants/margin_left = -30
+theme_override_constants/margin_right = -30
+
+[node name="Shade2" type="TextureRect" parent="CityLanscape/MarginContainer"]
+texture_filter = 1
+texture_repeat = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("9_8mcs4")
+
+[node name="Buildings1" type="TextureRect" parent="CityLanscape"]
+texture_filter = 1
+texture_repeat = 2
+material = SubResource("ShaderMaterial_rv7uo")
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("10_bmu8s")
+expand_mode = 1
+
+[node name="Lights" type="TextureRect" parent="CityLanscape"]
+visible = false
+texture_filter = 1
+texture_repeat = 2
+material = SubResource("ShaderMaterial_rv7uo")
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("11_yoe6w")
+expand_mode = 1
