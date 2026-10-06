@@ -78,6 +78,7 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_isty2")
 
 [node name="NetworkConnection" type="PanelContainer" parent="HeaderPanel/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_nvclg")
 

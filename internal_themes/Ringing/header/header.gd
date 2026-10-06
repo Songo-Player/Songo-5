@@ -57,7 +57,7 @@ func network_check_display():
 	var network_checker = NetworkStatus.new()
 	var network_connection_node = %NetworkConnection
 	network_checker.status_checked.connect(func(connected):
-		if connected: %NetworkConnection.show()
+		%NetworkConnection.visible = connected
 		)
 	network_checker.is_connected_to_network()
 	

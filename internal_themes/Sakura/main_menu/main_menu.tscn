@@ -43,7 +43,7 @@ layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 72
-text = "08"
+text = "12"
 
 [node name="MinuteLabel" type="Label" parent="MarginContainer/AlignmentContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -51,7 +51,7 @@ layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 72
-text = "29"
+text = "41"
 
 [node name="AmPmLabel" type="Label" parent="MarginContainer/AlignmentContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -59,7 +59,7 @@ layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 52
-text = "am"
+text = "pm"
 
 [node name="Separator" type="VSeparator" parent="MarginContainer/AlignmentContainer/VBoxContainer"]
 unique_name_in_owner = true

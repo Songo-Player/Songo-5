@@ -126,6 +126,10 @@ func wake_screen():
 	pseudo_sleep_wake.emit()
 		
 func set_battery_info_path():
+	if OS.get_name() == "Android":
+		set_android_battery_info_path()
+		return
+
 	battery_percent_path = OS.get_environment("SONGO_GET_BATTERY_PERCENT_PATH")
 	charging_path = OS.get_environment("SONGO_GET_CHARGING_PATH")
 
@@ -133,13 +137,50 @@ func set_battery_info_path():
 	if run_battery_script(battery_percent_path) != "":
 		battery_info_path = battery_percent_path
 
+# Android has no battery scripts, read the kernel's power_supply node directly.
+# Some ROMs block apps from reading sysfs, in which case battery_info_path stays empty.
+func set_android_battery_info_path():
+	var power_supply_dir = "/sys/class/power_supply"
+	var candidates = ["battery"]
+	var dir = DirAccess.open(power_supply_dir)
+	if dir:
+		for entry in dir.get_directories():
+			if entry != "battery" && read_sysfs_value("%s/%s/type" % [power_supply_dir, entry]) == "Battery":
+				candidates.append(entry)
+
+	for candidate in candidates:
+		var candidate_path = "%s/%s" % [power_supply_dir, candidate]
+		if read_sysfs_value(candidate_path + "/capacity") != "":
+			battery_info_path = candidate_path
+			return
+
+func read_sysfs_value(path: String) -> String:
+	var file = FileAccess.open(path, FileAccess.READ)
+	if file == null: return ""
+	return file.get_as_text().strip_edges()
+
 func get_battery_info(info_key: String):
+	if OS.get_name() == "Android":
+		return get_android_battery_info(info_key)
+
 	match info_key:
 		"capacity":
 			return run_battery_script(battery_percent_path)
 		"status":
 			# The charging script only reports 1 (charging) or 0 (anything else)
 			return "Charging" if run_battery_script(charging_path) == "1" else "Not charging"
+		_:
+			print("Unkown battery info key: %s" % info_key)
+			return ""
+
+func get_android_battery_info(info_key: String):
+	if battery_info_path == "": return ""
+	match info_key:
+		"capacity":
+			return read_sysfs_value(battery_info_path + "/capacity")
+		"status":
+			# sysfs reports Charging, Discharging, Not charging, Full or Unknown
+			return "Charging" if read_sysfs_value(battery_info_path + "/status") == "Charging" else "Not charging"
 		_:
 			print("Unkown battery info key: %s" % info_key)
 			return ""

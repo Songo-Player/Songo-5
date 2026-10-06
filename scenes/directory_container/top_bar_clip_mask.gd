@@ -21,7 +21,7 @@ func _update_mask():
 		return
 	
 	# Create an empty image for the mask texture
-	var img := Image.create(int(size.x), int(size.y), false, Image.FORMAT_RGBA8)
+	var img := Image.create_empty(int(size.x), int(size.y), false, Image.FORMAT_RGBA8)
 	img.fill(fill_color)
 
 	# Draw the top transparent strip (your original mask)

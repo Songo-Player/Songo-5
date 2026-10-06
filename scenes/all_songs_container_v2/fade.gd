@@ -27,7 +27,7 @@ func _update_mask() -> void:
 	var w := int(size.x)
 	var h := int(size.y)
 
-	var img := Image.create(w, h, false, Image.FORMAT_RGBA8)
+	var img := Image.create_empty(w, h, false, Image.FORMAT_RGBA8)
 	img.fill(fill_color)
 
 	# -------------------

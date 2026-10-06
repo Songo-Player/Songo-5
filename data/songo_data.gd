@@ -4,7 +4,7 @@ signal import_finished
 
 const SAVE_PATH = "user://songo_data.res"
 const VERSION = "v1.0.0 RC5"
-const DATA_VERSION = "v1.0.0 RC5"
+const DATA_VERSION = "v1.0.0 RC6"
 
 @export var music_directory_path = "No Path"
 @export var music_directory_paths = []

@@ -66,3 +66,4 @@ func _emit_status(connected: bool) -> void:
 func _finish_thread(connected: bool) -> void:
 	_thread.wait_to_finish()
 	emit_signal("status_checked", connected)
+	queue_free() # Callers create a new checker per check and never add it to the tree
