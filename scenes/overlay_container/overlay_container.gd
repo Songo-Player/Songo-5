@@ -31,7 +31,8 @@ var _transitioning := false
 # close.
 var _y_hold_blocked := false
 var _quitting := false
-# Mirrors songo_data.importing. While true the import panel is up and the
+# True while an import is running and its panel should show (see
+# _wants_import_panel). While true the import panel is up and the
 # overlay window stays visible, so songo_app routes no input to the main UI.
 var _importing := false
 
@@ -39,7 +40,8 @@ var _importing := false
 func _process(delta: float) -> void:
 	if _quitting: return
 
-	if songo_data.importing != _importing: _set_importing(songo_data.importing)
+	var wants_import_panel = _wants_import_panel()
+	if wants_import_panel != _importing: _set_importing(wants_import_panel)
 	if _importing:
 		_render_import_progress()
 		return
@@ -81,6 +83,12 @@ func _refresh_overlay():
 	var any_open = %InfoPanel.visible || %QuickMenu.showing || %Keyboard.visible || _importing
 	%OverlayWindow.visible = any_open || _transitioning
 	%DarkOut.visible = any_open
+
+# A quiet scan (boot auto import) only shows the panel once it moves past
+# finding files, which it only does if something was added, changed or removed.
+func _wants_import_panel() -> bool:
+	if not songo_data.importing: return false
+	return not songo_data.import_quiet_scan || songo_data.import_step > 0
 
 # Imports can start from anywhere (settings, directory select, auto import on
 # boot), so this polls songo_data rather than relying on each caller. Whatever

@@ -54,7 +54,7 @@ func _ready() -> void:
 	PluginManager.load_plugins()
 	Controller.main_menu()
 	if songo_settings.auto_import && songo_data.music_directory_paths.size() > 0:
-		songo_data.index_mp3s()
+		songo_data.index_mp3s(true)
 	if songo_settings.ab_layout_swapped:
 		DeviceOS.swap_input_actions("back", "ui_accept")
 	if songo_settings.xy_layout_swapped:

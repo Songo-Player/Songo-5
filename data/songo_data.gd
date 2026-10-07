@@ -32,6 +32,9 @@ var import_notes = []
 var path_error = null
 var scale_components = []
 var importing: bool = false
+# When true the scan step (import_step 0) runs without the import panel, which
+# only appears once the scan finds changes. Used for the auto import on boot.
+var import_quiet_scan: bool = false
 var playlists: Array[M3uCollection] = []
 var import_start_time = 0
 # Play counts changed since the last save (see save_listens).
@@ -107,12 +110,14 @@ func get_album_cover(album_name):
 	if matches.size() == 1: return Artwork.album_cover(matches[0])
 	else: return null
 	
-func index_mp3s():
+func index_mp3s(quiet_scan: bool = false):
+	import_quiet_scan = quiet_scan
 	importing = true
 	images_rebuilt = 0
 	start_import()
 
 func rebuild_album_images():
+	import_quiet_scan = false
 	importing = true
 	images_rebuilt = 0
 	start_album_rebuild()
