@@ -3,7 +3,6 @@ extends MarginContainer
 class_name DirectoryContainer
 
 var path_array = []
-var importing: bool = false
 var songo_data = SongoDataResource.get_instance()
 var virtualized_list
 
@@ -87,27 +86,11 @@ func _android_root_directories() -> Array:
 	roots.sort_custom(func(a, b): return a.naturalnocasecmp_to(b) < 0)
 	return roots
 	
+# Import progress lives in OverlayContainer, which also blocks input while it runs.
 func render_ui():
-	%ImportProgressContainer.visible = importing
-	if importing:
-		if songo_data.import_step == 0:
-			%ImportProgressLabel.text = "Files found %d" % int(songo_data.import_progress)
-			%ProgressBar.visible = false
-			%ImportStepLabel.text = "Step 1/3 Finding audio files"
-		if songo_data.import_step == 1:
-			%ProgressBar.visible = true
-			%ImportProgressLabel.text = "Progress %.1f%%" % (clamp(songo_data.import_progress, 0, 1.0) * 100)
-			%ProgressBar.scale.x = clamp(songo_data.import_progress, 0, 1.0)
-			%ImportStepLabel.text = "Step 2/3 Indexing audio files"
-		if songo_data.import_step == 2:
-			%ProgressBar.visible = true
-			%ImportProgressLabel.text = "Progress %.1f%%" % (clamp(songo_data.import_progress, 0, 1.0) * 100)
-			%ProgressBar.scale.x = clamp(songo_data.import_progress, 0, 1.0)
-			%ImportStepLabel.text = "Step 3/3 Building Album Covers"
+	pass
 		
 func handle_input(delta: float):
-	if importing == true: return
-	
 	if Input.is_action_just_pressed("back"):
 		Controller.nav_back()
 	
@@ -163,11 +146,8 @@ func enter_dir(dir_name = null):
 	display_current_path()
 	
 func reimport():
-	importing = true
-	UiHelper.darkout.show()
 	songo_data.index_mp3s()
 	await songo_data.import_finished
-	UiHelper.darkout.hide()
 	Controller.nav_back_to_settings()
 	
 func _on_select_directory_button_pressed() -> void:
@@ -177,13 +157,10 @@ func _on_select_directory_button_pressed() -> void:
 		
 	var path = "".join(path_array)
 	if songo_data.add_music_directory_path(path):
-		importing = true
-		UiHelper.darkout.show()
 		songo_data.save()
 		await get_tree().process_frame
 		songo_data.index_mp3s()
 		await songo_data.import_finished
-		UiHelper.darkout.hide()
 		Controller.nav_back_to_settings()
 	else:
 		var message = songo_data.path_error

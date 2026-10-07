@@ -1,5 +1,7 @@
 extends MarginContainer
 
+var songo_data = SongoDataResource.get_instance()
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -29,10 +31,18 @@ var _transitioning := false
 # close.
 var _y_hold_blocked := false
 var _quitting := false
+# Mirrors songo_data.importing. While true the import panel is up and the
+# overlay window stays visible, so songo_app routes no input to the main UI.
+var _importing := false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if _quitting: return
+
+	if songo_data.importing != _importing: _set_importing(songo_data.importing)
+	if _importing:
+		_render_import_progress()
+		return
 
 	# songo_app skips route_inputs while the window is up, so back for the
 	# keyboard is handled here.
@@ -54,7 +64,7 @@ func _process(delta: float) -> void:
 
 
 func _show_info_panel():
-	if %QuickMenu.showing || %Keyboard.visible: return
+	if %QuickMenu.showing || %Keyboard.visible || _importing: return
 	%InfoPanel.show()
 	_refresh_overlay()
 	# After the window is up, so the panel's grab_focus lands.
@@ -68,9 +78,43 @@ func _hide_info_panel():
 # transition the window stays up (empty) to keep input off the main UI, but the
 # darkout drops once the panel is gone so it doesn't pop off after the fade out.
 func _refresh_overlay():
-	var any_open = %InfoPanel.visible || %QuickMenu.showing || %Keyboard.visible
+	var any_open = %InfoPanel.visible || %QuickMenu.showing || %Keyboard.visible || _importing
 	%OverlayWindow.visible = any_open || _transitioning
 	%DarkOut.visible = any_open
+
+# Imports can start from anywhere (settings, directory select, auto import on
+# boot), so this polls songo_data rather than relying on each caller. Whatever
+# else the overlay was showing is closed so the import panel is the only thing up.
+func _set_importing(importing: bool):
+	_importing = importing
+	if importing:
+		if %QuickMenu.showing: %QuickMenu.close_menu()
+		if %Keyboard.visible: %Keyboard.dismiss()
+		%InfoPanel.hide()
+		# Don't pop the quick menu if Y is still held when the import ends.
+		_y_hold_blocked = true
+	%ImportProgressContainer.visible = importing
+	_refresh_overlay()
+	# Take focus off the main viewport so its focused button can't be pressed.
+	if importing: %OverlayWindow.grab_focus()
+
+func _render_import_progress():
+	var progress = clamp(songo_data.import_progress, 0, 1.0)
+	match songo_data.import_step:
+		0:
+			%ImportProgressLabel.text = "Files found %d" % int(songo_data.import_progress)
+			%ProgressBar.visible = false
+			%ImportStepLabel.text = "Step 1/3 Finding audio files"
+		1:
+			%ProgressBar.visible = true
+			%ImportProgressLabel.text = "Progress %.1f%%" % (progress * 100)
+			%ProgressBar.scale.x = progress
+			%ImportStepLabel.text = "Step 2/3 Indexing audio files"
+		2:
+			%ProgressBar.visible = true
+			%ImportProgressLabel.text = "Progress %.1f%%" % (progress * 100)
+			%ProgressBar.scale.x = progress
+			%ImportStepLabel.text = "Step 3/3 Building Album Covers"
 
 func _on_go_to_collection_requested(index_action: Callable, collection) -> void:
 	if _transitioning: return
@@ -107,7 +151,7 @@ func _on_overlay_update(event):
 	#print("got here?")
 	if event == UiHelper.EVENT.TOGGLE_INFO:
 		# The transition hides the panel itself; don't let back/select race it.
-		if _transitioning: return
+		if _transitioning || _importing: return
 		if %InfoPanel.visible:
 			_hide_info_panel()
 		else:
@@ -116,6 +160,7 @@ func _on_overlay_update(event):
 func _on_songo_quit():
 	# Stop _process from hiding the window under the exit message.
 	_quitting = true
+	%ImportProgressContainer.hide()
 	%DarkOut.show()
 	%OverlayWindow.show()
 	%ExitingOverlayContainer.show()
