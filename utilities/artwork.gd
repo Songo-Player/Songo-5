@@ -99,9 +99,9 @@ func ensure_dicebear(asset_id: String, kind: String) -> bool:
 
 	var source_path: String
 	if kind == "album":
-		source_path = "res://assets/dicebear/rings/rings-%d.svg" % randi_range(0, 499)
+		source_path = "res://assets/dicebear/rings/rings-%d.svg" % randi_range(0, 199)
 	else:
-		source_path = "res://assets/dicebear/bottts-neutral/botttsNeutral-%d.svg" % randi_range(0, 999)
+		source_path = "res://assets/dicebear/bottts-neutral/botttsNeutral-%d.svg" % randi_range(0, 499)
 
 	if not FileAccess.file_exists(source_path):
 		print("Trying to load non-existant image: %s" % source_path)

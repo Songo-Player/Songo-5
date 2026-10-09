@@ -133,9 +133,10 @@ func set_battery_info_path():
 	battery_percent_path = OS.get_environment("SONGO_GET_BATTERY_PERCENT_PATH")
 	charging_path = OS.get_environment("SONGO_GET_CHARGING_PATH")
 
-	# The percent script prints nothing when it can't find a battery
-	if run_battery_script(battery_percent_path) != "":
-		battery_info_path = battery_percent_path
+	# Trust the launcher's script instead of running it here, which would block
+	# startup on a shell. The percent script prints nothing when it can't find a
+	# battery, so headers treat an empty capacity as "no battery".
+	battery_info_path = battery_percent_path
 
 # Android has no battery scripts, read the kernel's power_supply node directly.
 # Some ROMs block apps from reading sysfs, in which case battery_info_path stays empty.

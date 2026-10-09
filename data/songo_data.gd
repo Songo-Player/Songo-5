@@ -63,8 +63,11 @@ static func get_instance() -> SongoDataResource:
 	ensure_dir("album_covers")
 	
 	if _instance == null:
+		var boot_start_ms := Time.get_ticks_msec()
+		print("BOOT: SongoDataResource load start at %d ms" % boot_start_ms)
 		if ResourceLoader.exists(SAVE_PATH):
 			_instance = ResourceLoader.load(SAVE_PATH)
+			print("BOOT: SongoDataResource file read done at %d ms (%d ms)" % [Time.get_ticks_msec(), Time.get_ticks_msec() - boot_start_ms])
 			if _instance == null || _instance.data_version != DATA_VERSION:
 				_instance = SongoDataResource.new()
 				print("Busting saved data")
@@ -76,6 +79,9 @@ static func get_instance() -> SongoDataResource:
 					playlist.music_records = playlist.get_music_records_from_lookup()
 		else:
 			_instance = SongoDataResource.new()
+		print("BOOT: SongoDataResource load end at %d ms (%d ms total, %d tracks, %d albums, %d artists, %d playlists)" % [
+			Time.get_ticks_msec(), Time.get_ticks_msec() - boot_start_ms,
+			_instance.music_records.size(), _instance.albums.size(), _instance.artists.size(), _instance.playlists.size()])
 
 	var bus := GDTagLib.get_singleton()
 	if bus and not bus.library_update_planned.is_connected(_instance._on_library_update_planned):

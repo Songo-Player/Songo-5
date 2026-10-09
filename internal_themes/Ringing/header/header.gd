@@ -1,5 +1,7 @@
 extends MarginContainer
 
+var _battery_thread: Thread
+
 var songo_settings = SongoSettings.get_instance()
 
 var icons = [
@@ -27,8 +29,10 @@ func _update_widgets():
 		%BatteryPercent.text = "N/A*"
 		
 func update_battery_async() -> void:
-	var thread := Thread.new()
-	thread.start(Callable(self, "_thread_get_battery"))
+	# Still reading from the last refresh, it gets joined in _update_battery_ui.
+	if _battery_thread and _battery_thread.is_started(): return
+	_battery_thread = Thread.new()
+	_battery_thread.start(_thread_get_battery)
 	
 func _thread_get_battery():
 	var capacity = DeviceOS.get_battery_info('capacity')
@@ -36,6 +40,11 @@ func _thread_get_battery():
 	call_deferred("_update_battery_ui", capacity, status)
 	
 func _update_battery_ui(capacity, status) -> void:
+	if _battery_thread.is_started(): _battery_thread.wait_to_finish()
+	# The battery script prints nothing when the device has no battery.
+	if capacity == "":
+		%BatteryPercent.text = "N/A*"
+		return
 	%BatteryPercent.text = str(capacity)+"%"
 	if int(capacity) >= 90: 
 		%BatteryIcon.texture = preload("res://assets/battery-full.svg")
@@ -80,3 +89,7 @@ func _on_page_changed():
 
 func _on_tree_exited() -> void:
 	Controller.page_changed.disconnect(_on_page_changed)
+
+func _exit_tree() -> void:
+	if _battery_thread and _battery_thread.is_started():
+		_battery_thread.wait_to_finish()
