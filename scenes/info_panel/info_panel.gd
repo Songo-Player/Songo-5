@@ -46,7 +46,7 @@ func set_for_track(track: TagLibMusicRecord):
 	%MbAlbumIdLabel.text = track.musicbrainz_album_id
 	
 	%HasLyrics.visible = FileAccess.file_exists(LrcScrape.get_lrc_path(track.full_path))
-	%ListenCountLabel.text = "%d" % track.times_listened
+	%ListenCountLabel.text = "%d" % track.listen_count
 
 func format_file_size(bytes: int) -> String:
 	if bytes < 1024:

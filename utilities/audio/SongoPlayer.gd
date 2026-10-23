@@ -76,8 +76,8 @@ func _notification(what: int) -> void:
 # Only called when a song plays to its end (or into the auto crossfade), so
 # skips and manual track changes don't count.
 func _count_listen(music_record) -> void:
-	if music_record is not SongoMusicRecord or is_stream_record(music_record): return
-	music_record.times_listened += 1
+	if music_record is not TagLibMusicRecord or is_stream_record(music_record): return
+	music_record.listen_count += 1
 	SongoDataResource.get_instance().listens_dirty = true
 	if listen_save_timer.is_stopped(): listen_save_timer.start()
 

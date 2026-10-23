@@ -47,7 +47,7 @@ func load_m3u(path: String) -> bool:
 	return not music_records.is_empty()
 
 func _make_record(url: String, title: String, genre: String) -> TagLibMusicRecord:
-	var record := SongoMusicRecord.new()
+	var record := TagLibMusicRecord.new()
 	record.full_path = url
 	record.title = title
 	record.genre = genre

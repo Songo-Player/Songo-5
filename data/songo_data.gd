@@ -3,20 +3,24 @@ class_name SongoDataResource extends Resource
 signal import_finished
 
 const SAVE_PATH = "user://songo_data.res"
-const VERSION = "v1.0.0 RC6"
-const DATA_VERSION = "v1.0.0 RC6"
+# Tracks, albums and artists (with play counts), in GDTagLib's flat binary
+# format. Kept out of SAVE_PATH because it's far faster to load and save.
+const LIBRARY_PATH = "user://songo_library.bin"
+const VERSION = "v1.0.0 RC7"
+const DATA_VERSION = "v1.0.0 RC7"
 
 @export var music_directory_path = "No Path"
 @export var music_directory_paths = []
-@export var music_records: Array[TagLibMusicRecord] = []
 @export var data_version = ""
-@export var artists: Array[TagLibArtistRecord] = []
-@export var albums: Array[TagLibAlbumRecord] = []
 @export var target_playlist_index: int = -1
 
-# music_records / albums / artists above are produced wholesale by
-# GDTagLib.refresh_music_library each import -- GDTagLib parses the files and
-# resolves the album / album-artist groupings. Nothing here derives them by hand.
+# Produced wholesale by GDTagLib.refresh_music_library each import -- GDTagLib
+# parses the files and resolves the album / album-artist groupings. Nothing
+# here derives them by hand. Deliberately not @export: they're persisted to
+# LIBRARY_PATH (see save_library), not into this Resource.
+var music_records: Array[TagLibMusicRecord] = []
+var artists: Array[TagLibArtistRecord] = []
+var albums: Array[TagLibAlbumRecord] = []
 
 var scraping: float = 0.0
 var import_progress: float = 0.0
@@ -39,8 +43,6 @@ var playlists: Array[M3uCollection] = []
 var import_start_time = 0
 # Play counts changed since the last save (see save_listens).
 var listens_dirty: bool = false
-# full_path -> times_listened, captured before an import replaces music_records.
-var _prev_listens := {}
 
 var artist_count: int:
 	get: return artists.size()
@@ -72,8 +74,8 @@ static func get_instance() -> SongoDataResource:
 				_instance = SongoDataResource.new()
 				print("Busting saved data")
 			else:
-				_instance._adopt_records({})
-				_instance.playlists = _instance._discover_playlists()
+				_instance._load_library()
+				_instance.playlists = _instance._discover_playlists(_instance.scan_music_directories(["playlists"]).playlists)
 				M3uCollection.build_lookup(_instance.music_records)
 				for playlist in _instance.playlists:
 					playlist.music_records = playlist.get_music_records_from_lookup()
@@ -134,140 +136,82 @@ func clear_music_data():
 	artists.clear()
 	save()
 
-func get_mp3_paths(directory_path: String) -> Array:
-	if directory_path == null or directory_path == "":
-		return []
+const AUDIO_EXTS := ["mp3", "flac", "ogg", "m4a", "m4b", "aiff", "aif", "wav", "opus", "aac", "wma"]
+const IMAGE_EXTS := ["png", "jpeg", "jpg", "webp"]
+const PLAYLIST_EXTS := ["m3u"]
 
-	var found_mp3s: Array = []
-	var visited: Dictionary = {}
-
-	var dir_test := DirAccess.open(directory_path)
-	if dir_test == null:
-		push_warning("Could not open root directory: %s" % directory_path)
-		return found_mp3s
-
-	_scan_dir_recursive(directory_path, found_mp3s, visited, ["mp3", "flac", "ogg", "m4a", "m4b", "aiff", "aif", "wav", "opus", "aac", "wma"])
-	print("Found ", found_mp3s.size(), " Music files")
-	return found_mp3s
-	
-func get_image_paths(directory_path: String) -> Array:
-	if directory_path == null or directory_path == "":
-		return []
-
-	var found: Array = []
-	var visited: Dictionary = {}
-
-	var dir_test := DirAccess.open(directory_path)
-	if dir_test == null:
-		push_warning("Could not open root directory: %s" % directory_path)
-		return found
-
-	_scan_dir_recursive(directory_path, found, visited, ["png", "jpeg", "jpg", "webp"])
-	print("Found ", found.size(), " Image files")
+# One native walk of every music directory, sorting files into the requested
+# groups ("audio", "images", "playlists") by extension. progress (optional)
+# gets the running file count.
+func scan_music_directories(groups: Array, progress := Callable()) -> Dictionary:
+	var exts := {"audio": AUDIO_EXTS, "images": IMAGE_EXTS, "playlists": PLAYLIST_EXTS}
+	var request := {}
+	for group in groups:
+		request[group] = PackedStringArray(exts[group])
+	var found := GDTagLib.scan_directories(PackedStringArray(music_directory_paths), request, progress)
+	if found.has("images"):
+		found.images = Array(found.images).filter(func(p: String): return not p.ends_with("GENERATED.png"))
+	for group in groups:
+		print("Found ", found[group].size(), " ", group, " files")
 	return found
 
-func get_m3u_paths(directory_path: String) -> Array:
-	if directory_path == null or directory_path == "":
-		return []
-
-	var found: Array = []
-	var visited: Dictionary = {}
-
-	var dir_test := DirAccess.open(directory_path)
-	if dir_test == null:
-		push_warning("Could not open root directory: %s" % directory_path)
-		return found
-
-	_scan_dir_recursive(directory_path, found, visited, ["m3u"])
-	print("Found ", found.size(), " Playlist files")
-	return found
-
-# Finds .m3u files anywhere under the configured music directories that
-# aren't already tracked in `playlists` -- covers both playlists this app
-# created and ones dropped in by other music apps. Discovered playlists are
-# left exactly where they are on disk.
-func _discover_playlists() -> Array[M3uCollection]:
+# Turns .m3u files under the configured music directories that aren't
+# already tracked in `playlists` into collections -- covers both playlists
+# this app created and ones dropped in by other music apps. Discovered
+# playlists are left exactly where they are on disk.
+func _discover_playlists(m3u_paths) -> Array[M3uCollection]:
 	var discovered: Array[M3uCollection] = []
 	var known := {}
 	for existing_playlist in playlists:
 		known[existing_playlist.m3u_path] = true
 
-	for dir_path in music_directory_paths:
-		for m3u_path in get_m3u_paths(dir_path):
-			if known.has(m3u_path):
-				continue
-			var collection := M3uCollection.new()
-			collection.m3u_path = m3u_path
-			collection.name = M3uCollection.humanize_name(m3u_path.get_file().get_basename())
-			discovered.append(collection)
-			known[m3u_path] = true
+	for m3u_path in m3u_paths:
+		if known.has(m3u_path):
+			continue
+		var collection := M3uCollection.new()
+		collection.m3u_path = m3u_path
+		collection.name = M3uCollection.humanize_name(m3u_path.get_file().get_basename())
+		discovered.append(collection)
+		known[m3u_path] = true
 
 	return discovered
 
-func _scan_dir_recursive(path: String, result: Array, visited: Dictionary, file_types: Array) -> void:
-	if path in visited:
-		return
-	visited[path] = true
-
-	var dir := DirAccess.open(path)
-	if dir == null:
-		print("Failed to open directory: ", path)
-		return
-
-	dir.list_dir_begin()  # skip . .. and hidden
-	var file_name := dir.get_next()
-
-	while file_name != "":
-		var full_path := path.path_join(file_name)
-		var is_dir := DirAccess.dir_exists_absolute(full_path)
-		var is_file := FileAccess.file_exists(full_path)
-
-		if is_dir:
-			_scan_dir_recursive(full_path, result, visited, file_types)
-		elif is_file:
-			var ext := file_name.get_extension().to_lower()
-			if file_types.has(ext):
-				if file_name.ends_with("GENERATED.png"):
-					pass
-					#print("Ignoring generated image: %s" % file_name)
-				else:
-					call_deferred("_update_import_progress", float(result.size()))
-					result.append(full_path)
-		else:
-			# Neither dir nor file (broken link, device node, etc.)
-			push_error("Skipping non-file entry:", full_path)
-		file_name = dir.get_next()
-	dir.list_dir_end()
-	
 func save():
 	print("Saving")
 	data_version = DATA_VERSION
-	listens_dirty = false
+	save_library()
 	var error = ResourceSaver.save(self, SAVE_PATH)
 	if error != OK:
 		print("Error saving collection: ", error)
 		import_notes.append("Error saving imported data: %s" % error)
 		return
 
-# Persists play counts. The whole library is rewritten on save, so callers
+# Writes just the library (records, albums, artists, play counts).
+func save_library():
+	listens_dirty = false
+	var error := GDTagLib.save_music_library(LIBRARY_PATH, {
+		"music_records": music_records, "albums": albums, "artists": artists})
+	if error != OK:
+		print("Error saving library: ", error)
+		import_notes.append("Error saving library: %s" % error)
+
+# Persists play counts. The whole library file is rewritten, so callers still
 # batch listens up rather than saving on every song change.
 func save_listens():
-	if listens_dirty and not importing: save()
+	if listens_dirty and not importing: save_library()
 
-# Upgrades every record to a SongoMusicRecord. Files GDTagLib re-parsed come
-# back as fresh instances, so their play counts are restored from prev_listens.
-func _adopt_records(prev_listens: Dictionary):
-	for r in music_records:
-		var record := SongoMusicRecord.adopt(r)
-		if record.times_listened == 0:
-			record.times_listened = prev_listens.get(record.full_path, 0)
+func _assign_library(lib: Dictionary):
+	music_records = []
+	music_records.assign(lib.music_records)
+	albums = []
+	albums.assign(lib.albums)
+	artists = []
+	artists.assign(lib.artists)
 
-func _listen_counts() -> Dictionary:
-	var counts := {}
-	for r in music_records:
-		if r is SongoMusicRecord and r.times_listened > 0:
-			counts[r.full_path] = r.times_listened
-	return counts
+func _load_library():
+	var lib := GDTagLib.load_music_library(LIBRARY_PATH)
+	if not lib.is_empty():
+		_assign_library(lib)
 
 func summarized_import_notes() -> String:
 	if import_notes.is_empty():
@@ -335,14 +279,15 @@ func _thread_import():
 	import_progress = 0
 	_changed_album_names = {}
 
-	var all_paths: Array = []
-	for path in music_directory_paths:
-		all_paths.append_array(get_mp3_paths(path))
+	# Audio, cover images and playlists all come from this one walk.
+	var found := scan_music_directories(["audio", "images", "playlists"],
+		func(count: int): call_deferred("_update_import_progress", float(count)))
+	var all_paths: Array = Array(found.audio)
 
 	# Pick up any .m3u files (ours or another app's) that showed up on disk
 	# since the last scan, resolving their tracks against the library we
 	# already have loaded.
-	for discovered_playlist in _discover_playlists():
+	for discovered_playlist in _discover_playlists(found.playlists):
 		discovered_playlist.music_records = discovered_playlist.get_music_records_from_lookup()
 		playlists.append(discovered_playlist)
 
@@ -389,6 +334,9 @@ func _thread_import():
 		var p: String = all_paths[i]
 		if to_read.has(p):
 			var built := GDTagLib.build_music_record(p)
+			# Play counts aren't in the tags; keep them across a re-read.
+			if prev_by_path.has(p):
+				built.listen_count = prev_by_path[p].listen_count
 			current.append(built)
 			_changed_album_names[built.album] = true
 		else:
@@ -403,18 +351,12 @@ func _thread_import():
 	call_deferred("_import_step_set", 2)
 
 	# Fast native pass: album + album-artist resolution over the whole library.
-	_prev_listens = _listen_counts()
 	var lib := GDTagLib.refresh_music_library(current, PackedStringArray(all_paths), {"follow_retags": false})
-	music_records = []
-	music_records.assign(lib.music_records)
-	albums = []
-	albums.assign(lib.albums)
-	artists = []
-	artists.assign(lib.artists)
+	_assign_library(lib)
 	for artist in artists:
 		Artwork.ensure_dicebear(artist.asset_id, "artist")
 
-	build_album_images()
+	build_album_images(false, found.images)
 	call_deferred("_on_import_complete")
 
 
@@ -443,10 +385,10 @@ func _on_record_imported(progress: float):
 func _increment_images_rebuilt():
 	images_rebuilt += 1
 			
-func build_album_images(rebuild: bool = false):
-	var all_image_paths = []
-	for path in music_directory_paths:
-		all_image_paths.append_array(get_image_paths(path))
+# image_paths: images found under the music directories; scanned here when
+# the caller doesn't already have them.
+func build_album_images(rebuild: bool = false, image_paths = null):
+	var all_image_paths = image_paths if image_paths != null else scan_music_directories(["images"]).images
 		
 	var dir := DirAccess.open("user://")
 	if not dir.dir_exists("album_images"):
@@ -581,8 +523,6 @@ func _on_import_complete():
 	if _import_thread and _import_thread.is_started():
 		_import_thread.wait_to_finish()
 	import_step = 0
-	_adopt_records(_prev_listens)
-	_prev_listens = {}
 	save()
 
 	var elapsed = Time.get_unix_time_from_system() - import_start_time
@@ -613,15 +553,8 @@ func remove_music_directory_path(path: String) -> void:
 		save()
 		return
 
-	var prev_listens := _listen_counts()
 	var lib := GDTagLib.refresh_music_library(music_records, remaining_paths, {"follow_retags": false})
-	music_records = []
-	music_records.assign(lib.music_records)
-	albums = []
-	albums.assign(lib.albums)
-	artists = []
-	artists.assign(lib.artists)
-	_adopt_records(prev_listens)
+	_assign_library(lib)
 
 	for record in removed_records:
 		M3uCollection.lookup.erase(record.full_path)
