@@ -1,0 +1,122 @@
+[gd_scene load_steps=6 format=3 uid="uid://dhjuwpludx0mp"]
+
+[ext_resource type="Script" path="res://internal_themes/SongoClassic/main_menu_2/main_menu_2.gd" id="1_0ewdr"]
+[ext_resource type="Script" path="res://utilities/smooth_scroll_container.gd" id="2_lvv5y"]
+
+[sub_resource type="Gradient" id="Gradient_suwki"]
+offsets = PackedFloat32Array(0, 0.2, 0.8, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_weqc1"]
+gradient = SubResource("Gradient_suwki")
+metadata/_snap_enabled = true
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tcwv6"]
+texture = SubResource("GradientTexture2D_weqc1")
+
+[node name="MainMenu2" type="MarginContainer"]
+process_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0ewdr")
+
+[node name="Content" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = -4
+
+[node name="FocusLabelSlot" type="Control" parent="Content"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="FocusLabel" type="Label" parent="Content/FocusLabelSlot"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 36
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="Content"]
+clip_children = 1
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_tcwv6")
+
+[node name="MarginContainer" type="MarginContainer" parent="Content/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Content/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="ScrollerMargin" type="MarginContainer" parent="Content/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = -10
+
+[node name="SmoothScrollContainer" type="ScrollContainer" parent="Content/PanelContainer/MarginContainer/VBoxContainer/ScrollerMargin"]
+unique_name_in_owner = true
+clip_contents = false
+layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+script = ExtResource("2_lvv5y")
+
+[node name="MainMenuItems" type="HBoxContainer" parent="Content/PanelContainer/MarginContainer/VBoxContainer/ScrollerMargin/SmoothScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 26
+
+[node name="FlameContainer" type="PanelContainer" parent="Content/PanelContainer/MarginContainer/VBoxContainer/ScrollerMargin"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 228)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="Content/PanelContainer/MarginContainer/VBoxContainer/ScrollerMargin/FlameContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="Content/PanelContainer/MarginContainer/VBoxContainer/ScrollerMargin/FlameContainer/MarginContainer"]
+layout_mode = 2
+text = "Are you proud of yourself?
+I like minimalism too but come on dude"
+horizontal_alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="Content/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = -16
+theme_override_constants/margin_bottom = 2
+
+[node name="SubMenuItems" type="HBoxContainer" parent="Content/PanelContainer/MarginContainer/VBoxContainer/MarginContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="resized" from="Content/PanelContainer/MarginContainer/VBoxContainer/ScrollerMargin/SmoothScrollContainer" to="." method="_on_resized"]

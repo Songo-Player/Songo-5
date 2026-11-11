@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Prints 1 if the battery is charging, 0 otherwise
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+. "$SCRIPT_DIR/battery_common.sh"
+
+DIR=$(find_battery_dir)
+print_charging "$(head -n 1 "$DIR/status" 2>/dev/null | tr -d '\r')"

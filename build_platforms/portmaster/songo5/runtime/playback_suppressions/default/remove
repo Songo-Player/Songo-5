@@ -1,0 +1,12 @@
+#!/bin/sh
+
+for TARGET in \
+    /sys/class/power_supply/axp2202-battery/hallkey \
+    /sys/devices/platform/hall-mh248/hallvalue; do
+    [ -e "$TARGET" ] || continue
+
+    # Lazy unmount to handle busy sysfs, looped in case of stacked mounts
+    while mountpoint -q "$TARGET"; do
+        umount -l "$TARGET" 2>/dev/null || break
+    done
+done

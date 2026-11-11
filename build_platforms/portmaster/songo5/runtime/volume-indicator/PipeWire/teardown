@@ -1,0 +1,13 @@
+#!/bin/sh
+
+DIR="/tmp/songo-vol"
+
+if [ -f "$DIR/mounted" ]; then
+    while read -r BIN; do
+        echo "Unmounting wrapper from $BIN..."
+        umount -l "$BIN"
+    done < "$DIR/mounted"
+fi
+
+# Remove temp files
+rm -rf "$DIR"

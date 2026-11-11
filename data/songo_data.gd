@@ -7,7 +7,7 @@ const SAVE_PATH = "user://songo_data.res"
 # format. Kept out of SAVE_PATH because it's far faster to load and save.
 const LIBRARY_PATH = "user://songo_library.bin"
 const VERSION = "v1.0.0 RC7"
-const DATA_VERSION = "v1.0.0 RC7"
+const DATA_VERSION = "v1.0.0 RC7.1"
 
 @export var music_directory_path = "No Path"
 @export var music_directory_paths = []
@@ -142,13 +142,15 @@ const PLAYLIST_EXTS := ["m3u"]
 
 # One native walk of every music directory, sorting files into the requested
 # groups ("audio", "images", "playlists") by extension. progress (optional)
-# gets the running file count.
-func scan_music_directories(groups: Array, progress := Callable()) -> Dictionary:
+# gets the running file count. Groups in stamp_groups also come back with
+# "<group>_mtimes" / "<group>_sizes", stat()ed during the walk.
+func scan_music_directories(groups: Array, progress := Callable(), stamp_groups: Array = []) -> Dictionary:
 	var exts := {"audio": AUDIO_EXTS, "images": IMAGE_EXTS, "playlists": PLAYLIST_EXTS}
 	var request := {}
 	for group in groups:
 		request[group] = PackedStringArray(exts[group])
-	var found := GDTagLib.scan_directories(PackedStringArray(music_directory_paths), request, progress)
+	var found := GDTagLib.scan_directories(PackedStringArray(music_directory_paths), request, progress,
+		{"stamps": PackedStringArray(stamp_groups)})
 	if found.has("images"):
 		found.images = Array(found.images).filter(func(p: String): return not p.ends_with("GENERATED.png"))
 	for group in groups:
@@ -281,7 +283,7 @@ func _thread_import():
 
 	# Audio, cover images and playlists all come from this one walk.
 	var found := scan_music_directories(["audio", "images", "playlists"],
-		func(count: int): call_deferred("_update_import_progress", float(count)))
+		func(count: int): call_deferred("_update_import_progress", float(count)), ["audio"])
 	var all_paths: Array = Array(found.audio)
 
 	# Pick up any .m3u files (ours or another app's) that showed up on disk
@@ -301,7 +303,9 @@ func _thread_import():
 	# Parse-free diff: what's actually new / changed / gone since last time.
 	# This also emits GDTagLib.library_update_planned -> _on_library_update_planned
 	# turns the real counts into a flash message.
-	var plan := GDTagLib.plan_music_library_update(music_records, PackedStringArray(all_paths), {})
+	# The scan's stamps save the plan a stat() per file.
+	var plan := GDTagLib.plan_music_library_update(music_records, PackedStringArray(all_paths),
+		{"mtimes": found.audio_mtimes, "sizes": found.audio_sizes})
 	var to_read := {}
 	for path in plan.added:
 		to_read[path] = true
@@ -318,34 +322,41 @@ func _thread_import():
 
 	call_deferred("_import_step_set", 1)
 	import_progress = 0
-	var count := all_paths.size()
 	import_notes.append("Beginning import: %d new, %d changed, %d removed" % [plan.added.size(), plan.changed.size(), plan.removed.size()])
 
 	# Slow, progress-reported pass: (re)parse only the files the plan flagged,
-	# reuse the rest. GDTagLib groups them into albums / artists after.
-	var prev_by_path := {}
-	for r: TagLibMusicRecord in music_records:
-		prev_by_path[r.full_path] = r
-
-	var current: Array[TagLibMusicRecord] = []
-	for i in range(all_paths.size()):
-		if _stop_flag:
-			break
-		var p: String = all_paths[i]
-		if to_read.has(p):
-			var built := GDTagLib.build_music_record(p)
-			# Play counts aren't in the tags; keep them across a re-read.
-			if prev_by_path.has(p):
-				built.listen_count = prev_by_path[p].listen_count
-			current.append(built)
-			_changed_album_names[built.album] = true
-		else:
-			current.append(prev_by_path[p])
-		call_deferred("_on_record_imported", i / float(count))
+	# on a GDTagLib worker thread, and reuse the rest. GDTagLib groups them
+	# into albums / artists after. Progress calls are throttled natively;
+	# returning true from the callable cancels the read. One parse thread:
+	# more just contend for the SD card on handhelds; GDTagLib's separate
+	# prefetch thread keeps the card busy instead.
+	var to_read_paths := PackedStringArray(to_read.keys())
+	var read_count := to_read_paths.size()
+	var built_records := GDTagLib.build_music_records(to_read_paths,
+		func(done: int) -> bool:
+			call_deferred("_on_record_imported", done / float(read_count))
+			return _stop_flag,
+		{"threads": 1})
 
 	if _stop_flag:
 		call_deferred("_on_import_early_exit")
 		return
+
+	var prev_by_path := {}
+	for r: TagLibMusicRecord in music_records:
+		prev_by_path[r.full_path] = r
+
+	var built_by_path := {}
+	for built: TagLibMusicRecord in built_records:
+		# Play counts aren't in the tags; keep them across a re-read.
+		if prev_by_path.has(built.full_path):
+			built.listen_count = prev_by_path[built.full_path].listen_count
+		built_by_path[built.full_path] = built
+		_changed_album_names[built.album] = true
+
+	var current: Array[TagLibMusicRecord] = []
+	for p: String in all_paths:
+		current.append(built_by_path[p] if built_by_path.has(p) else prev_by_path[p])
 
 	import_progress = 0
 	call_deferred("_import_step_set", 2)

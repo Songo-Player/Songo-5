@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# Knulli before Scarab: same detection batocera-info uses
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+. "$SCRIPT_DIR/../default/battery_common.sh"
+
+for DIR in /sys/class/power_supply/*BAT* /sys/class/power_supply/*bat*; do
+    [ -d "$DIR" ] || continue
+    print_percent "$(cat "$DIR/capacity" 2>/dev/null | tr -d '[:space:]')" && exit 0
+    break
+done
+
+# Fuel gauge devices report charge instead of capacity
+for DIR in /sys/class/power_supply/*FUEL* /sys/class/power_supply/*fuel*; do
+    [ -d "$DIR" ] || continue
+    NOW=$(cat "$DIR/charge_now" 2>/dev/null)
+    FULL=$(cat "$DIR/charge_full" 2>/dev/null)
+    case "$NOW$FULL" in
+        ''|*[!0-9]*) break ;;
+    esac
+    [ "$FULL" -gt 0 ] && print_percent $(( (NOW * 100 + FULL / 2) / FULL )) && exit 0
+    break
+done
+
+exec sh "$SCRIPT_DIR/../default/get_battery_percent"

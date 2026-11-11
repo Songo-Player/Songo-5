@@ -1,0 +1,16 @@
+#!/bin/bash
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+CFW="$1"
+
+case "$CFW" in
+    NextUI|Spruce|knulli|knulli_pre_scarab)
+        sh "${SCRIPT_DIR}/${CFW}/teardown"
+        echo "Tearing down ${CFW} strategy for volume indicator"
+        ;;
+    *)
+        # Safe to run even if setup found nothing to wrap
+        sh "${SCRIPT_DIR}/PipeWire/teardown"
+        echo "Tearing down PipeWire strategy for volume indicator"
+        ;;
+esac

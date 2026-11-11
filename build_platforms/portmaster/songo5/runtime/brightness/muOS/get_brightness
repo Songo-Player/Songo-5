@@ -1,0 +1,21 @@
+#!/bin/bash
+. "/opt/muos/script/var/func.sh"
+
+RAW="$(DISPLAY_READ lcd0 getbl)"
+
+case "$RAW" in
+  ''|*[!0-9]*) echo "155"; exit 1 ;;
+esac
+
+# DISPLAY_READ returns the raw sysfs value when a backlight device exists,
+# scale it from the panel's range to 0-255 (dispdbg is already 0-255)
+if BL_PATH=$(DISPLAY_SYSFS_BACKLIGHT); then
+  BL_MAX="$(cat "$BL_PATH/max_brightness" 2>/dev/null)"
+  case "$BL_MAX" in
+    ''|*[!0-9]*|0) BL_MAX=255 ;;
+  esac
+  RAW=$(( (RAW * 255 + BL_MAX / 2) / BL_MAX ))
+  [ "$RAW" -gt 255 ] && RAW=255
+fi
+
+echo "$RAW"

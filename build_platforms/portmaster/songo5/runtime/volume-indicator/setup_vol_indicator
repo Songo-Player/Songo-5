@@ -1,0 +1,20 @@
+#!/bin/bash
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+CFW="$1"
+
+case "$CFW" in
+    NextUI|Spruce|knulli|knulli_pre_scarab)
+        # CFW-specific strategies (knulli wraps its own audio script)
+        sh "${SCRIPT_DIR}/${CFW}/setup"
+        echo "Using ${CFW} strategy for volume indicator"
+        ;;
+    *)
+        if command -v wpctl >/dev/null 2>&1 || command -v pactl >/dev/null 2>&1; then
+            sh "${SCRIPT_DIR}/PipeWire/setup"
+            echo "Using PipeWire strategy for volume indicator, CFW: $CFW"
+        else
+            echo "No compatible volume indicator strategy found, CFW: $CFW"
+        fi
+        ;;
+esac

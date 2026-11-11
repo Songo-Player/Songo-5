@@ -10,16 +10,10 @@ func _ready() -> void:
 	UiHelper.keyboard = %Keyboard
 	UiHelper.ui_event.connect(_on_overlay_update)
 	Controller.quitting_songo.connect(_on_songo_quit)
-	VolumeTcpListener.volume_updated.connect(_on_volume_changed)
 	%Keyboard.shown_changed.connect(func(_shown): _refresh_overlay())
 	%InfoPanel.go_to_collection_requested.connect(_on_go_to_collection_requested)
-	# Hidden at rest too, not just transparent: a visible panel still eats clicks.
-	%DarkOutTransition.modulate.a = 0.0
-	%DarkOutTransition.hide()
 
 
-const TRANSITION_FADE_TIME := 0.25
-const TRANSITION_MIN_HOLD := 0.4
 # True for the whole go-to-album/artist jump. Keeps the (empty) overlay window
 # up so songo_app doesn't route input into the half-built pages.
 var _transitioning := false
@@ -78,7 +72,7 @@ func _hide_info_panel():
 
 # The window and darkout stay up while any overlay content is showing. During a
 # transition the window stays up (empty) to keep input off the main UI, but the
-# darkout drops once the panel is gone so it doesn't pop off after the fade out.
+# darkout drops with the panel.
 func _refresh_overlay():
 	var any_open = %InfoPanel.visible || %QuickMenu.showing || %Keyboard.visible || _importing
 	%OverlayWindow.visible = any_open || _transitioning
@@ -127,31 +121,9 @@ func _render_import_progress():
 func _on_go_to_collection_requested(index_action: Callable, collection) -> void:
 	if _transitioning: return
 	_transitioning = true
-	_refresh_overlay()
-
-	# The transition lives in the main tree, which the overlay window always
-	# draws over, so fade the info panel out alongside it.
-	%DarkOutTransition.show()
-	var tween = create_tween().set_parallel()
-	tween.tween_property(%DarkOutTransition, "modulate:a", 1.0, TRANSITION_FADE_TIME)
-	tween.tween_property(%InfoPanel, "modulate:a", 0.0, TRANSITION_FADE_TIME)
-	UiHelper.transition_fade.emit(true, TRANSITION_FADE_TIME)
-	await tween.finished
 	%InfoPanel.hide()
-	%InfoPanel.modulate.a = 1.0
 	_refresh_overlay()
-
-	# Hold at least TRANSITION_MIN_HOLD in the middle so a fast rebuild doesn't
-	# make the fade flicker; a slow one just holds as long as it takes.
-	var min_hold = get_tree().create_timer(TRANSITION_MIN_HOLD)
 	await Controller.rebuild_nav_to_collection(index_action, collection)
-	if min_hold.time_left > 0: await min_hold.timeout
-
-	tween = create_tween()
-	tween.tween_property(%DarkOutTransition, "modulate:a", 0.0, TRANSITION_FADE_TIME)
-	UiHelper.transition_fade.emit(false, TRANSITION_FADE_TIME)
-	await tween.finished
-	%DarkOutTransition.hide()
 	_transitioning = false
 	_refresh_overlay()
 
@@ -173,5 +145,6 @@ func _on_songo_quit():
 	%OverlayWindow.show()
 	%ExitingOverlayContainer.show()
 	
+# Connected by songo_app when it starts VolumeTcpListener
 func _on_volume_changed(new_val):
 	%VolumeContainer.update_volume(new_val)

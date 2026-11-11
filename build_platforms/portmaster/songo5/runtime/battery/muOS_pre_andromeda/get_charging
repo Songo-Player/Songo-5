@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Same as Andromeda, the muOS script falls back when mubattery's file is missing
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+exec sh "$SCRIPT_DIR/../muOS/get_charging"

@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# NextUI's batmon daemon writes the percentage NextUI shows here
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+. "$SCRIPT_DIR/../default/battery_common.sh"
+
+print_percent "$(cat /tmp/percBat 2>/dev/null | tr -d '[:space:]')" && exit 0
+
+exec sh "$SCRIPT_DIR/../default/get_battery_percent"

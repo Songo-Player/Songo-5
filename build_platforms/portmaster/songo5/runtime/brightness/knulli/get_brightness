@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Knulli Scarab onwards: knulli-brightness exists on every board and prints a
+# percent, scale it to 0-255
+PERCENT="$(knulli-brightness 2>/dev/null)"
+
+case "$PERCENT" in
+  ''|*[!0-9]*) echo "155"; exit 1 ;;
+esac
+
+[ "$PERCENT" -gt 100 ] && PERCENT=100
+echo $(( (PERCENT * 255 + 50) / 100 ))

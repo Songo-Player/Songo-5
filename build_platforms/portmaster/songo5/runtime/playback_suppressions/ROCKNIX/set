@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# ROCKNIX's lid is an SW_LID input event, not a sysfs file, so the default
+# hallkey bind mount does nothing here. Two things can act on it:
+
+# systemd-logind (HandleLidSwitch=suspend) when a suspend mode is set, the
+# H700 default. Holding a handle-lid-switch lock makes logind ignore the lid.
+# The lock goes away with the process, so a crash can't leave it.
+PIDFILE="/tmp/songo-lid-inhibit.pid"
+
+if ! { [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; }; then
+    systemd-inhibit --what=handle-lid-switch --who=Songo --why="Music is playing" \
+        --mode=block sleep infinity >/dev/null 2>&1 &
+    echo $! > "$PIDFILE"
+fi
+
+# rocknix-fake-suspend when suspend mode is off. It reads this setting on
+# every lid event, so it applies straight away.
+. /etc/profile.d/001-functions
+
+if [ "$(get_setting system.suspendmode)" = "off" ]; then
+    set_setting system.suspend.enable 0
+fi

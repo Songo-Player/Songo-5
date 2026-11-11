@@ -5,7 +5,7 @@ signal pseudo_sleep_wake
 
 var fade_out_overlay: Control
 
-var songo_data = SongoDataResource.get_instance()
+#var songo_data = SongoDataResource.get_instance()
 var songo_settings = SongoSettings.get_instance()
 var battery_info_path = "" # Set only when a battery was found, themes check this before showing it
 var battery_percent_path = ""
@@ -207,6 +207,32 @@ func swap_input_actions(action_a: String, action_b: String) -> void:
 
 	for event in events_b:
 		InputMap.action_add_event(action_a, event.duplicate(true))
+
+# Last binding added per action through set_action_binding, so it can be replaced
+var _bound_events := {}
+
+func apply_action_bindings() -> void:
+	var settings := SongoSettings.get_instance()
+	var actions := SongoSettings.ACTION_BINDINGS.keys()
+	for action in actions:
+		var others := actions.filter(func(a): return a != action)
+		set_action_binding(action, settings.get(SongoSettings.ACTION_BINDINGS[action]), others)
+
+func set_action_binding(action: String, binding: InputEvent, other_actions: Array = []) -> void:
+	# Replaces the action's joypad button/axis and previous custom binding,
+	# default keyboard/mouse events are left alone
+	for event in InputMap.action_get_events(action):
+		if event is InputEventJoypadButton or event is InputEventJoypadMotion:
+			InputMap.action_erase_event(action, event)
+	if _bound_events.has(action) && InputMap.action_has_event(action, _bound_events[action]):
+		InputMap.action_erase_event(action, _bound_events[action])
+	# Don't let one input fire two actions (e.g. Enter bound to back)
+	for other_action in other_actions:
+		for event in InputMap.action_get_events(other_action):
+			if event.is_match(binding):
+				InputMap.action_erase_event(other_action, event)
+	InputMap.action_add_event(action, binding)
+	_bound_events[action] = binding
 	
 func _on_music_started():
 	if set_playback_suppressions_path != "" && set_playback_suppressions_path != null:

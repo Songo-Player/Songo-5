@@ -11,15 +11,30 @@ var original_size
 
 var debug_press_count = 0
 var _last_back_msec := 0
-var _body_fade_tween: Tween
+
+# Not part of songo_app.tscn: loaded on a worker thread while the theme and main
+# menu build, then added once the menu is up. See _start_deferred_services.
+const OVERLAY_CONTAINER = "res://scenes/overlay_container/overlay_container.tscn"
+const LRC_SCRAPE = "res://utilities/lrc_scrape.gd"
+const LRC_PROCESS = "res://utilities/lrc_process.gd"
+# The themes use a small Latin-only subset of Noto Sans; the CJK one (~4MB) is
+# attached as its fallback once the menu is up. See assets/fonts/source.
+const LATIN_FONT = "res://assets/fonts/NotoSansCJKjp-Medium-Latin.otf"
+const CJK_FONT = "res://assets/fonts/NotoSansCJKjp-Medium.otf"
+const SONG_BUTTON = "res://scenes/all_songs_container_v2/song_button_v2.tscn"
+
+# Pages loaded in the background after boot so opening them the first time
+# doesn't stall on compiling their scripts. Held here so they stay cached.
+var _preloaded_pages := []
 
 func _ready() -> void:
+	for path in [OVERLAY_CONTAINER, LRC_SCRAPE, LRC_PROCESS, CJK_FONT]:
+		ResourceLoader.load_threaded_request(path)
 	var my_theme := load("res://assets/songo_base_theme.tres")
 	get_tree().root.theme = my_theme
 	Engine.physics_ticks_per_second = 1
 	Engine.max_fps = songo_settings.target_fps
 	UiHelper.transform_container = %TransformContainer
-	UiHelper.transition_fade.connect(_on_transition_fade)
 
 	await get_tree().process_frame
 	ThemeManager.set_current_theme(songo_settings.theme_path)
@@ -51,18 +66,17 @@ func _ready() -> void:
 	SfxPlayer.set_vol(songo_settings.sfx_volume)
 	
 	# Before the first main menu so plugin menu items/settings pages are in place.
-	PluginManager.load_plugins()
+	#PluginManager.load_plugins()
 	Controller.main_menu()
 	if songo_settings.auto_import && songo_data.music_directory_paths.size() > 0:
 		songo_data.index_mp3s(true)
-	if songo_settings.ab_layout_swapped:
-		DeviceOS.swap_input_actions("back", "ui_accept")
-	if songo_settings.xy_layout_swapped:
-		DeviceOS.swap_input_actions("x", "Y")
+	DeviceOS.apply_action_bindings()
 		
 	get_window().go_back_requested.connect(_on_system_back_requested)
-	boot_up_message()
 	
+	boot_up_message()
+	_start_deferred_services()
+
 func print_tree_path(node: Node):
 	var path := []
 	var current := node
@@ -122,7 +136,7 @@ func _process(delta: float) -> void:
 	#	%TransformContainer.position.x = - size.y
 	#	%TransformContainer.get_parent().rotation = deg_to_rad(270)
 
-	if UiHelper.overlay_window.visible:
+	if UiHelper.overlay_window && UiHelper.overlay_window.visible:
 		return
 	
 	DeviceOS.translate_inputs(delta)
@@ -140,12 +154,6 @@ func _process(delta: float) -> void:
 			add_debug_info()
 
 	UiHelper.route_inputs(Controller.active_container, delta)
-
-func _on_transition_fade(faded_out: bool, duration: float) -> void:
-	if _body_fade_tween and _body_fade_tween.is_running():
-		_body_fade_tween.kill()
-	_body_fade_tween = create_tween()
-	_body_fade_tween.tween_property(%BodyMarginContainer, "modulate:a", 0.0 if faded_out else 1.0, duration)
 
 func add_debug_info():
 	%OSNameLabel.text = "OS name: %s" % DeviceOS.get_os_name()
@@ -172,12 +180,79 @@ func _on_focus_changed(control):
 	UiHelper.register_focus_change(control)
 	SfxPlayer.play_nav_sfx()
 	
+# Things that aren't needed for the first screen, started once it's up. The
+# services aren't autoloads so compiling them doesn't hold up boot; reach them
+# with get_node("/root/<name>").
+func _start_deferred_services():
+	# Let the main menu draw first
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	# Last child of TransformContainer so it draws over everything, as it did
+	# when it was part of the scene
+	var overlay: Node = (await _finish_threaded_load(OVERLAY_CONTAINER)).instantiate()
+	overlay.name = "OverlayContainer"
+	%TransformContainer.add_child(overlay)
+
+	# Shared by every theme that uses the Latin font, so this covers them all.
+	# Text already drawn with missing glyphs redraws when the font changes.
+	var latin_font: FontFile = load(LATIN_FONT)
+	var fallbacks := latin_font.fallbacks
+	fallbacks.append(await _finish_threaded_load(CJK_FONT))
+	latin_font.fallbacks = fallbacks
+
+	var lrc_scrape = _add_service("LrcScrape", await _finish_threaded_load(LRC_SCRAPE))
+	var lrc_process = _add_service("LrcProcess", await _finish_threaded_load(LRC_PROCESS))
+	# A song may have started before they were listening (e.g. resumed playback)
+	var current_song = SongoPlayer.get_current_music_record()
+	if current_song != null:
+		lrc_scrape._on_started_new_song(current_song)
+		lrc_process._on_started_new_song(current_song)
+
+	if OS.get_environment("USE_SONGO_VOL_TCP_SERVER") == "1":
+		var listener = _add_service("VolumeTcpListener", load("res://utilities/volume_tcp_listener/volume_tcp_listener.gd"))
+		listener.volume_updated.connect(overlay._on_volume_changed)
+
+	_preload_pages()
+	ThemeManager.theme_updated.connect(_preload_pages)
+
+# The song list and song view, plus the current theme's parts of them. Opening
+# one before its load finishes is fine, load() waits for the threaded load.
+func _preload_pages():
+	var paths = [Controller.ALL_SONGS_CONTAINER, Controller.SONG_PANEL_CONTAINER, SONG_BUTTON]
+	for component in ["collection_header", "collection_button", "main_song_view"]:
+		var path = ThemeManager.get_scene_path(component)
+		if path is String && ResourceLoader.exists(path): paths.append(path)
+
+	for path in paths:
+		ResourceLoader.load_threaded_request(path)
+	var loaded := []
+	for path in paths:
+		loaded.append(await _finish_threaded_load(path))
+	# Replaces any previous theme's scenes so they can be freed
+	_preloaded_pages = loaded
+
+# Waits on a load_threaded_request without blocking frames. Untyped so callers
+# can use the PackedScene / Script it returns directly.
+func _finish_threaded_load(path: String):
+	while ResourceLoader.load_threaded_get_status(path) == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+		await get_tree().process_frame
+	var resource = ResourceLoader.load_threaded_get(path)
+	# Falls back to a normal load if the threaded one failed
+	return resource if resource != null else load(path)
+
+func _add_service(service_name: String, script: Script) -> Node:
+	var service: Node = script.new()
+	service.name = service_name
+	get_tree().root.add_child(service)
+	return service
+
 func boot_up_message():
 	#Add more of these
 	var message_opts = [
 		"Try out Rockbox too!",
 		"Try out XMPlayer too!",
-		"Using nextUI? Try the music player pak!",
+		"Try the music player pak too!",
 		"Try Music Player Daemon too!",
 		"Songo#5, now gluten free!",
 		"Try out touching grass!",
@@ -194,6 +269,8 @@ func boot_up_message():
 		"Forwarding good vibes to the Xongles",
 		"Are you listening to TWRP? You should be.",
 		"Six seasons and a movie!",
-		"I'm tired boss"
+		"I'm tired boss",
+		"Jimmy Pop is an Idol, fight me",
+		"Try out Wasabi too!"
 	]
 	UiHelper.flash_message(message_opts.pick_random(), 5.0)

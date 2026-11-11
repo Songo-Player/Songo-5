@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://x6a7h67rwoqo"]
+[gd_scene load_steps=10 format=3 uid="uid://x6a7h67rwoqo"]
 
 [ext_resource type="Script" path="res://songo_app.gd" id="1_einrm"]
 [ext_resource type="PackedScene" uid="uid://cbel1ghs36ym0" path="res://scenes/theme_injections/theme_background_root/theme_background_root.tscn" id="5_77hak"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://dalui65p8m2es" path="res://scenes/flash_message_box/flash_message_box.tscn" id="10_3xlg5"]
 [ext_resource type="PackedScene" uid="uid://bhr3buckg1vxs" path="res://scenes/theme_injections/theme_header/theme_header.tscn" id="10_flm4y"]
 [ext_resource type="Script" path="res://scenes/theme_injections/theme_song_follow/theme_song_follow.gd" id="11_pok2t"]
-[ext_resource type="PackedScene" uid="uid://ctuex0ktcjrg0" path="res://scenes/overlay_container/overlay_container.tscn" id="13_kae6m"]
 [ext_resource type="Script" path="res://scenes/theme_injections/theme_footer/theme_footer.gd" id="15_mra02"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_75gu8"]
@@ -193,6 +192,3 @@ mouse_filter = 1
 z_index = 1
 layout_mode = 2
 script = ExtResource("15_mra02")
-
-[node name="OverlayContainer" parent="CanvasLayer/TransformContainer" instance=ExtResource("13_kae6m")]
-layout_mode = 1

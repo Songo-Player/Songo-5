@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# Knulli Scarab onwards: idlewatcher skips its idle action (dim, dispoff,
+# suspend, shutdown) and extended action (suspend, shutdown) while any *.pause
+# file exists here. Knulli's own gamestart-hook.pause is cleared for ports, so
+# we use our own.
+mkdir -p /var/run/battery-saver
+touch /var/run/battery-saver/songo.pause
+
+# Hide the board's "lid" capability while music plays. lid-control (run by
+# triggerhappy on lid events), lid_shutdown and the post-resume hook all exit
+# early without it, so closing the lid does nothing: no suspend, no display
+# off, no mute. A bind mount is gone after a reboot, so a crash can't leave it.
+# Same as knulli_pre_scarab, where the file had the batocera name.
+CAPABILITY="/boot/boot/knulli.board.capability"
+OVERRIDE="/tmp/songo-board-capability"
+
+# Checked before copying, otherwise we'd copy our own override
+if [ -f "$CAPABILITY" ] && ! findmnt -n "$CAPABILITY" >/dev/null 2>&1; then
+    sed 's/\blid\b//g' "$CAPABILITY" | tr -s ' ' > "$OVERRIDE"
+    mount --bind "$OVERRIDE" "$CAPABILITY"
+fi

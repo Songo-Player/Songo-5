@@ -36,7 +36,7 @@ func setup_collection(collection_arg):
 		list_items = collection
 	sort_options = CollectionHelper.sort_options
 	if sort_options:
-		Callable(SongoSort, sort_options[sort_index]).call(list_items)
+		#Callable(SongoSort, sort_options[sort_index]).call(list_items)
 		$ThemeCollectionHeader.setup(sort_options[sort_index])
 	else:
 		$ThemeCollectionHeader.setup(false)

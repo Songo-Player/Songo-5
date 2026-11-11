@@ -1,0 +1,14 @@
+#!/bin/bash
+
+. /opt/muos/script/var/func.sh
+
+SET_VAR "config" "settings/power/idle_sleep" "$USERS_ORIGINAL_IDLE_SLEEP"
+SET_VAR "config" "settings/power/idle_display" "$USERS_ORIGINAL_IDLE_DISPLAY"
+HOTKEY restart
+
+HALLKEY="/sys/class/power_supply/axp2202-battery/hallkey"
+
+# Lazy unmount to handle busy sysfs, looped in case of stacked mounts
+while mountpoint -q "$HALLKEY"; do
+    umount -l "$HALLKEY" 2>/dev/null || break
+done

@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# muOS's battery daemon (mubattery) writes its own calibrated capacity here,
+# the same value muOS shows in its UI
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+. "$SCRIPT_DIR/../default/battery_common.sh"
+
+print_percent "$(cat /run/muos/battery/capacity 2>/dev/null | tr -d '[:space:]')" && exit 0
+
+# Daemon not running, read the device's configured capacity file
+CAPACITY_PATH=$(head -n 1 /opt/muos/device/config/battery/capacity 2>/dev/null)
+[ -n "$CAPACITY_PATH" ] && print_percent "$(cat "$CAPACITY_PATH" 2>/dev/null | tr -d '[:space:]')" && exit 0
+
+exec sh "$SCRIPT_DIR/../default/get_battery_percent"

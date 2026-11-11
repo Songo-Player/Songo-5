@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://d32ge8vgvrg6v"]
+[gd_scene load_steps=10 format=3 uid="uid://d32ge8vgvrg6v"]
 
 [ext_resource type="Script" path="res://scenes/settings_container/sub_containers/controller_settings/controller_settings.gd" id="1_khiq0"]
 [ext_resource type="Script" path="res://utilities/smooth_scroll_container.gd" id="2_h0d6n"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cugg5pnrtgmxg" path="res://assets/arrowLeft.svg" id="4_g3ggg"]
 [ext_resource type="Script" path="res://utilities/left_right_btn_container.gd" id="5_isikj"]
 [ext_resource type="Texture2D" uid="uid://c8jp7o8xasf1x" path="res://assets/arrowRight.svg" id="5_mrvw8"]
+[ext_resource type="Script" path="res://utilities/carousel_label.gd" id="5_pnt1g"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fn5hl"]
 bg_color = Color(0.130772, 0.130772, 0.130772, 1)
@@ -74,61 +75,502 @@ theme_override_constants/margin_bottom = 8
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="ABLayoutSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox"]
+[node name="MappingsSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/ABLayoutSetting"]
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsSetting"]
 layout_mode = 2
-text = "A/B Button Layout"
+text = "Controller Mappings"
 
-[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/ABLayoutSetting"]
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsSetting"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ABLayoutLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/ABLayoutSetting"]
+[node name="MappingsDisplayLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsSetting"]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 mouse_filter = 2
-theme_override_constants/minimum_character_width = 3
+theme_override_constants/minimum_character_width = 1
 text = "Default"
 expand_to_text_length = true
 
-[node name="ABLayoutButton" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/ABLayoutSetting" instance=ExtResource("3_w8b5a")]
+[node name="MappingsButton" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsSetting" instance=ExtResource("3_w8b5a")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_horizontal = 1
-text = "Swap"
+text = "Change"
 
-[node name="XYLayoutSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox"]
+[node name="MappingsPickerContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = -8
+theme_override_constants/margin_right = -8
+theme_override_constants/margin_bottom = -8
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="BindingRows" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="ConfirmSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/XYLayoutSetting"]
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/ConfirmSetting"]
 layout_mode = 2
-text = "X/Y Button Layout"
+text = "Confirm"
 
-[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/XYLayoutSetting"]
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/ConfirmSetting"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="XYLayoutLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/XYLayoutSetting"]
+[node name="ConfirmButtonLabelWrapper" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/ConfirmSetting"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
 focus_mode = 0
 mouse_filter = 2
 theme_override_constants/minimum_character_width = 3
-text = "Default"
 expand_to_text_length = true
 
-[node name="XYLayoutButton" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/XYLayoutSetting" instance=ExtResource("3_w8b5a")]
+[node name="ConfirmButtonLabel" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/ConfirmSetting/ConfirmButtonLabelWrapper"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -147.0
+offset_top = -14.0
+offset_bottom = 14.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 18
+text = "JOY_BUTTON_A"
+script = ExtResource("5_pnt1g")
+
+[node name="ConfirmSetButton" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/ConfirmSetting" instance=ExtResource("3_w8b5a")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_horizontal = 1
-text = "Swap"
+text = "Set"
+
+[node name="BackSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/BackSetting"]
+layout_mode = 2
+text = "Back"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/BackSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BackButtonLabelWrapper" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/BackSetting"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 3
+expand_to_text_length = true
+
+[node name="BackButtonLabel" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/BackSetting/BackButtonLabelWrapper"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -147.0
+offset_top = -14.0
+offset_bottom = 14.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 18
+text = "JOY_BUTTON_B"
+script = ExtResource("5_pnt1g")
+
+[node name="BackSetButton" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/BackSetting" instance=ExtResource("3_w8b5a")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Set"
+
+[node name="ShuffleSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/ShuffleSetting"]
+layout_mode = 2
+text = "Shuffle"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/ShuffleSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ShuffleButtonLabelWrapper" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/ShuffleSetting"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 3
+expand_to_text_length = true
+
+[node name="ShuffleButtonLabel" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/ShuffleSetting/ShuffleButtonLabelWrapper"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -147.0
+offset_top = -14.0
+offset_bottom = 14.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 18
+text = "JOY_BUTTON_X"
+script = ExtResource("5_pnt1g")
+
+[node name="ShuffleSetButton" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/ShuffleSetting" instance=ExtResource("3_w8b5a")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Set"
+
+[node name="QuickMenuSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/QuickMenuSetting"]
+layout_mode = 2
+text = "Quick Menu"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/QuickMenuSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="QuickMenuButtonLabelWrapper" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/QuickMenuSetting"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 3
+expand_to_text_length = true
+
+[node name="QuickMenuButtonLabel" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/QuickMenuSetting/QuickMenuButtonLabelWrapper"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -147.0
+offset_top = -14.0
+offset_bottom = 14.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 18
+text = "JOY_BUTTON_Y"
+script = ExtResource("5_pnt1g")
+
+[node name="QuickMenuSetButton" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/QuickMenuSetting" instance=ExtResource("3_w8b5a")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Set"
+
+[node name="L1Setting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/L1Setting"]
+layout_mode = 2
+text = "L1"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/L1Setting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="L1ButtonLabelWrapper" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/L1Setting"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 3
+expand_to_text_length = true
+
+[node name="L1ButtonLabel" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/L1Setting/L1ButtonLabelWrapper"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -147.0
+offset_top = -14.0
+offset_bottom = 14.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 18
+text = "JOY_BUTTON_LEFT_SHOULDER"
+script = ExtResource("5_pnt1g")
+
+[node name="L1SetButton" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/L1Setting" instance=ExtResource("3_w8b5a")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Set"
+
+[node name="R1Setting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/R1Setting"]
+layout_mode = 2
+text = "R1"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/R1Setting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="R1ButtonLabelWrapper" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/R1Setting"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 3
+expand_to_text_length = true
+
+[node name="R1ButtonLabel" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/R1Setting/R1ButtonLabelWrapper"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -147.0
+offset_top = -14.0
+offset_bottom = 14.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 18
+text = "JOY_BUTTON_RIGHT_SHOULDER"
+script = ExtResource("5_pnt1g")
+
+[node name="R1SetButton" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/R1Setting" instance=ExtResource("3_w8b5a")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Set"
+
+[node name="L2Setting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/L2Setting"]
+layout_mode = 2
+text = "L2"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/L2Setting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="L2ButtonLabelWrapper" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/L2Setting"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 3
+expand_to_text_length = true
+
+[node name="L2ButtonLabel" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/L2Setting/L2ButtonLabelWrapper"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -147.0
+offset_top = -14.0
+offset_bottom = 14.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 18
+text = "JOY_AXIS_TRIGGER_LEFT"
+script = ExtResource("5_pnt1g")
+
+[node name="L2SetButton" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/L2Setting" instance=ExtResource("3_w8b5a")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Set"
+
+[node name="R2Setting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/R2Setting"]
+layout_mode = 2
+text = "R2"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/R2Setting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="R2ButtonLabelWrapper" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/R2Setting"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 3
+expand_to_text_length = true
+
+[node name="R2ButtonLabel" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/R2Setting/R2ButtonLabelWrapper"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -147.0
+offset_top = -14.0
+offset_bottom = 14.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 18
+text = "JOY_AXIS_TRIGGER_RIGHT"
+script = ExtResource("5_pnt1g")
+
+[node name="R2SetButton" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/R2Setting" instance=ExtResource("3_w8b5a")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Set"
+
+[node name="StartSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/StartSetting"]
+layout_mode = 2
+text = "Start"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/StartSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StartButtonLabelWrapper" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/StartSetting"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 3
+expand_to_text_length = true
+
+[node name="StartButtonLabel" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/StartSetting/StartButtonLabelWrapper"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -147.0
+offset_top = -14.0
+offset_bottom = 14.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 18
+text = "JOY_BUTTON_START"
+script = ExtResource("5_pnt1g")
+
+[node name="StartSetButton" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/StartSetting" instance=ExtResource("3_w8b5a")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Set"
+
+[node name="SelectSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/SelectSetting"]
+layout_mode = 2
+text = "Select"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/SelectSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SelectButtonLabelWrapper" type="LineEdit" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/SelectSetting"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 3
+expand_to_text_length = true
+
+[node name="SelectButtonLabel" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/SelectSetting/SelectButtonLabelWrapper"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -147.0
+offset_top = -14.0
+offset_bottom = 14.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 18
+text = "JOY_BUTTON_BACK"
+script = ExtResource("5_pnt1g")
+
+[node name="SelectSetButton" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/SelectSetting" instance=ExtResource("3_w8b5a")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Set"
 
 [node name="StickNavContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer"]
 layout_mode = 2
@@ -382,8 +824,17 @@ text = "Reset to Defaults
 
 [connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/ABLayoutSetting/ABLayoutButton" to="." method="_on_ab_layout_button_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/XYLayoutSetting/XYLayoutButton" to="." method="_on_xy_layout_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsSetting/MappingsButton" to="." method="_on_mappings_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/ConfirmSetting/ConfirmSetButton" to="." method="_on_confirm_set_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/BackSetting/BackSetButton" to="." method="_on_back_set_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/ShuffleSetting/ShuffleSetButton" to="." method="_on_shuffle_set_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/QuickMenuSetting/QuickMenuSetButton" to="." method="_on_quick_menu_set_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/L1Setting/L1SetButton" to="." method="_on_l1_set_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/R1Setting/R1SetButton" to="." method="_on_r1_set_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/L2Setting/L2SetButton" to="." method="_on_l2_set_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/R2Setting/R2SetButton" to="." method="_on_r2_set_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/StartSetting/StartSetButton" to="." method="_on_start_set_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MappingsPickerContainer/MarginContainer/BindingRows/SelectSetting/SelectSetButton" to="." method="_on_select_set_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StickNavContainer/MarginContainer/VBox/StickNavSetting/StickNavButton" to="." method="_on_stick_nav_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox/HBoxContainer/SeekForwardTimerDown" to="." method="_on_seek_forward_timer_down_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/SeekSettingsContainer/MarginContainer/SeekingSettings/Hbox/HBoxContainer/SeekForwardTimerUp" to="." method="_on_seek_forward_timer_up_pressed"]

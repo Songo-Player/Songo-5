@@ -1,0 +1,15 @@
+; The handheld copy of Songo-5's addons/songo_player_harness, with only the
+; arm64 build (release, built in the arm64 chroot). bin/ holds
+; libsongo_harness.linux.template_release.arm64.so, libsongo_engine.linux.arm64.so
+; and songo_bgplayer.linux.arm64. A plain arm64, as Songo's runtime matches
+; neither linux.arm64 nor sbc.arm64.
+
+[configuration]
+entry_symbol = "songo_harness_library_init"
+compatibility_minimum = 4.3
+
+[libraries]
+arm64 = "bin/libsongo_harness.linux.template_release.arm64.so"
+
+[dependencies]
+arm64 = { "bin/libsongo_engine.linux.arm64.so": "", "bin/songo_bgplayer.linux.arm64": "" }

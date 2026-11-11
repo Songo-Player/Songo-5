@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Clamshell lid sensors: bind-mount a "1" (lid open) over them while music
+# plays so the CFW doesn't sleep when the lid closes. A bind mount is gone
+# after a reboot, so a crash can't leave it.
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+HALLKEY_OVERRIDE="$SCRIPT_DIR/../hallkey"
+
+# RG35XX-SP / RG34XX-SP, Miyoo Flip
+for TARGET in \
+    /sys/class/power_supply/axp2202-battery/hallkey \
+    /sys/devices/platform/hall-mh248/hallvalue; do
+    [ -e "$TARGET" ] || continue
+    mountpoint -q "$TARGET" && continue
+
+    mount --bind "$HALLKEY_OVERRIDE" "$TARGET"
+done

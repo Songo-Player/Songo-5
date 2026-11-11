@@ -1,7 +1,7 @@
 extends Control
 class_name BallLineMusicVisualizer
 
-@export var bus_name := "Visualizer"
+const BallTexture = preload("res://internal_themes/Ringing/assets/ball_texture.gd")
 
 # Column layout
 @export var ball_radius := 6.0
@@ -19,24 +19,31 @@ class_name BallLineMusicVisualizer
 # Smoothing for the energy value (0-1, lower = smoother)
 @export var smoothing := 0.2
 
-var spectrum: AudioEffectSpectrumAnalyzerInstance
+# The engine's spectrum, which measures like Godot's spectrum analyzer
+# (see SongoPlayer.get_spectrum)
+var spectrum
 var energy := 0.0
-var offset := 0.0 # accumulated scroll distance
+var offset := 0.0 # scroll distance, wrapped to ball_spacing
 var visualizer_mode := "visualizer"
 
+# The column is drawn once on this and scrolled by moving it. It has to be a
+# Node2D, since the parent container controls this Control's position.
+var _column: Node2D
+
 func _ready() -> void:
-	var bus_index = AudioServer.get_bus_index(bus_name)
-	spectrum = AudioServer.get_bus_effect_instance(bus_index, 0)
+	spectrum = SongoPlayer.get_spectrum()
 	_update_visualizer_mode()
 	ThemeManager.theme_settings_updated.connect(_update_visualizer_mode)
 
+	_column = Node2D.new()
+	_column.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	_column.draw.connect(_draw_column)
+	add_child(_column)
+
+	get_parent().resized.connect(_column.queue_redraw)
+
 func _update_visualizer_mode() -> void:
 	visualizer_mode = ThemeManager.settings.get("line_dots_mode", "visualizer")
-
-func _get_ball_count() -> int:
-	var height = get_parent().size.y
-	# +2 extra balls so the wrap-around always covers the full height with no gaps
-	return int(ceil(height / ball_spacing)) + 2
 
 func _process(delta: float) -> void:
 	if not is_inside_tree(): return
@@ -64,18 +71,17 @@ func _process(delta: float) -> void:
 			target_energy = 0.0
 	energy = lerp(energy, target_energy, smoothing)
 	var speed = lerp(min_speed, max_speed, energy)
-	offset += speed * delta
+	# Dots repeat every ball_spacing, so wrapping there loops seamlessly forever
+	offset = fposmod(offset + speed * delta, ball_spacing)
 	if DeviceOS.sleeping == false:
-		queue_redraw()
+		_column.position.y = -offset
 
-func _draw() -> void:
+func _draw_column() -> void:
 	var size = get_parent().size
 	var center = size * 0.5
-	var ball_count = _get_ball_count()
-	var total_span = ball_count * ball_spacing
+	# One spacing of extra dots at the bottom, for the column to scroll up into
+	var ball_count = int(ceil(size.y / ball_spacing)) + 3
+	var first_y = fposmod(center.y, ball_spacing) - ball_spacing
 	for i in range(ball_count):
-		var raw_y = i * ball_spacing - offset
-		# Wrap around a symmetric range so dots loop seamlessly forever
-		var wrapped_y = fposmod(raw_y + total_span * 0.5, total_span) - total_span * 0.5
-		var pos = Vector2(center.x, center.y + wrapped_y)
-		draw_circle(pos, ball_radius, ball_color)
+		var pos = Vector2(center.x, first_y + i * ball_spacing)
+		BallTexture.draw(_column, pos, ball_radius, ball_color)

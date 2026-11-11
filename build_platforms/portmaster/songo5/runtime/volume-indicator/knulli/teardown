@@ -1,0 +1,12 @@
+#!/bin/sh
+
+ORIGINAL="/usr/bin/knulli-audio"
+NAME="$(basename "$ORIGINAL")"
+
+if findmnt -n "$ORIGINAL" >/dev/null 2>&1; then
+  echo "Unmounting wrapper from $ORIGINAL..."
+  umount -l "$ORIGINAL"
+fi
+
+# Remove temp files
+rm -f "/tmp/${NAME}-wrapper.sh" "/tmp/${NAME}-original.sh"

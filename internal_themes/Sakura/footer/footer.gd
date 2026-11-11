@@ -14,7 +14,9 @@ func _process(_delta):
 	
 func _update_nav_bar():
 	%NavLabel.text = " > ".join(Controller.nav_label)
-	visible = Controller.active_container is ThemeMainSongView
+	visible = Controller.is_song_view(Controller.active_container)
+	if visible:
+		_update_footer_display(SongoPlayer.current_song)
 
 func update_play_mode_icons():
 	%PlaylistProgress.visible = SongoPlayer.play_mode == SongoPlayer.MODE.LINEAR && SongoPlayer.repeating == false
@@ -28,7 +30,7 @@ func set_next_song_title():
 	
 func _update_footer_display(music_record):
 	await get_tree().process_frame
-	if Controller.active_container is ThemeMainSongView:
+	if Controller.is_song_view(Controller.active_container):
 		%FileTypeLabel.text = music_record.file_type.to_upper()
 		%PlaylistProgress.text = "%d / %d" % [SongoPlayer.play_index+1, SongoPlayer.music_files.size()]
 		update_play_mode_icons()

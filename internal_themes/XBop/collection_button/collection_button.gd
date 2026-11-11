@@ -44,7 +44,7 @@ func setup_playlist_record(record):
 	%PlaylistSummary.text = get_song_summary(record.music_records)
 	%PlaylistFallbackCover.show()
 	%PlaylistImage.hide()
-	modulate_targets = [%ArtistInfo]
+	modulate_targets = [%PlaylistInfo]
 	if record.img_path:
 		var loader = AsyncImageLoader.load_async(record.img_path)
 		loader.image_loaded.connect(func(texture):

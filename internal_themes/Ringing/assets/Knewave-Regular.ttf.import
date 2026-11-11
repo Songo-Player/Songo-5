@@ -2,7 +2,7 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://7qxv18dwsw0i"
+uid="uid://bv25i78qksh7u"
 path="res://.godot/imported/Knewave-Regular.ttf-6d161b629f9365f38e157174c2c11d9e.fontdata"
 
 [deps]
@@ -25,7 +25,7 @@ hinting=1
 subpixel_positioning=1
 oversampling=0.0
 Fallbacks=null
-fallbacks=[Resource("res://assets/fonts/NotoSansCJKjp-Medium.otf")]
+fallbacks=[]
 Compress=null
 compress=true
 preload=[]

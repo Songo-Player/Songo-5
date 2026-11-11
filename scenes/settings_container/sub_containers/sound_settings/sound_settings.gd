@@ -20,7 +20,6 @@ func _ui_settings_refresh():
 	update_playback_blend_ui()
 	update_use_equalizer_ui()
 	update_eq_ui()
-	update_force_44100hz_ui()
 
 		
 func handle_input(delta: float):
@@ -56,21 +55,6 @@ func _on_use_equalizer_button_pressed() -> void:
 	songo_settings.save()
 	SongoPlayer.apply_equalizer_settings()
 	update_use_equalizer_ui()
-
-func update_force_44100hz_ui():
-	if songo_settings.force_44100hz:
-		%Force44100hzEnabled.show()
-		%Force44100hzDisabled.hide()
-		%Force44100hzButton.text = "Disable"
-	else:
-		%Force44100hzEnabled.hide()
-		%Force44100hzDisabled.show()
-		%Force44100hzButton.text = "Enable"
-
-func _on_force_44100hz_button_pressed() -> void:
-	songo_settings.force_44100hz = not songo_settings.force_44100hz
-	songo_settings.save()
-	update_force_44100hz_ui()
 
 func update_eq_ui():
 	for band_index in range(1, SongoEqualizer.BAND_COUNT + 1):
@@ -112,23 +96,25 @@ func _on_music_volume_up_pressed() -> void:
 	SongoPlayer.set_vol(songo_settings.music_volume)
 	update_music_volume_ui()
 
+# Below about 50ms most devices can't keep the sound card fed, so it stops there
+const BUFFER_LENGTH_MIN_MS := 50
+const BUFFER_LENGTH_MAX_MS := 500
+
 func _on_buffer_length_down_pressed() -> void:
 	songo_settings.stream_buffer_length -= 5
-	if songo_settings.stream_buffer_length <= 0:
-		songo_settings.stream_buffer_length = 500
+	if songo_settings.stream_buffer_length < BUFFER_LENGTH_MIN_MS:
+		songo_settings.stream_buffer_length = BUFFER_LENGTH_MAX_MS
 	_update_buffer_length()
 	
 func _on_buffer_length_up_pressed() -> void:
 	songo_settings.stream_buffer_length += 5
-	if songo_settings.stream_buffer_length >= 505:
-		songo_settings.stream_buffer_length = 5
+	if songo_settings.stream_buffer_length > BUFFER_LENGTH_MAX_MS:
+		songo_settings.stream_buffer_length = BUFFER_LENGTH_MIN_MS
 	_update_buffer_length()
 	
 func _update_buffer_length():
 	songo_settings.save()
-	SongoPlayer.ffmpeg_audio_playback.set_buffer_length_ms(songo_settings.stream_buffer_length)
-	var target_playback = SongoPlayer.get_playback_position()
-	SongoPlayer.ffmpeg_audio_playback.seek(target_playback)
+	SongoPlayer.set_buffer_length_ms(songo_settings.stream_buffer_length)
 	update_stream_buffer_length_ui()
 
 func _on_playback_blend_down_pressed() -> void:
@@ -166,7 +152,7 @@ func _on_reset_to_defaults_button_pressed() -> void:
 	songo_settings.playback_blend_time = 4.0
 	songo_settings.use_equalizer = false
 	songo_settings.equalizer.reset()
-	songo_settings.force_44100hz = false
 	songo_settings.save()
 	SongoPlayer.apply_equalizer_settings()
+	SongoPlayer.set_buffer_length_ms(songo_settings.stream_buffer_length)
 	_ui_settings_refresh()

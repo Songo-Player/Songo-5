@@ -1,6 +1,8 @@
 extends ScrollContainer
 class_name SmoothScrollContainer
 
+signal drag_started
+
 @export var drag_enabled: bool = true
 @export_range(0.0, 0.999, 0.001) var friction: float = 0.96 ## higher = slides further after release
 @export var min_velocity: float = 20.0   
@@ -116,6 +118,14 @@ func _collect_focusable(root: Node) -> Array[Control]:
 	return result
 
 
+func is_scrolling() -> bool:
+	return _dragging or _velocity != Vector2.ZERO
+
+
+func stop_momentum() -> void:
+	_velocity = Vector2.ZERO
+
+
 func _gui_input(event: InputEvent) -> void:
 	if not drag_enabled:
 		return
@@ -154,6 +164,7 @@ func _on_drag(pos: Vector2, index: int) -> void:
 			_captured = true
 			_cancel_pending_button_press()
 			get_viewport().gui_release_focus()
+			drag_started.emit()
 		else:
 			return
 

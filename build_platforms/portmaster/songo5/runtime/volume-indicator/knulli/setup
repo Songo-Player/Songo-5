@@ -1,0 +1,51 @@
+#!/bin/sh
+
+# Knulli Scarab onwards: wraps knulli-audio so every setSystemVolume call also sends
+# the new volume to Godot (fires even when already at max/min)
+
+ORIGINAL="/usr/bin/knulli-audio"
+
+NAME="$(basename "$ORIGINAL")"
+BACKUP="/tmp/${NAME}-original.sh"
+WRAPPER="/tmp/${NAME}-wrapper.sh"
+
+# Avoid double mount. Checked before backing up, otherwise we'd copy our own
+# wrapper as the "original"
+if findmnt -n "$ORIGINAL" >/dev/null 2>&1; then
+  echo "Already bind-mounted, skipping"
+  exit 0
+fi
+
+echo "Backing up original script..."
+cp "$ORIGINAL" "$BACKUP"
+chmod +x "$BACKUP"
+
+echo "Creating wrapper script..."
+cat > "$WRAPPER" << 'WRAPPER_EOF'
+#!/bin/sh
+
+BACKUP="__BACKUP__"
+
+# Call original script, with all params
+"$BACKUP" "$@"
+RC=$?
+
+# If call is for setSystemVolume, send new volume to tcp
+if [ "$1" = "setSystemVolume" ]; then
+	# Send new vol value to Godot
+	HOST="127.0.0.1"
+	PORT="23456"
+
+	VAL=$("$BACKUP" getSystemVolume 2>/dev/null | tr -d '\n\r')
+
+	echo "$VAL" | nc "$HOST" "$PORT" 2>/dev/null &
+fi
+
+exit $RC
+WRAPPER_EOF
+
+sed -i "s#__BACKUP__#$BACKUP#" "$WRAPPER"
+chmod +x "$WRAPPER"
+
+echo "Bind-mounting wrapper over $ORIGINAL..."
+mount --bind "$WRAPPER" "$ORIGINAL"

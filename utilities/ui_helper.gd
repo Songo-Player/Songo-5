@@ -3,9 +3,6 @@ extends Node
 # Using this to decouple some tight crap in the main script
 enum EVENT {TOGGLE_INFO}
 signal ui_event(event: EVENT)
-# Sent by OverlayContainer as its transition fades in (faded_out = true) and back
-# out (false), so the main UI can fade in step with it over `duration`.
-signal transition_fade(faded_out: bool, duration: float)
 
 var darkout: Control
 var app_message: Control

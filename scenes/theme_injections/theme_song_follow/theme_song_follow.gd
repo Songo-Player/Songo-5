@@ -12,10 +12,12 @@ func _ready() -> void:
 		_on_started_new_song(music_record)
 		)
 	Controller.page_changed.connect(_on_page_change)
+	# Booting into music left playing shows it over whatever page is open
+	SongoPlayer.resumed_leftover_playback.connect(_on_page_change)
 
 
 func _process(delta):
-	if SongoPlayer.is_playing() && Controller.active_container is not ThemeMainSongView:
+	if SongoPlayer.is_playing() && not Controller.is_song_view(Controller.active_container):
 		handle_input(delta)
 	
 func setup():
@@ -41,13 +43,13 @@ func _setup_from_theme():
 func handle_input(delta: float):
 		if Input.is_action_just_pressed("L2"):
 			var target_playback = SongoPlayer.get_playback_position() - float(songo_settings.seek_backward_time)
-			SongoPlayer.ffmpeg_audio_playback.seek(max(target_playback, 0.0))
+			SongoPlayer.seek(max(target_playback, 0.0))
 			
 		if Input.is_action_just_pressed("R2"):
 			var target_playback = SongoPlayer.get_playback_position() + float(songo_settings.seek_forward_time)
 			var song_length = SongoPlayer.current_song.raw_length
 			if song_length > 0.0: target_playback = min(target_playback, song_length)
-			SongoPlayer.ffmpeg_audio_playback.seek(target_playback)
+			SongoPlayer.seek(target_playback)
 		
 		if Input.is_action_just_pressed("L1"):
 			var playback_position: float = SongoPlayer.get_playback_position()
@@ -66,7 +68,7 @@ func handle_input(delta: float):
 			Input.action_release("start") # In case triggered synthetically
 			
 		if Input.is_action_just_pressed("select"):
-			if UiHelper.overlay_window.visible:
+			if UiHelper.overlay_window && UiHelper.overlay_window.visible:
 				return
 			Controller.restore_state()
 			Input.action_release("select") # In case triggered synthetically
@@ -82,7 +84,7 @@ func _on_started_new_song(music_record: TagLibMusicRecord):
 		theme_element.setup_display_for(music_record)
 	
 func _on_page_change():
-	if Controller.active_container is ThemeMainSongView:
+	if Controller.is_song_view(Controller.active_container):
 		_kill_theme_element()
 	elif SongoPlayer.is_playing() && theme_element == null:
 		_setup_from_theme()

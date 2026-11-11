@@ -3,6 +3,34 @@ extends MarginContainer
 var index
 const DEFAULT_SCENE_PATH = "res://internal_themes/SongoClassic/collection_button/collection_button.tscn"
 var content_component = null
+var _content_container = null
+
+# Theme collection_button scenes hold one "*ButtonContainer" per record type.
+# Each row only ever shows one, so we build a stripped copy of the scene per
+# type once and instantiate that instead of the full scene for every row.
+# Theme scripts must not reference another type's container nodes.
+static var _variant_cache = {}  # "scene_path::container" -> PackedScene
+
+static func _container_for(record) -> String:
+	if record is TagLibMusicRecord: return "SongButtonContainer"
+	if record is TagLibAlbumRecord: return "AlbumButtonContainer"
+	if record is TagLibArtistRecord: return "ArtistButtonContainer"
+	if record is M3uCollection: return "PlaylistButtonContainer"
+	return ""  # e.g. SettingRecord, which uses none of them
+
+static func _get_variant(scene_path: String, keep_container: String) -> PackedScene:
+	var key = "%s::%s" % [scene_path, keep_container]
+	if _variant_cache.has(key): return _variant_cache[key]
+	var root = load(scene_path).instantiate()
+	for child in root.get_children():
+		if child.name.ends_with("ButtonContainer") and child.name != keep_container:
+			root.remove_child(child)
+			child.free()
+	var packed = PackedScene.new()
+	packed.pack(root)
+	root.free()
+	_variant_cache[key] = packed
+	return packed
 
 func _ready():
 	pass
@@ -16,12 +44,19 @@ func set_focus():
 	%Button.grab_focus()
 
 func setup(record, index_arg):
+	var container = _container_for(record)
+	# Pooled rows can be recycled for a different record type; rebuild if so.
+	if content_component != null and container != _content_container:
+		remove_child(content_component)
+		content_component.free()
+		content_component = null
 	if content_component == null:
 		var scene_path = ThemeManager.get_scene_path('collection_button')
 		if not scene_path:
 			scene_path = DEFAULT_SCENE_PATH
-			
-		content_component = load(scene_path).instantiate()
+
+		content_component = _get_variant(scene_path, container).instantiate()
+		_content_container = container
 		add_child(content_component)
 		#await get_tree().process_frame
 	if record is TagLibMusicRecord:

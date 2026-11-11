@@ -14,3 +14,8 @@ Regarding forking the Songo#5 app, I would appreciate some sort of crediting. I 
 - "Songo Redux" == OK
 
 The above represents my preference and ultimately isn't something I can or will try to enforce.
+
+## License
+Songo#5 Copyright (C) 2025-2026 Riley Cleary
+
+Songo#5 is licensed under the GNU General Public License version 3 or later. See [LICENSE.txt](LICENSE.txt). Third-party components and assets remain under their own licenses.

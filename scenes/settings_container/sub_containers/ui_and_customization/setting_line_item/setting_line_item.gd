@@ -1,7 +1,12 @@
-extends VBoxContainer
+extends MarginContainer
 class_name SettingLineItem
 
 signal value_updated(value)
+
+const TAIL_TEXTURE: Texture2D = preload("res://assets/folder_nested_line_long.png")
+const DEPENDENT_INSET := 28
+# Puts the tail's line slightly inset from the start of the parent setting's label.
+const TAIL_OFFSET_X := 6 - DEPENDENT_INSET
 
 var setting_info
 var setting_value
@@ -20,13 +25,31 @@ func setup(info, value):
 func _ready() -> void:
 	%SettingLabel.text = display_name
 	if setting_info.has("description"):
-		$SettingDescription.visible = true
-		$SettingDescription.text = setting_info["description"]
+		%SettingDescription.visible = true
+		%SettingDescription.text = setting_info["description"]
 
 	if _is_bool_setting():
 		setup_bool_setting()
 	elif _is_list_setting():
 		setup_list_setting()
+
+# Insets this setting and shows its tail if it depends on another setting.
+func set_dependent_depth(depth: int) -> void:
+	add_theme_constant_override("margin_left", DEPENDENT_INSET * depth)
+	%Tail.visible = depth > 0
+	if depth > 0:
+		var tail_texture := AtlasTexture.new()
+		tail_texture.atlas = TAIL_TEXTURE
+		%Tail.texture = tail_texture
+
+# Draws the tail from this setting's label row up through the space above it.
+# Only the end of the texture with the elbow is used, cropped to fit that space.
+func set_tail_reach(space_above: float) -> void:
+	var row_center: float = floorf($Content/Hbox.get_combined_minimum_size().y / 2.0)
+	var height: float = clampf(space_above + row_center, 0.0, TAIL_TEXTURE.get_height())
+	%Tail.texture.region = Rect2(0, TAIL_TEXTURE.get_height() - height, TAIL_TEXTURE.get_width(), height)
+	%Tail.position = Vector2(TAIL_OFFSET_X, row_center - height)
+	%Tail.size = Vector2(TAIL_TEXTURE.get_width(), height)
 
 func setup_bool_setting():
 	%BoolSwapButton.show()

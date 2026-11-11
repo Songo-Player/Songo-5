@@ -1,11 +1,11 @@
 extends Control
 class_name MusicVisualizer
 
-#@export var playback_node: FFmpegAudioPlaybackV2 # Reference your FFmpeg node
 @export var bar_count := 32
-@export var bus_name := "Visualizer"
 
-var spectrum: AudioEffectSpectrumAnalyzerInstance
+# The engine's spectrum, which measures like Godot's spectrum analyzer
+# (see SongoPlayer.get_spectrum)
+var spectrum
 var min_values := [] # Used for smoothing
 var max_values := []
 
@@ -17,8 +17,7 @@ func _process(_delta: float) -> void:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 		# Get the analyzer instance from the bus
-	var bus_index = AudioServer.get_bus_index(bus_name)
-	spectrum = AudioServer.get_bus_effect_instance(bus_index, 0)
+	spectrum = SongoPlayer.get_spectrum()
 	
 	min_values.resize(bar_count)
 	max_values.resize(bar_count)

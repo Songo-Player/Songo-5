@@ -1,9 +1,12 @@
 #!/usr/bin/env sh
-# Builds assets/fonts/NotoSansCJKjp-Medium.otf (the font the themes use) as a
-# subset of the full font in this folder. This folder has a .gdignore, so the
+# Builds two subsets of the full font in this folder:
+#  - assets/fonts/NotoSansCJKjp-Medium-Latin.otf, the font the themes use. Latin,
+#    Greek, Cyrillic and symbols only, so it's small and quick to load at boot.
+#  - assets/fonts/NotoSansCJKjp-Medium.otf, the CJK set below. songo_app attaches
+#    it as the Latin font's fallback once the first screen is up. This folder has a .gdignore, so the
 # full 16MB font is never imported or exported by Godot.
 #
-# Kept: Latin + Latin extended, Greek, Cyrillic, general punctuation/symbols,
+# CJK subset keeps: Latin + Latin extended, Greek, Cyrillic, general punctuation/symbols,
 # CJK punctuation, hiragana, katakana, half/full-width forms, and every
 # character in JIS X 0208 (all JIS Level 1 + Level 2 kanji plus its symbols).
 # Dropped: Hangul and the rarer CJK ideographs outside JIS X 0208.
@@ -50,4 +53,10 @@ pyftsubset NotoSansCJKjp-Medium.otf \
     --unicodes-file=unicodes.txt \
     --output-file=../NotoSansCJKjp-Medium.otf
 rm unicodes.txt
-ls -l NotoSansCJKjp-Medium.otf ../NotoSansCJKjp-Medium.otf
+
+# Latin subset: the same ranges minus CJK punctuation, kana, half/full-width
+# forms and kanji.
+pyftsubset NotoSansCJKjp-Medium.otf \
+    --unicodes="U+0020-024F,U+0370-03FF,U+0400-04FF,U+1E00-1EFF,U+2000-206F,U+2070-209F,U+20A0-20CF,U+2100-218F,U+2190-21FF,U+2460-24FF,U+2500-25FF,U+2600-26FF" \
+    --output-file=../NotoSansCJKjp-Medium-Latin.otf
+ls -l NotoSansCJKjp-Medium.otf ../NotoSansCJKjp-Medium.otf ../NotoSansCJKjp-Medium-Latin.otf

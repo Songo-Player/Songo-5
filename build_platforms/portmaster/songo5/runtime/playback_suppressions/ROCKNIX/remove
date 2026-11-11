@@ -1,0 +1,13 @@
+#!/bin/bash
+
+PIDFILE="/tmp/songo-lid-inhibit.pid"
+
+if [ -f "$PIDFILE" ]; then
+    kill "$(cat "$PIDFILE")" 2>/dev/null
+    rm -f "$PIDFILE"
+fi
+
+. /etc/profile.d/001-functions
+
+# "default" deletes the setting, restoring it to unset
+set_setting system.suspend.enable "${USERS_ORIGINAL_FAKE_SUSPEND:-default}"

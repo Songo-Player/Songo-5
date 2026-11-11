@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Prints 1 if the battery is charging, 0 otherwise
+# Same battery ROCKNIX's rocknix-info reports
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+. "$SCRIPT_DIR/../default/battery_common.sh"
+
+for DIR in /sys/class/power_supply/[Bb][Aa][Tt]*; do
+    [ -d "$DIR" ] || continue
+    STATUS=$(head -n 1 "$DIR/status" 2>/dev/null | tr -d '\r')
+    [ -n "$STATUS" ] && { print_charging "$STATUS"; exit 0; }
+done
+
+exec sh "$SCRIPT_DIR/../default/get_charging"

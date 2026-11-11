@@ -1,0 +1,81 @@
+[gd_scene load_steps=3 format=3 uid="uid://bnenaldmeoh57"]
+
+[ext_resource type="Script" path="res://internal_themes/SongoClassic/main_menu_4/main_menu_4.gd" id="1_d4e7b"]
+[ext_resource type="Script" path="res://utilities/rotation_container.gd" id="2_r0tcn"]
+
+[node name="MainMenu4" type="ScrollContainer"]
+process_mode = 1
+clip_contents = false
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+script = ExtResource("1_d4e7b")
+
+[node name="Content" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+theme_override_constants/separation = 16
+
+[node name="FocusLabelColumn" type="Container" parent="Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+script = ExtResource("2_r0tcn")
+
+[node name="FocusLabelSlot" type="Control" parent="Content/FocusLabelColumn"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="FocusLabel" type="Label" parent="Content/FocusLabelColumn/FocusLabelSlot"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 48
+horizontal_alignment = 2
+
+[node name="Rows" type="VBoxContainer" parent="Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TopRow" type="HBoxContainer" parent="Content/Rows"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="FlameContainer" type="PanelContainer" parent="Content/Rows/TopRow"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Content/Rows/TopRow/FlameContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="Content/Rows/TopRow/FlameContainer/MarginContainer"]
+layout_mode = 2
+text = "Are you proud of yourself?
+I like minimalism too but come on dude"
+horizontal_alignment = 1
+
+[node name="BottomRow" type="HBoxContainer" parent="Content/Rows"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[connection signal="resized" from="." to="." method="_on_resized"]
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]

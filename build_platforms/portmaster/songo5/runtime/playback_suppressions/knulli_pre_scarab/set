@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# Knulli before Scarab: battery-saver.sh skips its idle action (dim, dispoff,
+# suspend, shutdown) and extended action (suspend, shutdown) while any *.pause
+# file exists here.
+mkdir -p /var/run/battery-saver
+touch /var/run/battery-saver/songo.pause
+
+# Hide the board's "lid" capability while music plays, lid-control exits early
+# without it. A bind mount is gone after a reboot, so a crash can't leave it.
+CAPABILITY="/boot/boot/batocera.board.capability"
+OVERRIDE="/tmp/songo-board-capability"
+
+# Checked before copying, otherwise we'd copy our own override
+if [ -f "$CAPABILITY" ] && ! findmnt -n "$CAPABILITY" >/dev/null 2>&1; then
+    sed 's/\blid\b//g' "$CAPABILITY" | tr -s ' ' > "$OVERRIDE"
+    mount --bind "$OVERRIDE" "$CAPABILITY"
+fi

@@ -1,0 +1,12 @@
+#!/bin/bash
+. "/opt/muos/script/var/func.sh"
+
+# No DISPLAY_SYSFS_BACKLIGHT before Andromeda, DISPLAY_READ only reads
+# dispdbg, which is already 0-255
+RAW="$(DISPLAY_READ lcd0 getbl)"
+
+case "$RAW" in
+  ''|*[!0-9]*) echo "155"; exit 1 ;;
+esac
+
+echo "$RAW"

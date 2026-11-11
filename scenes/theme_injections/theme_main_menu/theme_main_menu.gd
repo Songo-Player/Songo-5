@@ -1,10 +1,11 @@
 extends MarginContainer
 class_name ThemeMainMenu
 
-const DEFAULT_SCENE_PATH = "res://internal_themes/SongoClassic/main_menu/main_menu.tscn"
+const DEFAULT_SCENE_PATH = "res://internal_themes/SongoClassic/main_menu_3/main_menu_3.tscn"
 var songo_settings = SongoSettings.get_instance()
 var theme_element: Control
 var theme_path
+var _scene_path
 var _menu_visibility_snapshot: Dictionary = {}
 
 
@@ -38,6 +39,7 @@ func _setup_from_theme():
 	else:
 		new_element = load(DEFAULT_SCENE_PATH).instantiate()
 	theme_path = ThemeManager.theme_path
+	_scene_path = theme_component_path
 	theme_element = new_element
 	_menu_visibility_snapshot = songo_settings.menu_visibility.duplicate()
 	add_child(new_element)
@@ -51,7 +53,7 @@ func _menu_visibility_changed() -> bool:
 	return songo_settings.menu_visibility != _menu_visibility_snapshot
 
 func _on_tree_entered() -> void:
-	if theme_element == null || ThemeManager.theme_path != theme_path || _menu_visibility_changed():
+	if theme_element == null || ThemeManager.theme_path != theme_path || ThemeManager.get_scene_path('main_menu') != _scene_path || _menu_visibility_changed():
 		_setup_from_theme()
 	await get_tree().process_frame
 	$FocusFixTimer.start()

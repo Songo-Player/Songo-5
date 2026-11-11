@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Prints battery capacity 0-100, or nothing and exit 1 if unavailable
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+. "$SCRIPT_DIR/battery_common.sh"
+
+DIR=$(find_battery_dir) || exit 1
+print_percent "$(cat "$DIR/capacity" 2>/dev/null | tr -d '[:space:]')" || exit 1

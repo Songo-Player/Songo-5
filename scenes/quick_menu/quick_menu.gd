@@ -8,7 +8,7 @@ var songo_settings = SongoSettings.get_instance()
 var showing: bool = false
 
 # Set by the SBC launcher when the background player is available
-var bg_play_available: bool = OS.get_environment("SONGO_SBC_BG_PLAY") == "1"
+var bg_play_available: bool = true || OS.get_environment("SONGO_SBC_BG_PLAY") == "1"
 
 
 func open_menu() -> void:
@@ -68,7 +68,7 @@ func handle_queue_music():
 		UiHelper.flash_message("Queued %s" % queue_song.title)
 
 func get_playlist_target_song():
-	if Controller.active_container is ThemeMainSongView:
+	if Controller.is_song_view(Controller.active_container):
 		# Network streams aren't library files, so they can't go in playlists.
 		if SongoPlayer.is_current_stream(): return null
 		return SongoPlayer.get_current_music_record()
@@ -128,7 +128,7 @@ func update_quick_menu_vals():
 	if (target_collection == null && target_song == null) || songo_data.target_playlist == null:
 		%AddRemoveInPlaylistQuick.hide()
 
-	if Controller.active_container is AllSongsContainerV2 && target_song && SongoPlayer.is_playing():
+	if Controller.is_song_list(Controller.active_container) && target_song && SongoPlayer.is_playing():
 		actions_available = true
 		%QueueSong.show()
 	else:

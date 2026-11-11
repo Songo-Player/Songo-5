@@ -17,7 +17,8 @@ func _ready() -> void:
 	SongoPlayer.started_new_song.connect(_on_started_new_song)
 	SongoPlayer.music_stopped.connect(_on_music_stopped)
 	SongoPlayer.music_started.connect(_on_music_started)
-	LrcScrape.lrc_saved.connect(_on_lrc_saved)
+	# Started after LrcScrape by songo_app, neither is an autoload
+	get_node("/root/LrcScrape").lrc_saved.connect(_on_lrc_saved)
 
 func _process(_delta: float) -> void:
 	if not _active or not SongoPlayer.is_playing(): return
@@ -29,7 +30,7 @@ func _process(_delta: float) -> void:
 		_resync(pos)
 	else:
 		while _next_lyric_index < _lyrics.size() and pos >= _lyrics[_next_lyric_index].time:
-			if songo_settings.render_lyrics && Controller.active_container is ThemeMainSongView:
+			if songo_settings.render_lyrics && Controller.is_song_view(Controller.active_container):
 				if display_lyric.get_connections().size() >= 1:
 					display_lyric.emit(_lyrics[_next_lyric_index].text)
 				else:

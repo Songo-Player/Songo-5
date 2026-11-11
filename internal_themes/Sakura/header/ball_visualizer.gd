@@ -4,9 +4,10 @@ class_name BallMusicVisualizer
 @export var ball_count := 32
 @export var ball_base_size := 3.0
 @export var ball_color := Color(0, 0, 0, 0.45)       # Starting/minimum radius of each ball
-@export var bus_name := "Visualizer"
 
-var spectrum: AudioEffectSpectrumAnalyzerInstance
+# The engine's spectrum, which measures like Godot's spectrum analyzer
+# (see SongoPlayer.get_spectrum)
+var spectrum
 var max_values := []
 
 func _process(_delta: float) -> void:
@@ -15,8 +16,7 @@ func _process(_delta: float) -> void:
 		queue_redraw()
 
 func _ready() -> void:
-	var bus_index = AudioServer.get_bus_index(bus_name)
-	spectrum = AudioServer.get_bus_effect_instance(bus_index, 0)
+	spectrum = SongoPlayer.get_spectrum()
 
 	max_values.resize(ball_count)
 	max_values.fill(0.0)

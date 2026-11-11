@@ -103,5 +103,5 @@ func _on_stream_title_changed(title: String) -> void:
 	var record = SongoPlayer.get_current_music_record()
 	if not _is_station_record(record) || not settings.show_stream_titles: return
 	record.artist = title if not title.is_empty() else record.get_meta("default_artist", RadioStation.DEFAULT_SUBTITLE)
-	if Controller.active_container is ThemeMainSongView:
+	if Controller.is_song_view(Controller.active_container):
 		Controller.active_container.refresh_display()

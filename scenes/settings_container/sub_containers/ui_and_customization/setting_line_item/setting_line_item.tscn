@@ -6,27 +6,30 @@
 [ext_resource type="Texture2D" uid="uid://cugg5pnrtgmxg" path="res://assets/arrowLeft.svg" id="3_if1fg"]
 [ext_resource type="Texture2D" uid="uid://c8jp7o8xasf1x" path="res://assets/arrowRight.svg" id="4_3h8c4"]
 
-[node name="SettingLineItem" type="VBoxContainer"]
+[node name="SettingLineItem" type="MarginContainer"]
 offset_right = 40.0
 offset_bottom = 40.0
-theme_override_constants/separation = 0
 script = ExtResource("1_7daaf")
 
-[node name="Hbox" type="HBoxContainer" parent="."]
+[node name="Content" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Hbox" type="HBoxContainer" parent="Content"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="SettingLabel" type="Label" parent="Hbox"]
+[node name="SettingLabel" type="Label" parent="Content/Hbox"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Setting Label
 "
 
-[node name="HSeparator" type="HSeparator" parent="Hbox"]
+[node name="HSeparator" type="HSeparator" parent="Content/Hbox"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SettingValueLabel" type="LineEdit" parent="Hbox"]
+[node name="SettingValueLabel" type="LineEdit" parent="Content/Hbox"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -36,39 +39,39 @@ theme_override_constants/minimum_character_width = 3
 text = "Current Value"
 expand_to_text_length = true
 
-[node name="SettingValueTrueLabel" type="Label" parent="Hbox"]
+[node name="SettingValueTrueLabel" type="Label" parent="Content/Hbox"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
 text = "True"
 
-[node name="SettingValueFalseLabel" type="Label" parent="Hbox"]
+[node name="SettingValueFalseLabel" type="Label" parent="Content/Hbox"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
 text = "False"
 
-[node name="PrevNextContainer" type="HBoxContainer" parent="Hbox"]
+[node name="PrevNextContainer" type="HBoxContainer" parent="Content/Hbox"]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 script = ExtResource("2_g7tda")
 
-[node name="PrevValueButton" parent="Hbox/PrevNextContainer" instance=ExtResource("2_k2yu8")]
+[node name="PrevValueButton" parent="Content/Hbox/PrevNextContainer" instance=ExtResource("2_k2yu8")]
 layout_mode = 2
 text = "
 "
 icon = ExtResource("3_if1fg")
 
-[node name="NextValueButton" parent="Hbox/PrevNextContainer" instance=ExtResource("2_k2yu8")]
+[node name="NextValueButton" parent="Content/Hbox/PrevNextContainer" instance=ExtResource("2_k2yu8")]
 layout_mode = 2
 text = ""
 icon = ExtResource("4_3h8c4")
 
-[node name="BoolSwapButton" parent="Hbox" instance=ExtResource("2_k2yu8")]
+[node name="BoolSwapButton" parent="Content/Hbox" instance=ExtResource("2_k2yu8")]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(80, 0)
@@ -77,7 +80,7 @@ size_flags_horizontal = 1
 text = "Swap
 "
 
-[node name="SettingDescription" type="Label" parent="."]
+[node name="SettingDescription" type="Label" parent="Content"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -85,6 +88,20 @@ theme_override_font_sizes/font_size = 14
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
 autowrap_mode = 2
 
-[connection signal="pressed" from="Hbox/PrevNextContainer/PrevValueButton" to="." method="_on_prev_value_button_pressed"]
-[connection signal="pressed" from="Hbox/PrevNextContainer/NextValueButton" to="." method="_on_next_value_button_pressed"]
-[connection signal="pressed" from="Hbox/BoolSwapButton" to="." method="_on_bool_swap_button_pressed"]
+[node name="TailAnchor" type="Control" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_filter = 2
+
+[node name="Tail" type="TextureRect" parent="TailAnchor"]
+unique_name_in_owner = true
+visible = false
+texture_filter = 1
+layout_mode = 0
+mouse_filter = 2
+expand_mode = 1
+
+[connection signal="pressed" from="Content/Hbox/PrevNextContainer/PrevValueButton" to="." method="_on_prev_value_button_pressed"]
+[connection signal="pressed" from="Content/Hbox/PrevNextContainer/NextValueButton" to="." method="_on_next_value_button_pressed"]
+[connection signal="pressed" from="Content/Hbox/BoolSwapButton" to="." method="_on_bool_swap_button_pressed"]

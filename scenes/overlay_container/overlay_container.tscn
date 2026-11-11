@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://ctuex0ktcjrg0"]
+[gd_scene load_steps=10 format=3 uid="uid://ctuex0ktcjrg0"]
 
 [ext_resource type="Script" path="res://utilities/window_overlay.gd" id="1_geivj"]
 [ext_resource type="Script" path="res://scenes/overlay_container/overlay_container.gd" id="1_wvgni"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://byrf2kolyhycf" path="res://scenes/quick_menu/quick_menu.tscn" id="4_tkbd0"]
 [ext_resource type="PackedScene" uid="uid://d04khqj3ibmkx" path="res://scenes/volume_container/volume_container.tscn" id="5_vol01"]
 [ext_resource type="PackedScene" uid="uid://dpkuxp51tlyqk" path="res://keyboard.tscn" id="6_kbd01"]
-[ext_resource type="Theme" uid="uid://wvqbwd6ybd6m" path="res://assets/songo_base_theme.tres" id="7_wxuk6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c4qk5"]
 bg_color = Color(0, 0, 0, 0.729412)
@@ -183,21 +182,3 @@ z_index = 1
 layout_mode = 2
 theme_override_constants/margin_top = 0
 theme_override_constants/margin_bottom = 0
-
-[node name="DarkOutTransition" type="MarginContainer" parent="."]
-unique_name_in_owner = true
-layout_mode = 2
-mouse_filter = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="DarkOutTransition"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme = ExtResource("7_wxuk6")
-theme_type_variation = &"SongoPanel"
-
-[node name="Label" type="Label" parent="DarkOutTransition/PanelContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 24
-text = "Fast Travelling..."

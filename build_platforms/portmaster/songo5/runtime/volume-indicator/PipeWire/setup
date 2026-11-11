@@ -1,0 +1,29 @@
+#!/bin/sh
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+DIR="/tmp/songo-vol"
+WRAPPER="$DIR/vol_wrapper"
+
+mkdir -p "$DIR"
+
+echo "Copying wrapper script..."
+cp "$SCRIPT_DIR/vol_wrapper" "$WRAPPER"
+chmod +x "$WRAPPER"
+
+for NAME in wpctl pactl; do
+    BIN=$(command -v "$NAME" 2>/dev/null) || { echo "$NAME not found, skipping"; continue; }
+    BIN=$(readlink -f "$BIN")
+
+    # Check the mount before copying, otherwise we'd back up our own wrapper
+    if grep -q " $BIN " /proc/mounts; then
+        echo "$BIN already bind-mounted, skipping"
+        continue
+    fi
+
+    echo "Backing up $BIN..."
+    cp "$BIN" "$DIR/$NAME.orig"
+    chmod +x "$DIR/$NAME.orig"
+
+    echo "Bind-mounting wrapper over $BIN..."
+    mount --bind "$WRAPPER" "$BIN" && echo "$BIN" >> "$DIR/mounted"
+done

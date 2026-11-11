@@ -1,0 +1,10 @@
+#!/bin/sh
+
+rm -f /var/run/battery-saver/songo.pause
+
+CAPABILITY="/boot/boot/batocera.board.capability"
+
+if findmnt -n "$CAPABILITY" >/dev/null 2>&1; then
+    umount -l "$CAPABILITY"
+fi
+rm -f /tmp/songo-board-capability

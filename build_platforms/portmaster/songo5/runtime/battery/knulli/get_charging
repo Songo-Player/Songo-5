@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Prints 1 if the battery is charging, 0 otherwise
+# Knulli Scarab onwards: knulli-battery-check prefers batteryplus's /tmp/battery.status
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+. "$SCRIPT_DIR/../default/battery_common.sh"
+
+STATUS=$(knulli-battery-check status 2>/dev/null | head -n 1 | tr -d '\r')
+[ -n "$STATUS" ] && { print_charging "$STATUS"; exit 0; }
+
+exec sh "$SCRIPT_DIR/../default/get_charging"

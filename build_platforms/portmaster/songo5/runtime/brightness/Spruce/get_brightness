@@ -1,0 +1,79 @@
+#!/bin/sh
+
+# Prints 0-255. Spruce values are raw backlight values, so scale them from
+# the panel's range when its max isn't 255.
+
+# $1 raw value, $2 max_brightness file
+to_255() {
+    max=$(cat "$2" 2>/dev/null)
+    case "$max" in
+        ''|*[!0-9]*|0) max=255 ;;
+    esac
+    val=$(( ($1 * 255 + max / 2) / max ))
+    [ "$val" -gt 255 ] && val=255
+    echo "$val"
+}
+
+if [ -n "${DEVICE_BRIGHTNESS_PATH}" ] && [ -f "${DEVICE_BRIGHTNESS_PATH}" ]; then
+    DEVICE_BRIGHTNESS_VAL=$(cat "$DEVICE_BRIGHTNESS_PATH" 2>/dev/null)
+    DEVICE_MAX_PATH="$(dirname "$DEVICE_BRIGHTNESS_PATH")/max_brightness"
+    DEVICE_MAX=$(cat "$DEVICE_MAX_PATH" 2>/dev/null)
+    case "$DEVICE_MAX" in
+        ''|*[!0-9]*|0) DEVICE_MAX=255 ;;
+    esac
+
+    case "$DEVICE_BRIGHTNESS_VAL" in
+        ''|*[!0-9]*)
+            ;;
+        *)
+            if [ "$DEVICE_BRIGHTNESS_VAL" -ge 0 ] && [ "$DEVICE_BRIGHTNESS_VAL" -le "$DEVICE_MAX" ]; then
+                to_255 "$DEVICE_BRIGHTNESS_VAL" "$DEVICE_MAX_PATH"
+                exit 0
+            fi
+            ;;
+    esac
+fi
+
+. /mnt/SDCARD/spruce/scripts/helperFunctions.sh
+
+# The mapped values below are raw values for the backlight default/set_brightness writes to
+BL_MAX_PATH="/nonexistent"
+[ "$BL_TYPE" = "TYPE2" ] && BL_MAX_PATH="$(dirname "$SYSFS_BL_BRIGHTNESS")/max_brightness"
+
+brightness_spruce="$(current_backlight)"
+
+case "$brightness_spruce" in
+    ''|*[!0-9]*)
+        echo 155
+        exit 1
+        ;;
+esac
+
+if [ "$brightness_spruce" -lt 0 ] || [ "$brightness_spruce" -gt 10 ]; then
+    echo 155
+    exit 1
+fi
+
+if [ -n "${SYSTEM_BRIGHTNESS_0+x}" ]; then
+    varname="SYSTEM_BRIGHTNESS_$brightness_spruce"
+
+    eval "mapped_val=\${$varname}"
+
+    case "$mapped_val" in
+        ''|*[!0-9]*)
+            echo 155
+            exit 1
+            ;;
+    esac
+
+    to_255 "$mapped_val" "$BL_MAX_PATH"
+    exit 0
+fi
+
+# This should just be for Brick and Smart pro
+if [ "$brightness_spruce" -lt 2 ]; then
+    echo 4
+else
+    val_255=$(( (brightness_spruce - 1) * 254 / 9 + 1 ))
+    echo "$val_255"
+fi

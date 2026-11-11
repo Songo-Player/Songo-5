@@ -1,6 +1,6 @@
 extends MarginContainer
 
-# OverlayContainer runs the jump so it can fade the transition around it.
+# OverlayContainer runs the jump so it can hold input off the UI during it.
 signal go_to_collection_requested(index_action: Callable, collection)
 
 var info_panel_track: TagLibMusicRecord
@@ -45,7 +45,7 @@ func set_for_track(track: TagLibMusicRecord):
 	%AlbumIdLiteralLabel.visible = track.musicbrainz_album_id != ""
 	%MbAlbumIdLabel.text = track.musicbrainz_album_id
 	
-	%HasLyrics.visible = FileAccess.file_exists(LrcScrape.get_lrc_path(track.full_path))
+	%HasLyrics.visible = FileAccess.file_exists(track.full_path.get_basename() + ".lrc")
 	%ListenCountLabel.text = "%d" % track.listen_count
 
 func format_file_size(bytes: int) -> String:

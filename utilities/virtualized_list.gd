@@ -173,6 +173,21 @@ func wrap_to_top() -> void:
 ## Scrolls so data_items[index] is realised in the pool, then focuses it.
 func focus_index(index: int) -> void:
 	if index < 0 or index >= total_items or item_pool.is_empty(): return
+	_scroll_to_index(index)
+	_focus_pool_item_for(index)
+
+	# The spacers only resize the content on the next layout pass, so the
+	# scroll above can get clamped short (recycling the pool under us), and
+	# follow_focus scrolls by the stale layout too. Redo both once it's caught
+	# up, unless focus has left the list since.
+	await get_tree().process_frame
+	if not is_inside_tree() or index >= total_items: return
+	var focus_owner = get_viewport().gui_get_focus_owner()
+	if focus_owner != null and not is_ancestor_of(focus_owner): return
+	_scroll_to_index(index)
+	_focus_pool_item_for(index)
+
+func _scroll_to_index(index: int) -> void:
 	# Matches _on_scroll_changed's (value / item_height) - 2 so the scroll
 	# below doesn't recycle the pool out from under us.
 	first_visible_index = clamp(index - 2, 0, max(0, total_items - visible_item_count))
@@ -180,7 +195,10 @@ func focus_index(index: int) -> void:
 	update_visible_items()
 	scroll_vertical = int(item_height * index)
 
-	var item = item_pool[index - first_visible_index]
+func _focus_pool_item_for(index: int) -> void:
+	var pool_index = index - first_visible_index
+	if pool_index < 0 or pool_index >= item_pool.size(): return
+	var item = item_pool[pool_index]
 	if "set_focus" in item:
 		item.set_focus()
 	else:

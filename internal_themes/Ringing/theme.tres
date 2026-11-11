@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=11 format=3 uid="uid://bhmt8rt664jqw"]
 
-[ext_resource type="FontFile" uid="uid://fhmejhs3d6m0" path="res://assets/fonts/NotoSansCJKjp-Medium.otf" id="1_22c5f"]
+[ext_resource type="FontFile" path="res://assets/fonts/NotoSansCJKjp-Medium-Latin.otf" id="1_22c5f"]
 [ext_resource type="FontFile" uid="uid://7qxv18dwsw0i" path="res://internal_themes/Ringing/assets/Knewave-Regular.ttf" id="2_yuign"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eatph"]

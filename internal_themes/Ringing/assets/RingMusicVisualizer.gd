@@ -1,7 +1,8 @@
 
 extends Control
 class_name RingMusicVisualizer
-@export var bus_name := "Visualizer"
+
+const BallTexture = preload("res://internal_themes/Ringing/assets/ball_texture.gd")
 
 # Ring layout
 @export var ball_count := 12
@@ -20,7 +21,9 @@ class_name RingMusicVisualizer
 # Smoothing for the energy value (0-1, lower = smoother)
 @export var smoothing := 0.2
 
-var spectrum: AudioEffectSpectrumAnalyzerInstance
+# The engine's spectrum, which measures like Godot's spectrum analyzer
+# (see SongoPlayer.get_spectrum)
+var spectrum
 var energy := 0.0
 var angle := 0.0
 var visualizer_mode := "visualizer"
@@ -29,14 +32,22 @@ var visualizer_mode := "visualizer"
 var slice_min_hz := 20.0
 var slice_max_hz := 20000.0
 
+# The ring is drawn once on this and spun by rotating it. It has to be a Node2D,
+# since rotating a Control redraws it.
+var _spinner: Node2D
+
 
 func _ready() -> void:
-	var bus_index = AudioServer.get_bus_index(bus_name)
-	spectrum = AudioServer.get_bus_effect_instance(bus_index, 0)
+	spectrum = SongoPlayer.get_spectrum()
 	_compute_slice()
 	_update_visualizer_mode()
 	ThemeManager.theme_settings_updated.connect(_update_visualizer_mode)
-	# The ring is drawn once and spun via node rotation, so only redraw on layout changes
+
+	_spinner = Node2D.new()
+	_spinner.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	_spinner.draw.connect(_draw_ring)
+	add_child(_spinner)
+
 	get_parent().resized.connect(_update_layout)
 	_update_layout()
 
@@ -51,8 +62,7 @@ func _compute_slice() -> void:
 	slice_max_hz = exp(slice_min_log + log_range_size)
 
 func _update_layout() -> void:
-	pivot_offset = get_parent().size * 0.5
-	queue_redraw()
+	_spinner.position = get_parent().size * 0.5
 
 func _update_visualizer_mode() -> void:
 	visualizer_mode = ThemeManager.settings.get("ring_dots_mode", "visualizer")
@@ -78,13 +88,11 @@ func _process(delta: float) -> void:
 	angle = fmod(angle + speed * delta, TAU)
 
 	if DeviceOS.sleeping == false:
-		rotation = angle
+		_spinner.rotation = angle
 
-func _draw() -> void:
-	var center = pivot_offset
-
+func _draw_ring() -> void:
 	for i in range(ball_count):
 		var t = float(i) / ball_count
 		var ball_angle = t * TAU
-		var pos = center + Vector2(cos(ball_angle), sin(ball_angle)) * ring_radius
-		draw_circle(pos, ball_radius, ball_color)
+		var pos = Vector2(cos(ball_angle), sin(ball_angle)) * ring_radius
+		BallTexture.draw(_spinner, pos, ball_radius, ball_color)

@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Prints 1 if the battery is charging, 0 otherwise
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+. "$SCRIPT_DIR/../default/battery_common.sh"
+
+# Kernel status for the battery muOS is configured to use
+CAPACITY_PATH=$(head -n 1 /opt/muos/device/config/battery/capacity 2>/dev/null)
+if [ -n "$CAPACITY_PATH" ]; then
+    STATUS=$(head -n 1 "$(dirname "$CAPACITY_PATH")/status" 2>/dev/null | tr -d '\r')
+    [ -n "$STATUS" ] && { print_charging "$STATUS"; exit 0; }
+fi
+
+# muOS's own flag. It means "charger plugged in", so it stays 1 when full.
+case "$(cat /run/muos/battery/charging 2>/dev/null | tr -d '[:space:]')" in
+    1) echo 1; exit 0 ;;
+    0) echo 0; exit 0 ;;
+esac
+
+exec sh "$SCRIPT_DIR/../default/get_charging"

@@ -30,4 +30,4 @@ func _on_started_new_song(music_record):
 	_update_playlist_info()
 
 func _on_page_change():
-	%MainSongViewFooter.visible = Controller.active_container is ThemeMainSongView
+	%MainSongViewFooter.visible = Controller.is_song_view(Controller.active_container)

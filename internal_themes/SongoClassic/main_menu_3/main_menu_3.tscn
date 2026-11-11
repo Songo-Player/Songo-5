@@ -1,0 +1,71 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8epng24ya2o4"]
+
+[ext_resource type="Script" path="res://internal_themes/SongoClassic/main_menu_3/main_menu_3.gd" id="1_c3f2a"]
+
+[node name="MainMenu3" type="ScrollContainer"]
+process_mode = 1
+clip_contents = false
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+script = ExtResource("1_c3f2a")
+
+[node name="Content" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+theme_override_constants/separation = 16
+
+[node name="FocusLabelSlot" type="Control" parent="Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_filter = 2
+
+[node name="FocusLabel" type="Label" parent="Content/FocusLabelSlot"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 36
+horizontal_alignment = 1
+
+[node name="MainRow" type="HBoxContainer" parent="Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="FlameContainer" type="PanelContainer" parent="Content/MainRow"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 228)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Content/MainRow/FlameContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="Content/MainRow/FlameContainer/MarginContainer"]
+layout_mode = 2
+text = "Are you proud of yourself?
+I like minimalism too but come on dude"
+horizontal_alignment = 1
+
+[node name="SideColumn" type="VBoxContainer" parent="Content/MainRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[connection signal="resized" from="." to="." method="_on_resized"]
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Prints 0-255, scaled from the panel's range for sysfs backlights
+
+if [[ "$BL_TYPE" == "TYPE1" ]]; then
+  # sed instead of grep -P, busybox grep has no -P
+  sed -n 's/.*backlight([[:space:]]*\([0-9][0-9]*\).*/\1/p' /sys/class/disp/disp/attr/sys | head -n 1
+elif [[ "$BL_TYPE" == "TYPE2" ]]; then
+  BL_DIR="$(dirname "$SYSFS_BL_BRIGHTNESS")"
+  RAW="$(cat "$SYSFS_BL_BRIGHTNESS" 2>/dev/null)"
+  BL_MAX="$(cat "$BL_DIR/max_brightness" 2>/dev/null)"
+
+  case "$RAW" in
+    ''|*[!0-9]*) echo "155"; exit 1 ;;
+  esac
+  case "$BL_MAX" in
+    ''|*[!0-9]*|0) BL_MAX=255 ;;
+  esac
+
+  VAL=$(( (RAW * 255 + BL_MAX / 2) / BL_MAX ))
+  [ "$VAL" -gt 255 ] && VAL=255
+  echo "$VAL"
+else
+  echo "155"
+fi

@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Prints 1 if the battery is charging, 0 otherwise
+# Knulli before Scarab: same detection batocera-info / LED daemon use
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+. "$SCRIPT_DIR/../default/battery_common.sh"
+
+for DIR in /sys/class/power_supply/*BAT* /sys/class/power_supply/*bat* /sys/class/power_supply/*FUEL* /sys/class/power_supply/*fuel*; do
+    [ -d "$DIR" ] || continue
+    STATUS=$(head -n 1 "$DIR/status" 2>/dev/null | tr -d '\r')
+    [ -n "$STATUS" ] && { print_charging "$STATUS"; exit 0; }
+done
+
+exec sh "$SCRIPT_DIR/../default/get_charging"

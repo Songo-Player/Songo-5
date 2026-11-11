@@ -1,0 +1,23 @@
+; Built from ../songo_player_harness: Linux x86_64, Android arm64 (8.0+, for
+; AAudio) and arm64 handhelds (release only, built in the arm64 chroot).
+;
+; The handhelds run Songo's own runtime, which matches neither linux.arm64 nor
+; sbc.arm64, so they get a plain arm64. Libraries go to
+; the most specific match, so Android still gets its own. Dependencies go to
+; the first match in file order, so Android's come before the plain arm64.
+
+[configuration]
+entry_symbol = "songo_harness_library_init"
+compatibility_minimum = 4.3
+
+[libraries]
+linux.debug.x86_64 = "bin/libsongo_harness.linux.template_debug.x86_64.so"
+linux.release.x86_64 = "bin/libsongo_harness.linux.template_release.x86_64.so"
+android.debug.arm64 = "bin/libsongo_harness.android.template_debug.arm64.so"
+android.release.arm64 = "bin/libsongo_harness.android.template_release.arm64.so"
+arm64 = "bin/libsongo_harness.linux.template_release.arm64.so"
+
+[dependencies]
+linux.x86_64 = { "bin/libsongo_engine.linux.x86_64.so": "", "bin/songo_bgplayer.linux.x86_64": "" }
+android.arm64 = { "bin/libsongo_engine.android.arm64.so": "" }
+arm64 = { "bin/libsongo_engine.linux.arm64.so": "", "bin/songo_bgplayer.linux.arm64": "" }

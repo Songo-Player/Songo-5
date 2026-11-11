@@ -59,14 +59,46 @@ func get_scene_path(scene_name):
 
 	if theme_path.begins_with("res://"):
 		# Already project-relative — components live directly under theme_path.
-		return "%s/%s" % [theme_path, current_theme["components"][scene_name]]
+		return "%s/%s" % [theme_path, _resolve_component_path(current_theme["components"][scene_name])]
 
 	# theme_path is external (user://, an OS path, mounted SD path, etc).
 	# The pck's internal mount root is derived from the theme's own directory
 	# name, e.g. ".../external_themes/XBopRed" -> "XBopRed".
 	var theme_dir_name = theme_path.get_file()
-	return "res://theme_dev/themes_raw/%s/%s" % [theme_dir_name, current_theme["components"][scene_name]]
-	
+	return "res://theme_dev/themes_raw/%s/%s" % [theme_dir_name, _resolve_component_path(current_theme["components"][scene_name])]
+
+# A component is usually a scene path, but can also let a setting choose between
+# scenes: { "setting": "main_menu_layout", "scenes": { "b": "...", "c": "..." } }
+# A saved value with no matching scene falls back to the setting's default.
+func _resolve_component_path(component) -> String:
+	if component is String:
+		return component
+	var setting_key: String = component["setting"]
+	var selected = settings.get(setting_key)
+	if not component["scenes"].has(selected):
+		selected = settings_info[setting_key]["default"]
+	return component["scenes"][selected]
+
+# A setting can list "visible_when": { "other_setting": [allowed values] } to only
+# show while every listed setting has one of its allowed values. A listed setting
+# the current theme doesn't have is ignored, since it can't rule anything out.
+func is_setting_visible(key: String) -> bool:
+	var visible_when: Dictionary = settings_info[key].get("visible_when", {})
+	for other_key in visible_when:
+		if settings.has(other_key) and not settings[other_key] in visible_when[other_key]:
+			return false
+	return true
+
+# The setting that a "visible_when" setting is displayed under, or "" if it has none.
+# With several listed, this is the last one defined so it's shown below all of them.
+func get_setting_parent(key: String) -> String:
+	var visible_when: Dictionary = settings_info[key].get("visible_when", {})
+	var parent := ""
+	for other_key in settings_info:
+		if other_key != key and visible_when.has(other_key) and settings.has(other_key):
+			parent = other_key
+	return parent
+
 func refresh_theme():
 	theme_settings_updated.emit()
 
@@ -90,6 +122,19 @@ func setup_theme_settings(settings_info_map):
 		print("Creating theme settings")
 	else:
 		print("Found theme settings")
+		_add_missing_settings(settings_info_map)
+
+# Settings added to a theme since its settings file was saved would otherwise
+# never appear, as the settings page only shows keys that were saved.
+func _add_missing_settings(settings_info_map) -> void:
+	var added := false
+	var defaults = build_from_defaults(settings_info_map)
+	for key in defaults:
+		if not settings.has(key):
+			settings[key] = defaults[key]
+			added = true
+	if added:
+		save_theme_settings()
 
 func build_from_defaults(settings_info_map):
 	var built_settings = {}

@@ -2,7 +2,6 @@ extends Control
 class_name LineMusicVisualizer2
 
 @export var point_count := 10
-@export var bus_name := "Visualizer"
 
 @export var amplitude := 0.4
 @export var line_width := 3.0
@@ -11,12 +10,13 @@ class_name LineMusicVisualizer2
 @export var total_ranges := 1
 @export var range_index := 0 # 0-based index
 
-var spectrum: AudioEffectSpectrumAnalyzerInstance
+# The engine's spectrum, which measures like Godot's spectrum analyzer
+# (see SongoPlayer.get_spectrum)
+var spectrum
 var values := []
 
 func _ready() -> void:
-	var bus_index = AudioServer.get_bus_index(bus_name)
-	spectrum = AudioServer.get_bus_effect_instance(bus_index, 0)
+	spectrum = SongoPlayer.get_spectrum()
 	point_count = ThemeManager.settings["visualizer_density"]
 	values.resize(point_count)
 	values.fill(0.0)
@@ -80,7 +80,7 @@ func _draw():
 		if not SongoPlayer.is_playing():
 			energy = 0.0
 
-		values[i] = lerp(values[i], energy, 0.2)
+		values[i] = lerp(values[i], energy, 0.6)
 
 		var direction = 1.0 if i % 2 == 0 else -1.0
 		var y_offset = values[i] * height * amplitude * direction

@@ -5,6 +5,7 @@ var original_scale: float
 var max_content_margin: int
 var theme_options = []
 var theme_index = 0
+var _theme_setting_items = {}
 const SETTING_LINE_ITEM_PATH = "res://scenes/settings_container/sub_containers/ui_and_customization/setting_line_item/setting_line_item.tscn"
 const THEME_TAG_PATH = "res://scenes/settings_container/sub_containers/ui_and_customization/theme_tag/theme_tag.tscn"
 
@@ -21,6 +22,7 @@ func _ready():
 	%ScrollContainer.scroll_vertical = 0
 	original_scale = songo_settings.ui_scale
 	max_content_margin = int(UiHelper.content_body.size.x / 4.0)
+	%ThemeSettings.sort_children.connect(_update_theme_setting_tails)
 	update_theme_options_ui()
 	update_current_theme_ui()
 	update_clock_24_hour_ui()
@@ -49,7 +51,53 @@ func _on_theme_setting_value_updated(new_value, key):
 
 	ThemeManager.settings[key] = new_value
 	ThemeManager.save_theme_settings()
-	
+	_update_theme_setting_visibility()
+
+func _update_theme_setting_visibility() -> void:
+	# Items are in display order, so a setting's parent has already been updated.
+	for key in _theme_setting_items:
+		var parent: String = ThemeManager.get_setting_parent(key)
+		var parent_visible: bool = parent == "" or _theme_setting_items[parent].visible
+		_theme_setting_items[key].visible = parent_visible and ThemeManager.is_setting_visible(key)
+
+func _update_theme_setting_tails() -> void:
+	for key in _theme_setting_items:
+		var parent: String = ThemeManager.get_setting_parent(key)
+		if parent == "": continue
+		var item: Control = _theme_setting_items[key]
+		var parent_item: Control = _theme_setting_items[parent]
+		item.set_tail_reach(item.position.y - parent_item.position.y - parent_item.size.y)
+
+# Theme settings in definition order, except that each is moved directly below
+# the setting it depends on. Returns { key: nesting depth }, in display order.
+func _get_theme_settings_display_order() -> Dictionary:
+	var dependents := {}
+	var top_level := []
+	for key in ThemeManager.settings_info:
+		if not ThemeManager.settings.has(key): continue
+		var parent: String = ThemeManager.get_setting_parent(key)
+		if parent == "":
+			top_level.append(key)
+		else:
+			if not dependents.has(parent): dependents[parent] = []
+			dependents[parent].append(key)
+
+	var order := {}
+	for key in top_level:
+		_add_to_display_order(key, 0, dependents, order)
+	# Settings that depend on each other in a loop are never reached from the top
+	# level. It's a mistake in the theme, but they should still be shown.
+	for parent in dependents:
+		for key in dependents[parent]:
+			_add_to_display_order(key, 0, dependents, order)
+	return order
+
+func _add_to_display_order(key: String, depth: int, dependents: Dictionary, order: Dictionary) -> void:
+	if order.has(key): return
+	order[key] = depth
+	for dependent in dependents.get(key, []):
+		_add_to_display_order(dependent, depth + 1, dependents, order)
+
 func setup():
 	theme_options = get_theme_options()
 	var possible_index = theme_options.find(songo_settings.theme_path)
@@ -163,18 +211,21 @@ func update_current_theme_ui():
 	print(theme_options)
 	for child in %ThemeSettings.get_children():
 		child.queue_free()
+	_theme_setting_items = {}
 	await get_tree().process_frame
 	if ThemeManager.settings != {}:
 		%ThemeSettingsContainer.show()
-		# Use settings info to retain order of defined settings
-		for key in ThemeManager.settings_info.keys():
-			if not ThemeManager.settings.has(key): continue
+		var display_order := _get_theme_settings_display_order()
+		for key in display_order:
 			var info = ThemeManager.settings_info[key]
 			var value = ThemeManager.settings[key]
 			var setting_line_item = load(SETTING_LINE_ITEM_PATH).instantiate()
 			setting_line_item.setup(info, value)
 			%ThemeSettings.add_child(setting_line_item)
+			setting_line_item.set_dependent_depth(display_order[key])
 			setting_line_item.value_updated.connect(_on_theme_setting_value_updated.bind(key))
+			_theme_setting_items[key] = setting_line_item
+		_update_theme_setting_visibility()
 
 	%NoSettingsLabel.visible = ThemeManager.settings == {}
 	
@@ -216,7 +267,7 @@ func _on_reset_to_defaults_button_pressed() -> void:
 	songo_settings.content_margin = 16
 	songo_settings.save()
 	
-	UiHelper.update_os_time()
+	#UiHelper.update_os_time()
 	UiHelper.apply_scale(songo_settings.ui_scale)
 	UiHelper.apply_content_margin(songo_settings.content_margin)
 	

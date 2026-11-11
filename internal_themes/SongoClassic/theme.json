@@ -1,12 +1,19 @@
 {
 	"name": "Songo Classic",
-	"version": "0.11",
+	"version": "0.12",
 	"author": "Riley",
 	"description": "Original Songo#5 theme, based on minimalism and being user friendly.",
 	"godot_theme_path": "/theme.tres",
 	"components": {
 		"background_root": "background_root/background_root.tscn",
-		"main_menu": "main_menu/main_menu.tscn",
+		"main_menu": {
+			"setting": "main_menu_layout",
+			"scenes": {
+				"b": "main_menu_2/main_menu_2.tscn",
+				"c": "main_menu_3/main_menu_3.tscn",
+				"d": "main_menu_4/main_menu_4.tscn"
+			}
+		},
 		"header": "header/header.tscn",
 		"main_song_view": "main_song_view/main_song_view.tscn",
 		"footer": "footer/footer.tscn",
@@ -58,11 +65,40 @@
 			"display_name": "Background Color",
 			"dependents": ["background_root"]
 		},
-		"songo_main_menu_size": {
-			"values": [124, 172, 220],
-			"labels": ["SM", "MD", "LG"],
-			"default": 172,
-			"display_name": "Main Menu Size",
+		"main_menu_layout": {
+			"values": ["c", "d", "b"],
+			"labels": ["A", "B", "C"],
+			"default": "c",
+			"display_name": "Main Menu Layout",
+			"dependents": []
+		},
+		"main_menu_fit": {
+			"values": ["width", "height"],
+			"labels": ["Width", "Height"],
+			"default": "width",
+			"display_name": "Menu Fit",
+			"dependents": [],
+			"visible_when": { "main_menu_layout": ["c"] }
+		},
+		"main_menu_gap": {
+			"values": [2, 4, 8, 12, 16, 20, 24, 28, 32],
+			"labels": ["2", "4", "8", "12", "16", "20", "24", "28", "32"],
+			"default": 16,
+			"display_name": "Main Menu Gap",
+			"dependents": ["main_menu"]
+		},
+		"main_menu_y_margin": {
+			"values": [0, 8, 16, 24, 32, 40, 48, 56, 64],
+			"labels": ["0", "8", "16", "24", "32", "40", "48", "56", "64"],
+			"default": 0,
+			"display_name": "Menu Y Margin",
+			"dependents": ["main_menu"]
+		},
+		"main_menu_label_style": {
+			"values": ["inline", "on_focus"],
+			"labels": ["Inline", "On Focus"],
+			"default": "inline",
+			"display_name": "Menu Label Style",
 			"dependents": ["main_menu"]
 		},
 		"crt_mode": {

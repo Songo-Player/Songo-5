@@ -1,0 +1,18 @@
+#!/bin/bash
+
+. /opt/muos/script/var/func.sh
+
+# No CAFFEINE before Andromeda, zeroing the idle timers is enough for idle.sh
+SET_VAR "config" "settings/power/idle_sleep" "0"
+SET_VAR "config" "settings/power/idle_display" "0"
+HOTKEY restart
+
+# lid.sh polls the hallkey to suspend on lid close, and hotkey.sh ignores
+# input while it reads closed. Bind-mount a "1" (lid open) over it while music
+# plays. A bind mount is gone after a reboot, so a crash can't leave it.
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+HALLKEY="/sys/class/power_supply/axp2202-battery/hallkey"
+
+if [ -e "$HALLKEY" ] && ! mountpoint -q "$HALLKEY"; then
+    mount --bind "$SCRIPT_DIR/../hallkey" "$HALLKEY"
+fi

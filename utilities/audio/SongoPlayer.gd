@@ -5,6 +5,8 @@ signal music_started
 signal music_stopped
 signal stream_error(message: String)
 signal stream_title_changed(title: String)
+## On boot, after picking up the queue an earlier Songo left playing
+signal resumed_leftover_playback
 enum MODE {
 	LINEAR,
 	SHUFFLE
@@ -15,66 +17,89 @@ var play_index = 0
 var current_song
 var last_queued = 0
 var play_mode: MODE = MODE.LINEAR
-var repeating: bool = false
+var repeating: bool = false:
+	set(value):
+		repeating = value
+		if harness: harness.repeat_one = value
 var played_from_stop: bool = true
+## What music_started/music_stopped last said. Follows the engine too, so it
+## catches pauses from outside Songo (the Android lock screen, a headset)
+var music_playing := false
 
-# -------- Two persistent players, swapped instead of created/destroyed -------- #
-var player_a: FFmpegAudioPlayback
-var player_b: FFmpegAudioPlayback
-var ffmpeg_audio_playback: FFmpegAudioPlayback  # currently "active" player (points at a or b)
-var blend_playback: FFmpegAudioPlayback = null  # currently "inactive" player, in use during a blend
-
-var blend_target_index: int = -1
-var blend_tween: Tween = null
-var is_blending: bool = false
-var blend_finishing: bool = false
-var blend_triggered_for_current: bool = false
-var blend_lead_time: float:
-	get: return songo_settings.playback_blend_time
-var blend_duration: float:
-	get: return songo_settings.playback_blend_time
-
-# -------- Equalizer -------- #
-const EQ_BUS_NAME := "Visualizer"
-var eq_effect: AudioEffectEQ10
-var eq_effect_index: int = -1
-var eq_bus_idx: int = -1
+# -------- Engine -------- #
+## The music plays in SongoPlayerHarness (addons/songo_player_harness), outside
+## Godot's audio: through its songo_bgplayer daemon on Linux, in-process on
+## Android where its plugin keeps it going in the background. It moves through
+## the queue and blends between songs itself. Songo keeps the queue, mirrors
+## it to the engine as paths, and follows along through track_changed.
+var harness: Node = null
+const HARNESS_STATE_STOPPED := 0
+# The song we asked the engine for, so its track_changed isn't taken for the
+# queue moving on by itself
+var _requested_index: int = -1
+var _queue_dirty := false
+var _sent_blend_time := -1.0
+# Set when Songo leaves the queue playing on exit
+var _handed_off := false
+# Until the engine's first state after connecting, which tells us whether a
+# daemon from an earlier Songo is still playing
+var _checking_leftover := false
 
 # -------- Listen tracking -------- #
 # Play counts are saved in batches since saving rewrites the whole library.
 const LISTEN_SAVE_DELAY_SEC := 120.0
 var listen_save_timer: Timer
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	player_a = FFmpegAudioPlayback.new()
-	player_b = FFmpegAudioPlayback.new()
-	add_child(player_a)
-	add_child(player_b)
-	player_a.setup()
-	player_b.setup()
-	# Bind each signal to its own source so _on_finished can tell whether the
-	# finish event came from the currently-active player or a stale/inactive one.
-	player_a.stream_finished.connect(_on_finished.bind(player_a))
-	player_b.stream_finished.connect(_on_finished.bind(player_b))
-	for player in [player_a, player_b]:
-		player.stream_error.connect(_on_stream_error.bind(player))
-		player.stream_title_changed.connect(_on_stream_title_changed.bind(player))
-	ffmpeg_audio_playback = player_a
-	set_vol(songo_settings.music_volume)
-	_setup_equalizer()
 	listen_save_timer = Timer.new()
 	listen_save_timer.one_shot = true
 	listen_save_timer.wait_time = LISTEN_SAVE_DELAY_SEC
 	listen_save_timer.timeout.connect(save_listens)
 	add_child(listen_save_timer)
 
+	harness = SongoPlayerHarness.new()
+	# The daemon goes when Songo does, crashes and editor stops included,
+	# unless Quit with Music tells it to stay (keep_playing_after_exit)
+	harness.daemon_exits_with_app = true
+	# Silent playback for debugging, eg: SONGO_AUDIO_BACKEND=null
+	harness.output_backend = OS.get_environment("SONGO_AUDIO_BACKEND")
+	# The ALSA device, where "default" isn't the one that shares with Godot
+	# (Songo5.sh picks the sound server's on handhelds)
+	harness.output_device = OS.get_environment("SONGO_AUDIO_DEVICE")
+	add_child(harness)
+	harness.loop_queue = true
+	# Songs that won't open stop playback with an error rather than being
+	# skipped, so WebRadio's failover decides what plays next
+	harness.skip_failed = false
+	# repeat_one waits for the engine's first state (_on_harness_state_changed),
+	# so it doesn't switch off the repeat of a queue an earlier Songo left playing
+	set_buffer_length_ms(songo_settings.stream_buffer_length)
+	harness.track_changed.connect(_on_harness_track_changed)
+	harness.state_changed.connect(_on_harness_state_changed)
+	harness.engine_connection_changed.connect(func(connected): _checking_leftover = connected)
+	harness.error.connect(func(message): stream_error.emit(message))
+	harness.stream_title_changed.connect(func(title): stream_title_changed.emit(title))
+	set_vol(songo_settings.music_volume)
+	apply_equalizer_settings()
+	_sync_blend_time()
+
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST or what == NOTIFICATION_APPLICATION_PAUSED:
 		save_listens()
+	# Android holds Songo's process loop while it's in the background, so
+	# check the engine directly on coming back
+	if what == NOTIFICATION_APPLICATION_RESUMED:
+		_set_music_playing(harness.is_playing())
+	# The daemon outlives Songo, so quitting has to stop it unless the queue
+	# is being left playing
+	if harness and not _handed_off and (what == NOTIFICATION_WM_CLOSE_REQUEST or what == NOTIFICATION_PREDELETE):
+		harness.stop()
 
-# Only called when a song plays to its end (or into the auto crossfade), so
-# skips and manual track changes don't count.
+func _process(_delta: float) -> void:
+	_sync_blend_time()
+
+# Only called when a song plays to its end (or into the crossfade), so skips
+# and manual track changes don't count.
 func _count_listen(music_record) -> void:
 	if music_record is not TagLibMusicRecord or is_stream_record(music_record): return
 	music_record.listen_count += 1
@@ -85,68 +110,30 @@ func save_listens() -> void:
 	listen_save_timer.stop()
 	SongoDataResource.get_instance().save_listens()
 
-func _setup_equalizer():
-	eq_bus_idx = AudioServer.get_bus_index(EQ_BUS_NAME)
-	if eq_bus_idx == -1:
-		push_error("SongoPlayer: audio bus '%s' not found for equalizer" % EQ_BUS_NAME)
-		return
-	eq_effect = AudioEffectEQ10.new()
-	AudioServer.add_bus_effect(eq_bus_idx, eq_effect)
-	eq_effect_index = AudioServer.get_bus_effect_count(eq_bus_idx) - 1
-	apply_equalizer_settings()
-
+## The engine runs the same filters as Godot's AudioEffectEQ10
 func apply_equalizer_settings():
-	if not is_instance_valid(eq_effect) or eq_bus_idx == -1:
-		return
-	# Bypass the effect entirely when disabled, rather than relying on zeroed gains.
-	AudioServer.set_bus_effect_enabled(eq_bus_idx, eq_effect_index, songo_settings.use_equalizer)
+	var gains := PackedFloat32Array()
 	for i in range(SongoEqualizer.BAND_COUNT):
-		eq_effect.set_band_gain_db(i, songo_settings.equalizer.get_band_gain(i))
+		gains.append(songo_settings.equalizer.get_band_gain(i))
+	harness.eq_band_gains = gains
+	harness.eq_enabled = songo_settings.use_equalizer
 
-func _process(_delta: float) -> void:
-	_check_auto_blend()
+func _sync_blend_time():
+	var blend_time: float = songo_settings.playback_blend_time
+	if blend_time != _sent_blend_time:
+		_sent_blend_time = blend_time
+		harness.blend_time = blend_time
 
-func _check_auto_blend():
-	if is_blending: return
-	if blend_triggered_for_current: return
-	if not is_instance_valid(ffmpeg_audio_playback): return
-	if not is_playing(): return
-	if current_song == null: return
-	if not (current_song is Object) or not ("raw_length" in current_song): return
-	if music_files.is_empty(): return
-	if music_files.size() <= 1 and not repeating: return
-	
-	var length = current_song.raw_length
-	if typeof(length) != TYPE_FLOAT and typeof(length) != TYPE_INT: return
-	if length <= 0: return
-	
-	var pos = get_playback_position()
-	if pos < 0: return
-	
-	var lead = min(blend_lead_time, length * 0.5)
-	if length - pos <= lead:
-		blend_triggered_for_current = true
-		# The crossfade replaces the song's natural end, so count it here --
-		# _on_finished below skips counting while blending.
-		_count_listen(current_song)
-		var dur = length - pos
-		if dur <= 0: dur = blend_duration
-		blend_play(min(blend_duration, dur))
-
-func play(path: String):
-	ffmpeg_audio_playback.play(ProjectSettings.globalize_path(path))
-	
 func play_next(): play_music_record(play_index + 1)
 func play_previous(): play_music_record(play_index -1)
 func play_from_start(): play_music_record(play_index)
-	
+
 func set_music_records(music_records: Array[TagLibMusicRecord]):
-	if is_blending:
-		_cancel_blend()
 	music_files = music_records.duplicate()
 	last_queued = 0
 	if music_files.is_empty():
 		play_index = 0
+	_queue_changed()
 ## Replaces the play queue without touching the current song's playback, e.g.
 ## when jumping to its album. `current_index` is the current song's position in
 ## `music_records`. Plays on linearly, as if the song had been picked from there.
@@ -158,179 +145,138 @@ func setMode(new_mode: MODE):
 	play_mode = new_mode
 	if play_mode == MODE.SHUFFLE:
 		music_files.shuffle()
+		_queue_changed()
 func setRepeating(new_repeating):
 	repeating = new_repeating
 	updated_repeat.emit()
-	
+
 func queue_music(music_record: TagLibMusicRecord):
 	var queue_index = max(play_index, last_queued)+1
 	queue_index = clamp(queue_index, 0, music_files.size())
 	music_files.insert(queue_index, music_record)
 	last_queued = queue_index
-	
+	_queue_changed()
+
 func get_current_music_record():
 	return current_song
-	
-func get_current_song_path():
-	if music_files.is_empty(): return null
-	return music_files[play_index]
-	
+
 func play_music_record(music_index: int):
 	if music_files.is_empty(): return
-	
-	if is_blending:
-		_finish_blend()
-		return
-	
-	if played_from_stop:
-		played_from_stop = false
-		music_started.emit()
-		
+	played_from_stop = false
+	_set_music_playing(true)
 	if music_index < 0: music_index = music_files.size()-1
-	
 	if repeating == false:
 		play_index = music_index % music_files.size()
 	play_index = clamp(play_index, 0, music_files.size() - 1)
-	var music_record = music_files[play_index]
-	if not is_instance_valid(ffmpeg_audio_playback):
-		push_error("MusicPlayer: ffmpeg_audio_playback invalid, cannot play")
-		return
-	if (is_playing()):
-		ffmpeg_audio_playback.stop()
-		await get_tree().process_frame
-	ffmpeg_audio_playback.play(music_record.full_path)
-	current_song = music_record
-	blend_triggered_for_current = false
-	started_new_song.emit(music_record)
-	
+	_flush_queue()
+	_requested_index = play_index
+	harness.play_index(play_index)
+	current_song = music_files[play_index]
+	started_new_song.emit(current_song)
+
 func get_next_mp3_record():
 	if music_files.is_empty(): return null
 	if repeating: return music_files[play_index]
 	return music_files[(play_index + 1) % music_files.size()]
 
-# -------- Blending ---------- #
-func blend_play(duration: float = 4.0, target_index: int = -1):
-	if is_blending: return
-	if music_files.is_empty(): return
-	if duration <= 0: duration = 0.01
-	
-	var idx = target_index
-	if idx == -1:
-		idx = play_index if repeating else (play_index + 1) % music_files.size()
-	if idx < 0 or idx >= music_files.size():
-		push_warning("MusicPlayer: blend_play target_index out of range")
-		return
-	
-	var target_record = music_files[idx]
-	if target_record == null:
-		push_warning("MusicPlayer: blend_play target record is null")
-		return
-	
-	blend_target_index = idx
-	
-	# Use whichever persistent player isn't currently active - never create a new one.
-	var incoming = player_b if ffmpeg_audio_playback == player_a else player_a
-	if not is_instance_valid(incoming):
-		push_error("MusicPlayer: inactive player invalid, aborting blend")
-		return
-	if incoming.is_playing():
-		incoming.stop()
-	
-	blend_playback = incoming
-	blend_playback.play(target_record.full_path)
-	
-	var target_vol = songo_settings.music_volume
-	_set_playback_volume(0.0, blend_playback)
-	
-	is_blending = true
-	
-	blend_tween = create_tween()
-	blend_tween.set_parallel(true)
-	blend_tween.tween_method(_set_playback_volume.bind(ffmpeg_audio_playback), target_vol, 0.0, duration)
-	blend_tween.tween_method(_set_playback_volume.bind(blend_playback), 0.0, target_vol, duration)
-	blend_tween.chain().tween_callback(_finish_blend)
+func stop():
+	_requested_index = -1
+	harness.stop()
+	_set_music_playing(false)
+	played_from_stop = true
 
-func _set_playback_volume(vol: float, playback: FFmpegAudioPlayback):
-	if is_instance_valid(playback):
-		playback.song_player.player.volume_db = linear_to_db(max(vol, 0.0001))
+# -------- Queue mirroring ---------- #
+# Batches queue changes, so building one up (or swapping queues and then
+# moving play_index) sends it once
+func _queue_changed():
+	if _queue_dirty: return
+	_queue_dirty = true
+	_flush_queue.call_deferred()
 
-func _finish_blend():
-	if not is_blending: return
-	if blend_finishing: return
-	blend_finishing = true
-	
-	if blend_tween and blend_tween.is_valid():
-		blend_tween.kill()
-	blend_tween = null
-	
-	var old_playback = ffmpeg_audio_playback
-	if is_instance_valid(old_playback):
-		old_playback.stop()  # stop, never free - it's a persistent player, reused next time
-	
-	if not is_instance_valid(blend_playback):
-		push_error("MusicPlayer: blend_playback invalid at finish, stopping")
-		is_blending = false
-		blend_finishing = false
-		blend_playback = null
-		music_stopped.emit()
-		played_from_stop = true
+func _flush_queue():
+	if not _queue_dirty: return
+	_queue_dirty = false
+	var paths := PackedStringArray()
+	for record in music_files:
+		paths.append(ProjectSettings.globalize_path(record.full_path))
+	harness.replace_queue(paths, clamp(play_index, 0, max(music_files.size() - 1, 0)))
+
+func _on_harness_track_changed(index: int, path: String):
+	var requested := _requested_index != -1
+	_requested_index = -1
+	index = _queue_index_of(index, path)
+	if index == -1: return
+	if requested and index == play_index and current_song == music_files[index]:
+		# The one we just started, already announced
 		return
-	
-	ffmpeg_audio_playback = blend_playback
-	blend_playback = null
-	is_blending = false
-	
-	set_vol(songo_settings.music_volume)
-	
-	if music_files.is_empty():
-		blend_finishing = false
-		return
-	
-	if repeating == false:
-		play_index = blend_target_index % music_files.size()
-	play_index = clamp(play_index, 0, music_files.size() - 1)
-	current_song = music_files[play_index]
-	blend_triggered_for_current = false
-	blend_finishing = false
+	if not requested:
+		# The engine moved on by itself, at the end of the song or a blend
+		_count_listen(current_song)
+	play_index = index
+	current_song = music_files[index]
 	started_new_song.emit(current_song)
 
-# Aborts an in-progress blend without promoting the blend track.
-func _cancel_blend():
-	if not is_blending: return
-	
-	if blend_tween and blend_tween.is_valid():
-		blend_tween.kill()
-	blend_tween = null
-	
-	if is_instance_valid(blend_playback):
-		blend_playback.stop()  # stop, don't free
-	blend_playback = null
-	is_blending = false
-	blend_finishing = false
-	blend_triggered_for_current = false
-	
-	if is_instance_valid(ffmpeg_audio_playback):
-		set_vol(songo_settings.music_volume)
-	
-func stop():
-	if is_blending:
-		_cancel_blend()
-	if is_instance_valid(ffmpeg_audio_playback):
-		ffmpeg_audio_playback.stop()
-	music_stopped.emit()
-	played_from_stop = true
-	
-func _on_finished(source: FFmpegAudioPlayback) -> void:
-	# Ignore finish signals from a player that isn't the currently active one
-	# (e.g. a stale signal from the player we just swapped away from).
-	if source != ffmpeg_audio_playback: return
-	
-	if is_blending:
-		_finish_blend()
-	else:
-		_count_listen(current_song)
-		play_next()
-	
+# The engine's index for a song, checked against its path in case the queue
+# changed while the event was on its way
+func _queue_index_of(index: int, path: String) -> int:
+	if index >= 0 and index < music_files.size() \
+			and ProjectSettings.globalize_path(music_files[index].full_path) == path:
+		return index
+	for i in range(music_files.size()):
+		if ProjectSettings.globalize_path(music_files[i].full_path) == path:
+			return i
+	return -1
+
+func _on_harness_state_changed(state: int):
+	if _checking_leftover:
+		_checking_leftover = false
+		# A daemon an earlier Songo left playing (Quit with Music). Carry on with
+		# its queue, or stop it rather than play music Songo doesn't know about.
+		var leftover := state != HARNESS_STATE_STOPPED and played_from_stop and current_song == null
+		var adopted := leftover and _adopt_leftover_queue()
+		if not adopted:
+			harness.repeat_one = repeating
+		if leftover and not adopted:
+			harness.stop()
+			return
+	_set_music_playing(harness.is_playing())
+
+func _set_music_playing(playing: bool):
+	if playing == music_playing: return
+	music_playing = playing
+	if playing: music_started.emit()
+	else: music_stopped.emit()
+
+## Takes over the queue the engine is playing, mapped back to library records.
+## The engine's snapshot on connecting fills in its queue before its state, so
+## both are there by now. False when it's paused, or the song playing isn't in
+## the library (eg. a web radio stream).
+func _adopt_leftover_queue() -> bool:
+	if not harness.is_playing(): return false
+	var paths: PackedStringArray = harness.get_queue()
+	var engine_index: int = harness.get_current_index()
+	var records: Array[TagLibMusicRecord] = []
+	var current_index := -1
+	for i in range(paths.size()):
+		var record = M3uCollection.lookup.get(paths[i])
+		if record == null: continue
+		if i == engine_index: current_index = records.size()
+		records.append(record)
+	if current_index == -1: return false
+	music_files = records
+	last_queued = 0
+	play_index = current_index
+	current_song = records[current_index]
+	played_from_stop = false
+	# Keeps repeating if it was when Songo quit with the music on
+	setRepeating(harness.repeat_one)
+	# Songs gone from the library are dropped from the engine's queue as well
+	if records.size() != paths.size(): _queue_changed()
+	_set_music_playing(true)
+	started_new_song.emit(current_song)
+	resumed_leftover_playback.emit()
+	return true
+
 # -------- Network streams ---------- #
 ## Web radio and other network streams are played through the same queue as
 ## files, as records whose full_path is a URL.
@@ -340,83 +286,58 @@ static func is_stream_record(record) -> bool:
 func is_current_stream() -> bool:
 	return is_stream_record(current_song)
 
+## For plugins (WebRadio): how far network streams decode ahead, so a
+## stalled connection doesn't stall the music, and how long to wait on one.
+## The read-ahead applies to streams started after it.
 func set_stream_options(buffer_length_sec: float, network_timeout_sec: float):
-	for player in [player_a, player_b]:
-		if is_instance_valid(player): player.set_stream_options(buffer_length_sec, network_timeout_sec)
-
-func _on_stream_error(message: String, source: FFmpegAudioPlayback) -> void:
-	if source != ffmpeg_audio_playback: return
-	stream_error.emit(message)
-
-func _on_stream_title_changed(title: String, source: FFmpegAudioPlayback) -> void:
-	if source != ffmpeg_audio_playback: return
-	stream_title_changed.emit(title)
+	harness.stream_buffer_length = buffer_length_sec
+	harness.network_timeout = network_timeout_sec
 
 # -------- Pass on to player ---------- #
 func get_playback_position():
-	if not is_instance_valid(ffmpeg_audio_playback): return 0.0
-	return ffmpeg_audio_playback.get_actual_playback_position()
-	
+	return harness.get_playback_position()
+
 func is_playing():
-	if not is_instance_valid(ffmpeg_audio_playback): return false
-	return ffmpeg_audio_playback.is_playing()
-	
+	return harness.is_playing()
+
 func pause():
-	if is_instance_valid(ffmpeg_audio_playback):
-		ffmpeg_audio_playback.pause()
-	music_stopped.emit()
-	
+	harness.pause()
+	_set_music_playing(false)
+
 func resume():
-	if is_instance_valid(ffmpeg_audio_playback):
-		ffmpeg_audio_playback.resume()
-	music_started.emit()
-	
+	harness.resume()
+	_set_music_playing(true)
+
+func seek(seconds: float):
+	harness.seek(seconds)
+
+## The engine's output buffer: how far ahead of the speaker it writes. A
+## change while playing reopens the output, a short blip. Android caps it at
+## what the device allows.
+func set_buffer_length_ms(ms: int):
+	harness.output_latency_ms = ms
+
+## What visualizers read the spectrum from. It measures the same way as
+## Godot's AudioEffectSpectrumAnalyzerInstance, with the same
+## get_magnitude_for_frequency_range().
+func get_spectrum():
+	return harness
+
 func set_vol(new_vol: float = 1.0):
-	if is_instance_valid(ffmpeg_audio_playback):
-		ffmpeg_audio_playback.song_player.player.volume_db = linear_to_db(new_vol)
+	harness.volume = new_vol
 
 # -------- Background playback ---------- #
-## Writes the queue as an m3u for the background player (songo_bgplayer) to
-## carry on from, with the playback state as #SONGO- lines other m3u readers
-## ignore. music_files is already in play order when shuffling. Returns false
-## if nothing is playing, so there's nothing to carry on.
-const BACKGROUND_PLAYLIST_MAX_TRACKS := 100
-
-func write_background_playlist(path: String) -> bool:
-	if music_files.is_empty() or played_from_stop: return false
-	var file := FileAccess.open(path, FileAccess.WRITE)
-	if file == null:
-		push_error("MusicPlayer: can't write background playlist %s: %s" % [path, FileAccess.get_open_error()])
-		return false
-	file.store_line("#EXTM3U")
-	# The list starts at the current song, so it's always index 0
-	file.store_line("#SONGO-START-INDEX:0")
-	file.store_line("#SONGO-START-POSITION:%.2f" % get_playback_position())
-	file.store_line("#SONGO-REPEAT-ONE:%d" % int(repeating))
-	file.store_line("#SONGO-VOLUME:%.3f" % songo_settings.music_volume)
-	# The player runs the same EQ10 filters, so it sounds the same. Left out
-	# when the EQ is off, which is how the player knows to skip it.
-	if songo_settings.use_equalizer:
-		var gains := PackedStringArray()
-		for i in range(SongoEqualizer.BAND_COUNT):
-			gains.append("%.2f" % songo_settings.equalizer.get_band_gain(i))
-		file.store_line("#SONGO-EQ:%s" % ",".join(gains))
-	# Capped so exiting on a huge queue (eg: All Songs) doesn't write thousands
-	# of lines. Takes the songs coming up next, wrapping like play_next does.
-	var track_count = min(music_files.size(), BACKGROUND_PLAYLIST_MAX_TRACKS)
-	for i in range(track_count):
-		var record = music_files[(play_index + i) % music_files.size()]
-		file.store_line(ProjectSettings.globalize_path(record.full_path))
-	file.close()
+## "Quit with Music": the queue is already playing in the engine's daemon, so
+## leaving it playing is just not stopping it, and telling the daemon to stay
+## once we've gone. Songs that won't open are skipped from here on, since
+## Songo won't be around to deal with them. False if nothing is playing.
+func keep_playing_after_exit() -> bool:
+	if played_from_stop or music_files.is_empty(): return false
+	_flush_queue()
+	harness.skip_failed = true
+	# The playback suppressions DeviceOS turned on stay on until the music
+	# stops, so the daemon undoes them as it goes
+	harness.daemon_exit_hook = OS.get_environment("REMOVE_PLAYBACK_SUPPRESSIONS_PATH")
+	harness.daemon_exits_with_app = false
+	_handed_off = true
 	return true
-
-## Stops playback for the background player to take over. Unlike stop() it
-## doesn't emit music_stopped, so DeviceOS leaves the playback suppressions on
-## rather than racing the background player as it turns them on.
-func stop_for_background_handoff():
-	if is_blending:
-		_cancel_blend()
-	if is_instance_valid(ffmpeg_audio_playback):
-		ffmpeg_audio_playback.stop()
-	played_from_stop = true
-		

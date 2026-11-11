@@ -92,13 +92,13 @@ func handle_input(delta: float):
 	if SongoPlayer.is_playing() && not is_stream:
 		if Input.is_action_just_pressed("ui_up") || Input.is_action_just_pressed("L2"):
 			var target_playback = SongoPlayer.get_playback_position() - float(songo_settings.seek_backward_time)
-			SongoPlayer.ffmpeg_audio_playback.seek(max(target_playback, 0.0))
+			SongoPlayer.seek(max(target_playback, 0.0))
 			
 		if Input.is_action_just_pressed("ui_down") || Input.is_action_just_pressed("R2"):
 			var target_playback = SongoPlayer.get_playback_position() + float(songo_settings.seek_forward_time)
 			var song_length = SongoPlayer.current_song.raw_length
 			if song_length > 0.0: target_playback = min(target_playback, song_length)
-			SongoPlayer.ffmpeg_audio_playback.seek(target_playback)
+			SongoPlayer.seek(target_playback)
 
 
 func render_ui():
@@ -150,12 +150,25 @@ func _on_started_new_song(music_record: TagLibMusicRecord):
 		return
 	if theme_element && 'setup_display_for' in theme_element:
 		theme_element.setup_display_for(music_record)
+	sync_play_buttons()
+
+## Shows play or pause to match the music, which can be paused from outside
+## Songo (the Android lock screen, a headset). Themes name these by what was
+## just done: display_play_button shows the pause button.
+func sync_play_buttons():
+	if not theme_element: return
+	var method = "display_play_button" if SongoPlayer.music_playing else "display_pause_button"
+	if theme_element.has_method(method): theme_element.call(method)
 	
 func _on_tree_entered() -> void:
 	# Might need to move this after the await
 	if is_node_ready():
 		_on_started_new_song(SongoPlayer.get_current_music_record())
 	SongoPlayer.started_new_song.connect(_on_started_new_song)
+	SongoPlayer.music_started.connect(sync_play_buttons)
+	SongoPlayer.music_stopped.connect(sync_play_buttons)
 	
 func _on_tree_exited() -> void:
 	SongoPlayer.started_new_song.disconnect(_on_started_new_song)
+	SongoPlayer.music_started.disconnect(sync_play_buttons)
+	SongoPlayer.music_stopped.disconnect(sync_play_buttons)
