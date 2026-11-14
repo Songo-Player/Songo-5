@@ -3,22 +3,31 @@ class_name SongoDataResource extends Resource
 signal import_finished
 
 const SAVE_PATH = "user://songo_data.res"
-# Tracks, albums and artists (with play counts), in GDTagLib's flat binary
-# format. Kept out of SAVE_PATH because it's far faster to load and save.
+# Tracks, albums and artists (with play counts), in TagLibLibrary's compact
+# binary format. Kept out of SAVE_PATH because it's far faster to load and
+# save. Older formats aren't read: DATA_VERSION RC7.2 (the move to
+# TagLibLibrary) busts saved data so the library is rebuilt by an import.
 const LIBRARY_PATH = "user://songo_library.bin"
-const VERSION = "v1.0.0 RC7"
-const DATA_VERSION = "v1.0.0 RC7.1"
+const VERSION = "v1.0.0 RC8"
+const DATA_VERSION = "v1.0.0 RC7.2"
 
 @export var music_directory_path = "No Path"
 @export var music_directory_paths = []
 @export var data_version = ""
 @export var target_playlist_index: int = -1
 
-# Produced wholesale by GDTagLib.refresh_music_library each import -- GDTagLib
-# parses the files and resolves the album / album-artist groupings. Nothing
-# here derives them by hand. Deliberately not @export: they're persisted to
-# LIBRARY_PATH (see save_library), not into this Resource.
-var music_records: Array[TagLibMusicRecord] = []
+# The music library: a native store holding every track compactly (no
+# object per track), updated in place by each import -- it parses the files
+# and resolves the album / album-artist groupings. Nothing here derives them
+# by hand. Deliberately not @export: it's persisted to LIBRARY_PATH (see
+# save_library), not into this Resource.
+var library: TagLibLibrary = TagLibLibrary.new()
+# Views of `library`, rebuilt by _refresh_views after a load or import.
+# music_records (All Songs, by title) is a TagLibTrackList: it holds 4 bytes
+# per track and only makes a TagLibMusicRecord for the items actually read.
+# Declared Variant on purpose so music_records[i] parses: GDScript refuses int
+# indexing on a variable whose (declared or inferred) type is a native class.
+var music_records: Variant = TagLibTrackList.new()
 var artists: Array[TagLibArtistRecord] = []
 var albums: Array[TagLibAlbumRecord] = []
 
@@ -76,11 +85,11 @@ static func get_instance() -> SongoDataResource:
 			else:
 				_instance._load_library()
 				_instance.playlists = _instance._discover_playlists(_instance.scan_music_directories(["playlists"]).playlists)
-				M3uCollection.build_lookup(_instance.music_records)
 				for playlist in _instance.playlists:
 					playlist.music_records = playlist.get_music_records_from_lookup()
 		else:
 			_instance = SongoDataResource.new()
+		M3uCollection.library = _instance.library
 		print("BOOT: SongoDataResource load end at %d ms (%d ms total, %d tracks, %d albums, %d artists, %d playlists)" % [
 			Time.get_ticks_msec(), Time.get_ticks_msec() - boot_start_ms,
 			_instance.music_records.size(), _instance.albums.size(), _instance.artists.size(), _instance.playlists.size()])
@@ -131,9 +140,8 @@ func rebuild_album_images():
 	start_album_rebuild()
 
 func clear_music_data():
-	music_records.clear()
-	albums.clear()
-	artists.clear()
+	library = TagLibLibrary.new()
+	_refresh_views()
 	save()
 
 const AUDIO_EXTS := ["mp3", "flac", "ogg", "m4a", "m4b", "aiff", "aif", "wav", "opus", "aac", "wma"]
@@ -188,11 +196,11 @@ func save():
 		import_notes.append("Error saving imported data: %s" % error)
 		return
 
-# Writes just the library (records, albums, artists, play counts).
+# Writes just the library (records, albums, artists, play counts). A straight
+# dump of the store, so cheap enough for batched play-count saves.
 func save_library():
 	listens_dirty = false
-	var error := GDTagLib.save_music_library(LIBRARY_PATH, {
-		"music_records": music_records, "albums": albums, "artists": artists})
+	var error := library.save(LIBRARY_PATH)
 	if error != OK:
 		print("Error saving library: ", error)
 		import_notes.append("Error saving library: %s" % error)
@@ -202,18 +210,21 @@ func save_library():
 func save_listens():
 	if listens_dirty and not importing: save_library()
 
-func _assign_library(lib: Dictionary):
-	music_records = []
-	music_records.assign(lib.music_records)
-	albums = []
-	albums.assign(lib.albums)
-	artists = []
-	artists.assign(lib.artists)
+# Re-reads the All Songs / album / artist views from `library`. Records the
+# UI already holds stay valid: the library updates tracks in place.
+func _refresh_views():
+	M3uCollection.library = library
+	music_records = library.get_all_tracks()
+	var new_albums: Array[TagLibAlbumRecord] = []
+	new_albums.assign(library.get_albums())
+	albums = new_albums
+	var new_artists: Array[TagLibArtistRecord] = []
+	new_artists.assign(library.get_artists())
+	artists = new_artists
 
 func _load_library():
-	var lib := GDTagLib.load_music_library(LIBRARY_PATH)
-	if not lib.is_empty():
-		_assign_library(lib)
+	library = TagLibLibrary.load_file(LIBRARY_PATH)
+	_refresh_views()
 
 func summarized_import_notes() -> String:
 	if import_notes.is_empty():
@@ -284,7 +295,7 @@ func _thread_import():
 	# Audio, cover images and playlists all come from this one walk.
 	var found := scan_music_directories(["audio", "images", "playlists"],
 		func(count: int): call_deferred("_update_import_progress", float(count)), ["audio"])
-	var all_paths: Array = Array(found.audio)
+	var all_paths: PackedStringArray = found.audio
 
 	# Pick up any .m3u files (ours or another app's) that showed up on disk
 	# since the last scan, resolving their tracks against the library we
@@ -304,16 +315,11 @@ func _thread_import():
 	# This also emits GDTagLib.library_update_planned -> _on_library_update_planned
 	# turns the real counts into a flash message.
 	# The scan's stamps save the plan a stat() per file.
-	var plan := GDTagLib.plan_music_library_update(music_records, PackedStringArray(all_paths),
+	var plan := library.plan_update(all_paths,
 		{"mtimes": found.audio_mtimes, "sizes": found.audio_sizes})
-	var to_read := {}
-	for path in plan.added:
-		to_read[path] = true
-	for path in plan.changed:
-		to_read[path] = true
 
 	# Nothing added, changed or removed -> the library already matches disk.
-	if to_read.is_empty() and plan.removed.is_empty():
+	if plan.added.is_empty() and plan.changed.is_empty() and plan.removed.is_empty():
 		call_deferred("_on_import_early_exit")
 		return
 
@@ -324,46 +330,31 @@ func _thread_import():
 	import_progress = 0
 	import_notes.append("Beginning import: %d new, %d changed, %d removed" % [plan.added.size(), plan.changed.size(), plan.removed.size()])
 
-	# Slow, progress-reported pass: (re)parse only the files the plan flagged,
-	# on a GDTagLib worker thread, and reuse the rest. GDTagLib groups them
-	# into albums / artists after. Progress calls are throttled natively;
-	# returning true from the callable cancels the read. One parse thread:
-	# more just contend for the SD card on handhelds; GDTagLib's separate
-	# prefetch thread keeps the card busy instead.
-	var to_read_paths := PackedStringArray(to_read.keys())
-	var read_count := to_read_paths.size()
-	var built_records := GDTagLib.build_music_records(to_read_paths,
+	# One native call does the rest, in place: (re)parses only the files the
+	# plan flagged (new ones plus plan.changed, keeping play counts), drops
+	# the removed ones, then regroups albums / album artists. Progress calls
+	# are throttled natively; returning true from the callable cancels, which
+	# leaves the library untouched. One parse thread: more just contend for
+	# the SD card on handhelds; the separate prefetch thread keeps the card
+	# busy instead. The library stays readable from the main thread meanwhile.
+	var read_count := maxi(plan.added.size() + plan.changed.size(), 1)
+	var result := library.update(all_paths, plan.changed,
 		func(done: int) -> bool:
 			call_deferred("_on_record_imported", done / float(read_count))
 			return _stop_flag,
 		{"threads": 1})
 
-	if _stop_flag:
+	if _stop_flag or result.cancelled:
 		call_deferred("_on_import_early_exit")
 		return
 
-	var prev_by_path := {}
-	for r: TagLibMusicRecord in music_records:
-		prev_by_path[r.full_path] = r
-
-	var built_by_path := {}
-	for built: TagLibMusicRecord in built_records:
-		# Play counts aren't in the tags; keep them across a re-read.
-		if prev_by_path.has(built.full_path):
-			built.listen_count = prev_by_path[built.full_path].listen_count
-		built_by_path[built.full_path] = built
-		_changed_album_names[built.album] = true
-
-	var current: Array[TagLibMusicRecord] = []
-	for p: String in all_paths:
-		current.append(built_by_path[p] if built_by_path.has(p) else prev_by_path[p])
+	for album_name in result.changed_albums:
+		_changed_album_names[album_name] = true
 
 	import_progress = 0
 	call_deferred("_import_step_set", 2)
 
-	# Fast native pass: album + album-artist resolution over the whole library.
-	var lib := GDTagLib.refresh_music_library(current, PackedStringArray(all_paths), {"follow_retags": false})
-	_assign_library(lib)
+	_refresh_views()
 	for artist in artists:
 		Artwork.ensure_dicebear(artist.asset_id, "artist")
 
@@ -372,7 +363,7 @@ func _thread_import():
 
 
 # GDTagLib.library_update_planned -- fired (deferred, main thread) from
-# plan_music_library_update with the real work counts for this import.
+# TagLibLibrary.plan_update with the real work counts for this import.
 func _on_library_update_planned(added: int, changed: int, removed: int) -> void:
 	if added == 0 and changed == 0 and removed == 0:
 		return
@@ -415,7 +406,7 @@ func build_album_images(rebuild: bool = false, image_paths = null):
 				continue
 		
 		var album = albums[i]
-		var album_song_paths = album.music_records.map(func(r: TagLibMusicRecord): return r.full_path)
+		var album_song_paths: PackedStringArray = album.get_paths()
 		var cover_image: Image = null
 		var cover_path := "user://album_images/%s.webp" % album.asset_id
 
@@ -456,8 +447,8 @@ func build_album_images(rebuild: bool = false, image_paths = null):
 		# get_cover() returns a decoded Image directly -- no Texture2D creation
 		# and no GPU read-back, which matters on this worker thread.
 		if not cover_image:
-			for music_record in album.music_records:
-				var img := GDTagLib.get_cover(music_record.full_path)
+			for song_path in album_song_paths:
+				var img := GDTagLib.get_cover(song_path)
 				if img != null:
 					cover_image = img
 					break
@@ -539,9 +530,8 @@ func _on_import_complete():
 	var elapsed = Time.get_unix_time_from_system() - import_start_time
 	UiHelper.flash_message("Import finished. Duration: %.2f seconds" % elapsed)
 	importing = false
-	# music_records are rebuilt as fresh instances each import, so re-point the
-	# playlists at them (identity matters for collection overlap checks).
-	M3uCollection.build_lookup(music_records)
+	# Records survive an import (the library updates in place), but playlists
+	# still drop tracks that were removed and pick up ones that came back.
 	for playlist in playlists:
 		playlist.music_records = playlist.get_music_records_from_lookup()
 	import_finished.emit()
@@ -552,24 +542,22 @@ func remove_music_directory_path(path: String) -> void:
 	music_directory_paths.erase(path)
 
 	var prefix := path.rstrip("/") + "/"
-	var removed_records: Array[TagLibMusicRecord] = []
-	var remaining_paths: PackedStringArray = []
-	for record: TagLibMusicRecord in music_records:
-		if record.full_path == path or record.full_path.begins_with(prefix):
-			removed_records.append(record)
+	var removed_any := false
+	var remaining_paths := PackedStringArray()
+	for record_path in music_records.get_paths():
+		if record_path == path or record_path.begins_with(prefix):
+			removed_any = true
 		else:
-			remaining_paths.append(record.full_path)
+			remaining_paths.append(record_path)
 
-	if removed_records.is_empty():
+	if not removed_any:
 		save()
 		return
 
-	var lib := GDTagLib.refresh_music_library(music_records, remaining_paths, {"follow_retags": false})
-	_assign_library(lib)
-
-	for record in removed_records:
-		M3uCollection.lookup.erase(record.full_path)
-	M3uCollection.build_lookup(music_records)
+	# No new or re-read paths, so this reads nothing: it only drops the
+	# directory's tracks and regroups.
+	library.update(remaining_paths)
+	_refresh_views()
 
 	# Untracking a directory doesn't touch anything on disk, so leave every
 	# .m3u file exactly as it is -- just drop the now-unresolvable tracks from

@@ -12,7 +12,11 @@ enum MODE {
 	SHUFFLE
 }
 var songo_settings = SongoSettings.get_instance()
-var music_files = []
+## The play queue. A TagLibTrackList, so queueing All Songs costs 4 bytes a
+## track instead of a record object each; indexing it (music_files[i]) gives
+## the record. Declared Variant on purpose: GDScript refuses music_files[i] on
+## a variable whose (declared or inferred) type is a native object class.
+var music_files: Variant = TagLibTrackList.new()
 var play_index = 0
 var current_song
 var last_queued = 0
@@ -128,8 +132,10 @@ func play_next(): play_music_record(play_index + 1)
 func play_previous(): play_music_record(play_index -1)
 func play_from_start(): play_music_record(play_index)
 
-func set_music_records(music_records: Array[TagLibMusicRecord]):
-	music_files = music_records.duplicate()
+## Copies `music_records` (an Array of records, e.g. from a plugin, or a
+## TagLibTrackList) into the queue.
+func set_music_records(music_records):
+	music_files = TagLibTrackList.from_records(music_records)
 	last_queued = 0
 	if music_files.is_empty():
 		play_index = 0
@@ -137,7 +143,7 @@ func set_music_records(music_records: Array[TagLibMusicRecord]):
 ## Replaces the play queue without touching the current song's playback, e.g.
 ## when jumping to its album. `current_index` is the current song's position in
 ## `music_records`. Plays on linearly, as if the song had been picked from there.
-func swap_music_records_silently(music_records: Array[TagLibMusicRecord], current_index: int):
+func swap_music_records_silently(music_records, current_index: int):
 	set_music_records(music_records)
 	play_mode = MODE.LINEAR
 	play_index = clamp(current_index, 0, max(music_files.size() - 1, 0))
@@ -196,9 +202,9 @@ func _queue_changed():
 func _flush_queue():
 	if not _queue_dirty: return
 	_queue_dirty = false
-	var paths := PackedStringArray()
-	for record in music_files:
-		paths.append(ProjectSettings.globalize_path(record.full_path))
+	var paths: PackedStringArray = music_files.get_paths()
+	for i in range(paths.size()):
+		paths[i] = ProjectSettings.globalize_path(paths[i])
 	harness.replace_queue(paths, clamp(play_index, 0, max(music_files.size() - 1, 0)))
 
 func _on_harness_track_changed(index: int, path: String):
@@ -220,10 +226,11 @@ func _on_harness_track_changed(index: int, path: String):
 # changed while the event was on its way
 func _queue_index_of(index: int, path: String) -> int:
 	if index >= 0 and index < music_files.size() \
-			and ProjectSettings.globalize_path(music_files[index].full_path) == path:
+			and ProjectSettings.globalize_path(music_files.get_path_at(index)) == path:
 		return index
-	for i in range(music_files.size()):
-		if ProjectSettings.globalize_path(music_files[i].full_path) == path:
+	var paths: PackedStringArray = music_files.get_paths()
+	for i in range(paths.size()):
+		if ProjectSettings.globalize_path(paths[i]) == path:
 			return i
 	return -1
 
@@ -255,10 +262,10 @@ func _adopt_leftover_queue() -> bool:
 	if not harness.is_playing(): return false
 	var paths: PackedStringArray = harness.get_queue()
 	var engine_index: int = harness.get_current_index()
-	var records: Array[TagLibMusicRecord] = []
+	var records: Variant = TagLibTrackList.new()
 	var current_index := -1
 	for i in range(paths.size()):
-		var record = M3uCollection.lookup.get(paths[i])
+		var record = M3uCollection.lookup_record(paths[i])
 		if record == null: continue
 		if i == engine_index: current_index = records.size()
 		records.append(record)
@@ -335,9 +342,9 @@ func keep_playing_after_exit() -> bool:
 	if played_from_stop or music_files.is_empty(): return false
 	_flush_queue()
 	harness.skip_failed = true
-	# The playback suppressions DeviceOS turned on stay on until the music
-	# stops, so the daemon undoes them as it goes
-	harness.daemon_exit_hook = OS.get_environment("REMOVE_PLAYBACK_SUPPRESSIONS_PATH")
+	# The idle suppression DeviceOS turned on stays on until the music stops,
+	# so the daemon turns it off as it goes. It runs the hook through sh -c.
+	harness.daemon_exit_hook = DeviceOS.chai_shell_command(["set-idle-suppression", "0"])
 	harness.daemon_exits_with_app = false
 	_handed_off = true
 	return true

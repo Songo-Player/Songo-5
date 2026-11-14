@@ -35,6 +35,11 @@ func setup_collection(collection_arg):
 	else:
 		list_items = collection
 	sort_options = CollectionHelper.sort_options
+	# Sorting reorders list_items in place, so a sortable page works on a copy
+	# rather than the collection's own list (All Songs, a playlist's tracks).
+	if sort_options:
+		list_items = list_items.duplicate()
+	CollectionHelper.set_list_items(list_items)
 	if sort_options:
 		#Callable(SongoSort, sort_options[sort_index]).call(list_items)
 		$ThemeCollectionHeader.setup(sort_options[sort_index])
@@ -60,6 +65,11 @@ func setup_collection(collection_arg):
 		collection.item_removed.connect(_on_item_removed)
 
 func _on_item_removed(music_record):
+	# list_items is a copy of the playlist's tracks, so drop the removed one
+	# here too before the list redraws from it.
+	var index = list_items.find(music_record)
+	if index != -1:
+		list_items.remove_at(index)
 	%VirtualizedList.remove_focused_item()
 	#if Controller.active_container is ThemeMainSongView:
 		#Controller.skip_refocus = true

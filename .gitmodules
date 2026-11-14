@@ -1,0 +1,3 @@
+[submodule "build_platforms/portmaster/songo5/chai_retrofit"]
+	path = build_platforms/portmaster/songo5/chai_retrofit
+	url = git@github.com:keymaster777/chai_retrofit.git

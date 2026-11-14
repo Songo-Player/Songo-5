@@ -18,7 +18,15 @@ var img_path:
 var file_stem:
 	get: return m3u_path.get_file().get_basename()
 
-static var lookup = {}
+# The library tracks resolve against (set by SongoDataResource). Looked up
+# by path on demand, rather than keeping a path -> record map of the whole
+# library in memory.
+static var library: TagLibLibrary
+
+## The library's record for an absolute track path, or null.
+static func lookup_record(path: String) -> TagLibMusicRecord:
+	if library == null: return null
+	return library.find_by_path(path.strip_edges())
 
 var img:
 	get:
@@ -102,7 +110,7 @@ func add_track(absolute_track_path: String) -> void:
 	if m3u_path == "":
 		push_error("Collection not initialized properly.")
 		return
-	var record = lookup[absolute_track_path]
+	var record = lookup_record(absolute_track_path)
 	if record == null:
 		UiHelper.flash_message("Failed to add to playlist")
 		return
@@ -122,14 +130,15 @@ func add_track(absolute_track_path: String) -> void:
 	_write_file(header_lines, track_lines)
 	print("Added track: %s" % relative_path)
 
-func add_tracks(operating_music_records: Array[TagLibMusicRecord]) -> int:
+# operating_music_records: an Array of records or a TagLibTrackList.
+func add_tracks(operating_music_records) -> int:
 	var modified_item_count = 0
 	var content := _read_lines()
 	var header_lines := _extract_header_lines(content)
 	var track_lines := _extract_track_lines(content)
 
 	for music_record in operating_music_records:
-		var record = lookup[music_record.full_path]
+		var record = lookup_record(music_record.full_path)
 		var relative_path := _to_relative(music_record.full_path)
 		if record != null && !(relative_path in track_lines):
 			music_records.append(record)
@@ -146,7 +155,7 @@ func remove_track(absolute_track_path: String) -> void:
 	if m3u_path == "":
 		push_error("Collection not initialized properly.")
 		return
-	var record = lookup[absolute_track_path]
+	var record = lookup_record(absolute_track_path)
 	if record == null:
 		UiHelper.flash_message("Failed to remove from playlist")
 		return
@@ -165,9 +174,10 @@ func remove_track(absolute_track_path: String) -> void:
 
 	_write_file(header_lines, new_tracks)
 
-	item_removed.emit(lookup[absolute_track_path])
+	item_removed.emit(record)
 
-func remove_tracks(operating_music_records: Array[TagLibMusicRecord]) -> int:
+# operating_music_records: an Array of records or a TagLibTrackList.
+func remove_tracks(operating_music_records) -> int:
 
 	var modified_item_count = 0
 	var content := _read_lines()
@@ -176,7 +186,7 @@ func remove_tracks(operating_music_records: Array[TagLibMusicRecord]) -> int:
 	var removed_lines = []
 
 	for music_record in operating_music_records:
-		var record = lookup[music_record.full_path]
+		var record = lookup_record(music_record.full_path)
 		if record != null:
 			var relative_path := _to_relative(music_record.full_path)
 			if relative_path in track_lines:
@@ -219,25 +229,20 @@ func get_music_records_from_lookup() -> Array[TagLibMusicRecord]:
 	# Build ordered filtered result
 	var result: Array[TagLibMusicRecord] = []
 	for path in track_paths:
-		var abs_path := _to_absolute(str(path))
-		if lookup.has(abs_path):
-			result.append(lookup[abs_path])
+		var record := lookup_record(_to_absolute(str(path)))
+		if record != null:
+			result.append(record)
 
 	return result
 
-func get_collection_overlap(music_array: Array[TagLibMusicRecord]) -> float:
+# music_array: an Array of records or a TagLibTrackList.
+func get_collection_overlap(music_array) -> float:
+	if music_array.is_empty(): return 0.0
 	var matches = 0
 	for music in music_array:
 		if music_records.has(music):
 			matches += 1
 	return float(matches) / music_array.size()
-
-# --- Helpers ---
-static func build_lookup(music_array):
-	for record in music_array:
-		if record is Resource and record.has_method("get"):
-			var fp := str(record.full_path).strip_edges()
-			lookup[fp] = record
 
 # Converts an absolute track path into a path relative to this playlist's
 # .m3u file, so the file stays portable and usable from wherever it lives
@@ -246,7 +251,7 @@ func _to_relative(absolute_path: String) -> String:
 	return _relative_path(absolute_path.simplify_path(), m3u_path.get_base_dir().simplify_path())
 
 # Resolves a path stored in the .m3u (relative or absolute, "/" or "\"
-# separated) back into an absolute path usable as a `lookup` key.
+# separated) back into an absolute path usable with lookup_record().
 func _to_absolute(stored_path: String) -> String:
 	var p := stored_path.strip_edges().replace("\\", "/")
 	if p.is_empty():

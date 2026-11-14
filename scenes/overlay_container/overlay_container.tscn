@@ -22,6 +22,7 @@ border_width_bottom = 3
 bg_color = Color(0, 0, 0, 0.784314)
 
 [node name="OverlayContainer" type="MarginContainer"]
+z_index = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

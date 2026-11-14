@@ -63,10 +63,15 @@ func _set_current_collection(collection):
 			_list_items = _current_collection
 
 
+## Points target_item / collection_size at the list a page actually shows,
+## which can be a sorted copy of the collection's own list.
+func set_list_items(items) -> void:
+	_list_items = items
+
 func _get_collection_type():
 	var coll = _current_collection
 	
-	if coll is Array[TagLibMusicRecord]: return TYPE.ALL_SONGS
+	if coll is TagLibTrackList or coll is Array[TagLibMusicRecord]: return TYPE.ALL_SONGS
 	if coll is Array[TagLibAlbumRecord]: return TYPE.ALBUMS
 	if coll is Array[TagLibArtistRecord]: return TYPE.ARTISTS
 	if coll is Array[M3uCollection]: return TYPE.PLAYLISTS

@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Sourced by Songo5.sh (needs CFW_NAME from PortMaster), exports SONGO_CFW_NAME:
-# the strategy folder name the volume-indicator, brightness and battery
-# runtime scripts use
+# the strategy folder name the controls runtime scripts use. Brightness,
+# battery, volume and idle suppression go through chai_retrofit instead.
 
 # Detect CFW, used to pick the runtime strategies
 SONGO_CFW_NAME="NONE"

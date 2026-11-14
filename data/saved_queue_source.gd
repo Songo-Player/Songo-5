@@ -54,10 +54,18 @@ func resolve(songo_data, record):
 	for collection in candidates:
 		if source_type == "PLAYLIST_SONGS" && collection.m3u_path != source_id: continue
 		if source_type in ["ALBUM_SONGS", "ARTIST_SONGS"] && collection.name != source_id: continue
-		var records = collection if collection is Array else collection.music_records
-		for collection_record in records:
-			if collection_record.full_path == record.full_path: return collection
+		if _holds(collection, record): return collection
 	return null
+
+# Whether `collection` holds `record`'s file. Albums, artists and All Songs
+# answer natively instead of making a record per track to compare.
+static func _holds(collection, record) -> bool:
+	if collection is TagLibTrackList: return collection.find_path(record.full_path) >= 0
+	if collection is TagLibTrackGroup: return collection.has_track(record)
+	var records = collection if collection is Array else collection.music_records
+	for collection_record in records:
+		if collection_record.full_path == record.full_path: return true
+	return false
 
 ## The main menu action whose list holds this source's list, e.g. albums_index
 ## for an album. For ALL_SONGS the index list is the source itself.

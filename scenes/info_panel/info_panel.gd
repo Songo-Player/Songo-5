@@ -106,9 +106,7 @@ func _go_to_collection(collections: Array, preferred_name: String, index_action:
 func _find_collection_for_track(collections: Array, track: TagLibMusicRecord, preferred_name: String):
 	var fallback = null
 	for collection in collections:
-		for record in collection.music_records:
-			if record.full_path == track.full_path:
-				if collection.name == preferred_name: return collection
-				if fallback == null: fallback = collection
-				break
+		if collection.has_track(track):
+			if collection.name == preferred_name: return collection
+			if fallback == null: fallback = collection
 	return fallback

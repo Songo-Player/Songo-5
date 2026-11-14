@@ -45,25 +45,35 @@ export DEVICE_NAME
 CONFDIR="$GAMEDIR/conf/"
 $ESUDO mkdir -p "${CONFDIR}"
 
-# Detect CFW, used to pick the runtime strategies below
+# Detect CFW, used to pick the controls strategy below
 source "${GAMEDIR}/runtime/set_cfw_strategy.sh"
 
-# Setup volume indicator
-source "${GAMEDIR}/runtime/volume-indicator/setup_env.sh"
+# CHAI: makes sure "chai" is a command, the CFW's own or the retrofit for it.
+# Godot (DeviceOS) uses it for brightness, battery and idle suppression.
+if [ -f "${GAMEDIR}/chai_retrofit/chai_entry.sh" ]; then
+	source "${GAMEDIR}/chai_retrofit/chai_entry.sh"
+fi
 
-# Set up brightness commands
-source "${GAMEDIR}/runtime/brightness/setup_env.sh"
+# Volume indicator: chai runs the subscriber on every volume change, and it
+# passes the volume to Godot's listener
+SONGO_VOL_SUBSCRIBER="${GAMEDIR}/runtime/chai_volume_subscriber.sh"
+USE_SONGO_VOL_TCP_SERVER="0"
+if chai add-volume-subscriber "$SONGO_VOL_SUBSCRIBER" 2>/dev/null; then
+	USE_SONGO_VOL_TCP_SERVER="1"
+fi
+export USE_SONGO_VOL_TCP_SERVER
 
-# Set up battery commands
-source "${GAMEDIR}/runtime/battery/setup_env.sh"
+# Screen fades need a brightness chai can read back, otherwise Songo fades an
+# overlay instead
+case "$(chai get-brightness 2>/dev/null)" in
+	'' | *[!0-9]*) NO_BRIGHT_FADE_AVAILABLE="1" ;;
+	*) NO_BRIGHT_FADE_AVAILABLE="0" ;;
+esac
+export NO_BRIGHT_FADE_AVAILABLE
 
 # Find a music player left playing by "Quit with Music" for Songo to pick back
-# up, and set up the next one. Before the playback suppressions setup, which
-# takes the user's settings from that player rather than saving suppressed ones
+# up, and set up the next one
 source "${GAMEDIR}/runtime/background_play/setup_env.sh"
-
-# Set up playback suppressions
-source "${GAMEDIR}/runtime/playback_suppressions/setup_env.sh"
 
 # Set up controls
 source "${GAMEDIR}/runtime/controls/setup_env.sh"
@@ -110,28 +120,36 @@ esac
 
 # Cleanup
 
-if [[ "$SONGO_CFW_NAME" != "NONE" ]]; then
-	# Teardown volume indicator
-	sh "${GAMEDIR}/runtime/volume-indicator/teardown_vol_indicator" "${SONGO_CFW_NAME}"
+chai remove-volume-subscriber "$SONGO_VOL_SUBSCRIBER" 2>/dev/null
+
+# Undo the retrofit's setup (volume wrappers and listeners). Nothing to undo
+# with native chai.
+if command -v chai_retrofit_teardown >/dev/null 2>&1; then
+	chai_retrofit_teardown
 fi
 
-# Undo playback suppressions in case Songo exited while music was playing.
-# Skipped after "Quit with Music": the music player is still playing and
-# removes them itself (the exit hook Songo left it) when it stops. Otherwise
-# it quits right behind Songo, so it gets a moment to go first.
+# Turn idle suppression off in case Songo exited while music was playing.
+# Skipped after "Quit with Music": the music player is still playing and turns
+# it off itself (the exit hook Songo left it) when it stops. Otherwise it
+# quits right behind Songo, so it gets a moment to go first.
 for _ in $(seq 10); do
 	[ -z "$(songo_player_pid)" ] && break
 	sleep 0.1
 done
-if [ -n "$REMOVE_PLAYBACK_SUPPRESSIONS_PATH" ] && [ -z "$(songo_player_pid)" ]; then
-	"$REMOVE_PLAYBACK_SUPPRESSIONS_PATH"
+if [ -z "$(songo_player_pid)" ]; then
+	chai set-idle-suppression 0 2>/dev/null
 fi
 
 # Fix brightness if app crashed when at 0
-CURRENT_BRIGHTNESS="$(bash "$SONGO_GET_BRIGHTNESS_PATH" 2>/dev/null)"
-if [ "$CURRENT_BRIGHTNESS" = "0" ]; then
-	echo "Backlight left at 0, restoring to half brightness"
-	sh -c "$SONGO_SET_BRIGHTNESS_PATH 128"
+if [ "$(chai get-brightness 2>/dev/null)" = "0" ]; then
+	if command -v syncsettings.elf >/dev/null 2>&1; then
+		# NextUI: restore the user's saved brightness
+		echo "Backlight left at 0, restoring NextUI's brightness"
+		syncsettings.elf
+	else
+		echo "Backlight left at 0, restoring to half brightness"
+		chai set-brightness 128 2>/dev/null
+	fi
 fi
 
 pm_finish

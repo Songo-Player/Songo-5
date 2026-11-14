@@ -32,6 +32,21 @@ case "$OUT" in /*) ;; *) OUT="$PWD/$OUT" ;; esac
 LAUNCHER="$SCRIPT_DIR/Songo5.sh"
 PORT_DIR="$SCRIPT_DIR/songo5"
 
+# songo5/chai_retrofit is a git submodule (keymaster777/chai_retrofit). Pull
+# its latest commit before packaging. This moves the submodule pointer, so
+# Songo-5 shows it as modified until that's committed. Offline, or with local
+# changes in the submodule, it keeps the current checkout and warns instead.
+CHAI_SUBMODULE="build_platforms/portmaster/songo5/chai_retrofit"
+echo ">> Pulling the latest chai_retrofit"
+if ! git -C "$PROJECT_DIR" submodule update --init --remote -- "$CHAI_SUBMODULE"; then
+    echo "!! Couldn't update chai_retrofit, building with the current checkout" >&2
+fi
+if [ ! -f "$PORT_DIR/chai_retrofit/chai_entry.sh" ]; then
+    echo "!! songo5/chai_retrofit is empty. Run: git submodule update --init" >&2
+    exit 1
+fi
+echo "   chai_retrofit at $(git -C "$PORT_DIR/chai_retrofit" log -1 --format='%h %s')"
+
 for f in "$GODOT" "$RUNTIME"; do
     if [ ! -x "$f" ]; then
         echo "!! Songodot binary not found at $f" >&2
@@ -99,7 +114,8 @@ def add(zf, rel):
         zf.writestr(info, b"")
         for name in sorted(os.listdir(path)):
             child = rel + "/" + name
-            if child not in skip:
+            # Git metadata, eg: the chai_retrofit submodule's .git file
+            if child not in skip and name != ".git":
                 add(zf, child)
     else:
         info = zipfile.ZipInfo.from_file(path, rel)

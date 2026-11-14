@@ -89,7 +89,7 @@ func _setup_settings_button(setting_record):
 	
 func _song_button_pressed():
 	var current_page = Controller.active_container
-	if current_page.list_items is Array[TagLibMusicRecord]:
+	if current_page.list_items is TagLibTrackList or current_page.list_items is Array[TagLibMusicRecord]:
 		Controller.songs_panel(current_page.list_items, index)
 	elif current_page.list_items is Array[SettingRecord]:
 		current_page.list_items[index].trigger()

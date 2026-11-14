@@ -8,8 +8,11 @@ var fade_out_overlay: Control
 #var songo_data = SongoDataResource.get_instance()
 var songo_settings = SongoSettings.get_instance()
 var battery_info_path = "" # Set only when a battery was found, themes check this before showing it
-var battery_percent_path = ""
-var charging_path = ""
+# CHAI (Common Handheld Application Interface). Brightness, battery and idle
+# suppression all go through the "chai" command. The CFW may ship it, or the
+# launcher puts a retrofit on PATH (chai_retrofit/chai_entry.sh); either way
+# it's just "chai".
+var chai_available = false
 # Screen Brightness Adjustments
 var fade_val: float
 var fade_tween = null
@@ -17,23 +20,35 @@ var sleeping: bool = false
 var keep_screen_awake = false
 var inputs_locked = false
 var device_name = ""
-var hallkey_path = false
-var set_brightness_path = ""
-var get_brightness_path = ""
-var set_playback_suppressions_path = ""
-var remove_playback_suppressions_path = ""
 var no_bright_fade_available = false
 var target_brightness = 155
 
 func _init():
+	chai_available = OS.get_name() != "Android" && OS.execute("sh", ["-c", "command -v chai"]) == 0
 	set_battery_info_path()
 	device_name = OS.get_environment("DEVICE_NAME")
 	set_backlight_info()
-	
+
+## Runs a chai command and returns its trimmed output, "" without chai
+func run_chai(args: Array) -> String:
+	if !chai_available: return ""
+	var output = []
+	OS.execute("chai", args, output)
+	return output[0].strip_edges() if output.size() > 0 else ""
+
+## Starts a chai command without waiting for it
+func spawn_chai(args: Array) -> void:
+	if !chai_available: return
+	OS.create_process("chai", args)
+
+## A chai command as one shell command line, for things that run it later
+## through sh -c (eg: the music daemon's exit hook). "" without chai.
+func chai_shell_command(args: Array) -> String:
+	if !chai_available: return ""
+	var parts = ["chai"] + args
+	return " ".join(parts.map(func(part): return "'%s'" % str(part).replace("'", "'\\''")))
 
 func set_backlight_info():
-	set_brightness_path = OS.get_environment("SONGO_SET_BRIGHTNESS_PATH")
-	get_brightness_path = OS.get_environment("SONGO_GET_BRIGHTNESS_PATH")
 	var env_no_fade = OS.get_environment("NO_BRIGHT_FADE_AVAILABLE")
 	if (env_no_fade && env_no_fade != ''):
 		no_bright_fade_available = env_no_fade == '1'
@@ -57,12 +72,11 @@ func get_os_name():
 	
 
 
+# Idle suppression (chai set-idle-suppression) follows playback, so the CFW
+# doesn't dim, sleep, or suspend on lid close while music plays
 func setup_device_hallkey():
-
-	set_playback_suppressions_path = OS.get_environment("SET_PLAYBACK_SUPPRESSIONS_PATH")
-	remove_playback_suppressions_path = OS.get_environment("REMOVE_PLAYBACK_SUPPRESSIONS_PATH")
-	
-	printerr("INFO: Supression paths: [%s, %s]" % [set_playback_suppressions_path, remove_playback_suppressions_path])
+	if !chai_available: return
+	printerr("INFO: CHAI idle suppression enabled")
 	SongoPlayer.music_started.connect(_on_music_started)
 	SongoPlayer.music_stopped.connect(_on_music_stopped)
 	
@@ -71,10 +85,8 @@ func start_screen_fade():
 	if UiHelper.overlay_window && UiHelper.overlay_window.visible: return # Controls are locked in this state
 	if sleeping: return #Possibly manually put to sleep
 	
-	var output = []
-	var exit_code = OS.execute("sh", ["-c", get_brightness_path], output)
-	var result = output[0].strip_edges() if output.size() > 0 else ""
-	if result != "":
+	var result = run_chai(["get-brightness"])
+	if result.is_valid_int():
 		target_brightness = int(result)
 	await Engine.get_main_loop().process_frame
 		
@@ -109,8 +121,7 @@ func _on_tween_fade_finished():
 	
 func set_backlight(level: int):
 	if songo_settings.song_sleep_type == 0:
-		var cmd = "%s %d" % [set_brightness_path, level]
-		OS.execute("sh", ["-c", cmd])
+		run_chai(["set-brightness", str(level)])
 
 func wake_screen():
 	if sleeping == true || fade_tween != null:
@@ -130,13 +141,10 @@ func set_battery_info_path():
 		set_android_battery_info_path()
 		return
 
-	battery_percent_path = OS.get_environment("SONGO_GET_BATTERY_PERCENT_PATH")
-	charging_path = OS.get_environment("SONGO_GET_CHARGING_PATH")
-
-	# Trust the launcher's script instead of running it here, which would block
-	# startup on a shell. The percent script prints nothing when it can't find a
-	# battery, so headers treat an empty capacity as "no battery".
-	battery_info_path = battery_percent_path
+	# Trust the launcher's chai instead of running it here, which would block
+	# startup on a shell. get-battery-percent prints nothing when it can't find
+	# a battery, so headers treat an empty capacity as "no battery".
+	battery_info_path = "chai" if chai_available else ""
 
 # Android has no battery scripts, read the kernel's power_supply node directly.
 # Some ROMs block apps from reading sysfs, in which case battery_info_path stays empty.
@@ -166,10 +174,10 @@ func get_battery_info(info_key: String):
 
 	match info_key:
 		"capacity":
-			return run_battery_script(battery_percent_path)
+			return run_chai(["get-battery-percent"])
 		"status":
-			# The charging script only reports 1 (charging) or 0 (anything else)
-			return "Charging" if run_battery_script(charging_path) == "1" else "Not charging"
+			# chai only reports 1 (charging) or 0 (anything else)
+			return "Charging" if run_chai(["get-battery-status"]) == "1" else "Not charging"
 		_:
 			print("Unkown battery info key: %s" % info_key)
 			return ""
@@ -185,12 +193,6 @@ func get_android_battery_info(info_key: String):
 		_:
 			print("Unkown battery info key: %s" % info_key)
 			return ""
-
-func run_battery_script(path: String) -> String:
-	if path == "": return ""
-	var output = []
-	OS.execute("sh", [path], output)
-	return output[0].strip_edges() if output.size() > 0 else ""
 
 func swap_input_actions(action_a: String, action_b: String) -> void:
 	# Get current events
@@ -235,12 +237,10 @@ func set_action_binding(action: String, binding: InputEvent, other_actions: Arra
 	_bound_events[action] = binding
 	
 func _on_music_started():
-	if set_playback_suppressions_path != "" && set_playback_suppressions_path != null:
-		OS.create_process(set_playback_suppressions_path, [])
-		
+	spawn_chai(["set-idle-suppression", "1"])
+
 func _on_music_stopped():
-	if remove_playback_suppressions_path != "" && remove_playback_suppressions_path != null:
-		OS.create_process(remove_playback_suppressions_path, [])
+	spawn_chai(["set-idle-suppression", "0"])
 	
 		
 var initial_delay := 0.5   # seconds to wait before first repeat

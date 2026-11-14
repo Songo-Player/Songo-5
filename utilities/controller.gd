@@ -117,7 +117,7 @@ func _can_open_collection(collection) -> bool:
 	if collection is Array[M3uCollection] && collection.size() == 0:
 		UiHelper.app_message.show_message("You need to create a playlist first, go to Settings.")
 		return false
-	if collection is Array && collection.size() == 0:
+	if (collection is Array || collection is TagLibTrackList) && collection.size() == 0:
 		UiHelper.app_message.show_message("You need to import music first, go to Settings.")
 		return false
 	if collection is Object && "music_records" in collection && collection.music_records.size() == 0 && collection is not M3uCollection:
@@ -130,10 +130,10 @@ func _can_open_collection(collection) -> bool:
 func _open_collection(collection) -> void:
 	CollectionHelper.current_collection = collection
 	active_container = load(ALL_SONGS_CONTAINER).instantiate()
-	if CollectionHelper.sort_options.size() == 0:
-		active_container.setup_collection(collection)
-	else:
-		active_container.setup_collection(collection.duplicate())
+	# The page gets the collection itself (not a duplicate: Resource.duplicate()
+	# drops a playlist's non-exported music_records). It sorts a copy of the
+	# list instead, see AllSongsContainerV2.setup_collection.
+	active_container.setup_collection(collection)
 	_set_nav_label_for_current_collection()
 
 func _set_nav_label_for_current_collection() -> void:
@@ -334,6 +334,8 @@ func nav_back():
 		active_container = target_container[0]
 		if "collection" in active_container:
 			CollectionHelper.current_collection = active_container.collection
+			if "list_items" in active_container:
+				CollectionHelper.set_list_items(active_container.list_items)
 		else:
 			CollectionHelper.current_collection = null
 		nav_label = target_container[2]
@@ -563,11 +565,9 @@ func _rebuild_nav_to_playing_song() -> void:
 func _album_for_record(record):
 	var fallback = null
 	for album in songo_data.albums:
-		for album_record in album.music_records:
-			if album_record.full_path == record.full_path:
-				if album.name == record.album: return album
-				if fallback == null: fallback = album
-				break
+		if album.has_track(record):
+			if album.name == record.album: return album
+			if fallback == null: fallback = album
 	return fallback
 
 # Points the player's queue at `music_records` (in list order) without
@@ -583,6 +583,7 @@ func _swap_player_queue_to(music_records) -> bool:
 func _current_song_index_in(music_records) -> int:
 	var current = SongoPlayer.get_current_music_record()
 	if current == null: return -1
+	if music_records is TagLibTrackList: return music_records.find_path(current.full_path)
 	for i in range(music_records.size()):
 		if music_records[i].full_path == current.full_path: return i
 	return -1
