@@ -296,12 +296,13 @@ func quit_songo():
 	#UiHelper.darkout.show()
 	#content_body_node.get_node("ExitingOverlay").show()
 	SongoPlayer.save_listens()
+	DeviceOS.release_idle_suppression()
 	await get_tree().create_timer(0.5).timeout
 	get_tree().quit()
 
 ## Quits and leaves the queue playing in the engine's daemon, which carries
-## on without Songo. Songo5.sh sees it still running and leaves the playback
-## suppressions to it. Quits normally if nothing is playing.
+## on without Songo. Idle suppression is still turned off as Songo goes.
+## Quits normally if nothing is playing.
 func quit_songo_with_music():
 	if SongoPlayer.keep_playing_after_exit() && queue_source != null:
 		queue_source.save()

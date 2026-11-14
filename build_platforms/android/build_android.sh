@@ -15,8 +15,8 @@
 #                        without one, release builds are signed with the debug keystore
 #   Debug keystore    -> ~/.local/share/godot/keystores/debug.keystore  (also set in Godot editor settings)
 #
-# Songo needs Songodot (../Songodot), the custom engine with the gdtaglib
-# module, for both the editor and the Android templates. Stock Godot's won't
+# Songo needs Songodot (../Songodot), the custom engine with the gdtaglib and
+# songo_player_harness modules, for both the editor and the Android templates. Stock Godot's won't
 # work. build_platforms/godot.linuxbsd.editor.x86_64.llvm is a copy of
 # Songodot's bin/godot.linuxbsd.editor.x86_64.llvm; copy it again after
 # rebuilding the editor. Build the size-optimized Android templates in
@@ -27,7 +27,8 @@
 # android_source_template.
 #
 # The preset uses Godot's Gradle build, which the songo_player_harness addon
-# needs for its Android plugin (background playback service, media session).
+# needs for its Android plugin AAR from ../SongoBGPlayer (background playback
+# service, media session, and the music engine library the module loads).
 # The build template it builds from lives in android/ (not in git) and is
 # reinstalled from android_source.zip whenever that zip changes. The first
 # install also downloads Gradle's dependencies, so it needs network and takes a
@@ -140,22 +141,26 @@ if [ ! "$OUT" -nt "$STARTED" ]; then
     exit 1
 fi
 
-echo ">> Checking the engine is Songodot's, with gdtaglib built in"
+echo ">> Checking the engine is a current Songodot, with its modules built in"
 # Captured first: grep -q stopping early would fail the pipe under pipefail
 ENGINE_LIB="$(unzip -p "$OUT" lib/arm64-v8a/libgodot_android.so | strings)"
-grep -q "TagLibMusicRecord" <<< "$ENGINE_LIB" \
-    || { echo "!! libgodot_android.so has no gdtaglib, is the source template from stock Godot?" >&2; exit 1; }
-# The old gdtaglib GDExtension would register the same classes again
+# TagLibLibrary rather than TagLibMusicRecord, which templates from before the
+# library store also have (and would crash on the new library format)
+for class in TagLibLibrary SongoPlayerHarness; do
+    grep -q "$class" <<< "$ENGINE_LIB" \
+        || { echo "!! libgodot_android.so has no $class: rebuild the Songodot templates (see the top of this script)" >&2; exit 1; }
+done
+# The old GDExtensions would register the same classes again
 APK_FILES="$(unzip -l "$OUT")"
-if grep -q "libgdtaglib" <<< "$APK_FILES"; then
-    echo "!! The old gdtaglib GDExtension library is in the APK" >&2
+if grep -qE "libgdtaglib|libsongo_harness" <<< "$APK_FILES"; then
+    echo "!! An old GDExtension library (gdtaglib or songo_harness) is in the APK" >&2
     exit 1
 fi
 
 echo ">> Checking background playback made it in"
-for entry in lib/arm64-v8a/libsongo_engine.android.arm64.so "lib/arm64-v8a/libsongo_harness.android.template_$MODE.arm64.so"; do
-    unzip -l "$OUT" "$entry" > /dev/null || { echo "!! $entry missing from the APK" >&2; exit 1; }
-done
+# The engine comes from the plugin AAR
+unzip -l "$OUT" lib/arm64-v8a/libsongo_engine.android.arm64.so > /dev/null \
+    || { echo "!! libsongo_engine.android.arm64.so missing from the APK, is the AAR from SongoBGPlayer?" >&2; exit 1; }
 # Captured first: grep -q stopping early would fail the pipe under pipefail
 MANIFEST="$("$HOME/Android/Sdk/build-tools/34.0.0/aapt2" dump xmltree "$OUT" --file AndroidManifest.xml)"
 grep -q "org.songo.harness.SongoPlaybackService" <<< "$MANIFEST" \

@@ -7,16 +7,22 @@
 # 1. Exports the arm64 "Linux" preset's .pck into songo5/gamedata/ with the
 #    Songodot editor in build_platforms/.
 # 2. Copies the Songodot SBC arm64 runtime from build_platforms/ into
-#    songo5/runtime/, under the name Songo5.sh runs (runtime="..." there).
+#    songo5/runtime/, under the name Songo5.sh runs (runtime="..." there),
+#    and SongoBGPlayer's arm64 music engine library and songo_bgplayer daemon
+#    next to it, where Songodot's SongoPlayerHarness looks for them.
 # 3. Zips Songo5.sh and songo5/ into the output.
 #
 # PRESET=<name> exports another preset; GODOT=<path> and RUNTIME=<path> use
-# other Songodot binaries.
+# other Songodot binaries, ENGINE_LIB=<path> and DAEMON=<path> other
+# SongoBGPlayer builds.
 #
-# Both binaries are copies from Songodot (../Songodot), the custom engine with
-# the gdtaglib module built in. Copy them again after rebuilding:
+# Both Godot binaries are copies from Songodot (../Songodot), the custom engine
+# with the gdtaglib and songo_player_harness modules built in. Copy them again
+# after rebuilding:
 #   bin/godot.linuxbsd.editor.x86_64.llvm   (scons platform=linuxbsd target=editor use_llvm=yes)
 #   bin/godot.sbc.template_release.arm64.llvm   (docker_build/build_sbc.sh)
+# The engine library and daemon come from ../SongoBGPlayer
+# (docker_build/build_arm64.sh), copied into addons/songo_player_harness/bin.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -24,6 +30,8 @@ PLATFORMS_DIR="$(dirname "$SCRIPT_DIR")"     # build_platforms/
 PROJECT_DIR="$(dirname "$PLATFORMS_DIR")"    # Songo-5/
 GODOT="${GODOT:-$PLATFORMS_DIR/godot.linuxbsd.editor.x86_64.llvm}"
 RUNTIME="${RUNTIME:-$PLATFORMS_DIR/godot.sbc.template_release.arm64.llvm}"
+ENGINE_LIB="${ENGINE_LIB:-$PROJECT_DIR/addons/songo_player_harness/bin/libsongo_engine.linux.arm64.so}"
+DAEMON="${DAEMON:-$PROJECT_DIR/addons/songo_player_harness/bin/songo_bgplayer.linux.arm64}"
 PRESET="${PRESET:-Linux}"
 OUT="${1:-$PROJECT_DIR/build/portmaster/songo5.zip}"
 # Relative output paths are relative to where the script was run from
@@ -54,6 +62,13 @@ for f in "$GODOT" "$RUNTIME"; do
         exit 1
     fi
 done
+for f in "$ENGINE_LIB" "$DAEMON"; do
+    if [ ! -f "$f" ]; then
+        echo "!! SongoBGPlayer build not found at $f" >&2
+        echo "   Build it in ../SongoBGPlayer (docker_build/build_arm64.sh) and copy bin/*linux.arm64* into addons/songo_player_harness/bin/." >&2
+        exit 1
+    fi
+done
 if [ ! -f "$LAUNCHER" ] || [ ! -d "$PORT_DIR" ]; then
     echo "!! Expected Songo5.sh and songo5/ next to this script." >&2
     exit 1
@@ -67,16 +82,20 @@ if [ -z "$RUNTIME_NAME" ] || [ -z "$PCK_NAME" ]; then
     exit 1
 fi
 
-# The runtime has gdtaglib built in; the old GDExtension would register the
-# same classes again
-if [ -e "$PORT_DIR/addons/gdtaglib" ]; then
-    echo "!! songo5/addons/gdtaglib is the old GDExtension, which Songodot replaces. Remove it." >&2
-    exit 1
-fi
+# The runtime has gdtaglib and songo_player_harness built in; the old
+# GDExtensions would register the same classes again
+for old in gdtaglib songo_player_harness; do
+    if [ -e "$PORT_DIR/addons/$old" ]; then
+        echo "!! songo5/addons/$old is the old GDExtension, which Songodot replaces. Remove it." >&2
+        exit 1
+    fi
+done
 # Captured first: grep -q stopping early would fail the pipe under pipefail
 RUNTIME_STRINGS="$(strings "$RUNTIME")"
-grep -q "TagLibMusicRecord" <<< "$RUNTIME_STRINGS" \
-    || { echo "!! $RUNTIME has no gdtaglib, is it a Songodot SBC build?" >&2; exit 1; }
+for class in TagLibLibrary SongoPlayerHarness; do
+    grep -q "$class" <<< "$RUNTIME_STRINGS" \
+        || { echo "!! $RUNTIME has no $class, is it a current Songodot SBC build?" >&2; exit 1; }
+done
 
 PCK="$PORT_DIR/gamedata/$PCK_NAME"
 mkdir -p "$(dirname "$PCK")"
@@ -92,6 +111,11 @@ fi
 echo ">> Copying the runtime -> songo5/runtime/$RUNTIME_NAME"
 cp -f "$RUNTIME" "$PORT_DIR/runtime/$RUNTIME_NAME"
 chmod +x "$PORT_DIR/runtime/$RUNTIME_NAME"
+
+echo ">> Copying the music engine and daemon -> songo5/runtime/"
+cp -f "$ENGINE_LIB" "$PORT_DIR/runtime/libsongo_engine.linux.arm64.so"
+cp -f "$DAEMON" "$PORT_DIR/runtime/songo_bgplayer.linux.arm64"
+chmod +x "$PORT_DIR/runtime/songo_bgplayer.linux.arm64"
 
 echo ">> Zipping Songo5.sh and songo5/ -> $OUT"
 mkdir -p "$(dirname "$OUT")"

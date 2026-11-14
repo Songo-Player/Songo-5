@@ -1,10 +1,17 @@
 @tool
 extends EditorPlugin
 
-# Hands Godot's Android Gradle build the harness's plugin AAR (built from
-# songo_player_harness/android/plugin), which brings the foreground playback
-# service and media session that keep music going with the screen off. Needs
-# the export preset's "Use Gradle Build" on.
+# SongoPlayerHarness itself is built into Songodot (its songo_player_harness
+# module). This hands Godot's Android Gradle build the plugin AAR built from
+# ../SongoBGPlayer/android/plugin, which brings the foreground playback service
+# and media session that keep music going with the screen off, and carries the
+# music engine library (libsongo_engine.android.arm64.so) the module loads.
+# Needs the export preset's "Use Gradle Build" on.
+#
+# bin/ (ignored by Godot, see its .gdignore) holds SongoBGPlayer's Linux engine
+# library and daemon. The module finds them there when Songo runs from this
+# folder (the editor), and the PortMaster build copies the arm64 ones next to
+# the runtime.
 
 var export_plugin: AndroidExportPlugin
 

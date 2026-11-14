@@ -24,7 +24,8 @@ var no_bright_fade_available = false
 var target_brightness = 155
 
 func _init():
-	chai_available = OS.get_name() != "Android" && OS.execute("sh", ["-c", "command -v chai"]) == 0
+	# chai is a Linux handheld tool; Android and Windows have no sh to look for it with
+	chai_available = OS.get_name() not in ["Android", "Windows"] && OS.execute("sh", ["-c", "command -v chai"]) == 0
 	set_battery_info_path()
 	device_name = OS.get_environment("DEVICE_NAME")
 	set_backlight_info()
@@ -40,13 +41,6 @@ func run_chai(args: Array) -> String:
 func spawn_chai(args: Array) -> void:
 	if !chai_available: return
 	OS.create_process("chai", args)
-
-## A chai command as one shell command line, for things that run it later
-## through sh -c (eg: the music daemon's exit hook). "" without chai.
-func chai_shell_command(args: Array) -> String:
-	if !chai_available: return ""
-	var parts = ["chai"] + args
-	return " ".join(parts.map(func(part): return "'%s'" % str(part).replace("'", "'\\''")))
 
 func set_backlight_info():
 	var env_no_fade = OS.get_environment("NO_BRIGHT_FADE_AVAILABLE")
@@ -72,13 +66,29 @@ func get_os_name():
 	
 
 
-# Idle suppression (chai set-idle-suppression) follows playback, so the CFW
-# doesn't dim, sleep, or suspend on lid close while music plays
+# Idle suppression (chai set-idle-suppression) follows playback while Songo is
+# open, so the CFW doesn't dim, sleep, or suspend on lid close while music
+# plays. It's always turned off when Songo exits, even if "Quit with Music"
+# leaves the music player running. When Songo opens again and picks that
+# player back up, SongoPlayer's music_started turns it back on.
 func setup_device_hallkey():
 	if !chai_available: return
 	printerr("INFO: CHAI idle suppression enabled")
 	SongoPlayer.music_started.connect(_on_music_started)
 	SongoPlayer.music_stopped.connect(_on_music_stopped)
+	if SongoPlayer.music_playing: _on_music_started()
+
+var _idle_suppression_released := false
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST or what == NOTIFICATION_PREDELETE:
+		release_idle_suppression()
+
+## Turns idle suppression off and waits for it, for when Songo exits
+func release_idle_suppression():
+	if _idle_suppression_released: return
+	_idle_suppression_released = true
+	run_chai(["set-idle-suppression", "0"])
 	
 
 func start_screen_fade():

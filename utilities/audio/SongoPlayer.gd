@@ -31,9 +31,10 @@ var played_from_stop: bool = true
 var music_playing := false
 
 # -------- Engine -------- #
-## The music plays in SongoPlayerHarness (addons/songo_player_harness), outside
-## Godot's audio: through its songo_bgplayer daemon on Linux, in-process on
-## Android where its plugin keeps it going in the background. It moves through
+## The music plays in SongoPlayerHarness (Songodot's songo_player_harness
+## module), outside Godot's audio: through SongoBGPlayer's songo_bgplayer daemon
+## on Linux, in-process on Android where its plugin keeps it going in the
+## background (addons/songo_player_harness). It moves through
 ## the queue and blends between songs itself. Songo keeps the queue, mirrors
 ## it to the engine as paths, and follows along through track_changed.
 var harness: Node = null
@@ -342,9 +343,6 @@ func keep_playing_after_exit() -> bool:
 	if played_from_stop or music_files.is_empty(): return false
 	_flush_queue()
 	harness.skip_failed = true
-	# The idle suppression DeviceOS turned on stays on until the music stops,
-	# so the daemon turns it off as it goes. It runs the hook through sh -c.
-	harness.daemon_exit_hook = DeviceOS.chai_shell_command(["set-idle-suppression", "0"])
 	harness.daemon_exits_with_app = false
 	_handed_off = true
 	return true

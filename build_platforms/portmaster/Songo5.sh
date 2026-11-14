@@ -128,17 +128,11 @@ if command -v chai_retrofit_teardown >/dev/null 2>&1; then
 	chai_retrofit_teardown
 fi
 
-# Turn idle suppression off in case Songo exited while music was playing.
-# Skipped after "Quit with Music": the music player is still playing and turns
-# it off itself (the exit hook Songo left it) when it stops. Otherwise it
-# quits right behind Songo, so it gets a moment to go first.
-for _ in $(seq 10); do
-	[ -z "$(songo_player_pid)" ] && break
-	sleep 0.1
-done
-if [ -z "$(songo_player_pid)" ]; then
-	chai set-idle-suppression 0 2>/dev/null
-fi
+# Turn idle suppression off in case Songo crashed while music was playing.
+# Always, even after "Quit with Music" left the music player running: it's
+# only on while Songo is open, and Songo turns it back on when it picks the
+# player up again.
+chai set-idle-suppression 0 2>/dev/null
 
 # Fix brightness if app crashed when at 0
 if [ "$(chai get-brightness 2>/dev/null)" = "0" ]; then

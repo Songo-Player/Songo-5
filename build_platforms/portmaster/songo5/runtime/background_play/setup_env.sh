@@ -1,14 +1,12 @@
 #!/bin/bash
 
-# Sourced by Songo5.sh before Godot starts, and before the playback
-# suppressions setup.
+# Sourced by Songo5.sh before Godot starts.
 #
-# Music plays in songo_player_harness's daemon (addons/songo_player_harness),
-# which Songo starts and controls. "Quit with Music" leaves it playing after
-# Songo exits, with the playback suppressions on and Songo's exit hook to
-# remove them when it stops. It's left running here so Songo can pick its
-# queue back up on boot. The suppressions setup uses SONGO_PLAYER_PID to take
-# the user's settings from it rather than saving the suppressed ones.
+# Music plays in SongoBGPlayer's songo_bgplayer daemon (next to the runtime,
+# in runtime/), which Songo starts and controls. "Quit with Music" leaves it playing after
+# Songo exits (idle suppression is turned off either way). It's left running
+# here so Songo can pick its queue back up on boot, which turns idle
+# suppression back on.
 #
 # Godot and the daemon both have the sound device open while Songo runs, so
 # this needs a sound server (PipeWire or PulseAudio) to share it.
