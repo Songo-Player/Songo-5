@@ -40,7 +40,7 @@ case "$OUT" in /*) ;; *) OUT="$PWD/$OUT" ;; esac
 LAUNCHER="$SCRIPT_DIR/Songo5.sh"
 PORT_DIR="$SCRIPT_DIR/songo5"
 
-# songo5/chai_retrofit is a git submodule (keymaster777/chai_retrofit). Pull
+# songo5/chai_retrofit is a git submodule (Songo-Player/chai_retrofit). Pull
 # its latest commit before packaging. This moves the submodule pointer, so
 # Songo-5 shows it as modified until that's committed. Offline, or with local
 # changes in the submodule, it keeps the current checkout and warns instead.
