@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Departures/background_root/background_root.gd" id="1_script"]
+[ext_resource type="Shader" path="res://theme_dev/themes_raw/Departures/assets/board_housing.gdshader" id="2_shader"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.0431373, 0.0509804, 0.0627451, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_housing"]
+shader = ExtResource("2_shader")
+shader_parameter/base_color = Color(0.0431373, 0.0509804, 0.0627451, 1)
+shader_parameter/glow_color = Color(0.94902, 0.760784, 0.188235, 1)
+shader_parameter/slat_px = 4.0
+shader_parameter/glow_strength = 0.06
+
+[node name="BackgroundRoot" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+script = ExtResource("1_script")
+
+[node name="Housing" type="ColorRect" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_housing")
+layout_mode = 2
+mouse_filter = 2

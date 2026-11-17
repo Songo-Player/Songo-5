@@ -115,12 +115,14 @@ func save_listens() -> void:
 	listen_save_timer.stop()
 	SongoDataResource.get_instance().save_listens()
 
-## The engine runs the same filters as Godot's AudioEffectEQ10
+## The engine's EQ: each band's gain is applied as set, and off sounds the same as all bands at 0 dB
 func apply_equalizer_settings():
 	var gains := PackedFloat32Array()
 	for i in range(SongoEqualizer.BAND_COUNT):
 		gains.append(songo_settings.equalizer.get_band_gain(i))
 	harness.eq_band_gains = gains
+	harness.eq_auto_preamp = songo_settings.equalizer.auto_preamp
+	harness.eq_output_gain_db = songo_settings.equalizer.output_gain_db
 	harness.eq_enabled = songo_settings.use_equalizer
 
 func _sync_blend_time():
@@ -335,11 +337,18 @@ func set_vol(new_vol: float = 1.0):
 	harness.volume = new_vol
 
 # -------- Background playback ---------- #
+## Whether "Quit with Music" is offered: builds exported with the
+## bg_play_enabled feature (the PortMaster preset), and the editor
+func bg_play_enabled() -> bool:
+	return OS.has_feature("bg_play_enabled") or OS.has_feature("editor")
+
 ## "Quit with Music": the queue is already playing in the engine's daemon, so
 ## leaving it playing is just not stopping it, and telling the daemon to stay
 ## once we've gone. Songs that won't open are skipped from here on, since
-## Songo won't be around to deal with them. False if nothing is playing.
+## Songo won't be around to deal with them. False if nothing is playing, or
+## background play isn't enabled for this build.
 func keep_playing_after_exit() -> bool:
+	if not bg_play_enabled(): return false
 	if played_from_stop or music_files.is_empty(): return false
 	_flush_queue()
 	harness.skip_failed = true

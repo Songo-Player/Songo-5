@@ -1,0 +1,143 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Departures/main_menu/main_menu.gd" id="1_script"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Departures/assets/flap_text.gd" id="2_flap"]
+[ext_resource type="FontVariation" path="res://theme_dev/themes_raw/Departures/assets/font_bold.tres" id="3_bold"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_board"]
+content_margin_left = 12.0
+content_margin_top = 10.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.0666667, 0.0784314, 0.0941176, 0.92)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.137255, 0.152941, 0.180392, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 6
+
+[node name="MainMenu" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 6
+script = ExtResource("1_script")
+
+[node name="Board" type="PanelContainer" parent="."]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_board")
+
+[node name="Layout" type="VBoxContainer" parent="Board"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="TitleRow" type="HBoxContainer" parent="Board/Layout"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="StationFlap" type="Control" parent="Board/Layout/TitleRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(218, 30)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("2_flap")
+text = "DEPARTURES"
+max_cells = 12
+cell_size = Vector2(20, 30)
+gap = 2.0
+font_size = 23
+font = ExtResource("3_bold")
+role = "accent"
+
+[node name="Spacer" type="Control" parent="Board/Layout/TitleRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="ServiceCount" type="Label" parent="Board/Layout/TitleRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"DepartureDim"
+theme_override_font_sizes/font_size = 12
+text = "6 SERVICES"
+
+[node name="HeadingsMargin" type="MarginContainer" parent="Board/Layout"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+
+[node name="Headings" type="HBoxContainer" parent="Board/Layout/HeadingsMargin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Time" type="Label" parent="Board/Layout/HeadingsMargin/Headings"]
+custom_minimum_size = Vector2(73, 0)
+layout_mode = 2
+theme_type_variation = &"DepartureDim"
+theme_override_font_sizes/font_size = 11
+text = "TIME"
+
+[node name="IconGap" type="Control" parent="Board/Layout/HeadingsMargin/Headings"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Destination" type="Label" parent="Board/Layout/HeadingsMargin/Headings"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"DepartureDim"
+theme_override_font_sizes/font_size = 11
+text = "DESTINATION"
+
+[node name="Platform" type="Label" parent="Board/Layout/HeadingsMargin/Headings"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+theme_type_variation = &"DepartureDim"
+theme_override_font_sizes/font_size = 11
+text = "PLAT"
+horizontal_alignment = 1
+
+[node name="Remarks" type="Label" parent="Board/Layout/HeadingsMargin/Headings"]
+custom_minimum_size = Vector2(124, 0)
+layout_mode = 2
+theme_type_variation = &"DepartureDim"
+theme_override_font_sizes/font_size = 11
+text = "REMARKS"
+
+[node name="Rule" type="ColorRect" parent="Board/Layout"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.137255, 0.152941, 0.180392, 1)
+
+[node name="Scroll" type="ScrollContainer" parent="Board/Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="Rows" type="VBoxContainer" parent="Board/Layout/Scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Hint" type="Label" parent="Board/Layout"]
+layout_mode = 2
+theme_type_variation = &"DepartureDim"
+theme_override_font_sizes/font_size = 11
+text = "PLEASE PROCEED TO YOUR PLATFORM"
+horizontal_alignment = 1

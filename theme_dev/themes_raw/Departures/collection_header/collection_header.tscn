@@ -1,0 +1,128 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Departures/collection_header/collection_header.gd" id="1_script"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Departures/assets/flap_text.gd" id="2_flap"]
+[ext_resource type="FontVariation" path="res://theme_dev/themes_raw/Departures/assets/font_bold.tres" id="3_bold"]
+[ext_resource type="Texture2D" path="res://assets/music.svg" id="4_music"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_frame"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.101961, 0.113725, 0.133333, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.137255, 0.152941, 0.180392, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="CollectionHeader" type="MarginContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 68.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 6
+script = ExtResource("1_script")
+
+[node name="Row" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="ArtFrame" type="PanelContainer" parent="Row"]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_frame")
+
+[node name="IconMargin" type="MarginContainer" parent="Row/ArtFrame"]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 7
+theme_override_constants/margin_bottom = 7
+
+[node name="DefaultIcon" type="TextureRect" parent="Row/ArtFrame/IconMargin"]
+unique_name_in_owner = true
+modulate = Color(0.94902, 0.760784, 0.188235, 1)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_music")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CustomImage" type="TextureRect" parent="Row/ArtFrame"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Info" type="VBoxContainer" parent="Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="KindLabel" type="Label" parent="Row/Info"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"DepartureDim"
+theme_override_font_sizes/font_size = 11
+text = "ALL SONGS"
+text_overrun_behavior = 3
+
+[node name="NameFlap" type="Control" parent="Row/Info"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(17, 26)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("2_flap")
+text = "ALL SONGS"
+cell_size = Vector2(17, 26)
+gap = 2.0
+font_size = 19
+fit_width = true
+font = ExtResource("3_bold")
+role = "accent"
+
+[node name="Count" type="VBoxContainer" parent="Row"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="CountFlap" type="Control" parent="Row/Count"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("2_flap")
+text = "    0"
+cells = 5
+cell_size = Vector2(12, 22)
+gap = 2.0
+font_size = 15
+font = ExtResource("3_bold")
+role = "plain"
+
+[node name="CountLabel" type="Label" parent="Row/Count"]
+layout_mode = 2
+theme_type_variation = &"DepartureDim"
+theme_override_font_sizes/font_size = 10
+text = "TOTAL"
+horizontal_alignment = 2

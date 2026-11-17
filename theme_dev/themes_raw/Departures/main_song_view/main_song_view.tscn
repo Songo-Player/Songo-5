@@ -1,0 +1,560 @@
+[gd_scene load_steps=23 format=3 uid="uid://cqu0us0gwa055"]
+
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Departures/main_song_view/main_song_view.gd" id="1_script"]
+[ext_resource type="FontVariation" path="res://theme_dev/themes_raw/Departures/assets/font_bold.tres" id="2_bold"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Departures/assets/flap_text.gd" id="4_flap"]
+[ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="5_music"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Departures/assets/route_line.gd" id="6_route"]
+[ext_resource type="Texture2D" uid="uid://dt2pe77pksx87" path="res://assets/shuffle.svg" id="7_shuffle"]
+[ext_resource type="Texture2D" uid="uid://dsstr0fb8yo33" path="res://assets/Repeat.svg" id="8_repeat"]
+[ext_resource type="Texture2D" uid="uid://cshjgdxugm3gb" path="res://assets/lock.svg" id="9_lock"]
+[ext_resource type="Texture2D" uid="uid://7dwsdkt7ambi" path="res://assets/coffee.svg" id="10_coffee"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Departures/assets/perforation.gd" id="11_perf"]
+[ext_resource type="Texture2D" uid="uid://beq3xrq55bgua" path="res://assets/Play.svg" id="12_play"]
+[ext_resource type="Texture2D" uid="uid://dlegkxypq8u32" path="res://assets/Pause.svg" id="13_pause"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Departures/assets/qr_code.gd" id="14_qr"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Departures/assets/spectrum_bars.gd" id="15_bars"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Departures/assets/lyric_lane.gd" id="16_lyrics"]
+
+[sub_resource type="StyleBoxFlat" id="Paper_left"]
+bg_color = Color(0.937255, 0.909804, 0.847059, 1)
+corner_radius_top_left = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 8
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="Stripe_left"]
+content_margin_left = 14.0
+content_margin_top = 5.0
+content_margin_right = 14.0
+content_margin_bottom = 5.0
+bg_color = Color(0.94902, 0.760784, 0.188235, 1)
+corner_radius_top_left = 10
+
+[sub_resource type="StyleBoxFlat" id="Art_frame"]
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.113725, 0.12549, 0.14902, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="Paper_right"]
+bg_color = Color(0.937255, 0.909804, 0.847059, 1)
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 8
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="Stripe_right"]
+content_margin_left = 10.0
+content_margin_top = 5.0
+content_margin_right = 10.0
+content_margin_bottom = 5.0
+bg_color = Color(0.94902, 0.760784, 0.188235, 1)
+corner_radius_top_right = 10
+
+[sub_resource type="StyleBoxFlat" id="Round_focus"]
+content_margin_left = 14.0
+content_margin_top = 14.0
+content_margin_right = 14.0
+content_margin_bottom = 14.0
+bg_color = Color(0.94902, 0.760784, 0.188235, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.113725, 0.12549, 0.14902, 1)
+corner_radius_top_left = 26
+corner_radius_top_right = 26
+corner_radius_bottom_right = 26
+corner_radius_bottom_left = 26
+
+[sub_resource type="StyleBoxFlat" id="Round_normal"]
+content_margin_left = 14.0
+content_margin_top = 14.0
+content_margin_right = 14.0
+content_margin_bottom = 14.0
+bg_color = Color(0.113725, 0.12549, 0.14902, 1)
+corner_radius_top_left = 26
+corner_radius_top_right = 26
+corner_radius_bottom_right = 26
+corner_radius_bottom_left = 26
+
+[node name="MainSongView" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 4
+script = ExtResource("1_script")
+
+[node name="Center" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Ticket" type="VBoxContainer" parent="Center"]
+unique_name_in_owner = true
+layout_mode = 0
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="StatusRow" type="HBoxContainer" parent="Center/Ticket"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="StatusFlap" type="Control" parent="Center/Ticket/StatusRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(178, 28)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("4_flap")
+text = "DEPARTED"
+cells = 9
+cell_size = Vector2(18, 28)
+font_size = 21
+font = ExtResource("2_bold")
+role = "accent"
+
+[node name="Visualizer" type="Control" parent="Center/Ticket/StatusRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+script = ExtResource("15_bars")
+
+[node name="Pass" type="HBoxContainer" parent="Center/Ticket"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Main" type="PanelContainer" parent="Center/Ticket/Pass"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Paper_left")
+
+[node name="Layout" type="VBoxContainer" parent="Center/Ticket/Pass/Main"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Stripe" type="PanelContainer" parent="Center/Ticket/Pass/Main/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Stripe_left")
+
+[node name="Row" type="HBoxContainer" parent="Center/Ticket/Pass/Main/Layout/Stripe"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Center/Ticket/Pass/Main/Layout/Stripe/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.113725, 0.12549, 0.14902, 1)
+theme_override_fonts/font = ExtResource("2_bold")
+theme_override_font_sizes/font_size = 13
+text = "BOARDING PASS"
+
+[node name="Carrier" type="Label" parent="Center/Ticket/Pass/Main/Layout/Stripe/Row"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.113725, 0.12549, 0.14902, 1)
+theme_override_font_sizes/font_size = 11
+text = "SONGO LINES · CLASS 5"
+
+[node name="Body" type="MarginContainer" parent="Center/Ticket/Pass/Main/Layout"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="Row" type="HBoxContainer" parent="Center/Ticket/Pass/Main/Layout/Body"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 14
+
+[node name="Art" type="PanelContainer" parent="Center/Ticket/Pass/Main/Layout/Body/Row"]
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Art_frame")
+
+[node name="DefaultMargin" type="MarginContainer" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Art"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 34
+theme_override_constants/margin_top = 34
+theme_override_constants/margin_right = 34
+theme_override_constants/margin_bottom = 34
+
+[node name="DefaultSongImage" type="TextureRect" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Art/DefaultMargin"]
+unique_name_in_owner = true
+modulate = Color(0.937255, 0.909804, 0.847059, 1)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_music")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MusicImage" type="TextureRect" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Art"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Fields" type="VBoxContainer" parent="Center/Ticket/Pass/Main/Layout/Body/Row"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Destination" type="VBoxContainer" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Destination"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.458824, 0.439216, 0.372549, 1)
+theme_override_font_sizes/font_size = 10
+text = "DESTINATION"
+
+[node name="SongLabel" type="Label" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Destination"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.113725, 0.12549, 0.14902, 1)
+theme_override_fonts/font = ExtResource("2_bold")
+theme_override_font_sizes/font_size = 20
+text = "—"
+text_overrun_behavior = 3
+
+[node name="Carrier" type="VBoxContainer" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Carrier"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.458824, 0.439216, 0.372549, 1)
+theme_override_font_sizes/font_size = 10
+text = "CARRIER"
+
+[node name="ArtistLabel" type="Label" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Carrier"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.113725, 0.12549, 0.14902, 1)
+theme_override_font_sizes/font_size = 14
+text = "—"
+text_overrun_behavior = 3
+
+[node name="Via" type="VBoxContainer" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Via"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.458824, 0.439216, 0.372549, 1)
+theme_override_font_sizes/font_size = 10
+text = "VIA"
+
+[node name="AlbumLabel" type="Label" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Via"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.113725, 0.12549, 0.14902, 1)
+theme_override_font_sizes/font_size = 14
+text = "—"
+text_overrun_behavior = 3
+
+[node name="Route" type="HBoxContainer" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Dep" type="VBoxContainer" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Route"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Route/Dep"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.458824, 0.439216, 0.372549, 1)
+theme_override_font_sizes/font_size = 10
+text = "DEP"
+
+[node name="CurrentTimeLabel" type="Label" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Route/Dep"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.113725, 0.12549, 0.14902, 1)
+theme_override_fonts/font = ExtResource("2_bold")
+theme_override_font_sizes/font_size = 15
+text = "0:00"
+
+[node name="MarginContainer" type="MarginContainer" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Route"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="RouteLine" type="Control" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Route/MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+mouse_filter = 2
+script = ExtResource("6_route")
+
+[node name="Arr" type="VBoxContainer" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Route"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Route/Arr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.458824, 0.439216, 0.372549, 1)
+theme_override_font_sizes/font_size = 10
+text = "ARR"
+horizontal_alignment = 2
+
+[node name="EndTimeLabel" type="Label" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Route/Arr"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.113725, 0.12549, 0.14902, 1)
+theme_override_fonts/font = ExtResource("2_bold")
+theme_override_font_sizes/font_size = 15
+text = "0:00"
+horizontal_alignment = 2
+
+[node name="Seat" type="HBoxContainer" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 16
+
+[node name="SeatField" type="VBoxContainer" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Seat"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Seat/SeatField"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.458824, 0.439216, 0.372549, 1)
+theme_override_font_sizes/font_size = 10
+text = "SEAT"
+
+[node name="Value" type="HBoxContainer" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Seat/SeatField"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="PlaylistProgress" type="Label" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Seat/SeatField/Value"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.113725, 0.12549, 0.14902, 1)
+theme_override_fonts/font = ExtResource("2_bold")
+theme_override_font_sizes/font_size = 14
+text = "01/01"
+
+[node name="ShuffleIcon" type="TextureRect" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Seat/SeatField/Value"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(0.113725, 0.12549, 0.14902, 1)
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("7_shuffle")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RepeatingIcon" type="TextureRect" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Seat/SeatField/Value"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(0.113725, 0.12549, 0.14902, 1)
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("8_repeat")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ClassField" type="VBoxContainer" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Seat"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Seat/ClassField"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.458824, 0.439216, 0.372549, 1)
+theme_override_font_sizes/font_size = 10
+text = "CLASS"
+
+[node name="FileTypeLabel" type="Label" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Seat/ClassField"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.113725, 0.12549, 0.14902, 1)
+theme_override_fonts/font = ExtResource("2_bold")
+theme_override_font_sizes/font_size = 14
+text = "MP3"
+text_overrun_behavior = 3
+
+[node name="Flags" type="HBoxContainer" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Seat"]
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="LockIcon" type="TextureRect" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Seat/Flags"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(0.113725, 0.12549, 0.14902, 1)
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("9_lock")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StayAwakeIcon" type="TextureRect" parent="Center/Ticket/Pass/Main/Layout/Body/Row/Fields/Seat/Flags"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(0.113725, 0.12549, 0.14902, 1)
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("10_coffee")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Perforation" type="Control" parent="Center/Ticket/Pass"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("11_perf")
+
+[node name="Stub" type="PanelContainer" parent="Center/Ticket/Pass"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Paper_right")
+
+[node name="Layout" type="VBoxContainer" parent="Center/Ticket/Pass/Stub"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="StubStripe" type="PanelContainer" parent="Center/Ticket/Pass/Stub/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Stripe_right")
+
+[node name="Title" type="Label" parent="Center/Ticket/Pass/Stub/Layout/StubStripe"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.113725, 0.12549, 0.14902, 1)
+theme_override_fonts/font = ExtResource("2_bold")
+theme_override_font_sizes/font_size = 13
+text = "GATE"
+horizontal_alignment = 1
+
+[node name="Body" type="MarginContainer" parent="Center/Ticket/Pass/Stub/Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="Column" type="VBoxContainer" parent="Center/Ticket/Pass/Stub/Layout/Body"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="GateLabel" type="Label" parent="Center/Ticket/Pass/Stub/Layout/Body/Column"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.113725, 0.12549, 0.14902, 1)
+theme_override_fonts/font = ExtResource("2_bold")
+theme_override_font_sizes/font_size = 32
+text = "05"
+horizontal_alignment = 1
+
+[node name="Buttons" type="CenterContainer" parent="Center/Ticket/Pass/Stub/Layout/Body/Column"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="PlayButton" type="Button" parent="Center/Ticket/Pass/Stub/Layout/Body/Column/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+theme_override_colors/icon_normal_color = Color(0.937255, 0.909804, 0.847059, 1)
+theme_override_colors/icon_focus_color = Color(0.113725, 0.12549, 0.14902, 1)
+theme_override_colors/icon_pressed_color = Color(0.113725, 0.12549, 0.14902, 1)
+theme_override_colors/icon_hover_color = Color(0.937255, 0.909804, 0.847059, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0.113725, 0.12549, 0.14902, 1)
+theme_override_styles/focus = SubResource("Round_focus")
+theme_override_styles/hover = SubResource("Round_normal")
+theme_override_styles/pressed = SubResource("Round_focus")
+theme_override_styles/normal = SubResource("Round_normal")
+icon = ExtResource("12_play")
+icon_alignment = 1
+expand_icon = true
+
+[node name="PauseButton" type="Button" parent="Center/Ticket/Pass/Stub/Layout/Body/Column/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+theme_override_colors/icon_normal_color = Color(0.937255, 0.909804, 0.847059, 1)
+theme_override_colors/icon_focus_color = Color(0.113725, 0.12549, 0.14902, 1)
+theme_override_colors/icon_pressed_color = Color(0.113725, 0.12549, 0.14902, 1)
+theme_override_colors/icon_hover_color = Color(0.937255, 0.909804, 0.847059, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0.113725, 0.12549, 0.14902, 1)
+theme_override_styles/focus = SubResource("Round_focus")
+theme_override_styles/hover = SubResource("Round_normal")
+theme_override_styles/pressed = SubResource("Round_focus")
+theme_override_styles/normal = SubResource("Round_normal")
+icon = ExtResource("13_pause")
+icon_alignment = 1
+expand_icon = true
+
+[node name="QrCode" type="Control" parent="Center/Ticket/Pass/Stub/Layout/Body/Column"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(84, 84)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("14_qr")
+
+[node name="LyricLane" type="Control" parent="Center/Ticket"]
+unique_name_in_owner = true
+clip_contents = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("16_lyrics")
+
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="tree_exited" from="." to="." method="_on_tree_exited"]
+[connection signal="pressed" from="Center/Ticket/Pass/Stub/Layout/Body/Column/Buttons/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="Center/Ticket/Pass/Stub/Layout/Body/Column/Buttons/PauseButton" to="." method="_on_pause_button_pressed"]

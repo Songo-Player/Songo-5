@@ -1,0 +1,12 @@
+[gd_resource type="FontVariation" load_steps=3 format=3]
+
+[ext_resource type="FontFile" path="res://theme_dev/themes_raw/Departures/assets/B612Mono-Bold.ttf" id="1_b612"]
+[ext_resource type="FontFile" path="res://assets/fonts/NotoSansCJKjp-Medium-Latin.otf" id="2_noto"]
+
+[resource]
+fallbacks = Array[Font]([ExtResource("2_noto")])
+base_font = ExtResource("1_b612")
+; The Noto fallback (for CJK titles) has a much taller line box than B612,
+; and labels are sized to the tallest font in the chain while the text sits
+; at the top of that box. This moves B612 down to the middle of it.
+baseline_offset = 0.14

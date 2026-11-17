@@ -7,8 +7,8 @@ var songo_settings = SongoSettings.get_instance()
 # the info panel from showing at the same time.
 var showing: bool = false
 
-# Set by the SBC launcher when the background player is available
-var bg_play_available: bool = true || OS.get_environment("SONGO_SBC_BG_PLAY") == "1"
+# Only builds with background play enabled (and the editor) offer Quit with Music
+var bg_play_available: bool = SongoPlayer.bg_play_enabled()
 
 
 func open_menu() -> void:

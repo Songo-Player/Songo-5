@@ -1,0 +1,59 @@
+{
+	"name": "Departures",
+	"rootDir": "Departures",
+	"version": "1.0",
+	"author": "Claude",
+	"description": "A split-flap station board. Your library leaves on time; songs play as boarding passes.",
+	"godot_theme_path": "/theme.tres",
+	"components": {
+		"background_root": "background_root/background_root.tscn",
+		"header": "header/header.tscn",
+		"main_menu": "main_menu/main_menu.tscn",
+		"footer": "footer/footer.tscn",
+		"main_song_view": "main_song_view/main_song_view.tscn",
+		"song_follow": "song_follow/song_follow.tscn",
+		"collection_button": "collection_button/collection_button.tscn",
+		"collection_header": "collection_header/collection_header.tscn"
+	},
+	"collection_options": {
+		"vertical_layout": true,
+		"list_top_fade": 0,
+		"list_bottom_fade": 16,
+		"list_container_margin_left": 0,
+		"list_container_margin_right": 3,
+	},
+	"tags": [
+		"dark",
+		"animated",
+		"retro"
+	],
+	"settings": {
+		"light_mode": {
+			"values": [true, false],
+			"default": false,
+			"display_name": "Light Mode",
+			"dependents": ["background_root", "header", "footer", "main_menu", "main_song_view", "song_follow", "collection_header", "collection_button"]
+		},
+		"board_color": {
+			"values": ["f2c230", "f4f1e8", "ff8a1f", "6fcf97", "6ec6ff", "ff6b8b"],
+			"labels": ["Station Yellow", "Paper White", "Sodium Orange", "Signal Green", "Night Blue", "Neon Pink"],
+			"default": "f2c230",
+			"display_name": "Board Color",
+			"dependents": ["background_root", "header", "footer", "main_menu", "main_song_view", "song_follow", "collection_header", "collection_button"]
+		},
+		"flap_animation": {
+			"values": [true, false],
+			"default": true,
+			"display_name": "Flip Animation",
+			"dependents": ["header", "main_menu", "main_song_view", "collection_header"]
+		},
+		"ticket_scale": {
+			"values": [0.8, 0.9, 1.0, 1.1, 1.2, 1.4],
+			"labels": ["0.8x", "0.9x", "1.0x", "1.1x", "1.2x", "1.4x"],
+			"default": 1.0,
+			"display_name": "Boarding Pass Size",
+			"dependents": ["main_song_view"],
+			"description": "Scales the boarding pass on the now playing page."
+		}
+	}
+}

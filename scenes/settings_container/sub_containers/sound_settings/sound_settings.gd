@@ -61,6 +61,33 @@ func update_eq_ui():
 		var line_edit = get_node_or_null("%%Band%dDecibalAdjustment" % band_index)
 		if line_edit:
 			line_edit.text = "%+ddb" % int(round(songo_settings.equalizer.get_band_gain(band_index - 1)))
+	%EQGraph.queue_redraw()
+	update_eq_output_ui()
+
+func update_eq_output_ui():
+	var auto_preamp: bool = songo_settings.equalizer.auto_preamp
+	%AutoPreampEnabled.visible = auto_preamp
+	%AutoPreampDisabled.visible = not auto_preamp
+	%AutoPreampButton.text = "Disable" if auto_preamp else "Enable"
+	%OutputGainAdjustment.text = "%+ddb" % int(round(songo_settings.equalizer.output_gain_db))
+
+func _on_auto_preamp_button_pressed() -> void:
+	songo_settings.equalizer.auto_preamp = not songo_settings.equalizer.auto_preamp
+	songo_settings.save()
+	SongoPlayer.apply_equalizer_settings()
+	update_eq_output_ui()
+
+func _on_output_gain_down_pressed() -> void:
+	_adjust_output_gain(-1.0)
+
+func _on_output_gain_up_pressed() -> void:
+	_adjust_output_gain(1.0)
+
+func _adjust_output_gain(delta_db: float) -> void:
+	songo_settings.equalizer.set_output_gain(songo_settings.equalizer.output_gain_db + delta_db)
+	songo_settings.save()
+	SongoPlayer.apply_equalizer_settings()
+	update_eq_output_ui()
 
 func _on_tree_entered() -> void:
 	get_viewport().gui_focus_changed.connect(_on_focus_changed)

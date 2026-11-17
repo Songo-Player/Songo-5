@@ -1,0 +1,88 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Departures/header/header.gd" id="1_script"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Departures/assets/flap_text.gd" id="2_flap"]
+[ext_resource type="FontVariation" path="res://theme_dev/themes_raw/Departures/assets/font_bold.tres" id="3_bold"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sign"]
+content_margin_left = 6.0
+content_margin_right = 6.0
+bg_color = Color(0.94902, 0.760784, 0.188235, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[node name="Header" type="MarginContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 34.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 2
+script = ExtResource("1_script")
+
+[node name="Row" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="PlatformSign" type="PanelContainer" parent="Row"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_sign")
+
+[node name="Number" type="Label" parent="Row/PlatformSign"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.113725, 0.12549, 0.14902, 1)
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 16
+text = "5"
+horizontal_alignment = 1
+
+[node name="PlatformLabel" type="Label" parent="Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"DepartureDim"
+theme_override_font_sizes/font_size = 12
+text = "PLATFORM"
+
+[node name="NetLabel" type="Label" parent="Row"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.435294, 0.811765, 0.592157, 1)
+theme_override_font_sizes/font_size = 12
+text = "● NET"
+
+[node name="BatteryLabel" type="Label" parent="Row"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.913725, 0.901961, 0.862745, 1)
+theme_override_font_sizes/font_size = 12
+text = "BAT --"
+
+[node name="Clock" type="Control" parent="Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(73, 22)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("2_flap")
+text = "12:00"
+cells = 5
+cell_size = Vector2(13, 22)
+gap = 2.0
+font_size = 16
+font = ExtResource("3_bold")
+role = "accent"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
