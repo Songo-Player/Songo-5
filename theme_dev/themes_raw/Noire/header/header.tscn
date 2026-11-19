@@ -1,0 +1,99 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noire/header/header.gd" id="1_script"]
+[ext_resource type="FontVariation" path="res://theme_dev/themes_raw/Noire/assets/font_title.tres" id="2_title"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noire/assets/deco_rule.gd" id="3_rule"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar"]
+content_margin_left = 10.0
+content_margin_top = 3.0
+content_margin_right = 12.0
+content_margin_bottom = 3.0
+bg_color = Color(0.0352941, 0.0352941, 0.0392157, 0.78)
+border_width_bottom = 1
+border_color = Color(0.172549, 0.172549, 0.192157, 1)
+
+[node name="Header" type="MarginContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 32.0
+grow_horizontal = 2
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="Bar" type="PanelContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bar")
+
+[node name="Row" type="HBoxContainer" parent="Bar"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Gem" type="Control" parent="Bar/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("3_rule")
+line_color = Color(0, 0, 0, 0)
+gem_at = 5.0
+
+[node name="Title" type="Label" parent="Bar/Row"]
+layout_mode = 2
+theme_type_variation = &"NoireTitle"
+theme_override_fonts/font = ExtResource("2_title")
+theme_override_font_sizes/font_size = 17
+text = "SONGO#5"
+vertical_alignment = 1
+
+[node name="ThemeName" type="Label" parent="Bar/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"NoireDim"
+theme_override_font_sizes/font_size = 12
+text = "Noire"
+text_overrun_behavior = 3
+vertical_alignment = 1
+
+[node name="NetLabel" type="Label" parent="Bar/Row"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"NoireDim"
+theme_override_font_sizes/font_size = 12
+text = "WIRE OPEN"
+vertical_alignment = 1
+
+[node name="Sep" type="Label" parent="Bar/Row"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"NoireDim"
+theme_override_font_sizes/font_size = 12
+text = "/"
+vertical_alignment = 1
+
+[node name="BatteryLabel" type="Label" parent="Bar/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"NoireDim"
+theme_override_font_sizes/font_size = 12
+text = "BATT --"
+vertical_alignment = 1
+
+[node name="Clock" type="Label" parent="Bar/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "11:42 PM"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

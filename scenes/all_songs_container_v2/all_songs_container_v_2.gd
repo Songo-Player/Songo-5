@@ -21,10 +21,13 @@ var focused_song:
 	
 	
 func _ready():
-	if ThemeManager.current_theme.has("collection_options"):
-		var options = ThemeManager.current_theme["collection_options"]
-		if options.has("vertical_layout"): vertical = options["vertical_layout"]
-			
+	_apply_theme_layout()
+
+# vertical_layout comes from the CollectionOptions theme type (0 or 1);
+# the default is in songo_base_theme.tres.
+func _apply_theme_layout():
+	vertical = get_theme_constant("vertical_layout", "CollectionOptions") != 0
+
 func get_focused_song():
 	return %VirtualizedList.focused_item
 
@@ -131,9 +134,7 @@ func default_focus():
 
 	
 func _on_tree_entered() -> void:
-	if ThemeManager.current_theme.has("collection_options"):
-		var options = ThemeManager.current_theme["collection_options"]
-		if options.has("vertical_layout"): vertical = options["vertical_layout"]
+	_apply_theme_layout()
 	if Controller.skip_refocus:
 		await get_tree().process_frame
 		call_deferred("default_focus")

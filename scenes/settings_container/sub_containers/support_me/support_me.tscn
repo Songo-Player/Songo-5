@@ -93,6 +93,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/MainPanel/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "If you have an abundance of cash and would rather not have as much, send some my way. Anything sent will go towards handhelds for testing and expanding Songo#5 compatibility."
@@ -136,6 +137,7 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
 [node name="Label" type="Label" parent="ScrollContainer/MainPanel/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_colors/font_color = Color(0.12549, 0.12549, 0.12549, 1)
 theme_override_font_sizes/font_size = 30
@@ -143,6 +145,7 @@ text = "Riley / Key777"
 autowrap_mode = 2
 
 [node name="Label2" type="Label" parent="ScrollContainer/MainPanel/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 22
@@ -176,11 +179,13 @@ layout_mode = 2
 theme_override_constants/separation = 8
 
 [node name="Label" type="Label" parent="ScrollContainer/MainPanel/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
 text = "Development Roadmap:"
 
 [node name="Label2" type="Label" parent="ScrollContainer/MainPanel/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "These are in no particular order and these plans are subject to change."
@@ -202,6 +207,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/MainPanel/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/RoadmapItems/PanelContainer/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Better Equalizer"
 
@@ -216,6 +222,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/MainPanel/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/RoadmapItems/PanelContainer2/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Better theme options"
 
@@ -230,6 +237,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/MainPanel/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/RoadmapItems/PanelContainer3/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "More scraping options"
 
@@ -244,6 +252,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/MainPanel/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/RoadmapItems/PanelContainer5/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Language support setting"
 
@@ -258,6 +267,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/MainPanel/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/RoadmapItems/PanelContainer6/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Commune with the spirit of Perez Prado"
 
@@ -280,6 +290,7 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
 [node name="PageLabel" type="Label" parent="ScrollContainer/MainPanel/MarginContainer/PanelContainer/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 24

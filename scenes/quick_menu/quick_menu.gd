@@ -36,9 +36,11 @@ func _input(event: InputEvent) -> void:
 		for action_event in InputMap.action_get_events("ui_left"):
 			if event.is_match(action_event) and event.is_pressed():
 				if Controller.nav_label.size() == 1:
-					songo_settings.rotate_display = not songo_settings.rotate_display
+					# Step counter-clockwise: 0 -> 270 -> 180 -> 90 -> 0
+					songo_settings.display_rotation = posmod(songo_settings.display_rotation - 90, 360)
 					songo_settings.save()
 					UiHelper.apply_rotation()
+					DeviceOS.apply_action_bindings()
 				else:
 					change_target_playlist(-1)
 				break  # Stop after finding a match

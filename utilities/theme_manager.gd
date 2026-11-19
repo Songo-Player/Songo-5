@@ -40,10 +40,12 @@ func set_current_theme(theme_path_arg):
 		settings = {}
 		settings_info = {}
 		
-	if current_theme.has("godot_theme_path"):
-		var full_gd_theme_path = theme_path_arg + current_theme["godot_theme_path"]
-		print(full_gd_theme_path)
-		UiHelper.apply_user_theme(load(full_gd_theme_path))
+	var gd_theme_path := get_godot_theme_path(theme_path_arg)
+	if gd_theme_path != "":
+		var user_theme: Theme = load(gd_theme_path)
+		if current_theme.has("collection_options"):
+			user_theme = _apply_legacy_collection_options(user_theme, current_theme["collection_options"])
+		UiHelper.apply_user_theme(user_theme)
 	else:
 		var base_theme = load("res://assets/songo_base_theme.tres")
 		get_tree().root.theme = base_theme
@@ -51,6 +53,28 @@ func set_current_theme(theme_path_arg):
 			UiHelper.transform_container.theme = base_theme
 	theme_updated.emit()
 	
+# A theme's Godot Theme, if it has one, is always theme.tres in the theme's
+# root folder (next to theme.json). Returns "" when there isn't one, and the
+# base theme is used on its own. ResourceLoader.exists covers internal themes
+# in exported builds (where the .tres is remapped); FileAccess covers external
+# themes, whose theme.tres is a plain file beside the pck.
+func get_godot_theme_path(theme_dir: String) -> String:
+	var path := theme_dir.path_join("theme.tres")
+	if ResourceLoader.exists(path) or FileAccess.file_exists(path):
+		return path
+	return ""
+
+# Themes packed before collection options moved into the Godot theme (as
+# CollectionOptions constants) still have a "collection_options" block in
+# theme.json. Copy it into the theme, without overriding constants the theme
+# sets itself. Safe to delete once no old packs are around.
+func _apply_legacy_collection_options(user_theme: Theme, options: Dictionary) -> Theme:
+	user_theme = user_theme.duplicate()
+	for key in ["vertical_layout", "list_top_fade", "list_bottom_fade"]:
+		if options.has(key) and not user_theme.has_constant(key, "CollectionOptions"):
+			user_theme.set_constant(key, "CollectionOptions", int(options[key]))
+	return user_theme
+
 func get_scene_path(scene_name):
 	if not current_theme:
 		return false

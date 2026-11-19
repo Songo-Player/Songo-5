@@ -1,11 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://pedutn0iq8mx"]
+[gd_scene load_steps=7 format=3 uid="uid://pedutn0iq8mx"]
 
-[ext_resource type="Texture2D" uid="uid://do7beoh345jld" path="res://theme_dev/themes_raw/Noted/assets/graph_paper.jpg" id="1_lnf3x"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noted/background_root/background_root.gd" id="0_script"]
+[ext_resource type="Shader" path="res://theme_dev/themes_raw/Noted/assets/graph_paper.gdshader" id="1_paper"]
 [ext_resource type="Texture2D" uid="uid://drmxlgr5jfdmj" path="res://theme_dev/themes_raw/Noted/assets/paperclip_full.png" id="1_lviyh"]
 [ext_resource type="Texture2D" uid="uid://bld2011eq5yj8" path="res://theme_dev/themes_raw/Noted/assets/paperclip_half.png" id="2_wn487"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rvci7"]
-texture = ExtResource("1_lnf3x")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_paper"]
+bg_color = Color(0.968627, 0.972549, 0.980392, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_paper"]
+shader = ExtResource("1_paper")
 
 [node name="BackgroundRoot" type="PanelContainer"]
 z_index = -2
@@ -14,7 +18,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_rvci7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_paper")
+script = ExtResource("0_script")
+
+[node name="GraphPaper" type="ColorRect" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_paper")
+layout_mode = 2
+mouse_filter = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2

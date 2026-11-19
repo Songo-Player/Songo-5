@@ -1,0 +1,252 @@
+[gd_resource type="Theme" load_steps=15 format=3]
+
+[ext_resource type="FontVariation" path="res://theme_dev/themes_raw/Noted/assets/font_hand.tres" id="1_hand"]
+
+[sub_resource type="StyleBoxFlat" id="Button_normal"]
+content_margin_left = 14.0
+content_margin_top = 4.0
+content_margin_right = 14.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.266667, 0.266667, 0.266667, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 2
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="Button_hover"]
+content_margin_left = 14.0
+content_margin_top = 4.0
+content_margin_right = 14.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.35)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.266667, 0.266667, 0.266667, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 2
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="Button_focus"]
+content_margin_left = 14.0
+content_margin_top = 4.0
+content_margin_right = 14.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 0.952941, 0.419608, 0.8)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.266667, 0.266667, 0.266667, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 2
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="Button_pressed"]
+content_margin_left = 14.0
+content_margin_top = 4.0
+content_margin_right = 14.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 0.882353, 0.294118, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.266667, 0.266667, 0.266667, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 2
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="ListButton_normal"]
+content_margin_left = 8.0
+content_margin_top = 2.0
+content_margin_right = 8.0
+content_margin_bottom = 2.0
+bg_color = Color(1, 1, 1, 0)
+border_width_bottom = 1
+border_color = Color(0.560784, 0.721569, 0.909804, 0.9)
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_right = 0
+corner_radius_bottom_left = 0
+
+[sub_resource type="StyleBoxFlat" id="ListButton_focus"]
+content_margin_left = 8.0
+content_margin_top = 2.0
+content_margin_right = 8.0
+content_margin_bottom = 2.0
+bg_color = Color(1, 0.952941, 0.419608, 0.8)
+border_width_bottom = 1
+border_color = Color(0.560784, 0.721569, 0.909804, 0.9)
+corner_radius_top_left = 2
+corner_radius_top_right = 6
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 7
+skew = Vector2(0.12, 0)
+
+[sub_resource type="StyleBoxEmpty" id="ListPanel_panel"]
+
+[sub_resource type="StyleBoxFlat" id="SongoPanel_panel"]
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 0.980392, 0.694118, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.701961, 0.682353, 0.482353, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color(0, 0, 0, 0.14)
+shadow_size = 3
+shadow_offset = Vector2(1, 2)
+
+[sub_resource type="StyleBoxFlat" id="Scroll_rail"]
+content_margin_left = 12.0
+content_margin_top = 4.0
+content_margin_right = 0.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.45)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.603922, 0.603922, 0.603922, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="Scroll_rail_focus"]
+content_margin_left = 12.0
+content_margin_top = 4.0
+content_margin_right = 0.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.6)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.266667, 0.266667, 0.266667, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="Scroll_grabber"]
+content_margin_left = 6.0
+content_margin_top = 10.0
+content_margin_right = 6.0
+content_margin_bottom = 10.0
+bg_color = Color(0.964706, 0.65098, 0.713725, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.541176, 0.333333, 0.376471, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="Scroll_grabber_highlight"]
+content_margin_left = 6.0
+content_margin_top = 10.0
+content_margin_right = 6.0
+content_margin_bottom = 10.0
+bg_color = Color(1, 0.560784, 0.65098, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.266667, 0.266667, 0.266667, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="Scroll_grabber_pressed"]
+content_margin_left = 6.0
+content_margin_top = 10.0
+content_margin_right = 6.0
+content_margin_bottom = 10.0
+bg_color = Color(1, 0.439216, 0.564706, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.266667, 0.266667, 0.266667, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[resource]
+CollectionOptions/constants/list_bottom_fade = 16
+CollectionOptions/constants/list_top_fade = 16
+CollectionOptions/constants/vertical_layout = 0
+Button/colors/font_color = Color(0.266667, 0.266667, 0.266667, 1)
+Button/colors/font_focus_color = Color(0.266667, 0.266667, 0.266667, 1)
+Button/colors/font_hover_color = Color(0.266667, 0.266667, 0.266667, 1)
+Button/colors/font_hover_pressed_color = Color(0.266667, 0.266667, 0.266667, 1)
+Button/colors/font_pressed_color = Color(0.266667, 0.266667, 0.266667, 1)
+Button/colors/icon_normal_color = Color(0.266667, 0.266667, 0.266667, 1)
+Button/colors/icon_focus_color = Color(0.266667, 0.266667, 0.266667, 1)
+Button/colors/icon_hover_color = Color(0.266667, 0.266667, 0.266667, 1)
+Button/colors/icon_pressed_color = Color(0.266667, 0.266667, 0.266667, 1)
+Button/fonts/font = ExtResource("1_hand")
+Button/styles/focus = SubResource("Button_focus")
+Button/styles/hover = SubResource("Button_hover")
+Button/styles/normal = SubResource("Button_normal")
+Button/styles/pressed = SubResource("Button_pressed")
+ItemList/fonts/font = ExtResource("1_hand")
+Label/colors/font_color = Color(0.411765, 0.411765, 0.411765, 1)
+Label/fonts/font = ExtResource("1_hand")
+ListButton/base_type = &"Button"
+ListButton/colors/font_color = Color(0.411765, 0.411765, 0.411765, 1)
+ListButton/colors/font_focus_color = Color(0.266667, 0.266667, 0.266667, 1)
+ListButton/colors/font_hover_color = Color(0.411765, 0.411765, 0.411765, 1)
+ListButton/colors/font_hover_pressed_color = Color(0.266667, 0.266667, 0.266667, 1)
+ListButton/colors/font_pressed_color = Color(0.266667, 0.266667, 0.266667, 1)
+ListButton/colors/icon_focus_color = Color(0.266667, 0.266667, 0.266667, 1)
+ListButton/colors/icon_hover_color = Color(0.411765, 0.411765, 0.411765, 1)
+ListButton/colors/icon_normal_color = Color(0.411765, 0.411765, 0.411765, 1)
+ListButton/styles/focus = SubResource("ListButton_focus")
+ListButton/styles/normal = SubResource("ListButton_normal")
+ListButtonOuterMargin/base_type = &"MarginContainer"
+ListButtonOuterMargin/constants/margin_bottom = 0
+ListButtonOuterMargin/constants/margin_left = 0
+ListButtonOuterMargin/constants/margin_right = 0
+ListButtonOuterMargin/constants/margin_top = 0
+ListPanelContainer/base_type = &"PanelContainer"
+ListPanelContainer/styles/panel = SubResource("ListPanel_panel")
+ListSectionInnerMargin/base_type = &"MarginContainer"
+ListSectionInnerMargin/constants/margin_bottom = 0
+ListSectionInnerMargin/constants/margin_left = 0
+ListSectionInnerMargin/constants/margin_right = 0
+ListSectionInnerMargin/constants/margin_top = 0
+ListSectionOuterMargin/base_type = &"MarginContainer"
+ListSectionOuterMargin/constants/margin_bottom = 10
+ListSectionOuterMargin/constants/margin_left = 4
+ListSectionOuterMargin/constants/margin_right = 4
+ListSectionOuterMargin/constants/margin_top = 10
+SongoPanel/base_type = &"PanelContainer"
+SongoPanel/styles/panel = SubResource("SongoPanel_panel")
+VScrollBar/styles/grabber = SubResource("Scroll_grabber")
+VScrollBar/styles/grabber_highlight = SubResource("Scroll_grabber_highlight")
+VScrollBar/styles/grabber_pressed = SubResource("Scroll_grabber_pressed")
+VScrollBar/styles/scroll = SubResource("Scroll_rail")
+VScrollBar/styles/scroll_focus = SubResource("Scroll_rail_focus")

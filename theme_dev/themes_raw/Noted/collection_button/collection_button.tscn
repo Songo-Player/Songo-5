@@ -1,0 +1,219 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noted/collection_button/collection_button.gd" id="1_r"]
+[ext_resource type="FontVariation" path="res://theme_dev/themes_raw/Noted/assets/font_hand.tres" id="2_r"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noted/assets/polaroid.gd" id="3_r"]
+
+[node name="CollectionButton" type="MarginContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 54.0
+grow_horizontal = 2
+mouse_filter = 2
+script = ExtResource("1_r")
+
+[node name="SongButtonContainer" type="MarginContainer" parent="."]
+visible = false
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 0
+
+[node name="Row" type="HBoxContainer" parent="SongButtonContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="SongName" type="Label" parent="SongButtonContainer/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.411765, 0.411765, 0.411765, 1)
+theme_override_fonts/font = ExtResource("2_r")
+theme_override_font_sizes/font_size = 21
+text = "Song Name"
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(75, 0)
+text_overrun_behavior = 3
+
+[node name="Duration" type="Label" parent="SongButtonContainer/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.603922, 0.603922, 0.603922, 1)
+theme_override_fonts/font = ExtResource("2_r")
+theme_override_font_sizes/font_size = 17
+text = "0:00"
+
+[node name="AlbumButtonContainer" type="MarginContainer" parent="."]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 2
+
+[node name="Row" type="HBoxContainer" parent="AlbumButtonContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="PhotoBox" type="Control" parent="AlbumButtonContainer/Row"]
+layout_mode = 2
+custom_minimum_size = Vector2(52, 52)
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="AlbumPhoto" type="Control" parent="AlbumButtonContainer/Row/PhotoBox"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("3_r")
+photo_size = 38.0
+
+[node name="Info" type="VBoxContainer" parent="AlbumButtonContainer/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = -4
+alignment = 1
+
+[node name="AlbumName" type="Label" parent="AlbumButtonContainer/Row/Info"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.411765, 0.411765, 0.411765, 1)
+theme_override_fonts/font = ExtResource("2_r")
+theme_override_font_sizes/font_size = 21
+text = "Name"
+text_overrun_behavior = 3
+
+[node name="ArtistName" type="Label" parent="AlbumButtonContainer/Row/Info"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.603922, 0.603922, 0.603922, 1)
+theme_override_fonts/font = ExtResource("2_r")
+theme_override_font_sizes/font_size = 15
+text = "by Artist"
+text_overrun_behavior = 3
+
+[node name="ArtistButtonContainer" type="MarginContainer" parent="."]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 2
+
+[node name="Row" type="HBoxContainer" parent="ArtistButtonContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="PhotoBox" type="Control" parent="ArtistButtonContainer/Row"]
+layout_mode = 2
+custom_minimum_size = Vector2(52, 52)
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="ArtistPhoto" type="Control" parent="ArtistButtonContainer/Row/PhotoBox"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("3_r")
+photo_size = 38.0
+
+[node name="Info" type="VBoxContainer" parent="ArtistButtonContainer/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = -4
+alignment = 1
+
+[node name="RecordArtistName" type="Label" parent="ArtistButtonContainer/Row/Info"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.411765, 0.411765, 0.411765, 1)
+theme_override_fonts/font = ExtResource("2_r")
+theme_override_font_sizes/font_size = 21
+text = "Name"
+text_overrun_behavior = 3
+
+[node name="ArtistSummary" type="Label" parent="ArtistButtonContainer/Row/Info"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.603922, 0.603922, 0.603922, 1)
+theme_override_fonts/font = ExtResource("2_r")
+theme_override_font_sizes/font_size = 15
+text = "0 songs"
+text_overrun_behavior = 3
+
+[node name="PlaylistButtonContainer" type="MarginContainer" parent="."]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 2
+
+[node name="Row" type="HBoxContainer" parent="PlaylistButtonContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="PhotoBox" type="Control" parent="PlaylistButtonContainer/Row"]
+layout_mode = 2
+custom_minimum_size = Vector2(52, 52)
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="PlaylistPhoto" type="Control" parent="PlaylistButtonContainer/Row/PhotoBox"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("3_r")
+photo_size = 38.0
+
+[node name="Info" type="VBoxContainer" parent="PlaylistButtonContainer/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = -4
+alignment = 1
+
+[node name="PlaylistName" type="Label" parent="PlaylistButtonContainer/Row/Info"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.411765, 0.411765, 0.411765, 1)
+theme_override_fonts/font = ExtResource("2_r")
+theme_override_font_sizes/font_size = 21
+text = "Name"
+text_overrun_behavior = 3
+
+[node name="PlaylistSummary" type="Label" parent="PlaylistButtonContainer/Row/Info"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.603922, 0.603922, 0.603922, 1)
+theme_override_fonts/font = ExtResource("2_r")
+theme_override_font_sizes/font_size = 15
+text = "0 songs"
+text_overrun_behavior = 3
+

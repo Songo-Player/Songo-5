@@ -17,18 +17,16 @@ var _last_back_msec := 0
 const OVERLAY_CONTAINER = "res://scenes/overlay_container/overlay_container.tscn"
 const LRC_SCRAPE = "res://utilities/lrc_scrape.gd"
 const LRC_PROCESS = "res://utilities/lrc_process.gd"
-# The themes use a small Latin-only subset of Noto Sans; the CJK one (~4MB) is
-# attached as its fallback once the menu is up. See assets/fonts/source.
-const LATIN_FONT = "res://assets/fonts/NotoSansCJKjp-Medium-Latin.otf"
-const CJK_FONT = "res://assets/fonts/NotoSansCJKjp-Medium.otf"
 const SONG_BUTTON = "res://scenes/all_songs_container_v2/song_button_v2.tscn"
+# Preloaded rather than a class_name, so it works before the editor rescans.
+const PreviewCapture = preload("res://utilities/preview_capture.gd")
 
 # Pages loaded in the background after boot so opening them the first time
 # doesn't stall on compiling their scripts. Held here so they stay cached.
 var _preloaded_pages := []
 
 func _ready() -> void:
-	for path in [OVERLAY_CONTAINER, LRC_SCRAPE, LRC_PROCESS, CJK_FONT]:
+	for path in [OVERLAY_CONTAINER, LRC_SCRAPE, LRC_PROCESS]:
 		ResourceLoader.load_threaded_request(path)
 	var my_theme := load("res://assets/songo_base_theme.tres")
 	get_tree().root.theme = my_theme
@@ -37,7 +35,10 @@ func _ready() -> void:
 	UiHelper.transform_container = %TransformContainer
 
 	await get_tree().process_frame
-	ThemeManager.set_current_theme(songo_settings.theme_path)
+	# A preview capture run (see PreviewCapture) shows the theme being captured
+	# without changing the saved theme.
+	var capturing := PreviewCapture.active()
+	ThemeManager.set_current_theme(PreviewCapture.theme_path() if capturing else songo_settings.theme_path)
 	
 
 	#if songo_settings.force_screen_fit == true:
@@ -56,8 +57,8 @@ func _ready() -> void:
 	UiHelper.content_margin_container = %ContentMargin
 	UiHelper.flash_message_box = %FlashMessageBox
 	
-	UiHelper.apply_scale(songo_settings.ui_scale)
-	UiHelper.apply_content_margin(songo_settings.content_margin)
+	UiHelper.apply_scale(PreviewCapture.DEFAULT_UI_SCALE if capturing else songo_settings.ui_scale)
+	UiHelper.apply_content_margin(PreviewCapture.DEFAULT_CONTENT_MARGIN if capturing else songo_settings.content_margin)
 
 	DeviceOS.fade_out_overlay = %FadeOutOverlay
 	DeviceOS.setup_device_hallkey()
@@ -68,12 +69,15 @@ func _ready() -> void:
 	# Before the first main menu so plugin menu items/settings pages are in place.
 	#PluginManager.load_plugins()
 	Controller.main_menu()
-	if songo_settings.auto_import && songo_data.music_directory_paths.size() > 0:
+	if not capturing && songo_settings.auto_import && songo_data.music_directory_paths.size() > 0:
 		songo_data.index_mp3s(true)
 	DeviceOS.apply_action_bindings()
 		
 	get_window().go_back_requested.connect(_on_system_back_requested)
 	
+	if capturing:
+		PreviewCapture.capture_and_quit(self)
+		return
 	boot_up_message()
 	_start_deferred_services()
 
@@ -194,12 +198,9 @@ func _start_deferred_services():
 	overlay.name = "OverlayContainer"
 	%TransformContainer.add_child(overlay)
 
-	# Shared by every theme that uses the Latin font, so this covers them all.
-	# Text already drawn with missing glyphs redraws when the font changes.
-	var latin_font: FontFile = load(LATIN_FONT)
-	var fallbacks := latin_font.fallbacks
-	fallbacks.append(await _finish_threaded_load(CJK_FONT))
-	latin_font.fallbacks = fallbacks
+	# The full CJK font only loads if the library has CJK text to draw
+	CjkFont.scan_library(songo_data)
+	songo_data.import_finished.connect(func(): CjkFont.scan_library(songo_data))
 
 	var lrc_scrape = _add_service("LrcScrape", await _finish_threaded_load(LRC_SCRAPE))
 	var lrc_process = _add_service("LrcProcess", await _finish_threaded_load(LRC_PROCESS))

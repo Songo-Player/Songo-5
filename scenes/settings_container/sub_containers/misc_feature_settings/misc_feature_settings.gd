@@ -105,6 +105,7 @@ func _on_song_sleep_timer_up_pressed() -> void:
 func _apply_song_sleep_timer() -> void:
 	songo_settings.save()
 	update_song_sleep_ui()
+	songo_settings.song_sleep_timer_changed.emit()
 
 func _on_song_sleep_fade_type_up_pressed() -> void:
 	var initial_type = songo_settings.song_sleep_type
@@ -165,6 +166,7 @@ func _on_reset_to_defaults_button_pressed() -> void:
 	songo_settings.target_fps_index = 2
 	songo_settings.save()
 	Engine.max_fps = songo_settings.target_fps
+	songo_settings.song_sleep_timer_changed.emit()
 	_ui_settings_refresh()
 
 func _on_detonate_button_pressed() -> void:

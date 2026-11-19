@@ -129,6 +129,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/MainUISettingContainer/GlobalScaleSetting"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Global UI Scale"
 
@@ -171,6 +172,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/MainUISettingContainer/ContentMarginSetting"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Main Content Margin"
 
@@ -213,6 +215,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/MainUISettingContainer/ClockSetting"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Clock Display"
 
@@ -255,6 +258,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/MainUISettingContainer/ThemeSetting"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Current Theme"
 
@@ -336,6 +340,7 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
 [node name="ThemeNameWithVersion" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/MainUISettingContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
@@ -344,6 +349,7 @@ text = "Theme Name (v0.1)"
 text_overrun_behavior = 3
 
 [node name="ThemeAuthor" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/MainUISettingContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
@@ -371,6 +377,7 @@ text = "
 icon = ExtResource("5_3n06t")
 
 [node name="ApplyTheme" type="Button" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/MainUISettingContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+theme_type_variation = &"SongoSettingsButton"
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_vm6d4")
@@ -383,6 +390,7 @@ theme_override_constants/separation = 12
 theme_override_styles/separator = SubResource("StyleBoxFlat_pfbiw")
 
 [node name="ThemeDescription" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeContainer/MarginContainer/MainUISettingContainer/ThemePickerContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -418,6 +426,7 @@ layout_mode = 2
 theme_override_constants/separation = 8
 
 [node name="ThemeSettingsLabel" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeSettingsContainer/MarginContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
@@ -430,6 +439,7 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_g8xff")
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/PanelContainer/MarginContainer2/VBoxContainer/ThemeSettingsContainer/MarginContainer/VBoxContainer/NoSettingsLabel"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "No Settings defined in this theme"
 horizontal_alignment = 1
@@ -458,6 +468,7 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
 [node name="PageLabel" type="Label" parent="ScrollContainer/VBoxContainer/UserInterfaceSection/MarginContainer/PanelContainer/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 2

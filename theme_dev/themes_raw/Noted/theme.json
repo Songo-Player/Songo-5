@@ -1,19 +1,20 @@
 {
 	"name": "Noted",
 	"rootDir": "Noted",
-	"version": "0.1",
+	"version": "0.2",
 	"author": "Maple",
+	"co_authors": ["Robot (AI)"],
+	"ai_usage": 3,
 	"description": "A hand drawn lookin thing",
 	"components": {
-		"main_menu": "main_menu/main_menu.tscn",
 		"background_root": "background_root/background_root.tscn",
-	},
-	"collection_options": {
-		"vertical_layout": false,
-		"list_top_fade": 16,
-		"list_bottom_fade": 16,
-		"list_container_margin_left": 0,
-		"list_container_margin_right": 3,
+		"header": "header/header.tscn",
+		"main_menu": "main_menu/main_menu.tscn",
+		"footer": "footer/footer.tscn",
+		"main_song_view": "main_song_view/main_song_view.tscn",
+		"song_follow": "song_follow/song_follow.tscn",
+		"collection_button": "collection_button/collection_button.tscn",
+		"collection_header": "collection_header/collection_header.tscn"
 	},
 	"tags": [
 		"minimal",
@@ -21,11 +22,12 @@
 		"light"
 	],
 	"settings": {
-		"clock_24_hour": {
+		"wobble": {
 			"values": [true, false],
 			"default": true,
-			"display_name": "24 Hour Clock",
-			"dependents": ["header"]
-		},
+			"display_name": "Wobbly Lines",
+			"dependents": ["background_root", "header", "footer", "main_menu", "main_song_view", "song_follow", "collection_header", "collection_button"],
+			"description": "Hand-drawn lines and writing redraw themselves a few times a second."
+		}
 	}
 }

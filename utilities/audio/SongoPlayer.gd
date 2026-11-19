@@ -1,4 +1,8 @@
 extends Node
+
+# Preloaded rather than a class_name, so it works before the editor rescans.
+const PreviewCapture = preload("res://utilities/preview_capture.gd")
+
 signal started_new_song(mp3_record)
 signal updated_repeat()
 signal music_started
@@ -71,6 +75,12 @@ func _ready() -> void:
 	# The ALSA device, where "default" isn't the one that shares with Godot
 	# (Songo5.sh picks the sound server's on handhelds)
 	harness.output_device = OS.get_environment("SONGO_AUDIO_DEVICE")
+	# A theme preview capture run gets its own silent daemon, so it can't pick
+	# up (and, on quitting, stop) music a running Songo left playing.
+	if PreviewCapture.active():
+		DirAccess.make_dir_recursive_absolute(OS.get_user_data_dir().path_join(PreviewCapture.SOCKET_DIR))
+		harness.socket_path = OS.get_user_data_dir().path_join(PreviewCapture.SOCKET_DIR).path_join("songo.sock")
+		harness.output_backend = "null"
 	add_child(harness)
 	harness.loop_queue = true
 	# Songs that won't open stop playback with an error rather than being

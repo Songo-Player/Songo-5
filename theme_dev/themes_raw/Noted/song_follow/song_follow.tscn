@@ -1,0 +1,151 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noted/song_follow/song_follow.gd" id="1_r"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noted/assets/polaroid.gd" id="2_r"]
+[ext_resource type="FontVariation" path="res://theme_dev/themes_raw/Noted/assets/font_hand.tres" id="3_r"]
+[ext_resource type="Script" path="res://utilities/carousel_label.gd" id="4_r"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noted/assets/pencil_box.gd" id="5_r"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar"]
+content_margin_left = 6.0
+content_margin_top = 2.0
+content_margin_right = 10.0
+content_margin_bottom = 2.0
+bg_color = Color(1, 0.980392, 0.694118, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.701961, 0.682353, 0.482353, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color(0, 0, 0, 0.14)
+shadow_size = 3
+shadow_offset = Vector2(1, 2)
+
+[node name="SongFollow" type="MarginContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 42.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 2
+script = ExtResource("1_r")
+
+[node name="Bar" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bar")
+
+[node name="Row" type="HBoxContainer" parent="Bar"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PhotoBox" type="Control" parent="Bar/Row"]
+layout_mode = 2
+custom_minimum_size = Vector2(32, 32)
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Polaroid" type="Control" parent="Bar/Row/PhotoBox"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_r")
+photo_size = 22.0
+tilt_degrees = -6.0
+
+[node name="SongTitle" type="Label" parent="Bar/Row"]
+unique_name_in_owner = true
+clip_text = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_r")
+theme_override_font_sizes/font_size = 19
+text = "Song - Artist"
+script = ExtResource("4_r")
+font_color = Color(0.266667, 0.266667, 0.266667, 1)
+
+[node name="Hints" type="HBoxContainer" parent="Bar/Row"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="SelectKey" type="MarginContainer" parent="Bar/Row/Hints"]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Box" type="Control" parent="Bar/Row/Hints/SelectKey"]
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("5_r")
+seed = 8
+
+[node name="Pad" type="MarginContainer" parent="Bar/Row/Hints/SelectKey"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 1
+
+[node name="SelectLabel" type="Label" parent="Bar/Row/Hints/SelectKey/Pad"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.266667, 0.266667, 0.266667, 1)
+theme_override_fonts/font = ExtResource("3_r")
+theme_override_font_sizes/font_size = 14
+text = "select"
+
+[node name="Return" type="Label" parent="Bar/Row/Hints"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.603922, 0.603922, 0.603922, 1)
+theme_override_fonts/font = ExtResource("3_r")
+theme_override_font_sizes/font_size = 15
+text = "return"
+size_flags_vertical = 4
+
+[node name="StartKey" type="MarginContainer" parent="Bar/Row/Hints"]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Box" type="Control" parent="Bar/Row/Hints/StartKey"]
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("5_r")
+seed = 12
+
+[node name="Pad" type="MarginContainer" parent="Bar/Row/Hints/StartKey"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 1
+
+[node name="StartLabel" type="Label" parent="Bar/Row/Hints/StartKey/Pad"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.266667, 0.266667, 0.266667, 1)
+theme_override_fonts/font = ExtResource("3_r")
+theme_override_font_sizes/font_size = 14
+text = "start"
+
+[node name="Stop" type="Label" parent="Bar/Row/Hints"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.603922, 0.603922, 0.603922, 1)
+theme_override_fonts/font = ExtResource("3_r")
+theme_override_font_sizes/font_size = 15
+text = "stop"
+size_flags_vertical = 4
+

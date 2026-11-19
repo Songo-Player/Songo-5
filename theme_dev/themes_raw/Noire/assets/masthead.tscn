@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="FontVariation" path="res://theme_dev/themes_raw/Noire/assets/font_title.tres" id="1_title"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noire/assets/deco_rule.gd" id="2_rule"]
+
+[node name="Masthead" type="VBoxContainer"]
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Presents" type="Label" parent="."]
+layout_mode = 2
+theme_type_variation = &"NoireDim"
+theme_override_font_sizes/font_size = 11
+text = "SONGO PICTURES PRESENTS"
+horizontal_alignment = 1
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 2
+theme_type_variation = &"NoireTitle"
+theme_override_fonts/font = ExtResource("1_title")
+theme_override_font_sizes/font_size = 48
+text = "NOIRE"
+horizontal_alignment = 1
+
+[node name="Rule" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("2_rule")
+line_color = Color(0.415686, 0.403922, 0.384314, 1)

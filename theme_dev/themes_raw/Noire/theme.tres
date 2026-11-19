@@ -1,0 +1,189 @@
+[gd_resource type="Theme" load_steps=17 format=3]
+
+[ext_resource type="FontVariation" path="res://theme_dev/themes_raw/Noire/assets/font_type.tres" id="1_type"]
+[ext_resource type="FontVariation" path="res://theme_dev/themes_raw/Noire/assets/font_title.tres" id="2_title"]
+
+[sub_resource type="StyleBoxFlat" id="Button_normal"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.0980392, 0.0980392, 0.109804, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.172549, 0.172549, 0.192157, 1)
+
+[sub_resource type="StyleBoxFlat" id="Button_hover"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.137255, 0.137255, 0.156863, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.172549, 0.172549, 0.192157, 1)
+
+[sub_resource type="StyleBoxFlat" id="Button_focus"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.784314, 0.0627451, 0.180392, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.980392, 0.941176, 1)
+
+[sub_resource type="StyleBoxFlat" id="Button_pressed"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.784314, 0.0627451, 0.180392, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.980392, 0.941176, 1)
+
+[sub_resource type="StyleBoxFlat" id="ListButton_normal"]
+content_margin_left = 8.0
+content_margin_top = 2.0
+content_margin_right = 8.0
+content_margin_bottom = 2.0
+bg_color = Color(0, 0, 0, 0)
+border_width_bottom = 1
+border_color = Color(0.172549, 0.172549, 0.192157, 0.7)
+
+[sub_resource type="StyleBoxFlat" id="ListButton_focus"]
+content_margin_left = 8.0
+content_margin_top = 2.0
+content_margin_right = 8.0
+content_margin_bottom = 2.0
+bg_color = Color(0.137255, 0.137255, 0.156863, 0.92)
+border_width_left = 3
+border_width_bottom = 1
+border_color = Color(0.784314, 0.0627451, 0.180392, 1)
+
+[sub_resource type="StyleBoxFlat" id="Card_panel"]
+bg_color = Color(0.0666667, 0.0666667, 0.0745098, 0.9)
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 8
+shadow_offset = Vector2(3, 4)
+
+[sub_resource type="StyleBoxEmpty" id="ListPanel_panel"]
+
+[sub_resource type="StyleBoxFlat" id="SongoPanel_panel"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.0666667, 0.0666667, 0.0745098, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.172549, 0.172549, 0.192157, 1)
+
+[sub_resource type="StyleBoxFlat" id="Scroll_rail"]
+content_margin_left = 8.0
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_color = Color(0.172549, 0.172549, 0.192157, 1)
+
+[sub_resource type="StyleBoxFlat" id="Scroll_rail_focus"]
+content_margin_left = 8.0
+bg_color = Color(0.0666667, 0.0666667, 0.0745098, 1)
+border_width_left = 1
+border_color = Color(0.784314, 0.0627451, 0.180392, 1)
+
+[sub_resource type="StyleBoxFlat" id="Scroll_grabber"]
+content_margin_left = 4.0
+content_margin_top = 10.0
+content_margin_right = 4.0
+content_margin_bottom = 10.0
+bg_color = Color(0.521569, 0.505882, 0.478431, 1)
+expand_margin_left = 1.0
+
+[sub_resource type="StyleBoxFlat" id="Scroll_grabber_highlight"]
+content_margin_left = 4.0
+content_margin_top = 10.0
+content_margin_right = 4.0
+content_margin_bottom = 10.0
+bg_color = Color(0.784314, 0.0627451, 0.180392, 1)
+expand_margin_left = 1.0
+
+[sub_resource type="StyleBoxFlat" id="Scroll_grabber_pressed"]
+content_margin_left = 4.0
+content_margin_top = 10.0
+content_margin_right = 4.0
+content_margin_bottom = 10.0
+bg_color = Color(0.784314, 0.0627451, 0.180392, 1)
+expand_margin_left = 1.0
+
+[resource]
+CollectionOptions/constants/list_bottom_fade = 24
+CollectionOptions/constants/list_top_fade = 0
+CollectionOptions/constants/vertical_layout = 0
+Button/colors/font_color = Color(0.901961, 0.882353, 0.839216, 1)
+Button/colors/font_focus_color = Color(1, 0.980392, 0.941176, 1)
+Button/colors/font_hover_color = Color(0.901961, 0.882353, 0.839216, 1)
+Button/colors/font_hover_pressed_color = Color(1, 0.980392, 0.941176, 1)
+Button/colors/font_pressed_color = Color(1, 0.980392, 0.941176, 1)
+Button/colors/icon_focus_color = Color(1, 0.980392, 0.941176, 1)
+Button/colors/icon_pressed_color = Color(1, 0.980392, 0.941176, 1)
+Button/fonts/font = ExtResource("1_type")
+Button/styles/focus = SubResource("Button_focus")
+Button/styles/hover = SubResource("Button_hover")
+Button/styles/normal = SubResource("Button_normal")
+Button/styles/pressed = SubResource("Button_pressed")
+ItemList/fonts/font = ExtResource("1_type")
+Label/colors/font_color = Color(0.901961, 0.882353, 0.839216, 1)
+Label/fonts/font = ExtResource("1_type")
+ListButton/base_type = &"Button"
+ListButton/colors/font_color = Color(0.788235, 0.768627, 0.721569, 1)
+ListButton/colors/font_focus_color = Color(1, 0.980392, 0.941176, 1)
+ListButton/colors/font_hover_color = Color(0.788235, 0.768627, 0.721569, 1)
+ListButton/colors/font_hover_pressed_color = Color(1, 0.980392, 0.941176, 1)
+ListButton/colors/font_pressed_color = Color(1, 0.980392, 0.941176, 1)
+ListButton/colors/icon_focus_color = Color(1, 0.980392, 0.941176, 1)
+ListButton/colors/icon_hover_color = Color(0.788235, 0.768627, 0.721569, 1)
+ListButton/colors/icon_normal_color = Color(0.788235, 0.768627, 0.721569, 1)
+ListButton/styles/focus = SubResource("ListButton_focus")
+ListButton/styles/normal = SubResource("ListButton_normal")
+ListButtonOuterMargin/base_type = &"MarginContainer"
+ListButtonOuterMargin/constants/margin_bottom = 0
+ListButtonOuterMargin/constants/margin_left = 0
+ListButtonOuterMargin/constants/margin_right = 0
+ListButtonOuterMargin/constants/margin_top = 0
+ListPanelContainer/base_type = &"PanelContainer"
+ListPanelContainer/styles/panel = SubResource("ListPanel_panel")
+ListSectionInnerMargin/base_type = &"MarginContainer"
+ListSectionInnerMargin/constants/margin_bottom = 0
+ListSectionInnerMargin/constants/margin_left = 0
+ListSectionInnerMargin/constants/margin_right = 0
+ListSectionInnerMargin/constants/margin_top = 0
+ListSectionOuterMargin/base_type = &"MarginContainer"
+ListSectionOuterMargin/constants/margin_bottom = 12
+ListSectionOuterMargin/constants/margin_left = 6
+ListSectionOuterMargin/constants/margin_right = 6
+ListSectionOuterMargin/constants/margin_top = 4
+NoireCard/base_type = &"PanelContainer"
+NoireCard/styles/panel = SubResource("Card_panel")
+NoireDim/base_type = &"Label"
+NoireDim/colors/font_color = Color(0.521569, 0.505882, 0.478431, 1)
+NoireTitle/base_type = &"Label"
+NoireTitle/colors/font_color = Color(0.901961, 0.882353, 0.839216, 1)
+NoireTitle/fonts/font = ExtResource("2_title")
+SongoPanel/base_type = &"PanelContainer"
+SongoPanel/styles/panel = SubResource("SongoPanel_panel")
+VScrollBar/styles/grabber = SubResource("Scroll_grabber")
+VScrollBar/styles/grabber_highlight = SubResource("Scroll_grabber_highlight")
+VScrollBar/styles/grabber_pressed = SubResource("Scroll_grabber_pressed")
+VScrollBar/styles/scroll = SubResource("Scroll_rail")
+VScrollBar/styles/scroll_focus = SubResource("Scroll_rail_focus")

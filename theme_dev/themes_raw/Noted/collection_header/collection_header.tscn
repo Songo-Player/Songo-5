@@ -1,0 +1,114 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noted/collection_header/collection_header.gd" id="1_r"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noted/assets/polaroid.gd" id="2_r"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noted/assets/paperclip.gd" id="3_r"]
+[ext_resource type="FontVariation" path="res://theme_dev/themes_raw/Noted/assets/font_hand.tres" id="4_r"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_note"]
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(1, 0.980392, 0.694118, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.701961, 0.682353, 0.482353, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color(0, 0, 0, 0.14)
+shadow_size = 3
+shadow_offset = Vector2(1, 2)
+
+[node name="CollectionHeader" type="MarginContainer"]
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 186.0
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+script = ExtResource("1_r")
+
+[node name="Note" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_note")
+
+[node name="Column" type="VBoxContainer" parent="Note"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="PhotoStage" type="Control" parent="Note/Column"]
+layout_mode = 2
+custom_minimum_size = Vector2(164, 150)
+mouse_filter = 2
+
+[node name="Polaroid" type="Control" parent="Note/Column/PhotoStage"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_r")
+photo_size = 116.0
+tilt_degrees = 3.0
+
+[node name="Clip" type="Control" parent="Note/Column/PhotoStage"]
+layout_mode = 0
+mouse_filter = 2
+position = Vector2(104, 10)
+rotation = 1.6916
+scale = Vector2(1.1, 1.1)
+script = ExtResource("3_r")
+color = Color(0.392157, 0.501961, 1, 1)
+
+[node name="NameLabel" type="Label" parent="Note/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.266667, 0.266667, 0.266667, 1)
+theme_override_fonts/font = ExtResource("4_r")
+theme_override_font_sizes/font_size = 26
+text = "Collection"
+autowrap_mode = 3
+max_lines_visible = 3
+custom_minimum_size = Vector2(150, 0)
+
+[node name="KindLabel" type="Label" parent="Note/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.603922, 0.603922, 0.603922, 1)
+theme_override_fonts/font = ExtResource("4_r")
+theme_override_font_sizes/font_size = 15
+text = "album songs"
+
+[node name="CountLabel" type="Label" parent="Note/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.411765, 0.411765, 0.411765, 1)
+theme_override_fonts/font = ExtResource("4_r")
+theme_override_font_sizes/font_size = 18
+text = "21 songs"
+
+[node name="SortLabel" type="Label" parent="Note/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.603922, 0.603922, 0.603922, 1)
+theme_override_fonts/font = ExtResource("4_r")
+theme_override_font_sizes/font_size = 14
+text = ""
+autowrap_mode = 3
+max_lines_visible = 2
+custom_minimum_size = Vector2(150, 0)
+

@@ -79,6 +79,7 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 4
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Please do not contact any of these people regarding Songo#5 bugs or feature requests."
@@ -99,6 +100,7 @@ theme_override_constants/margin_bottom = 8
 layout_mode = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Alpha Testers:"
 
@@ -117,6 +119,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "@Hades-Arcadius"
 
@@ -132,6 +135,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer3/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "@Matcha"
 
@@ -147,6 +151,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer6/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "@Yuki"
 
@@ -162,6 +167,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer7/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "@Kneeanderthul"
 
@@ -177,6 +183,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer8/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "@DimerHunton"
 
@@ -192,6 +199,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer11/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "@SummerStarlight"
 
@@ -207,6 +215,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer12/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "@antiNT"
 
@@ -222,6 +231,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer13/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "@Akari Dissaproves"
 
@@ -244,6 +254,7 @@ layout_mode = 2
 texture = ExtResource("3_tyuya")
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer9/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "@BunBun328"
 
@@ -271,6 +282,7 @@ layout_mode = 2
 texture = ExtResource("4_1yu4m")
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer10/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Emerald_Elephas"
 
@@ -298,6 +310,7 @@ layout_mode = 2
 texture = ExtResource("5_vq3p6")
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/FlowContainer/PanelContainer14/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Ciri"
 
@@ -321,6 +334,7 @@ theme_override_constants/margin_bottom = 8
 layout_mode = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer5/MarginContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Bega Testers:"
 
@@ -339,6 +353,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer5/MarginContainer/VBoxContainer/FlowContainer/PanelContainer/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "@Hades-Arcadius"
 
@@ -354,6 +369,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer5/MarginContainer/VBoxContainer/FlowContainer/PanelContainer2/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "@Mody"
 
@@ -369,6 +385,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer5/MarginContainer/VBoxContainer/FlowContainer/PanelContainer3/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "@William"
 
@@ -384,6 +401,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer5/MarginContainer/VBoxContainer/FlowContainer/PanelContainer4/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "@WarlordWossman"
 
@@ -402,6 +420,7 @@ theme_override_constants/margin_bottom = 8
 layout_mode = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Technical Assistance:"
 
@@ -420,6 +439,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "@ben16w"
 
@@ -435,6 +455,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer3/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "@IncognitoMan"
 
@@ -450,6 +471,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer4/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "@Aris Valdez"
 
@@ -465,6 +487,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer5/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "@Dia"
 
@@ -480,6 +503,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer11/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Portmaster Team"
 
@@ -495,6 +519,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer6/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "MustardOS Team"
 
@@ -510,6 +535,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer7/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Knulli Team"
 
@@ -525,6 +551,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer8/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "NextUI Team"
 
@@ -540,6 +567,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer10/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Spruce Team"
 
@@ -555,6 +583,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FlowContainer/PanelContainer9/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Anbernic"
 
@@ -573,6 +602,7 @@ theme_override_constants/margin_bottom = 8
 layout_mode = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer4/MarginContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Media Coverage:"
 
@@ -591,6 +621,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer4/MarginContainer/VBoxContainer/FlowContainer/PanelContainer/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "@dash"
 
@@ -606,6 +637,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer4/MarginContainer/VBoxContainer/FlowContainer/PanelContainer3/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "@SjslTech"
 
@@ -621,6 +653,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer4/MarginContainer/VBoxContainer/FlowContainer/PanelContainer4/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Let There Be Pixels"
 
@@ -640,6 +673,7 @@ layout_mode = 2
 theme_override_constants/separation = 8
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Special Thanks: "
 autowrap_mode = 2
@@ -663,10 +697,12 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer4/PanelContainer2/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "@Hades-Arcadius"
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer4"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Early adopter and legendary Q/A"
@@ -691,10 +727,12 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Finn McCool"
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 size_flags_horizontal = 3
 text = "a short Keanu Reeves lookalike"
@@ -718,10 +756,12 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer2/PanelContainer2/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Mr. Sujano"
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer2"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 size_flags_horizontal = 3
 text = "The only reliable news source"
@@ -746,10 +786,12 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer3/PanelContainer2/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Retro Game Corps"
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer3"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 size_flags_horizontal = 3
 text = "The other reliable news source"
@@ -785,6 +827,7 @@ texture = ExtResource("7_uacy7")
 expand_mode = 3
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer6"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 size_flags_horizontal = 3
 text = "For sending me a unit to test with"
@@ -809,12 +852,14 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
 [node name="PageLabel" type="Label" parent="ScrollContainer/VBoxContainer/DevelopmentCreditSection/MarginContainer/PanelContainer/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Development Credit"
 
 [node name="DevCredit" type="Label" parent="ScrollContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 0.392157)

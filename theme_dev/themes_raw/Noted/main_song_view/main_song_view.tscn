@@ -1,0 +1,353 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noted/main_song_view/main_song_view.gd" id="1_r"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noted/assets/polaroid.gd" id="2_r"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noted/assets/masking_tape.gd" id="3_r"]
+[ext_resource type="FontVariation" path="res://theme_dev/themes_raw/Noted/assets/font_hand.tres" id="4_r"]
+[ext_resource type="Texture2D" path="res://assets/shuffle.svg" id="5_r"]
+[ext_resource type="Texture2D" path="res://assets/Repeat.svg" id="6_r"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noted/assets/scribble_line.gd" id="7_r"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noted/assets/ruler_progress.gd" id="8_r"]
+[ext_resource type="Texture2D" path="res://assets/Play.svg" id="9_r"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noted/assets/pencil_loop.gd" id="10_r"]
+[ext_resource type="Texture2D" path="res://assets/Pause.svg" id="11_r"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noted/assets/pencil_box.gd" id="12_r"]
+[ext_resource type="Texture2D" path="res://assets/lock.svg" id="13_r"]
+[ext_resource type="Texture2D" path="res://assets/coffee.svg" id="14_r"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noted/assets/pencil_underline.gd" id="15_r"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noted/assets/lyric_writer.gd" id="16_r"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_note"]
+content_margin_left = 14.0
+content_margin_top = 8.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+bg_color = Color(1, 0.980392, 0.694118, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.701961, 0.682353, 0.482353, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color(0, 0, 0, 0.14)
+shadow_size = 3
+shadow_offset = Vector2(1, 2)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_button"]
+
+[node name="MainSongView" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 2
+script = ExtResource("1_r")
+
+[node name="Layout" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Top" type="HBoxContainer" parent="Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 14
+
+[node name="PhotoStage" type="Control" parent="Layout/Top"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(220, 0)
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.8
+mouse_filter = 2
+
+[node name="Polaroid" type="Control" parent="Layout/Top/PhotoStage"]
+unique_name_in_owner = true
+layout_mode = 0
+mouse_filter = 2
+script = ExtResource("2_r")
+photo_size = 172.0
+tilt_degrees = -3.0
+caption_size = 19
+
+[node name="Tape" type="Control" parent="Layout/Top/PhotoStage"]
+unique_name_in_owner = true
+layout_mode = 0
+mouse_filter = 2
+rotation = -0.1
+script = ExtResource("3_r")
+seed = 9
+
+[node name="Note" type="PanelContainer" parent="Layout/Top"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_note")
+
+[node name="Column" type="VBoxContainer" parent="Layout/Top/Note"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="TopRow" type="HBoxContainer" parent="Layout/Top/Note/Column"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="NowLabel" type="Label" parent="Layout/Top/Note/Column/TopRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.603922, 0.603922, 0.603922, 1)
+theme_override_fonts/font = ExtResource("4_r")
+theme_override_font_sizes/font_size = 16
+text = "now playing:"
+size_flags_horizontal = 3
+
+[node name="PlaylistProgress" type="Label" parent="Layout/Top/Note/Column/TopRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.411765, 0.411765, 0.411765, 1)
+theme_override_fonts/font = ExtResource("4_r")
+theme_override_font_sizes/font_size = 16
+text = "track 1 of 1"
+
+[node name="ShuffleIcon" type="TextureRect" parent="Layout/Top/Note/Column/TopRow"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+custom_minimum_size = Vector2(18, 18)
+size_flags_vertical = 4
+modulate = Color(0.411765, 0.411765, 0.411765, 1)
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+texture = ExtResource("5_r")
+
+[node name="RepeatingIcon" type="TextureRect" parent="Layout/Top/Note/Column/TopRow"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+custom_minimum_size = Vector2(18, 18)
+size_flags_vertical = 4
+modulate = Color(0.411765, 0.411765, 0.411765, 1)
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+texture = ExtResource("6_r")
+
+[node name="SongLabel" type="Label" parent="Layout/Top/Note/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.266667, 0.266667, 0.266667, 1)
+theme_override_fonts/font = ExtResource("4_r")
+theme_override_font_sizes/font_size = 32
+text = "Song Title"
+autowrap_mode = 3
+max_lines_visible = 2
+text_overrun_behavior = 3
+custom_minimum_size = Vector2(0, 40)
+
+[node name="Scribble" type="Control" parent="Layout/Top/Note/Column"]
+layout_mode = 2
+mouse_filter = 2
+custom_minimum_size = Vector2(0, 16)
+script = ExtResource("7_r")
+
+[node name="ArtistLabel" type="Label" parent="Layout/Top/Note/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.411765, 0.411765, 0.411765, 1)
+theme_override_fonts/font = ExtResource("4_r")
+theme_override_font_sizes/font_size = 21
+text = "by Artist"
+text_overrun_behavior = 3
+
+[node name="AlbumLabel" type="Label" parent="Layout/Top/Note/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.603922, 0.603922, 0.603922, 1)
+theme_override_fonts/font = ExtResource("4_r")
+theme_override_font_sizes/font_size = 17
+text = "from Album"
+text_overrun_behavior = 3
+
+[node name="Spacer" type="Control" parent="Layout/Top/Note/Column"]
+layout_mode = 2
+size_flags_vertical = 3
+custom_minimum_size = Vector2(0, 6)
+mouse_filter = 2
+
+[node name="Ruler" type="Control" parent="Layout/Top/Note/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+custom_minimum_size = Vector2(0, 32)
+script = ExtResource("8_r")
+
+[node name="Times" type="HBoxContainer" parent="Layout/Top/Note/Column"]
+layout_mode = 2
+
+[node name="CurrentTimeLabel" type="Label" parent="Layout/Top/Note/Column/Times"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.266667, 0.266667, 0.266667, 1)
+theme_override_fonts/font = ExtResource("4_r")
+theme_override_font_sizes/font_size = 17
+text = "0:00"
+size_flags_horizontal = 3
+
+[node name="EndTimeLabel" type="Label" parent="Layout/Top/Note/Column/Times"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.603922, 0.603922, 0.603922, 1)
+theme_override_fonts/font = ExtResource("4_r")
+theme_override_font_sizes/font_size = 17
+text = "0:00"
+
+[node name="Controls" type="HBoxContainer" parent="Layout/Top/Note/Column"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PlayButton" type="Button" parent="Layout/Top/Note/Column/Controls"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(54, 46)
+layout_mode = 2
+visible = false
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxEmpty_button")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_button")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_button")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_button")
+theme_override_colors/icon_normal_color = Color(0.266667, 0.266667, 0.266667, 1)
+theme_override_colors/icon_focus_color = Color(0.266667, 0.266667, 0.266667, 1)
+theme_override_colors/icon_pressed_color = Color(0.266667, 0.266667, 0.266667, 1)
+theme_override_colors/icon_hover_color = Color(0.266667, 0.266667, 0.266667, 1)
+theme_override_constants/icon_max_width = 20
+icon = ExtResource("9_r")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Loop" type="Control" parent="Layout/Top/Note/Column/Controls/PlayButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+show_behind_parent = true
+script = ExtResource("10_r")
+seed = 4
+
+[node name="PauseButton" type="Button" parent="Layout/Top/Note/Column/Controls"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(54, 46)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxEmpty_button")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_button")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_button")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_button")
+theme_override_colors/icon_normal_color = Color(0.266667, 0.266667, 0.266667, 1)
+theme_override_colors/icon_focus_color = Color(0.266667, 0.266667, 0.266667, 1)
+theme_override_colors/icon_pressed_color = Color(0.266667, 0.266667, 0.266667, 1)
+theme_override_colors/icon_hover_color = Color(0.266667, 0.266667, 0.266667, 1)
+theme_override_constants/icon_max_width = 20
+icon = ExtResource("11_r")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Loop" type="Control" parent="Layout/Top/Note/Column/Controls/PauseButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+show_behind_parent = true
+script = ExtResource("10_r")
+seed = 6
+
+[node name="Chip" type="MarginContainer" parent="Layout/Top/Note/Column/Controls"]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Box" type="Control" parent="Layout/Top/Note/Column/Controls/Chip"]
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("12_r")
+seed = 14
+
+[node name="Pad" type="MarginContainer" parent="Layout/Top/Note/Column/Controls/Chip"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 1
+
+[node name="FileTypeLabel" type="Label" parent="Layout/Top/Note/Column/Controls/Chip/Pad"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.411765, 0.411765, 0.411765, 1)
+theme_override_fonts/font = ExtResource("4_r")
+theme_override_font_sizes/font_size = 15
+text = "mp3"
+
+[node name="Push" type="Control" parent="Layout/Top/Note/Column/Controls"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="LockIcon" type="TextureRect" parent="Layout/Top/Note/Column/Controls"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+custom_minimum_size = Vector2(16, 16)
+size_flags_vertical = 4
+modulate = Color(0.411765, 0.411765, 0.411765, 1)
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+texture = ExtResource("13_r")
+
+[node name="StayAwakeIcon" type="TextureRect" parent="Layout/Top/Note/Column/Controls"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+custom_minimum_size = Vector2(16, 16)
+size_flags_vertical = 4
+modulate = Color(0.411765, 0.411765, 0.411765, 1)
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+texture = ExtResource("14_r")
+
+[node name="LyricLine" type="MarginContainer" parent="Layout"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 40)
+mouse_filter = 2
+
+[node name="Rule" type="Control" parent="Layout/LyricLine"]
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("15_r")
+color = Color(0.560784, 0.721569, 0.909804, 1)
+seed = 2
+
+[node name="LyricWriter" type="Control" parent="Layout/LyricLine"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("16_r")
+
+[connection signal="pressed" from="Layout/Top/Note/Column/Controls/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="Layout/Top/Note/Column/Controls/PauseButton" to="." method="_on_pause_button_pressed"]
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="tree_exited" from="." to="." method="_on_tree_exited"]

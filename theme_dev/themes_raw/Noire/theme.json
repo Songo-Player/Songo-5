@@ -1,0 +1,53 @@
+{
+	"name": "Noire",
+	"rootDir": "Noire",
+	"version": "1.0",
+	"author": "Robot (AI)",
+	"co_authors": ["Riley"],
+	"ai_usage": 4,
+	"description": "A rainy night in a black and white picture. Your library is the case file; every song burns down like the last cigarette.",
+	"components": {
+		"background_root": "background_root/background_root.tscn",
+		"header": "header/header.tscn",
+		"main_menu": "main_menu/main_menu.tscn",
+		"footer": "footer/footer.tscn",
+		"main_song_view": "main_song_view/main_song_view.tscn",
+		"song_follow": "song_follow/song_follow.tscn",
+		"collection_button": "collection_button/collection_button.tscn",
+		"collection_header": "collection_header/collection_header.tscn"
+	},
+	"tags": [
+		"dark",
+		"animated",
+		"retro"
+	],
+	"settings": {
+		"accent": {
+			"values": ["c8102e", "e8a33d", "3fa9f5", "4fd18b", "d8d3c8"],
+			"labels": ["Lipstick Red", "Bourbon", "Neon Blue", "Absinthe", "Silver Screen"],
+			"default": "c8102e",
+			"display_name": "Spot Color",
+			"dependents": ["background_root", "header", "footer", "main_menu", "main_song_view", "song_follow", "collection_header", "collection_button"],
+			"description": "The one color in the picture."
+		},
+		"monochrome_art": {
+			"values": [true, false],
+			"default": true,
+			"display_name": "Black & White Covers",
+			"dependents": ["background_root", "main_song_view", "collection_header", "collection_button"],
+			"description": "Develops album art in black and white. Lists still show the focused cover in color."
+		},
+		"rain": {
+			"values": [true, false],
+			"default": true,
+			"display_name": "Rain",
+			"dependents": ["background_root"]
+		},
+		"film_grain": {
+			"values": [true, false],
+			"default": true,
+			"display_name": "Film Grain",
+			"dependents": ["background_root"]
+		}
+	}
+}

@@ -36,24 +36,32 @@ func apply_scale(new_scale: float):
 	apply_rotation()
 	
 func apply_rotation():
-	var rotated = songo_settings.rotate_display
+	var degrees: int = posmod(songo_settings.display_rotation, 360)
 	var root_node = transform_container.get_parent().get_parent()
 
 	var window_size = get_viewport().get_visible_rect().size
 	var scaled_size = window_size # * (1.0 / songo_settings.ui_scale)
 
-	if rotated:
-		var rotated_size = Vector2(scaled_size.y, scaled_size.x)
+	# Content size and offset (in the rotated parent's local space) so the
+	# rotated container lands exactly on screen
+	var content_size: Vector2 = scaled_size
+	var offset := Vector2.ZERO
+	match degrees:
+		90:
+			content_size = Vector2(scaled_size.y, scaled_size.x)
+			offset = Vector2(0, -content_size.y)
+		180:
+			offset = -content_size
+		270:
+			content_size = Vector2(scaled_size.y, scaled_size.x)
+			offset = Vector2(-content_size.x, 0)
+		_:
+			degrees = 0
 
-		root_node.custom_minimum_size = rotated_size
-		transform_container.size = rotated_size
-		transform_container.position.x = -rotated_size.x
-		transform_container.get_parent().rotation = deg_to_rad(270)
-	else:
-		root_node.custom_minimum_size = scaled_size
-		transform_container.size = scaled_size
-		transform_container.position = Vector2.ZERO
-		transform_container.get_parent().rotation = 0.0
+	root_node.custom_minimum_size = content_size
+	transform_container.size = content_size
+	transform_container.position = offset
+	transform_container.get_parent().rotation = deg_to_rad(degrees)
 
 	
 func apply_content_margin(new_margin: int):

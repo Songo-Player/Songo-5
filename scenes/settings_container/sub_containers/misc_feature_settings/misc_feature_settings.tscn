@@ -79,6 +79,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting/SongSleepTimerSetting"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Song Following"
 
@@ -87,6 +88,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="SongFollowingEnabled" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting/SongSleepTimerSetting"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -94,6 +96,7 @@ theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
 text = "Enabled"
 
 [node name="SongFollowingDisabled" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting/SongSleepTimerSetting"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
@@ -107,6 +110,7 @@ size_flags_horizontal = 1
 text = "Enable"
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/SongFollowingSetting"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "When enabled, songs will continue playing when you nav out of a song."
@@ -139,6 +143,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Screen Fade Type"
 
@@ -172,6 +177,7 @@ text = ""
 icon = ExtResource("5_www0p")
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepFadeSetting"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "The method in which fade is applied, 'Black Fade' is ideal for OLED/AMOLED screens. For best results try out each of these and use what you like."
@@ -185,6 +191,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Song Sleep Timer"
 
@@ -219,6 +226,7 @@ text = ""
 icon = ExtResource("5_www0p")
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/MarginContainer/SongSleepAllSettings/SongSleepTimerSection/SongSleepTimerSetting"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "This fades out the screen and turns it off after (n) seconds of inactivity after selecting a song."
@@ -248,6 +256,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/ScrapeLyricsSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Scrape Lyrics"
 
@@ -256,6 +265,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="ScrapeLyricsEnabled" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/ScrapeLyricsSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -263,6 +273,7 @@ theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
 text = "Enabled"
 
 [node name="ScrapeLyricsDisabled" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/ScrapeLyricsSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
@@ -276,6 +287,7 @@ size_flags_horizontal = 1
 text = "Enable"
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/ScrapeLyricsSetting"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "When enabled, Songo will automatically fetch a synced .lrc lyrics file from lrclib.net for songs that don't already have one."
@@ -290,6 +302,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/RenderLyricsSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Render Lyrics"
 
@@ -298,6 +311,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="RenderLyricsEnabled" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/RenderLyricsSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -305,6 +319,7 @@ theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
 text = "Enabled"
 
 [node name="RenderLyricsDisabled" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/RenderLyricsSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
@@ -318,6 +333,7 @@ size_flags_horizontal = 1
 text = "Enable"
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/LyricsAllSettings/RenderLyricsSetting"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "When enabled, synced lyrics will flash on screen at the right time for songs that have an .lrc file."
@@ -343,6 +359,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer4/MarginContainer/TargetFpsSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Target FPS"
 
@@ -377,6 +394,7 @@ text = ""
 icon = ExtResource("5_www0p")
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer4/MarginContainer/TargetFpsSetting"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Lower this if your handheld is particularly weak or battery life is especially important to you"
@@ -403,6 +421,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer/SongFollowingSetting/SongSleepTimerSetting"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Handheld Self Destruct"
 
@@ -418,6 +437,7 @@ size_flags_horizontal = 1
 text = "Do it"
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/PanelContainer/MarginContainer2/VBoxContainer/DetonatePanel/MarginContainer/SongFollowingSetting"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "This will cause your handheld to suddenly (and violently) stop existing"
@@ -442,6 +462,7 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
 [node name="PageLabel" type="Label" parent="ScrollContainer/VBoxContainer/MiscSection/MarginContainer/PanelContainer/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 2

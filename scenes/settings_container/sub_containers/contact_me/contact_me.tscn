@@ -79,12 +79,14 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "This app is a work in progress, if you are reporting a bug please remember this. When reporting a bug include your device model and the cfw you are using."
 autowrap_mode = 2
 
 [node name="Label2" type="Label" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "For specific inquiries you can email me at songo5.dev@gmail.com"
@@ -128,12 +130,14 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
 [node name="Label" type="Label" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "PortMaster"
 autowrap_mode = 2
 
 [node name="Label2" type="Label" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "#songo-number-five"
@@ -145,6 +149,7 @@ theme_override_constants/separation = 16
 theme_override_styles/separator = SubResource("StyleBoxFlat_e0fn6")
 
 [node name="Label3" type="Label" parent="ScrollContainer/CFWSection/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Direct any and all bug reports or feature requests at @key777"
 autowrap_mode = 2
@@ -168,6 +173,7 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
 [node name="PageLabel" type="Label" parent="ScrollContainer/CFWSection/MarginContainer/PanelContainer/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 24

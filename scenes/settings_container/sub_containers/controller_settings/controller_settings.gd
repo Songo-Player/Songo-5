@@ -40,6 +40,7 @@ func _ui_settings_refresh():
 	update_seek_backward_ui()
 	update_start_behavior_ui()
 	update_stick_nav_ui()
+	update_rotate_controls_ui()
 
 func handle_input(delta: float):
 	if listening_action != "" || captured_frame == Engine.get_process_frames():
@@ -80,6 +81,12 @@ func update_stick_nav_ui():
 		%StickNavEnabled.hide()
 		%StickNavDisabled.show()
 		%StickNavButton.text = "Enable"
+
+func update_rotate_controls_ui():
+	var enabled: bool = songo_settings.rotate_controls_with_display
+	%RotateControlsEnabled.visible = enabled
+	%RotateControlsDisabled.visible = not enabled
+	%RotateControlsButton.text = "Disable" if enabled else "Enable"
 
 
 func _on_tree_entered() -> void:
@@ -152,7 +159,8 @@ func _input(event: InputEvent) -> void:
 		# The d-pad drives navigation, don't let it be rebound
 		if event.button_index >= JOY_BUTTON_DPAD_UP && event.button_index <= JOY_BUTTON_DPAD_RIGHT:
 			return
-		binding = SongoSettings.joy_binding(event.button_index)
+		# Store what the button would be unrotated, apply_action_bindings rotates it back
+		binding = SongoSettings.joy_binding(DeviceOS.unrotate_joy_button(event.button_index) as JoyButton)
 	elif is_trigger:
 		binding = SongoSettings.axis_binding(event.axis)
 	else:
@@ -214,6 +222,13 @@ func _on_stick_nav_button_pressed() -> void:
 	update_stick_nav_ui()
 
 
+func _on_rotate_controls_button_pressed() -> void:
+	songo_settings.rotate_controls_with_display = !songo_settings.rotate_controls_with_display
+	songo_settings.save()
+	DeviceOS.apply_action_bindings()
+	update_rotate_controls_ui()
+
+
 func _on_reset_to_defaults_button_pressed() -> void:
 	songo_settings.reset_action_bindings()
 	listening_action = ""
@@ -222,7 +237,9 @@ func _on_reset_to_defaults_button_pressed() -> void:
 	songo_settings.seek_forward_time_index = 1
 	songo_settings.start_btn_behavior = SongoSettings.START_BEHAVIOR.LOCK
 	songo_settings.enable_stick_nav = false
+	songo_settings.rotate_controls_with_display = false
 	songo_settings.save()
+	DeviceOS.apply_action_bindings()
 	_ui_settings_refresh()
 	
 

@@ -38,6 +38,7 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [node name="SettingsButton" type="Button"]
+theme_type_variation = &"SongoSettingsButton"
 process_mode = 1
 offset_top = -1.0
 offset_right = 140.0

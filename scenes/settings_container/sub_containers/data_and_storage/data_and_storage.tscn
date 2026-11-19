@@ -87,6 +87,7 @@ layout_mode = 2
 theme_override_constants/separation = 8
 
 [node name="Label" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/MusicDirectoriesSettingContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -102,6 +103,7 @@ text = "New Directory
 "
 
 [node name="Label2" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/MusicDirectoriesSettingContainer/MarginContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Adding a directory here will automatically scan it and find any supported audio file. I recommend one music directory per SD card."
@@ -123,6 +125,7 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="DefaultMusicDirsLabel" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/MusicDirectoriesSettingContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/CurrentMusicDirectories"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.136442, 0.129619, 0.122794, 1)
@@ -147,6 +150,7 @@ theme_override_constants/separation = 12
 layout_mode = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PlaylistManagementSettingContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Managing Playlists:"
 
@@ -159,6 +163,7 @@ text = "New Playlist
 "
 
 [node name="Label2" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PlaylistManagementSettingContainer/MarginContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Open your quick menu while any song, album, or artist is focused with the cursor. From here you can add or remove the song(s) from the target playlist."
@@ -176,6 +181,7 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 4
 
 [node name="DefaultPlaylistsLabel" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/PlaylistManagementSettingContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.136442, 0.129619, 0.122794, 1)
@@ -205,6 +211,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/BuiltDataControlsContainer/MarginContainer/DataDeletionList/IndexedMusicData"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Indexed Music Data"
 
@@ -229,6 +236,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/BuiltDataControlsContainer/MarginContainer/DataDeletionList/ArtistImageData"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Default Artist Images"
 
@@ -252,6 +260,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/BuiltDataControlsContainer/MarginContainer/DataDeletionList/GeneratedAlbumImages"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Default Album Images"
 
@@ -276,6 +285,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/BuiltDataControlsContainer/MarginContainer/DataDeletionList/DefaultPlaylistImages"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Default Playlist Images"
 
@@ -315,18 +325,21 @@ theme_override_constants/separation = 12
 layout_mode = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/AutoScanSettingContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Auto Scan:"
 
 [node name="AutoImportEnabled" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/AutoScanSettingContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
 text = "Enabled"
 
 [node name="AutoImportDisabled" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/AutoScanSettingContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -341,6 +354,7 @@ text = "Disable
 "
 
 [node name="Label2" type="Label" parent="ScrollContainer/DataAndStorageSection/PanelContainer/MarginContainer2/VBoxContainer/AutoScanSettingContainer/MarginContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "When enabled, this scans your music directories on app start and automatically imports new additions. When disabled you need to run \"Indexed Music Data - Rebuild\" whenever you add music."
@@ -365,6 +379,7 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
 [node name="PageLabel" type="Label" parent="ScrollContainer/DataAndStorageSection/MarginContainer/PanelContainer/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 2

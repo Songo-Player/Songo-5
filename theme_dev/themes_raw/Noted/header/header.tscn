@@ -1,0 +1,101 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noted/header/header.gd" id="1_r"]
+[ext_resource type="FontVariation" path="res://theme_dev/themes_raw/Noted/assets/font_hand.tres" id="2_r"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noted/assets/pencil_underline.gd" id="3_r"]
+[ext_resource type="Texture2D" path="res://assets/wifi.svg" id="4_r"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noted/assets/pencil_battery.gd" id="5_r"]
+
+[node name="Header" type="MarginContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 36.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 0
+script = ExtResource("1_r")
+
+[node name="Row" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="DateLabel" type="Label" parent="Row"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.603922, 0.603922, 0.603922, 1)
+theme_override_fonts/font = ExtResource("2_r")
+theme_override_font_sizes/font_size = 18
+text = "date:"
+
+[node name="DateBlank" type="MarginContainer" parent="Row"]
+layout_mode = 2
+custom_minimum_size = Vector2(76, 0)
+mouse_filter = 2
+
+[node name="Underline" type="Control" parent="Row/DateBlank"]
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("3_r")
+
+[node name="DateValue" type="Label" parent="Row/DateBlank"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.266667, 0.266667, 0.266667, 1)
+theme_override_fonts/font = ExtResource("2_r")
+theme_override_font_sizes/font_size = 20
+text = "nov 16"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Clock" type="Label" parent="Row"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.266667, 0.266667, 0.266667, 1)
+theme_override_fonts/font = ExtResource("2_r")
+theme_override_font_sizes/font_size = 20
+text = "8:42pm"
+
+[node name="Gap" type="Control" parent="Row"]
+layout_mode = 2
+custom_minimum_size = Vector2(4, 0)
+mouse_filter = 2
+
+[node name="NetIcon" type="TextureRect" parent="Row"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(18, 18)
+size_flags_vertical = 4
+modulate = Color(0.411765, 0.411765, 0.411765, 1)
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+texture = ExtResource("4_r")
+
+[node name="Battery" type="Control" parent="Row"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+custom_minimum_size = Vector2(30, 18)
+size_flags_vertical = 4
+script = ExtResource("5_r")
+
+[node name="BatteryLabel" type="Label" parent="Row"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.411765, 0.411765, 0.411765, 1)
+theme_override_fonts/font = ExtResource("2_r")
+theme_override_font_sizes/font_size = 17
+text = "100%"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -2,8 +2,8 @@
 	"name": "Songo Classic",
 	"version": "0.12",
 	"author": "Riley",
+	"ai_usage": 0,
 	"description": "Original Songo#5 theme, based on minimalism and being user friendly.",
-	"godot_theme_path": "/theme.tres",
 	"components": {
 		"background_root": "background_root/background_root.tscn",
 		"main_menu": {
@@ -20,11 +20,6 @@
 		"song_follow": "song_follow/song_follow.tscn",
 		"collection_button": "collection_button/collection_button.tscn",
 		"collection_header": "collection_header/collection_header.tscn"
-	},
-	"collection_options": {
-		"vertical_layout": true,
-		"list_top_fade": 0,
-		"list_bottom_fade": 16,
 	},
 	"tags": [
 		"minimal",

@@ -1,0 +1,8 @@
+[gd_resource type="FontVariation" load_steps=3 format=3 uid="uid://qb2g73dqno6g"]
+
+[ext_resource type="FontFile" uid="uid://cxvv0kw0t78wg" path="res://theme_dev/themes_raw/Noire/assets/SpecialElite-Regular.ttf" id="1_type"]
+[ext_resource type="FontFile" uid="uid://dvmca6au0de7a" path="res://assets/fonts/NotoSansCJKjp-Medium-Latin.otf" id="2_noto"]
+
+[resource]
+fallbacks = Array[Font]([ExtResource("2_noto")])
+base_font = ExtResource("1_type")

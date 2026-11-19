@@ -1,0 +1,122 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noire/main_menu/main_menu.gd" id="1_script"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noire/assets/deco_frame.gd" id="2_frame"]
+[ext_resource type="PackedScene" path="res://theme_dev/themes_raw/Noire/assets/masthead.tscn" id="5_masthead"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_list"]
+content_margin_left = 6.0
+content_margin_top = 8.0
+content_margin_right = 6.0
+content_margin_bottom = 8.0
+bg_color = Color(0.0352941, 0.0352941, 0.0392157, 0.55)
+
+[node name="MainMenu" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+script = ExtResource("1_script")
+
+[node name="Layout" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TitleCard" type="PanelContainer" parent="Layout"]
+custom_minimum_size = Vector2(236, 0)
+layout_mode = 2
+theme_type_variation = &"NoireCard"
+
+[node name="Frame" type="Control" parent="Layout/TitleCard"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("2_frame")
+line_color = Color(0.415686, 0.403922, 0.384314, 1)
+gem_color = Color(0.784314, 0.0627451, 0.180392, 1)
+inset = 5.0
+notch = 10.0
+
+[node name="Margin" type="MarginContainer" parent="Layout/TitleCard"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 20
+
+[node name="Column" type="VBoxContainer" parent="Layout/TitleCard/Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Masthead" parent="Layout/TitleCard/Margin/Column" instance=ExtResource("5_masthead")]
+layout_mode = 2
+
+[node name="ReelLabel" type="Label" parent="Layout/TitleCard/Margin/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "REEL I"
+horizontal_alignment = 1
+
+[node name="Tagline" type="Label" parent="Layout/TitleCard/Margin/Column"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 66)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "\"Every song in this town has a story.\""
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Spacer" type="Control" parent="Layout/TitleCard/Margin/Column"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="ReelCount" type="Label" parent="Layout/TitleCard/Margin/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"NoireDim"
+theme_override_font_sizes/font_size = 11
+text = "A PICTURE IN SIX REELS"
+horizontal_alignment = 1
+
+[node name="ListSide" type="PanelContainer" parent="Layout"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_list")
+
+[node name="Column" type="VBoxContainer" parent="Layout/ListSide"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Heading" type="Label" parent="Layout/ListSide/Column"]
+layout_mode = 2
+theme_type_variation = &"NoireDim"
+theme_override_font_sizes/font_size = 11
+text = "  SCENE SELECTION"
+
+[node name="HeadingRule" type="ColorRect" parent="Layout/ListSide/Column"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.172549, 0.172549, 0.192157, 1)
+
+[node name="Scroll" type="ScrollContainer" parent="Layout/ListSide/Column"]
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="Rows" type="VBoxContainer" parent="Layout/ListSide/Column/Scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2

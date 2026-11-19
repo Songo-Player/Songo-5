@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=12 format=3 uid="uid://wvqbwd6ybd6m"]
+[gd_resource type="Theme" load_steps=17 format=3 uid="uid://wvqbwd6ybd6m"]
 
 [ext_resource type="FontFile" uid="uid://ckx8hptr33csi" path="res://assets/fonts/CourierPrime-Bold.ttf" id="1_fu52c"]
 [ext_resource type="FontFile" uid="uid://dvmca6au0de7a" path="res://assets/fonts/NotoSansCJKjp-Medium-Latin.otf" id="2_noto"]
@@ -116,7 +116,81 @@ corner_detail = 6
 expand_margin_left = 2.0
 expand_margin_right = 2.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ssb_normal"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ssb_hover"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.225, 0.225, 0.225, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ssb_pressed"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ssb_disabled"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.3)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ssb_focus"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.75)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ssl_normal"]
+
 [resource]
+CollectionOptions/constants/list_bottom_fade = 16
+CollectionOptions/constants/list_top_fade = 0
+CollectionOptions/constants/vertical_layout = 0
 Button/fonts/font = ExtResource("2_noto")
 ItemList/fonts/font = ExtResource("2_noto")
 Label/fonts/font = ExtResource("2_noto")
@@ -143,7 +217,44 @@ SongoGrayInputPanel/base_type = &"PanelContainer"
 SongoGrayInputPanel/styles/panel = SubResource("StyleBoxFlat_f4ug7")
 SongoPanel/base_type = &"PanelContainer"
 SongoPanel/styles/panel = SubResource("StyleBoxFlat_fby4q")
+SongoSettingsButton/base_type = &"Button"
+SongoSettingsButton/colors/font_color = Color(0.875, 0.875, 0.875, 1)
+SongoSettingsButton/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
+SongoSettingsButton/colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
+SongoSettingsButton/colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+SongoSettingsButton/colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+SongoSettingsButton/colors/font_outline_color = Color(0, 0, 0, 1)
+SongoSettingsButton/colors/font_pressed_color = Color(1, 1, 1, 1)
+SongoSettingsButton/colors/icon_disabled_color = Color(1, 1, 1, 0.4)
+SongoSettingsButton/colors/icon_focus_color = Color(1, 1, 1, 1)
+SongoSettingsButton/colors/icon_hover_color = Color(1, 1, 1, 1)
+SongoSettingsButton/colors/icon_hover_pressed_color = Color(1, 1, 1, 1)
+SongoSettingsButton/colors/icon_normal_color = Color(1, 1, 1, 1)
+SongoSettingsButton/colors/icon_pressed_color = Color(1, 1, 1, 1)
+SongoSettingsButton/constants/align_to_largest_stylebox = 0
+SongoSettingsButton/constants/h_separation = 4
+SongoSettingsButton/constants/icon_max_width = 0
+SongoSettingsButton/constants/outline_size = 0
+SongoSettingsButton/font_sizes/font_size = 16
+SongoSettingsButton/fonts/font = ExtResource("2_noto")
+SongoSettingsButton/styles/disabled = SubResource("StyleBoxFlat_ssb_disabled")
+SongoSettingsButton/styles/focus = SubResource("StyleBoxFlat_ssb_focus")
+SongoSettingsButton/styles/hover = SubResource("StyleBoxFlat_ssb_hover")
+SongoSettingsButton/styles/normal = SubResource("StyleBoxFlat_ssb_normal")
+SongoSettingsButton/styles/pressed = SubResource("StyleBoxFlat_ssb_pressed")
 SongoSettingsContentMargin/base_type = &"MarginContainer"
+SongoSettingsLabel/base_type = &"Label"
+SongoSettingsLabel/colors/font_color = Color(1, 1, 1, 1)
+SongoSettingsLabel/colors/font_outline_color = Color(0, 0, 0, 1)
+SongoSettingsLabel/colors/font_shadow_color = Color(0, 0, 0, 0)
+SongoSettingsLabel/constants/line_spacing = 3
+SongoSettingsLabel/constants/outline_size = 0
+SongoSettingsLabel/constants/shadow_offset_x = 1
+SongoSettingsLabel/constants/shadow_offset_y = 1
+SongoSettingsLabel/constants/shadow_outline_size = 1
+SongoSettingsLabel/font_sizes/font_size = 16
+SongoSettingsLabel/fonts/font = ExtResource("2_noto")
+SongoSettingsLabel/styles/normal = SubResource("StyleBoxEmpty_ssl_normal")
 VScrollBar/styles/grabber = SubResource("StyleBoxFlat_uhhb4")
 VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_d7fln")
 VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_uq36u")

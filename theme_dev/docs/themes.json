@@ -1,0 +1,176 @@
+{
+  "themes": [
+    {
+      "id": "Ringing",
+      "name": "Ringing",
+      "version": "0.3",
+      "author": "Spoon",
+      "co_authors": [
+        "Riley"
+      ],
+      "ai_usage": 0,
+      "description": "A bubbly colorful interface that makes you forget the pain",
+      "tags": [
+        "minimal",
+        "og",
+        "colorful"
+      ],
+      "builtin": true,
+      "download": null,
+      "download_bytes": null,
+      "source": null,
+      "source_bytes": null,
+      "preview": "themes/builtin-Ringing.png"
+    },
+    {
+      "id": "Sakura",
+      "name": "Sakura",
+      "version": "0.9",
+      "author": "Beck",
+      "co_authors": [
+        "Riley"
+      ],
+      "ai_usage": 0,
+      "description": "Similar layout to Songo Classic with a chill animated pixel background",
+      "tags": [
+        "minimal",
+        "og",
+        "animated"
+      ],
+      "builtin": true,
+      "download": null,
+      "download_bytes": null,
+      "source": null,
+      "source_bytes": null,
+      "preview": "themes/builtin-Sakura.png"
+    },
+    {
+      "id": "SongoClassic",
+      "name": "Songo Classic",
+      "version": "0.12",
+      "author": "Riley",
+      "co_authors": [],
+      "ai_usage": 0,
+      "description": "Original Songo#5 theme, based on minimalism and being user friendly.",
+      "tags": [
+        "minimal",
+        "og",
+        "customizable"
+      ],
+      "builtin": true,
+      "download": null,
+      "download_bytes": null,
+      "source": null,
+      "source_bytes": null,
+      "preview": "themes/builtin-SongoClassic.png"
+    },
+    {
+      "id": "XBop",
+      "name": "xBop",
+      "version": "0.6",
+      "author": "Morris",
+      "co_authors": [
+        "Riley"
+      ],
+      "ai_usage": 0,
+      "description": "A dark minimal UI with accents of color to liven it up a bit",
+      "tags": [
+        "minimal",
+        "og",
+        "dark"
+      ],
+      "builtin": true,
+      "download": null,
+      "download_bytes": null,
+      "source": null,
+      "source_bytes": null,
+      "preview": "themes/builtin-XBop.png"
+    },
+    {
+      "id": "Departures",
+      "name": "Departures",
+      "version": "1.0",
+      "author": "Robot (AI)",
+      "co_authors": [
+        "Riley"
+      ],
+      "ai_usage": 4,
+      "description": "A split-flap station board. Your library leaves on time; songs play as boarding passes.",
+      "tags": [
+        "dark",
+        "animated",
+        "retro"
+      ],
+      "builtin": false,
+      "download": "themes/Departures.zip",
+      "download_bytes": 472869,
+      "source": "themes/Departures-source.zip",
+      "source_bytes": 226576,
+      "preview": "themes/Departures.png"
+    },
+    {
+      "id": "Noire",
+      "name": "Noire",
+      "version": "1.0",
+      "author": "Robot (AI)",
+      "co_authors": [
+        "Riley"
+      ],
+      "ai_usage": 4,
+      "description": "A rainy night in a black and white picture. Your library is the case file; every song burns down like the last cigarette.",
+      "tags": [
+        "dark",
+        "animated",
+        "retro"
+      ],
+      "builtin": false,
+      "download": "themes/Noire.zip",
+      "download_bytes": 1215102,
+      "source": "themes/Noire-source.zip",
+      "source_bytes": 516225,
+      "preview": "themes/Noire.png"
+    },
+    {
+      "id": "Noted",
+      "name": "Noted",
+      "version": "0.2",
+      "author": "Maple",
+      "co_authors": [
+        "Robot (AI)"
+      ],
+      "ai_usage": 3,
+      "description": "A hand drawn lookin thing",
+      "tags": [
+        "minimal",
+        "og",
+        "light"
+      ],
+      "builtin": false,
+      "download": "themes/Noted.zip",
+      "download_bytes": 3723131,
+      "source": "themes/Noted-source.zip",
+      "source_bytes": 3221132,
+      "preview": "themes/Noted.png"
+    },
+    {
+      "id": "XBopRed",
+      "name": "xBopRed",
+      "version": "0.6",
+      "author": "Morris",
+      "co_authors": [],
+      "ai_usage": null,
+      "description": "A dark minimal UI with accents of color to liven it up a bit",
+      "tags": [
+        "minimal",
+        "og",
+        "dark"
+      ],
+      "builtin": false,
+      "download": "themes/XBopRed.zip",
+      "download_bytes": 1037501,
+      "source": "themes/XBopRed-source.zip",
+      "source_bytes": 701241,
+      "preview": "themes/XBopRed.png"
+    }
+  ]
+}

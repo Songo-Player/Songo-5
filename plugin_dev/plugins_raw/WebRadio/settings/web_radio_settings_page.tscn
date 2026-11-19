@@ -83,6 +83,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/FailoverSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Stream Failover"
 
@@ -91,6 +92,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="FailoverEnabled" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/FailoverSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -98,6 +100,7 @@ theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
 text = "Enabled"
 
 [node name="FailoverDisabled" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/FailoverSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
@@ -111,6 +114,7 @@ size_flags_horizontal = 1
 text = "Enable"
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/FailoverSetting"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "When a stream can't be reached, move on to the station's next stream."
@@ -125,6 +129,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/StreamTitlesSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Now Playing Info"
 
@@ -133,6 +138,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="StreamTitlesEnabled" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/StreamTitlesSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -140,6 +146,7 @@ theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
 text = "Enabled"
 
 [node name="StreamTitlesDisabled" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/StreamTitlesSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
@@ -153,6 +160,7 @@ size_flags_horizontal = 1
 text = "Enable"
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackPanel/MarginContainer/Settings/StreamTitlesSetting"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Show the current track for stations that broadcast it."
@@ -182,6 +190,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/StreamBufferSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Stream Buffer"
 
@@ -216,6 +225,7 @@ text = ""
 icon = ExtResource("7_right")
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/StreamBufferSetting"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Longer buffers ride out spotty wifi, but streams take longer to start."
@@ -230,6 +240,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/NetworkTimeoutSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Connection Timeout"
 
@@ -264,6 +275,7 @@ text = ""
 icon = ExtResource("7_right")
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ConnectionPanel/MarginContainer/Settings/NetworkTimeoutSetting"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "How long to wait on an unresponsive stream before giving up."
@@ -293,6 +305,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ImagesPanel/MarginContainer/Settings/StationImagesSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Default Station Images"
 
@@ -311,6 +324,7 @@ size_flags_horizontal = 1
 text = "Delete"
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/PanelContainer/MarginContainer2/VBoxContainer/ImagesPanel/MarginContainer/Settings/StationImagesSetting"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Rebuild fills in missing station images. Delete clears them; new ones are made on the next startup or rebuild."
@@ -335,6 +349,7 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
 [node name="PageLabel" type="Label" parent="ScrollContainer/VBoxContainer/WebRadioSection/MarginContainer/PanelContainer/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 2

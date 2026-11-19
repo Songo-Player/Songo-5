@@ -1,8 +1,10 @@
 extends TextureRect
 class_name TopBottomFadeMask
 
-@export var top_fade_height: int = 16
-@export var bottom_fade_height: int = 16
+# Fade heights come from the CollectionOptions theme type (list_top_fade,
+# list_bottom_fade); defaults are in songo_base_theme.tres.
+var top_fade_height: int = 0
+var bottom_fade_height: int = 16
 
 @export var fill_color: Color = Color.WHITE
 @export var fade_to_color: Color = Color.TRANSPARENT
@@ -10,15 +12,19 @@ class_name TopBottomFadeMask
 var _mask_texture: ImageTexture
 
 func _ready() -> void:
-	if ThemeManager.current_theme.has("collection_options"):
-		var options = ThemeManager.current_theme["collection_options"]
-		top_fade_height = options["list_top_fade"]
-		bottom_fade_height = options["list_bottom_fade"]
+	_read_theme_fades()
 	_update_mask()
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_RESIZED:
 		call_deferred("_update_mask")
+	elif what == NOTIFICATION_THEME_CHANGED and is_node_ready():
+		_read_theme_fades()
+		call_deferred("_update_mask")
+
+func _read_theme_fades() -> void:
+	top_fade_height = get_theme_constant("list_top_fade", "CollectionOptions")
+	bottom_fade_height = get_theme_constant("list_bottom_fade", "CollectionOptions")
 
 func _update_mask() -> void:
 	if size.x <= 0 or size.y <= 0:

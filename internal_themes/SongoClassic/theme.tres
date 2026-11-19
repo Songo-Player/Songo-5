@@ -1,5 +1,8 @@
 [gd_resource type="Theme" format=3 uid="uid://cdmfa4w08nda8"]
 
 [resource]
+CollectionOptions/constants/list_bottom_fade = 16
+CollectionOptions/constants/list_top_fade = 0
+CollectionOptions/constants/vertical_layout = 1
 ListSectionOuterMargin/base_type = &"MarginContainer"
 ListSectionOuterMargin/constants/margin_left = 40

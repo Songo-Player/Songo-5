@@ -121,6 +121,16 @@ func try_wake():
 			$ScreenIdleTimer.wait_time = pref_timer
 		$ScreenIdleTimer.start()
 		DeviceOS.wake_screen()
+
+## Applies the sleep timer setting to the idle timer right away. A running
+## countdown restarts at the new length; a stopped one (screen already asleep)
+## just takes the new length for its next start.
+func _on_song_sleep_timer_changed():
+	var pref_timer = songo_settings.song_sleep_timer
+	if pref_timer <= 0: return
+	$ScreenIdleTimer.wait_time = pref_timer
+	if $ScreenIdleTimer.is_inside_tree() && not $ScreenIdleTimer.is_stopped():
+		$ScreenIdleTimer.start()
 		
 func _is_any_target_action_pressed() -> bool:
 	if DeviceOS.inputs_locked:
@@ -148,6 +158,8 @@ func refresh_display():
 func _on_started_new_song(music_record: TagLibMusicRecord):
 	if music_record == null:
 		return
+	# Covers streams and plugins whose "now playing" text isn't in the library
+	CjkFont.ensure_for_all(PackedStringArray([music_record.title, music_record.artist, music_record.album, music_record.album_artist]))
 	if theme_element && 'setup_display_for' in theme_element:
 		theme_element.setup_display_for(music_record)
 	sync_play_buttons()
@@ -167,8 +179,12 @@ func _on_tree_entered() -> void:
 	SongoPlayer.started_new_song.connect(_on_started_new_song)
 	SongoPlayer.music_started.connect(sync_play_buttons)
 	SongoPlayer.music_stopped.connect(sync_play_buttons)
+	songo_settings.song_sleep_timer_changed.connect(_on_song_sleep_timer_changed)
+	# The setting may have changed while this view was out of the tree
+	_on_song_sleep_timer_changed()
 	
 func _on_tree_exited() -> void:
 	SongoPlayer.started_new_song.disconnect(_on_started_new_song)
 	SongoPlayer.music_started.disconnect(sync_play_buttons)
 	SongoPlayer.music_stopped.disconnect(sync_play_buttons)
+	songo_settings.song_sleep_timer_changed.disconnect(_on_song_sleep_timer_changed)

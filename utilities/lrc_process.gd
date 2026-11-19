@@ -109,4 +109,5 @@ func _parse_lrc(path: String) -> Array[Dictionary]:
 
 	file.close()
 	result.sort_custom(func(a, b): return a.time < b.time)
+	CjkFont.ensure_for_all(PackedStringArray(result.map(func(lyric): return lyric.text)))
 	return result

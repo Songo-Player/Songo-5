@@ -81,6 +81,7 @@ theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/SfxVolumeSetting"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 text = "SFX Volume"
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/SfxVolumeSetting"]
@@ -122,6 +123,7 @@ theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MusicVolumeSetting"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 text = "Music Volume"
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MusicVolumeSetting"]
@@ -163,6 +165,7 @@ theme_override_constants/margin_top = 6
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/ButtonMappingsContainer/MarginContainer/VBox/MarginContainer"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 theme_override_font_sizes/font_size = 14
 text = "Both of these are relative to your devices main volume. Adjust as needed."
 autowrap_mode = 2
@@ -192,6 +195,7 @@ theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StreamBufferLengthSettingContainer/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 text = "Stream Buffer Length"
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StreamBufferLengthSettingContainer/MarginContainer/VBoxContainer/BufferLengthSetting/Hbox"]
@@ -233,6 +237,7 @@ theme_override_constants/margin_top = 6
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/StreamBufferLengthSettingContainer/MarginContainer/VBoxContainer/BufferLengthSetting/MarginContainer"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 theme_override_font_sizes/font_size = 14
 text = "How far ahead of the speaker music is prepared. If this is too low your music may pop, crackle, or stutter, especially on slower devices. If this is too high, volume and EQ changes take a moment longer to be heard. 100ms should be ideal."
 autowrap_mode = 2
@@ -262,6 +267,7 @@ theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackBlendSettingContainer/MarginContainer/VBoxContainer/PlaybackBlendSetting/Hbox"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 text = "Playback Blend"
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackBlendSettingContainer/MarginContainer/VBoxContainer/PlaybackBlendSetting/Hbox"]
@@ -303,6 +309,7 @@ theme_override_constants/margin_top = 6
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/PlaybackBlendSettingContainer/MarginContainer/VBoxContainer/PlaybackBlendSetting/MarginContainer"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 theme_override_font_sizes/font_size = 14
 text = "How long songs crossfade into each other near the end of playback. Set to 0 to disable blending."
 autowrap_mode = 2
@@ -332,6 +339,7 @@ theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/UseEqualizerSetting/Hbox"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 text = "Use Equalizer"
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/UseEqualizerSetting/Hbox"]
@@ -342,12 +350,14 @@ size_flags_horizontal = 3
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
 text = "Enabled"
 
 [node name="UseEqualizerDisabled" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/UseEqualizerSetting/Hbox"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
 text = "Disabled"
 
@@ -360,6 +370,7 @@ text = "Enable"
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/UseEqualizerSetting"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 theme_override_font_sizes/font_size = 14
 text = "When enabled, applies the 10-band equalizer to playback."
 autowrap_mode = 2
@@ -386,6 +397,7 @@ theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band1Setting/Hbox"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 text = "Band 1 (31hz)"
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band1Setting/Hbox"]
@@ -431,6 +443,7 @@ theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band2Setting/Hbox"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 text = "Band 2 (62hz)"
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band2Setting/Hbox"]
@@ -476,6 +489,7 @@ theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band3Setting/Hbox"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 text = "Band 3 (125hz)"
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band3Setting/Hbox"]
@@ -521,6 +535,7 @@ theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band4Setting/Hbox"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 text = "Band 4 (250hz)"
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band4Setting/Hbox"]
@@ -566,6 +581,7 @@ theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band5Setting/Hbox"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 text = "Band 5 (500hz)"
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band5Setting/Hbox"]
@@ -611,6 +627,7 @@ theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band6Setting/Hbox"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 text = "Band 6 (1khz)"
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band6Setting/Hbox"]
@@ -656,6 +673,7 @@ theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band7Setting/Hbox"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 text = "Band 7 (2khz)"
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band7Setting/Hbox"]
@@ -701,6 +719,7 @@ theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band8Setting/Hbox"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 text = "Band 8 (4khz)"
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band8Setting/Hbox"]
@@ -746,6 +765,7 @@ theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band9Setting/Hbox"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 text = "Band 9 (8khz)"
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band9Setting/Hbox"]
@@ -791,6 +811,7 @@ theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band10Setting/Hbox"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 text = "Band 10 (16khz)"
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/Band10Setting/Hbox"]
@@ -836,6 +857,7 @@ theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/AutoPreampSetting/Hbox"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 text = "Auto Preamp"
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/AutoPreampSetting/Hbox"]
@@ -845,6 +867,7 @@ size_flags_horizontal = 3
 [node name="AutoPreampEnabled" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/AutoPreampSetting/Hbox"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
 text = "Enabled"
 
@@ -852,6 +875,7 @@ text = "Enabled"
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
 text = "Disabled"
 
@@ -864,6 +888,7 @@ text = "Disable"
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/AutoPreampSetting"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 theme_override_font_sizes/font_size = 14
 text = "Turns the music down by the equalizer's biggest boost so loud songs don't distort. Turn it off to keep boosted songs louder, at the risk of crackling."
 autowrap_mode = 2
@@ -878,6 +903,7 @@ theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/OutputGainSetting/Hbox"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 text = "Output Gain"
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/OutputGainSetting/Hbox"]
@@ -915,6 +941,7 @@ icon = ExtResource("5_q46vm")
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/MainSection/PanelContainer/MarginContainer2/VBoxContainer/EQSettingContainer/MarginContainer/VBoxContainer/EQBandsContainer/OutputGainSetting"]
 layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 theme_override_font_sizes/font_size = 14
 text = "Turns the music up or down after the equalizer. With Auto Preamp on, raising this wins back loudness but can bring back distortion."
 autowrap_mode = 2
@@ -941,6 +968,7 @@ theme_override_constants/margin_bottom = 8
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
 theme_override_font_sizes/font_size = 24
 text = "Sound Settings"
 

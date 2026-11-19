@@ -1,0 +1,423 @@
+[gd_scene load_steps=18 format=3 uid="uid://c0xgu6gywpb4f"]
+
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noire/main_song_view/main_song_view.gd" id="1_script"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noire/assets/exhibit_photo.gd" id="2_photo"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noire/assets/stamp.gd" id="3_stamp"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noire/assets/cigarette.gd" id="4_cig"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noire/assets/subtitles.gd" id="5_subs"]
+[ext_resource type="Texture2D" uid="uid://dt2pe77pksx87" path="res://assets/shuffle.svg" id="6_shuffle"]
+[ext_resource type="Texture2D" uid="uid://dsstr0fb8yo33" path="res://assets/Repeat.svg" id="7_repeat"]
+[ext_resource type="Texture2D" uid="uid://cshjgdxugm3gb" path="res://assets/lock.svg" id="8_lock"]
+[ext_resource type="Texture2D" uid="uid://7dwsdkt7ambi" path="res://assets/coffee.svg" id="9_coffee"]
+[ext_resource type="Texture2D" uid="uid://beq3xrq55bgua" path="res://assets/Play.svg" id="10_play"]
+[ext_resource type="Texture2D" uid="uid://dlegkxypq8u32" path="res://assets/Pause.svg" id="11_pause"]
+[ext_resource type="FontVariation" path="res://theme_dev/themes_raw/Noire/assets/font_title.tres" id="12_title"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noire/assets/deco_frame.gd" id="13_frame"]
+[ext_resource type="PackedScene" path="res://theme_dev/themes_raw/Noire/assets/masthead.tscn" id="14_masthead"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_focus"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0, 0, 0, 0)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.784314, 0.0627451, 0.180392, 1)
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+anti_aliasing_size = 0.5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0, 0, 0, 0)
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.415686, 0.403922, 0.384314, 1)
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+anti_aliasing_size = 0.5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_paper"]
+bg_color = Color(0.894118, 0.866667, 0.8, 1)
+border_width_bottom = 2
+border_color = Color(0.788235, 0.752941, 0.666667, 1)
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 6
+shadow_offset = Vector2(3, 5)
+
+[node name="MainSongView" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+script = ExtResource("1_script")
+
+[node name="Layout" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Card" type="PanelContainer" parent="Layout"]
+custom_minimum_size = Vector2(236, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"NoireCard"
+
+[node name="Frame" type="Control" parent="Layout/Card"]
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("13_frame")
+line_color = Color(0.415686, 0.403922, 0.384314, 1)
+inset = 5.0
+notch = 10.0
+
+[node name="Margin" type="MarginContainer" parent="Layout/Card"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 18
+
+[node name="Column" type="VBoxContainer" parent="Layout/Card/Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Masthead" parent="Layout/Card/Margin/Column" instance=ExtResource("14_masthead")]
+layout_mode = 2
+
+[node name="PhotoStage" type="Control" parent="Layout/Card/Margin/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Photo" type="Control" parent="Layout/Card/Margin/Column/PhotoStage"]
+unique_name_in_owner = true
+anchors_preset = 0
+mouse_filter = 2
+script = ExtResource("2_photo")
+max_print = 168.0
+
+[node name="Right" type="VBoxContainer" parent="Layout"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Subtitles" type="Control" parent="Layout/Right"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("5_subs")
+
+[node name="Burn" type="HBoxContainer" parent="Layout/Right"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PlayButton" type="Button" parent="Layout/Right/Burn"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_colors/icon_normal_color = Color(0.901961, 0.882353, 0.839216, 1)
+theme_override_colors/icon_focus_color = Color(0.784314, 0.0627451, 0.180392, 1)
+theme_override_colors/icon_pressed_color = Color(0.784314, 0.0627451, 0.180392, 1)
+theme_override_colors/icon_hover_color = Color(0.901961, 0.882353, 0.839216, 1)
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_focus")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_focus")
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+icon = ExtResource("10_play")
+icon_alignment = 1
+expand_icon = true
+
+[node name="PauseButton" type="Button" parent="Layout/Right/Burn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_colors/icon_normal_color = Color(0.901961, 0.882353, 0.839216, 1)
+theme_override_colors/icon_focus_color = Color(0.784314, 0.0627451, 0.180392, 1)
+theme_override_colors/icon_pressed_color = Color(0.784314, 0.0627451, 0.180392, 1)
+theme_override_colors/icon_hover_color = Color(0.901961, 0.882353, 0.839216, 1)
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_focus")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_focus")
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+icon = ExtResource("11_pause")
+icon_alignment = 1
+expand_icon = true
+
+[node name="CurrentTimeLabel" type="Label" parent="Layout/Right/Burn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 15
+text = "0:00"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Track" type="VBoxContainer" parent="Layout/Right/Burn"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Cigarette" type="Control" parent="Layout/Right/Burn/Track"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+script = ExtResource("4_cig")
+smoke_height = 40.0
+flipped = true
+
+[node name="Pad" type="Control" parent="Layout/Right/Burn/Track"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="EndTimeLabel" type="Label" parent="Layout/Right/Burn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"NoireDim"
+theme_override_font_sizes/font_size = 15
+text = "3:51"
+vertical_alignment = 1
+
+[node name="Flags" type="HBoxContainer" parent="Layout/Right/Burn"]
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="LockIcon" type="TextureRect" parent="Layout/Right/Burn/Flags"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(0.521569, 0.505882, 0.478431, 1)
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("8_lock")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StayAwakeIcon" type="TextureRect" parent="Layout/Right/Burn/Flags"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(0.521569, 0.505882, 0.478431, 1)
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("9_coffee")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Dossier" type="PanelContainer" parent="Layout/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_paper")
+
+[node name="Margin" type="MarginContainer" parent="Layout/Right/Dossier"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+
+[node name="Fields" type="VBoxContainer" parent="Layout/Right/Dossier/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="TopLine" type="HBoxContainer" parent="Layout/Right/Dossier/Margin/Fields"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="CaseLabel" type="Label" parent="Layout/Right/Dossier/Margin/Fields/TopLine"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.462745, 0.431373, 0.372549, 1)
+theme_override_font_sizes/font_size = 12
+text = "CASE No. 0427-B"
+
+[node name="Confidential" type="Label" parent="Layout/Right/Dossier/Margin/Fields/TopLine"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.784314, 0.0627451, 0.180392, 1)
+theme_override_font_sizes/font_size = 12
+text = "CONFIDENTIAL"
+
+[node name="Rule" type="ColorRect" parent="Layout/Right/Dossier/Margin/Fields"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.462745, 0.431373, 0.372549, 0.6)
+
+[node name="Gap" type="Control" parent="Layout/Right/Dossier/Margin/Fields"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="SubjectCaption" type="Label" parent="Layout/Right/Dossier/Margin/Fields"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.462745, 0.431373, 0.372549, 1)
+theme_override_font_sizes/font_size = 11
+text = "SUBJECT"
+
+[node name="SongLabel" type="Label" parent="Layout/Right/Dossier/Margin/Fields"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.109804, 0.101961, 0.0901961, 1)
+theme_override_constants/line_spacing = -2
+theme_override_fonts/font = ExtResource("12_title")
+theme_override_font_sizes/font_size = 23
+text = "Song Title"
+autowrap_mode = 3
+text_overrun_behavior = 3
+max_lines_visible = 2
+
+[node name="ArtistCaption" type="Label" parent="Layout/Right/Dossier/Margin/Fields"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.462745, 0.431373, 0.372549, 1)
+theme_override_font_sizes/font_size = 11
+text = "KNOWN ASSOCIATE"
+
+[node name="ArtistLabel" type="Label" parent="Layout/Right/Dossier/Margin/Fields"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.109804, 0.101961, 0.0901961, 1)
+theme_override_font_sizes/font_size = 17
+text = "Artist"
+text_overrun_behavior = 3
+
+[node name="AlbumCaption" type="Label" parent="Layout/Right/Dossier/Margin/Fields"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.462745, 0.431373, 0.372549, 1)
+theme_override_font_sizes/font_size = 11
+text = "LAST SEEN ON"
+
+[node name="AlbumLabel" type="Label" parent="Layout/Right/Dossier/Margin/Fields"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.109804, 0.101961, 0.0901961, 1)
+theme_override_font_sizes/font_size = 17
+text = "Album"
+text_overrun_behavior = 3
+
+[node name="Spacer" type="Control" parent="Layout/Right/Dossier/Margin/Fields"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Evidence" type="HBoxContainer" parent="Layout/Right/Dossier/Margin/Fields"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="EvidenceCaption" type="Label" parent="Layout/Right/Dossier/Margin/Fields/Evidence"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.462745, 0.431373, 0.372549, 1)
+theme_override_font_sizes/font_size = 12
+text = "EVIDENCE"
+
+[node name="FileTypeLabel" type="Label" parent="Layout/Right/Dossier/Margin/Fields/Evidence"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.109804, 0.101961, 0.0901961, 1)
+theme_override_font_sizes/font_size = 13
+text = "FLAC"
+
+[node name="Dot" type="Label" parent="Layout/Right/Dossier/Margin/Fields/Evidence"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.462745, 0.431373, 0.372549, 1)
+theme_override_font_sizes/font_size = 13
+text = "/"
+
+[node name="PlaylistProgress" type="Label" parent="Layout/Right/Dossier/Margin/Fields/Evidence"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.109804, 0.101961, 0.0901961, 1)
+theme_override_font_sizes/font_size = 13
+text = "TRACK 1 OF 12"
+
+[node name="ShuffleIcon" type="TextureRect" parent="Layout/Right/Dossier/Margin/Fields/Evidence"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(0.109804, 0.101961, 0.0901961, 1)
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("6_shuffle")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RepeatingIcon" type="TextureRect" parent="Layout/Right/Dossier/Margin/Fields/Evidence"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(0.109804, 0.101961, 0.0901961, 1)
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("7_repeat")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StampLayer" type="Control" parent="Layout/Right/Dossier"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Stamp" type="Control" parent="Layout/Right/Dossier/StampLayer"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -78.0
+offset_right = 4.0
+offset_bottom = -30.0
+grow_horizontal = 0
+grow_vertical = 0
+rotation = -0.17
+pivot_offset = Vector2(77, 24)
+mouse_filter = 2
+script = ExtResource("3_stamp")
+font_size = 15
+
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="tree_exited" from="." to="." method="_on_tree_exited"]
+[connection signal="pressed" from="Layout/Right/Burn/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="Layout/Right/Burn/PauseButton" to="." method="_on_pause_button_pressed"]

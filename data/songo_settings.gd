@@ -1,6 +1,9 @@
 extends Resource
 class_name SongoSettings
 
+## Emitted when the song sleep timer setting changes, so a running idle timer can pick it up
+signal song_sleep_timer_changed
+
 # --- Constants ---
 const SAVE_PATH := "user://songo_settings.tres"
 const VERSION := "v0.3.0 Tina"
@@ -74,7 +77,10 @@ const JOY_BUTTON_NAMES = [
 @export var seek_backward_time_index = 1
 @export var seek_forward_time_index = 1
 @export var lock_inputs_on_sleep = false
+# Legacy toggle (true meant 270°); migrated into display_rotation on load
 @export var rotate_display = false
+# Display rotation in degrees: 0, 90, 180 or 270
+@export var display_rotation: int = 0
 @export var menu_visibility = {
 	"all_songs": true,
 	"albums": true,
@@ -85,6 +91,8 @@ const JOY_BUTTON_NAMES = [
 # --- Controls Settings --- #
 @export var start_btn_behavior: START_BEHAVIOR = START_BEHAVIOR.LOCK
 @export var enable_stick_nav: bool = false
+# Rotate the d-pad, left stick and A/B/X/Y to match display_rotation
+@export var rotate_controls_with_display: bool = false
 # Joypad button/trigger or key event bound to each remappable action
 @export var confirm_binding: InputEvent = joy_binding(JOY_BUTTON_A)
 @export var back_binding: InputEvent = joy_binding(JOY_BUTTON_B)
@@ -154,6 +162,9 @@ static func get_instance() -> SongoSettings:
 				_instance = SongoSettings.new()
 				_instance._apply_first_time_defaults()
 				print("Busting saved data")
+			elif _instance.rotate_display:
+				_instance.display_rotation = 270
+				_instance.rotate_display = false
 		else:
 			_instance = SongoSettings.new()
 			_instance._apply_first_time_defaults()

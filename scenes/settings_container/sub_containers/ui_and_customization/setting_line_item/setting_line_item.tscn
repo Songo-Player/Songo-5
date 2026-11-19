@@ -20,6 +20,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="SettingLabel" type="Label" parent="Content/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 text = "Setting Label
@@ -40,6 +41,7 @@ text = "Current Value"
 expand_to_text_length = true
 
 [node name="SettingValueTrueLabel" type="Label" parent="Content/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -47,6 +49,7 @@ theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
 text = "True"
 
 [node name="SettingValueFalseLabel" type="Label" parent="Content/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -81,6 +84,7 @@ text = "Swap
 "
 
 [node name="SettingDescription" type="Label" parent="Content"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 visible = false
 layout_mode = 2

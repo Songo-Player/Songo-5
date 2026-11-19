@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://do7beoh345jld"
-path="res://.godot/imported/graph_paper.jpg-63c4d6a8a14404be69c5cede94bc6d0f.ctex"
+uid="uid://bs0n8cfnm7dnh"
+path="res://.godot/imported/XBopRed.png-4acce433afef21f64ee4744e0337ca1b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://theme_dev/themes_raw/Noted/assets/graph_paper.jpg"
-dest_files=["res://.godot/imported/graph_paper.jpg-63c4d6a8a14404be69c5cede94bc6d0f.ctex"]
+source_file="res://theme_dev/docs/themes/XBopRed.png"
+dest_files=["res://.godot/imported/XBopRed.png-4acce433afef21f64ee4744e0337ca1b.ctex"]
 
 [params]
 

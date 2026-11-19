@@ -1,0 +1,78 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noire/song_follow/song_follow.gd" id="1_script"]
+[ext_resource type="FontVariation" path="res://theme_dev/themes_raw/Noire/assets/font_title.tres" id="2_title"]
+[ext_resource type="Script" path="res://utilities/carousel_label.gd" id="3_carousel"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar"]
+content_margin_left = 0.0
+content_margin_top = 3.0
+content_margin_right = 10.0
+content_margin_bottom = 3.0
+bg_color = Color(0.0666667, 0.0666667, 0.0745098, 0.97)
+border_width_left = 3
+border_width_bottom = 1
+border_color = Color(0.784314, 0.0627451, 0.180392, 1)
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tag"]
+content_margin_left = 8.0
+content_margin_top = 1.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0.784314, 0.0627451, 0.180392, 1)
+
+[node name="SongFollow" type="MarginContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 34.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+script = ExtResource("1_script")
+
+[node name="Bar" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bar")
+
+[node name="Row" type="HBoxContainer" parent="Bar"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Tag" type="PanelContainer" parent="Bar/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tag")
+
+[node name="TagLabel" type="Label" parent="Bar/Row/Tag"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.980392, 0.941176, 1)
+theme_override_fonts/font = ExtResource("2_title")
+theme_override_font_sizes/font_size = 13
+text = "NOW SHOWING"
+vertical_alignment = 1
+
+[node name="SongTitle" type="Label" parent="Bar/Row"]
+unique_name_in_owner = true
+clip_text = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 15
+text = "Song — Artist"
+script = ExtResource("3_carousel")
+font_color = Color(0.901961, 0.882353, 0.839216, 1)
+vertical_alignment = 1
+
+[node name="Hints" type="HBoxContainer" parent="Bar/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 5

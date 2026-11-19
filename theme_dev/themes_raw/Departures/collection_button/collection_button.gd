@@ -12,6 +12,7 @@ const FOCUS_LABELS := ["%SongName", "%AlbumName", "%RecordArtistName", "%Playlis
 var _focused := false
 
 func _ready() -> void:
+	_fit_settings_row()
 	ThemeManager.theme_settings_updated.connect(_apply_colors)
 
 func _apply_colors() -> void:
@@ -89,3 +90,18 @@ func get_song_summary(songs: Array) -> String:
 	var minutes := int((int(total_seconds) % 3600) / 60)
 	var duration := "%dH %02dM" % [hours, minutes] if hours > 0 else "%dM" % minutes
 	return "%d STOP%s  ·  %s" % [songs.size(), "" if songs.size() == 1 else "S", duration]
+
+# A settings row keeps none of this scene's containers: the host draws it
+# with its own button, sized by the button's text. At some global UI scales
+# that comes out a fraction of a pixel taller than the spacing the list lays
+# rows at, so neighbouring rows overlap and up/down focus skips every other
+# one. Holding the row to the button's height rounded up to a whole pixel
+# keeps them apart.
+func _fit_settings_row() -> void:
+	if get_child_count() > 0: return
+	var host_button := get_parent().get_node_or_null("%Button") as Control
+	if host_button == null: return
+	var fit := func():
+		custom_minimum_size.y = ceilf(host_button.get_combined_minimum_size().y)
+	host_button.minimum_size_changed.connect(fit)
+	fit.call()

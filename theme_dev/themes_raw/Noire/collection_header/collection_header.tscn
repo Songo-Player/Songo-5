@@ -1,0 +1,155 @@
+[gd_scene load_steps=9 format=3 uid="uid://bk52xf2u6e4ky"]
+
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noire/collection_header/collection_header.gd" id="1_script"]
+[ext_resource type="FontVariation" path="res://theme_dev/themes_raw/Noire/assets/font_title.tres" id="2_title"]
+[ext_resource type="Texture2D" uid="uid://c7chqmum3whu7" path="res://assets/music.svg" id="3_music"]
+[ext_resource type="Script" path="res://theme_dev/themes_raw/Noire/assets/deco_frame.gd" id="4_frame"]
+[ext_resource type="PackedScene" path="res://theme_dev/themes_raw/Noire/assets/masthead.tscn" id="5_masthead"]
+[ext_resource type="Script" path="res://utilities/carousel_label.gd" id="6_carousel"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_print"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.92549, 0.909804, 0.870588, 1)
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 4
+shadow_offset = Vector2(2, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dark"]
+bg_color = Color(0.105882, 0.105882, 0.117647, 1)
+
+[node name="CollectionHeader" type="MarginContainer"]
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+script = ExtResource("1_script")
+
+[node name="Card" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(236, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"NoireCard"
+
+[node name="Frame" type="Control" parent="Card"]
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("4_frame")
+line_color = Color(0.415686, 0.403922, 0.384314, 1)
+inset = 5.0
+notch = 10.0
+
+[node name="Margin" type="MarginContainer" parent="Card"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 18
+
+[node name="Column" type="VBoxContainer" parent="Card/Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 3
+
+[node name="Masthead" parent="Card/Margin/Column" instance=ExtResource("5_masthead")]
+layout_mode = 2
+
+[node name="KindLabel" type="Label" parent="Card/Margin/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "FILE: ALBUM"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Stage" type="Control" parent="Card/Margin/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Print" type="PanelContainer" parent="Card/Margin/Column/Stage"]
+unique_name_in_owner = true
+layout_mode = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_print")
+
+[node name="Dark" type="PanelContainer" parent="Card/Margin/Column/Stage/Print"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dark")
+
+[node name="IconMargin" type="MarginContainer" parent="Card/Margin/Column/Stage/Print/Dark"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 44
+theme_override_constants/margin_top = 44
+theme_override_constants/margin_right = 44
+theme_override_constants/margin_bottom = 44
+
+[node name="DefaultIcon" type="TextureRect" parent="Card/Margin/Column/Stage/Print/Dark/IconMargin"]
+unique_name_in_owner = true
+modulate = Color(0.521569, 0.505882, 0.478431, 1)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_music")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CustomImage" type="TextureRect" parent="Card/Margin/Column/Stage/Print"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="NameLabel" type="Label" parent="Card/Margin/Column/Stage"]
+unique_name_in_owner = true
+layout_mode = 0
+theme_type_variation = &"NoireTitle"
+theme_override_fonts/font = ExtResource("2_title")
+theme_override_font_sizes/font_size = 18
+text = "ALBUM NAME"
+horizontal_alignment = 1
+clip_text = true
+script = ExtResource("6_carousel")
+font_color = Color(0.901961, 0.882353, 0.839216, 1)
+
+[node name="DetailLabel" type="Label" parent="Card/Margin/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "BY SOMEBODY"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="StatsLabel" type="Label" parent="Card/Margin/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"NoireDim"
+theme_override_font_sizes/font_size = 12
+text = "12 EXHIBITS / 48 MIN"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Spacer" type="Control" parent="Card/Margin/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="SortLabel" type="Label" parent="Card/Margin/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"NoireDim"
+theme_override_font_sizes/font_size = 11
+text = "SORTED ALPHABETICALLY / ASC"
+horizontal_alignment = 1
+text_overrun_behavior = 3

@@ -228,7 +228,64 @@ func apply_action_bindings() -> void:
 	var actions := SongoSettings.ACTION_BINDINGS.keys()
 	for action in actions:
 		var others := actions.filter(func(a): return a != action)
-		set_action_binding(action, settings.get(SongoSettings.ACTION_BINDINGS[action]), others)
+		set_action_binding(action, rotated_binding(settings.get(SongoSettings.ACTION_BINDINGS[action])), others)
+	_apply_direction_bindings()
+
+# --- Control rotation --- #
+# Each list runs clockwise from the top, so rotating by one step is +1 index.
+# Face buttons use Godot's positional names: Y top, B right, A bottom, X left.
+const DIRECTION_ACTIONS = ["ui_up", "ui_right", "ui_down", "ui_left"]
+const DPAD_BUTTONS = [JOY_BUTTON_DPAD_UP, JOY_BUTTON_DPAD_RIGHT, JOY_BUTTON_DPAD_DOWN, JOY_BUTTON_DPAD_LEFT]
+const FACE_BUTTONS = [JOY_BUTTON_Y, JOY_BUTTON_B, JOY_BUTTON_A, JOY_BUTTON_X]
+const STICK_DIRECTIONS = [[JOY_AXIS_LEFT_Y, -1.0], [JOY_AXIS_LEFT_X, 1.0], [JOY_AXIS_LEFT_Y, 1.0], [JOY_AXIS_LEFT_X, -1.0]]
+
+# Clockwise quarter turns the controls are rotated by, 0 when the setting is off
+func control_rotation_steps() -> int:
+	var settings := SongoSettings.get_instance()
+	if not settings.rotate_controls_with_display: return 0
+	return posmod(settings.display_rotation / 90, 4)
+
+# Physical button that does what `button` does unrotated. The display rotation
+# moves the screen's "up" to the button `steps` places clockwise.
+func rotate_joy_button(button: int, steps: int = control_rotation_steps()) -> int:
+	if steps == 0: return button
+	for group in [DPAD_BUTTONS, FACE_BUTTONS]:
+		var index: int = group.find(button)
+		if index != -1: return group[posmod(index + steps, 4)]
+	return button
+
+# Inverse of rotate_joy_button: unrotated button for a physical press
+func unrotate_joy_button(button: int) -> int:
+	return rotate_joy_button(button, -control_rotation_steps())
+
+func rotated_binding(binding: InputEvent) -> InputEvent:
+	if binding is InputEventJoypadButton:
+		var rotated_button := rotate_joy_button(binding.button_index)
+		if rotated_button != binding.button_index:
+			var rotated := binding.duplicate() as InputEventJoypadButton
+			rotated.button_index = rotated_button
+			return rotated
+	return binding
+
+# Points ui_up/right/down/left at the (rotated) d-pad buttons and left stick
+func _apply_direction_bindings() -> void:
+	var steps := control_rotation_steps()
+	for i in DIRECTION_ACTIONS.size():
+		var action: String = DIRECTION_ACTIONS[i]
+		for event in InputMap.action_get_events(action):
+			if (event is InputEventJoypadButton && event.button_index in DPAD_BUTTONS) \
+					|| (event is InputEventJoypadMotion && event.axis in [JOY_AXIS_LEFT_X, JOY_AXIS_LEFT_Y]):
+				InputMap.action_erase_event(action, event)
+		var source := posmod(i + steps, 4)
+		var button := InputEventJoypadButton.new()
+		button.device = 0
+		button.button_index = DPAD_BUTTONS[source]
+		InputMap.action_add_event(action, button)
+		var motion := InputEventJoypadMotion.new()
+		motion.device = 0
+		motion.axis = STICK_DIRECTIONS[source][0]
+		motion.axis_value = STICK_DIRECTIONS[source][1]
+		InputMap.action_add_event(action, motion)
 
 func set_action_binding(action: String, binding: InputEvent, other_actions: Array = []) -> void:
 	# Replaces the action's joypad button/axis and previous custom binding,
@@ -260,9 +317,9 @@ var idle := true
 
 func translate_inputs(delta):
 	var action_name = ""
-	if Input.is_joy_button_pressed(0, JOY_BUTTON_DPAD_UP):
+	if Input.is_joy_button_pressed(0, rotate_joy_button(JOY_BUTTON_DPAD_UP)):
 		action_name = "ui_up"
-	elif Input.is_joy_button_pressed(0, JOY_BUTTON_DPAD_DOWN):
+	elif Input.is_joy_button_pressed(0, rotate_joy_button(JOY_BUTTON_DPAD_DOWN)):
 		action_name = "ui_down"
 
 	if action_name == "":

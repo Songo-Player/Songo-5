@@ -41,6 +41,7 @@ expand_mode = 1
 stretch_mode = 4
 
 [node name="CarouselLabel" type="Label" parent="."]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
@@ -48,11 +49,13 @@ script = ExtResource("3_qcgyv")
 font_color = Color(0.137255, 0.129412, 0.121569, 1)
 
 [node name="SongCount" type="Label" parent="."]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
 text = "x Songs"
 
 [node name="Button" type="Button" parent="."]
+theme_type_variation = &"SongoSettingsButton"
 layout_mode = 2
 theme_override_colors/font_focus_color = Color(0.137255, 0.129412, 0.121569, 1)
 theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
