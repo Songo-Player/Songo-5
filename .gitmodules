@@ -1,0 +1,3 @@
+[submodule "theme_dev"]
+	path = theme_dev
+	url = git@github.com:Songo-Player/Songo-5-Themes.git
