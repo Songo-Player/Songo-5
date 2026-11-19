@@ -67,7 +67,7 @@ func _ready() -> void:
 	SfxPlayer.set_vol(songo_settings.sfx_volume)
 	
 	# Before the first main menu so plugin menu items/settings pages are in place.
-	#PluginManager.load_plugins()
+	PluginManager.load_plugins()
 	Controller.main_menu()
 	if not capturing && songo_settings.auto_import && songo_data.music_directory_paths.size() > 0:
 		songo_data.index_mp3s(true)

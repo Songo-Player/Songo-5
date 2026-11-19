@@ -11,6 +11,7 @@ var content_margin_container: Control
 var keyboard: Control
 var flash_message_box: Control
 var overlay_window: Window
+var overlay_container: Control
 #var debug_info: Control
 var songo_settings = SongoSettings.get_instance()
 var transform_container: Control
@@ -27,6 +28,18 @@ func register_focus_change(item: Control):
 func flash_message(message, persist_time: float = 3.0, type: FlashMessage.TYPE = FlashMessage.TYPE.NONE):
 	flash_message_box.add_message(message, persist_time, type)
 	
+## Shows a panel over the whole UI in the overlay window, as the song info
+## panel is shown, until close_overlay_panel(panel). See OverlayContainer.
+func open_overlay_panel(panel: Control) -> void:
+	overlay_container.open_panel(panel)
+
+func close_overlay_panel(panel: Control) -> void:
+	overlay_container.close_panel(panel)
+
+## Closes whatever open_overlay_panel is showing, e.g. before switching themes.
+func close_overlay_panels() -> void:
+	overlay_container.close_current_panel()
+
 func focus_back():
 	if is_instance_valid(focus_chain[0]): focus_chain[0].grab_focus()
 	

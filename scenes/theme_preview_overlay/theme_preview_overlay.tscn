@@ -1,0 +1,254 @@
+[gd_scene load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://scenes/theme_preview_overlay/theme_preview_overlay.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://wvqbwd6ybd6m" path="res://assets/songo_base_theme.tres" id="2_theme"]
+[ext_resource type="Script" path="res://utilities/carousel_label.gd" id="3_carousel"]
+[ext_resource type="Script" path="res://utilities/left_right_btn_container.gd" id="4_leftright"]
+[ext_resource type="PackedScene" uid="uid://0m5yrmj03xdi" path="res://scenes/settings_container/settings_button.tscn" id="5_button"]
+[ext_resource type="Texture2D" uid="uid://cugg5pnrtgmxg" path="res://assets/arrowLeft.svg" id="6_left"]
+[ext_resource type="Texture2D" uid="uid://c8jp7o8xasf1x" path="res://assets/arrowRight.svg" id="7_right"]
+[ext_resource type="Texture2D" uid="uid://fxdlow5tjstf" path="res://assets/download.svg" id="8_download"]
+[ext_resource type="Texture2D" uid="uid://bssx6jdkh084b" path="res://assets/robot.svg" id="9_robot"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_action"]
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 2.0
+bg_color = Color(0, 0.513062, 0.225958, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_action_disabled"]
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 2.0
+bg_color = Color(0.25, 0.25, 0.25, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_preview"]
+bg_color = Color(0, 0, 0, 0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="ThemePreviewOverlay" type="MarginContainer"]
+process_mode = 3
+z_index = 1
+z_as_relative = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+script = ExtResource("1_script")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"SongoPanel"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Header" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Titles" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="NameLabel" type="Label" parent="PanelContainer/VBoxContainer/Header/Titles"]
+unique_name_in_owner = true
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 26
+text = "Theme Name"
+script = ExtResource("3_carousel")
+
+[node name="BylineLabel" type="Label" parent="PanelContainer/VBoxContainer/Header/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
+theme_override_font_sizes/font_size = 16
+text = "v1.0 · Created by Someone"
+text_overrun_behavior = 3
+
+[node name="Controls" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Header"]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 6
+
+[node name="Arrows" type="HBoxContainer" parent="PanelContainer/VBoxContainer/Header/Controls"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 2
+alignment = 1
+script = ExtResource("4_leftright")
+
+[node name="PreviousButton" parent="PanelContainer/VBoxContainer/Header/Controls/Arrows" instance=ExtResource("5_button")]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+icon = ExtResource("6_left")
+
+[node name="NextButton" parent="PanelContainer/VBoxContainer/Header/Controls/Arrows" instance=ExtResource("5_button")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "
+"
+icon = ExtResource("7_right")
+
+[node name="ActionButton" type="Button" parent="PanelContainer/VBoxContainer/Header/Controls"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongoSettingsButton"
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_action")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_action_disabled")
+text = "Download"
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Body" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="PreviewFrame" type="PanelContainer" parent="PanelContainer/VBoxContainer/Body"]
+unique_name_in_owner = true
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_preview")
+
+[node name="PreviewImage" type="TextureRect" parent="PanelContainer/VBoxContainer/Body/PreviewFrame"]
+unique_name_in_owner = true
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Right" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="CoAuthors" type="HBoxContainer" parent="PanelContainer/VBoxContainer/Body/Right"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="CoAuthorsHeading" type="Label" parent="PanelContainer/VBoxContainer/Body/Right/CoAuthors"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
+theme_override_font_sizes/font_size = 16
+text = "Co-authors:"
+
+[node name="CoAuthorsLabel" type="Label" parent="PanelContainer/VBoxContainer/Body/Right/CoAuthors"]
+unique_name_in_owner = true
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 16
+text = "None"
+script = ExtResource("3_carousel")
+
+[node name="DownloadsRow" type="HBoxContainer" parent="PanelContainer/VBoxContainer/Body/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="PanelContainer/VBoxContainer/Body/Right/DownloadsRow"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("8_download")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DownloadsLabel" type="Label" parent="PanelContainer/VBoxContainer/Body/Right/DownloadsRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 16
+text = "Downloaded 0 times"
+autowrap_mode = 2
+
+[node name="AiRow" type="HBoxContainer" parent="PanelContainer/VBoxContainer/Body/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="PanelContainer/VBoxContainer/Body/Right/AiRow"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("9_robot")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="AiLabel" type="Label" parent="PanelContainer/VBoxContainer/Body/Right/AiRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 16
+text = "AI usage 0 out of 5"
+autowrap_mode = 2
+
+[node name="TagsHeading" type="Label" parent="PanelContainer/VBoxContainer/Body/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
+theme_override_font_sizes/font_size = 16
+text = "Theme Tags:"
+
+[node name="TagChips" type="HFlowContainer" parent="PanelContainer/VBoxContainer/Body/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+
+[node name="StatusLabel" type="Label" parent="PanelContainer/VBoxContainer/Body/Right"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Status"
+autowrap_mode = 2
+
+[node name="DescriptionPanel" type="PanelContainer" parent="PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongoGrayInputPanel"
+
+[node name="DescriptionLabel" type="Label" parent="PanelContainer/VBoxContainer/DescriptionPanel"]
+unique_name_in_owner = true
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
+theme_override_font_sizes/font_size = 16
+text = "Description"
+script = ExtResource("3_carousel")
+font_color = Color(0.137255, 0.129412, 0.121569, 1)
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Header/Controls/Arrows/PreviousButton" to="." method="_on_previous_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Header/Controls/Arrows/NextButton" to="." method="_on_next_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Header/Controls/ActionButton" to="." method="_on_action_pressed"]

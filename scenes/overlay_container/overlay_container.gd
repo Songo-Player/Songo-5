@@ -8,11 +8,16 @@ func _ready() -> void:
 	UiHelper.darkout = %DarkOut
 	UiHelper.overlay_window = %OverlayWindow
 	UiHelper.keyboard = %Keyboard
+	UiHelper.overlay_container = self
 	UiHelper.ui_event.connect(_on_overlay_update)
 	Controller.quitting_songo.connect(_on_songo_quit)
 	%Keyboard.shown_changed.connect(func(_shown): _refresh_overlay())
 	%InfoPanel.go_to_collection_requested.connect(_on_go_to_collection_requested)
 
+
+# A panel opened with UiHelper.open_overlay_panel (e.g. the theme preview),
+# shown in the overlay window like the info panel. One at a time.
+var _panel: Control = null
 
 # True for the whole go-to-album/artist jump. Keeps the (empty) overlay window
 # up so songo_app doesn't route input into the half-built pages.
@@ -47,7 +52,7 @@ func _process(delta: float) -> void:
 
 	var y_held = Input.is_action_pressed("Y")
 	if not y_held: _y_hold_blocked = false
-	elif %InfoPanel.visible || %Keyboard.visible || _transitioning: _y_hold_blocked = true
+	elif %InfoPanel.visible || %Keyboard.visible || _panel != null || _transitioning: _y_hold_blocked = true
 
 	var want_quick_menu = y_held && not _y_hold_blocked
 	if want_quick_menu != %QuickMenu.showing:
@@ -60,7 +65,7 @@ func _process(delta: float) -> void:
 
 
 func _show_info_panel():
-	if %QuickMenu.showing || %Keyboard.visible || _importing: return
+	if %QuickMenu.showing || %Keyboard.visible || _panel != null || _importing: return
 	%InfoPanel.show()
 	_refresh_overlay()
 	# After the window is up, so the panel's grab_focus lands.
@@ -74,7 +79,7 @@ func _hide_info_panel():
 # transition the window stays up (empty) to keep input off the main UI, but the
 # darkout drops with the panel.
 func _refresh_overlay():
-	var any_open = %InfoPanel.visible || %QuickMenu.showing || %Keyboard.visible || _importing
+	var any_open = %InfoPanel.visible || %QuickMenu.showing || %Keyboard.visible || _panel != null || _importing
 	%OverlayWindow.visible = any_open || _transitioning
 	%DarkOut.visible = any_open
 
@@ -93,6 +98,7 @@ func _set_importing(importing: bool):
 		if %QuickMenu.showing: %QuickMenu.close_menu()
 		if %Keyboard.visible: %Keyboard.dismiss()
 		%InfoPanel.hide()
+		if _panel != null: close_panel(_panel)
 		# Don't pop the quick menu if Y is still held when the import ends.
 		_y_hold_blocked = true
 	%ImportProgressContainer.visible = importing
@@ -117,6 +123,26 @@ func _render_import_progress():
 			%ImportProgressLabel.text = "Progress %.1f%%" % (progress * 100)
 			%ProgressBar.scale.x = progress
 			%ImportStepLabel.text = "Step 3/3 Building Album Covers"
+
+## Shows a panel in the overlay window, over the darkened UI, until
+## close_panel. The panel handles its own input (songo_app routes none to the
+## main UI while the window is up) and frees with close_panel.
+func open_panel(panel: Control) -> void:
+	if _panel != null: close_panel(_panel)
+	_panel = panel
+	%OverlayWindow.add_child(panel)
+	_refresh_overlay()
+
+func close_panel(panel: Control) -> void:
+	if panel != _panel: return
+	_panel = null
+	if is_instance_valid(panel):
+		if panel.has_method("close"): panel.close()
+		panel.queue_free()
+	_refresh_overlay()
+
+func close_current_panel() -> void:
+	if _panel != null: close_panel(_panel)
 
 func _on_go_to_collection_requested(index_action: Callable, collection) -> void:
 	if _transitioning: return

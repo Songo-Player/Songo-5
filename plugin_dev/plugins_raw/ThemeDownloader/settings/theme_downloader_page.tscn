@@ -1,0 +1,181 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://plugin_dev/plugins_raw/ThemeDownloader/settings/theme_downloader_page.gd" id="1_page"]
+[ext_resource type="Script" path="res://utilities/smooth_scroll_container.gd" id="2_scroll"]
+[ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="3_section"]
+[ext_resource type="PackedScene" uid="uid://0m5yrmj03xdi" path="res://scenes/settings_container/settings_button.tscn" id="4_button"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab"]
+bg_color = Color(0.130772, 0.130772, 0.130772, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_list"]
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_size = 3
+
+[node name="ThemeDownloaderPage" type="MarginContainer"]
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"SongoSettingsContentMargin"
+theme_override_constants/margin_top = 29
+theme_override_constants/margin_right = 4
+script = ExtResource("1_page")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+unique_name_in_owner = true
+clip_contents = false
+layout_mode = 2
+follow_focus = true
+script = ExtResource("2_scroll")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ThemesSection" type="MarginContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/ThemesSection"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="ScrollContainer/VBoxContainer/ThemesSection/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 38
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/ThemesSection/PanelContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="CatalogPanel" type="PanelContainer" parent="ScrollContainer/VBoxContainer/ThemesSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("3_section")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/ThemesSection/PanelContainer/MarginContainer2/VBoxContainer/CatalogPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="CatalogSetting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/ThemesSection/PanelContainer/MarginContainer2/VBoxContainer/CatalogPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/ThemesSection/PanelContainer/MarginContainer2/VBoxContainer/CatalogPanel/MarginContainer/CatalogSetting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/ThemesSection/PanelContainer/MarginContainer2/VBoxContainer/CatalogPanel/MarginContainer/CatalogSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
+layout_mode = 2
+text = "Theme Catalog"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/ThemesSection/PanelContainer/MarginContainer2/VBoxContainer/CatalogPanel/MarginContainer/CatalogSetting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CatalogStatus" type="Label" parent="ScrollContainer/VBoxContainer/ThemesSection/PanelContainer/MarginContainer2/VBoxContainer/CatalogPanel/MarginContainer/CatalogSetting/Hbox"]
+unique_name_in_owner = true
+theme_type_variation = &"SongoSettingsLabel"
+layout_mode = 2
+text = "Loading..."
+
+[node name="BrowseButton" parent="ScrollContainer/VBoxContainer/ThemesSection/PanelContainer/MarginContainer2/VBoxContainer/CatalogPanel/MarginContainer/CatalogSetting/Hbox" instance=ExtResource("4_button")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Browse"
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/ThemesSection/PanelContainer/MarginContainer2/VBoxContainer/CatalogPanel/MarginContainer/CatalogSetting"]
+theme_type_variation = &"SongoSettingsLabel"
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Themes from songo-player.github.io/Songo-5-Themes. Once downloaded, apply them from UI and Customization."
+autowrap_mode = 2
+
+[node name="DownloadedPanel" type="PanelContainer" parent="ScrollContainer/VBoxContainer/ThemesSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("3_section")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/ThemesSection/PanelContainer/MarginContainer2/VBoxContainer/DownloadedPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/ThemesSection/PanelContainer/MarginContainer2/VBoxContainer/DownloadedPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/ThemesSection/PanelContainer/MarginContainer2/VBoxContainer/DownloadedPanel/MarginContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
+layout_mode = 2
+text = "Downloaded Themes:"
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/ThemesSection/PanelContainer/MarginContainer2/VBoxContainer/DownloadedPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_list")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/ThemesSection/PanelContainer/MarginContainer2/VBoxContainer/DownloadedPanel/MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="NoDownloadsLabel" type="Label" parent="ScrollContainer/VBoxContainer/ThemesSection/PanelContainer/MarginContainer2/VBoxContainer/DownloadedPanel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+theme_type_variation = &"SongoSettingsLabel"
+layout_mode = 2
+theme_override_colors/font_color = Color(0.136442, 0.129619, 0.122794, 1)
+text = "No Themes Downloaded"
+
+[node name="DownloadedList" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/ThemesSection/PanelContainer/MarginContainer2/VBoxContainer/DownloadedPanel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/ThemesSection"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -25
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/ThemesSection/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tab")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/ThemesSection/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PageLabel" type="Label" parent="ScrollContainer/VBoxContainer/ThemesSection/MarginContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+theme_type_variation = &"SongoSettingsLabel"
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Theme Downloader"
+
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/ThemesSection/PanelContainer/MarginContainer2/VBoxContainer/CatalogPanel/MarginContainer/CatalogSetting/Hbox/BrowseButton" to="." method="_on_browse_button_pressed"]

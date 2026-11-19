@@ -1,0 +1,66 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://plugin_dev/plugins_raw/ThemeDownloader/settings/downloaded_item.gd" id="1_item"]
+[ext_resource type="Texture2D" uid="uid://md788wp04yb1" path="res://assets/layergroup.svg" id="2_icon"]
+[ext_resource type="Script" path="res://utilities/carousel_label.gd" id="3_carousel"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_focus"]
+bg_color = Color(1, 0, 0, 0.392157)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.137255, 0.129412, 0.121569, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_normal"]
+content_margin_left = 10.0
+content_margin_top = 2.0
+content_margin_right = 10.0
+content_margin_bottom = 3.0
+bg_color = Color(1, 0, 0, 0.392157)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="DownloadedItem" type="HBoxContainer"]
+alignment = 1
+script = ExtResource("1_item")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0.137255, 0.129412, 0.121569, 1)
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("2_icon")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="CarouselLabel" type="Label" parent="."]
+theme_type_variation = &"SongoSettingsLabel"
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
+script = ExtResource("3_carousel")
+font_color = Color(0.137255, 0.129412, 0.121569, 1)
+
+[node name="Version" type="Label" parent="."]
+theme_type_variation = &"SongoSettingsLabel"
+layout_mode = 2
+theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
+text = "v1.0"
+
+[node name="Button" type="Button" parent="."]
+theme_type_variation = &"SongoSettingsButton"
+layout_mode = 2
+theme_override_colors/font_focus_color = Color(0.137255, 0.129412, 0.121569, 1)
+theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
+theme_override_styles/focus = SubResource("StyleBoxFlat_focus")
+theme_override_styles/normal = SubResource("StyleBoxFlat_normal")
+text = "Delete"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

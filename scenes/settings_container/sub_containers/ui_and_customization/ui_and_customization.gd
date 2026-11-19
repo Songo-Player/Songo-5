@@ -7,7 +7,8 @@ var theme_options = []
 var theme_index = 0
 var _theme_setting_items = {}
 const SETTING_LINE_ITEM_PATH = "res://scenes/settings_container/sub_containers/ui_and_customization/setting_line_item/setting_line_item.tscn"
-const THEME_TAG_PATH = "res://scenes/settings_container/sub_containers/ui_and_customization/theme_tag/theme_tag.tscn"
+const ThemePreviewOverlay = preload("res://scenes/theme_preview_overlay/theme_preview_overlay.tscn")
+var _preview_overlay
 
 const MENU_VISIBILITY_ITEMS := [
 	["all_songs", "All Songs"],
@@ -23,7 +24,6 @@ func _ready():
 	original_scale = songo_settings.ui_scale
 	max_content_margin = int(UiHelper.content_body.size.x / 4.0)
 	%ThemeSettings.sort_children.connect(_update_theme_setting_tails)
-	update_theme_options_ui()
 	update_current_theme_ui()
 	update_clock_24_hour_ui()
 	_setup_menu_visibility_settings()
@@ -172,38 +172,52 @@ func handle_input(delta: float):
 	if Input.is_action_just_pressed("back"):
 		Controller.nav_back()
 		
+# Change opens the theme preview overlay on the theme in use; the arrows step
+# through every theme and Apply switches to the one showing.
 func update_theme_options_ui():
+	if _preview_overlay == null: return
 	var displayed_theme = theme_options[theme_index]
 	var theme_info = ThemeManager.parse_theme_json(displayed_theme)
 	var preview_path = displayed_theme + "/preview.png"
 	var tex: Texture2D = null
 	if preview_path.begins_with("res://"):
-		tex = load(preview_path)
+		if ResourceLoader.exists(preview_path): tex = load(preview_path)
 	else:
 		var img := Image.load_from_file(preview_path)
 		if img != null:
 			tex = ImageTexture.create_from_image(img)
-
 	if tex == null:
 		push_error("Failed to load preview image: " + preview_path)
-	else:
-		%ThemePreviewImage.texture = tex
-		
-	%ThemeNameWithVersion.text = "%s (v%s)" % [theme_info['name'], theme_info['version']]
-	%ThemeAuthor.text = "Created by %s" % theme_info["author"]
-	%ThemeDescription.text = theme_info["description"]
-	
-	for child in %ThemeTagContainer.get_children():
-		child.queue_free()
-		
-	await get_tree().process_frame
-	
-	if theme_info.has("tags"):
-		for tag in theme_info["tags"]:
-			var theme_tag = load(THEME_TAG_PATH).instantiate()
-			theme_tag.setup(tag)
-			%ThemeTagContainer.add_child(theme_tag)
-	
+
+	var in_use: bool = displayed_theme == songo_settings.theme_path
+	_preview_overlay.display({
+		"name": theme_info.get("name", ""),
+		"version": theme_info.get("version", ""),
+		"author": theme_info.get("author", ""),
+		"co_authors": theme_info.get("co_authors", []) if typeof(theme_info.get("co_authors")) == TYPE_ARRAY else [],
+		"description": theme_info.get("description", ""),
+		"preview": tex,
+		"tags": theme_info.get("tags", []),
+		"ai_usage": theme_info.get("ai_usage"),
+		"status": "This is the theme you're using." if in_use else "",
+		"status_kind": "good",
+		"action": "Apply",
+		"action_disabled": in_use,
+		"can_navigate": theme_options.size() > 1,
+	})
+
+func _open_theme_preview():
+	_preview_overlay = ThemePreviewOverlay.instantiate()
+	_preview_overlay.navigated.connect(_on_theme_navigated)
+	_preview_overlay.action_pressed.connect(_on_apply_theme_pressed)
+	_preview_overlay.closed.connect(func(): _preview_overlay = null)
+	_preview_overlay.open()
+	update_theme_options_ui()
+
+func _on_theme_navigated(step: int):
+	theme_index = posmod(theme_index + step, theme_options.size())
+	update_theme_options_ui()
+
 func update_current_theme_ui():
 	var theme_info = ThemeManager.parse_theme_json(songo_settings.theme_path)
 	%ThemeDisplayLabel.text = theme_info["name"]
@@ -304,6 +318,7 @@ func _apply_content_margin():
 
 
 func _on_apply_theme_pressed() -> void:
+	if _preview_overlay != null: _preview_overlay.close()
 	songo_settings.theme_path = theme_options[theme_index]
 	songo_settings.save()
 	if ThemeManager.theme_path != theme_options[theme_index]:
@@ -314,18 +329,7 @@ func _on_apply_theme_pressed() -> void:
 	else:
 		UiHelper.flash_message("This theme is already being applied")
 
-func _on_theme_down_pressed() -> void:
-	theme_index = theme_index-1
-	if theme_index < 0: theme_index = theme_options.size()-1
-	update_theme_options_ui()
-
-func _on_theme_up_pressed() -> void:
-	theme_index = theme_index+1
-	if theme_index >= theme_options.size(): theme_index = 0
-	update_theme_options_ui()
-
-
 func _on_settings_button_pressed() -> void:
-	%ThemePickerContainer.visible = not %ThemePickerContainer.visible
-	if %ThemePickerContainer.visible: %SettingsButton.text = "Hide"
-	else: %SettingsButton.text = "Change"
+	var current = theme_options.find(songo_settings.theme_path)
+	if current >= 0: theme_index = current
+	_open_theme_preview()
