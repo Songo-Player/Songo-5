@@ -1,0 +1,385 @@
+[gd_scene load_steps=5 format=3 uid="uid://rxu1eii3bghq"]
+
+[ext_resource type="Script" path="res://scenes/app_info_panel/app_info_panel.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://wvqbwd6ybd6m" path="res://assets/songo_base_theme.tres" id="2_theme"]
+[ext_resource type="Script" path="res://utilities/carousel_label.gd" id="3_carousel"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chip"]
+bg_color = Color(0.0646965, 0.0646965, 0.0646965, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="AppInfoPanel" type="MarginContainer"]
+process_mode = 3
+z_index = 1
+z_as_relative = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
+z_index = 1
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme = ExtResource("2_theme")
+theme_type_variation = &"SongoPanel"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Names" type="VBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Version" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/Names"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "Version"
+horizontal_alignment = 2
+
+[node name="Runtime" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/Names"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "Runtime"
+horizontal_alignment = 2
+
+[node name="Platform" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/Names"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "Platform"
+horizontal_alignment = 2
+
+[node name="Device" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/Names"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "Device"
+horizontal_alignment = 2
+
+[node name="Processor" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/Names"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "Processor"
+horizontal_alignment = 2
+
+[node name="Values" type="VBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Version" type="PanelContainer" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/Values"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SongoGrayInputPanel"
+
+[node name="VersionLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/Values/Version"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
+text = "-"
+script = ExtResource("3_carousel")
+font_color = Color(0.137255, 0.129412, 0.121569, 1)
+
+[node name="Runtime" type="PanelContainer" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/Values"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SongoGrayInputPanel"
+
+[node name="RuntimeLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/Values/Runtime"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
+text = "-"
+script = ExtResource("3_carousel")
+font_color = Color(0.137255, 0.129412, 0.121569, 1)
+
+[node name="Platform" type="PanelContainer" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/Values"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SongoGrayInputPanel"
+
+[node name="PlatformLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/Values/Platform"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
+text = "-"
+script = ExtResource("3_carousel")
+font_color = Color(0.137255, 0.129412, 0.121569, 1)
+
+[node name="Device" type="PanelContainer" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/Values"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SongoGrayInputPanel"
+
+[node name="DeviceLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/Values/Device"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
+text = "-"
+script = ExtResource("3_carousel")
+font_color = Color(0.137255, 0.129412, 0.121569, 1)
+
+[node name="Processor" type="PanelContainer" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/Values"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SongoGrayInputPanel"
+
+[node name="ProcessorLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/Values/Processor"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
+text = "-"
+script = ExtResource("3_carousel")
+font_color = Color(0.137255, 0.129412, 0.121569, 1)
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="FlowContainer" type="FlowContainer" parent="MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Songs" type="PanelContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_chip")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/Songs"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/Songs/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/Songs/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "Songs:"
+
+[node name="SongCountLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/Songs/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "-"
+
+[node name="MusicDirs" type="PanelContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_chip")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/MusicDirs"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/MusicDirs/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/MusicDirs/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "Music Dirs:"
+
+[node name="MusicDirCountLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/MusicDirs/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "-"
+
+[node name="DataFormat" type="PanelContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_chip")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/DataFormat"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/DataFormat/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/DataFormat/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "Data:"
+
+[node name="DataFormatLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/DataFormat/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "-"
+
+[node name="SettingsFormat" type="PanelContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_chip")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/SettingsFormat"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/SettingsFormat/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/SettingsFormat/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "Settings:"
+
+[node name="SettingsFormatLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/SettingsFormat/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "-"
+
+[node name="BackgroundPlay" type="PanelContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_chip")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/BackgroundPlay"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/BackgroundPlay/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/BackgroundPlay/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "Background Play:"
+
+[node name="BackgroundPlayLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/BackgroundPlay/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "-"
+
+[node name="Screen" type="PanelContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_chip")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/Screen"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/Screen/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/Screen/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "Screen:"
+
+[node name="ScreenLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/Screen/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "-"
+
+[node name="Gpu" type="PanelContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_chip")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/Gpu"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/Gpu/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/Gpu/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "GPU:"
+
+[node name="GpuLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/Gpu/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "-"
+
+[node name="BootTime" type="PanelContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_chip")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/BootTime"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/BootTime/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/BootTime/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "Boot Time:"
+
+[node name="BootTimeLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/BootTime/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "-"
+
+[node name="ImportTime" type="PanelContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_chip")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/ImportTime"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/ImportTime/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/ImportTime/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "Import Time:"
+
+[node name="ImportTimeLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/ImportTime/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+text = "-"

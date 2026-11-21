@@ -63,6 +63,7 @@ const CONTACT_ME_SUB_CONTAINER = SETTINGS_SUB_PATH + "/contact_me/contact_me.tsc
 const SUPPORT_ME_SUB_CONTAINER = SETTINGS_SUB_PATH + "/support_me/support_me.tscn"
 const CONTROLLER_SETTINGS_SUB_CONTAINER = SETTINGS_SUB_PATH + "/controller_settings/controller_settings.tscn"
 const SOUND_SETTINGS_SUB_CONTAINER = SETTINGS_SUB_PATH + "/sound_settings/sound_settings.tscn"
+const HOW_TO_USE_SUB_CONTAINER = SETTINGS_SUB_PATH + "/how_to_use/how_to_use.tscn"
 
 
 var settings_collection : Array[SettingRecord] = [
@@ -71,9 +72,10 @@ var settings_collection : Array[SettingRecord] = [
 	SettingRecord.new("Misc Feature Settings", "misc_feature_settings", false),
 	SettingRecord.new("Controller Settings", "controller_settings", false),
 	SettingRecord.new("Sound Settings", "sound_settings", false),
+	SettingRecord.new("How do I use this app?", "how_to_use", true),
 	SettingRecord.new("Development Credit", "settings_development_credit", true),
 	SettingRecord.new("Contact Me / Report a bug", "contact_me", true),
-	SettingRecord.new("Support Me / Dev Roadmap", "support_me", true),
+	#SettingRecord.new("Support Me / Dev Roadmap", "support_me", true),
 ]
 
 var _menu_items: Array[MenuItemData] = [
@@ -219,6 +221,13 @@ func misc_feature_settings():
 	nav_label = ["Main Menu", "Settings", "Misc Feature Settings"]
 	finish_up_nav()
 	
+func how_to_use():
+	clean_up_old_container()
+	active_container = load(HOW_TO_USE_SUB_CONTAINER).instantiate()
+	active_container.setup()
+	nav_label = ["Main Menu", "Settings", "How to Use"]
+	finish_up_nav()
+
 func settings_development_credit():
 	clean_up_old_container()
 	

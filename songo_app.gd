@@ -45,7 +45,6 @@ func _ready() -> void:
 		#UiHelper.apply_screen_fit()
 	get_viewport().gui_focus_changed.connect(_on_focus_changed)
 	if OS.get_environment("HIDE_MOUSE"): Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	add_debug_info()
 	
 	get_tree().paused = false
 	Engine.set_time_scale(1.0)
@@ -152,33 +151,7 @@ func _process(delta: float) -> void:
 
 	#if %QuickMenu.showing: return
 
-	if Input.is_action_just_pressed("L2") && Input.is_action_just_pressed("R2"):
-		%DebugInfo.visible = not %DebugInfo.visible
-		if %DebugInfo.visible:
-			add_debug_info()
-
 	UiHelper.route_inputs(Controller.active_container, delta)
-
-func add_debug_info():
-	%OSNameLabel.text = "OS name: %s" % DeviceOS.get_os_name()
-	%DeviceIdLabel.text = "Device ID: %s" % OS.get_environment("DEVICE_NAME")
-	%ScreenSize.text = "Screen Size: %s" % str(DisplayServer.screen_get_size())
-	%WindowSize.text = "Window Size: %s" % str(DisplayServer.window_get_size())
-	%DeviceOrientation.text = "Device Orientation: %s" % string_screen_orientation()
-	%RootSize.text = "Root Size: %s" % str(get_parent().size)
-	
-func string_screen_orientation():
-	var orientation = DisplayServer.screen_get_orientation()
-	var strings = [
-		"SCREEN_LANDSCAPE",
-		"SCREEN_PORTRAIT",
-		"SCREEN_REVERSE_LANDSCAPE",
-		"SCREEN_REVERSE_PORTRAIT",
-		"SCREEN_SENSOR_LANDSCAPE",
-		"SCREEN_SENSOR_PORTRAIT",
-		"SCREEN_SENSOR"
-	]
-	return strings[orientation]
 
 func _on_focus_changed(control):
 	UiHelper.register_focus_change(control)
@@ -191,6 +164,7 @@ func _start_deferred_services():
 	# Let the main menu draw first
 	await get_tree().process_frame
 	await get_tree().process_frame
+	UiHelper.boot_msec = Time.get_ticks_msec()
 
 	# Last child of TransformContainer so it draws over everything, as it did
 	# when it was part of the scene

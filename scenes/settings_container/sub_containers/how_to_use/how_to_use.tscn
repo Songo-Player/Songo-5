@@ -1,0 +1,506 @@
+[gd_scene load_steps=6 format=3 uid="uid://d0xirt2hynwnu"]
+
+[ext_resource type="Script" path="res://scenes/settings_container/sub_containers/how_to_use/how_to_use.gd" id="1_howto"]
+[ext_resource type="Script" path="res://utilities/smooth_scroll_container.gd" id="2_scroll"]
+[ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="3_section"]
+[ext_resource type="PackedScene" uid="uid://0m5yrmj03xdi" path="res://scenes/settings_container/settings_button.tscn" id="4_button"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_title"]
+bg_color = Color(0.130772, 0.130772, 0.130772, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="HowToUseSubContainer" type="MarginContainer"]
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"SongoSettingsContentMargin"
+theme_override_constants/margin_top = 29
+theme_override_constants/margin_right = 4
+script = ExtResource("1_howto")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+unique_name_in_owner = true
+clip_contents = false
+layout_mode = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+script = ExtResource("2_scroll")
+focus_search_root = NodePath("Sections")
+
+[node name="Sections" type="VBoxContainer" parent="ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 37
+
+[node name="GettingStarted" type="MarginContainer" parent="ScrollContainer/Sections"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/Sections/GettingStarted"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/Sections/GettingStarted/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 38
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/Sections/GettingStarted/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("3_section")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/Sections/GettingStarted/PanelContainer/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Body" type="VBoxContainer" parent="ScrollContainer/Sections/GettingStarted/PanelContainer/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Step1" type="Label" parent="ScrollContainer/Sections/GettingStarted/PanelContainer/MarginContainer/PanelContainer/MarginContainer/Body"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "1. Copy your music onto your device. I suggest making a 'MUSIC' folder next to 'ROMS' on your SD card. Sub-folders are fine, Songo#5 searches through all of them."
+autowrap_mode = 3
+
+[node name="Step2" type="Label" parent="ScrollContainer/Sections/GettingStarted/PanelContainer/MarginContainer/PanelContainer/MarginContainer/Body"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "2. Go to Settings > Data and Storage and press \"New Directory\". On Android you'll be asked to allow access to all files first; grant it, come back and press it again."
+autowrap_mode = 3
+
+[node name="Step3" type="Label" parent="ScrollContainer/Sections/GettingStarted/PanelContainer/MarginContainer/PanelContainer/MarginContainer/Body"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "3. Browse to your music folder and press \"Use this Directory\". Songo#5 will scan it and import every song it finds. Large libraries can take a little while."
+autowrap_mode = 3
+
+[node name="AddingMore" type="Label" parent="ScrollContainer/Sections/GettingStarted/PanelContainer/MarginContainer/PanelContainer/MarginContainer/Body"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "Adding more music later: with Auto Scan enabled (Data and Storage), new files are picked up each time the app starts. With it disabled, run \"Indexed Music Data - Rebuild\" after adding music."
+autowrap_mode = 3
+
+[node name="Playlists" type="Label" parent="ScrollContainer/Sections/GettingStarted/PanelContainer/MarginContainer/PanelContainer/MarginContainer/Body"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "Any .m3u playlist files inside your music directories are imported automatically too."
+autowrap_mode = 3
+
+[node name="TitleMargin" type="MarginContainer" parent="ScrollContainer/Sections/GettingStarted"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -25
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/Sections/GettingStarted/TitleMargin"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_title")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/Sections/GettingStarted/TitleMargin/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Title" type="Label" parent="ScrollContainer/Sections/GettingStarted/TitleMargin/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 24
+text = "Getting started"
+
+[node name="BackgroundPlay" type="MarginContainer" parent="ScrollContainer/Sections"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/Sections/BackgroundPlay"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/Sections/BackgroundPlay/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 38
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/Sections/BackgroundPlay/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("3_section")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/Sections/BackgroundPlay/PanelContainer/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Body" type="VBoxContainer" parent="ScrollContainer/Sections/BackgroundPlay/PanelContainer/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Intro" type="Label" parent="ScrollContainer/Sections/BackgroundPlay/PanelContainer/MarginContainer/PanelContainer/MarginContainer/Body"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "Songo#5 can keep playing your music after you leave the app, so you can listen while playing games."
+autowrap_mode = 3
+
+[node name="Step1" type="Label" parent="ScrollContainer/Sections/BackgroundPlay/PanelContainer/MarginContainer/PanelContainer/MarginContainer/Body"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "1. Start playing a song, album, artist or playlist."
+autowrap_mode = 3
+
+[node name="Step2" type="Label" parent="ScrollContainer/Sections/BackgroundPlay/PanelContainer/MarginContainer/PanelContainer/MarginContainer/Body"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "2. Go back to the Main Menu and hold Y to open the quick menu."
+autowrap_mode = 3
+
+[node name="Step3" type="Label" parent="ScrollContainer/Sections/BackgroundPlay/PanelContainer/MarginContainer/PanelContainer/MarginContainer/Body"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "3. Press right to \"Quit with Music\". Songo#5 closes and your queue keeps playing."
+autowrap_mode = 3
+
+[node name="Returning" type="Label" parent="ScrollContainer/Sections/BackgroundPlay/PanelContainer/MarginContainer/PanelContainer/MarginContainer/Body"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "When you open Songo#5 again it picks up the music that is still playing and takes you back to where you played it from, so you can pause, skip or stop it as usual."
+autowrap_mode = 3
+
+[node name="TitleMargin" type="MarginContainer" parent="ScrollContainer/Sections/BackgroundPlay"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -25
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/Sections/BackgroundPlay/TitleMargin"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_title")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/Sections/BackgroundPlay/TitleMargin/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Title" type="Label" parent="ScrollContainer/Sections/BackgroundPlay/TitleMargin/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 24
+text = "Background Play"
+
+[node name="Controls" type="MarginContainer" parent="ScrollContainer/Sections"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/Sections/Controls"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/Sections/Controls/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 38
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="SubSections" type="VBoxContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Intro" type="PanelContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("3_section")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/Intro"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/Intro/MarginContainer"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "Buttons below use the default mapping. You can remap them in Settings > Controller Settings."
+autowrap_mode = 3
+
+[node name="BasicControls" type="PanelContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("3_section")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/BasicControls"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/BasicControls/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Header" type="HBoxContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/BasicControls/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/BasicControls/MarginContainer/VBox/Header"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "Basic Controls"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/BasicControls/MarginContainer/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ToggleButton" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/BasicControls/MarginContainer/VBox/Header" instance=ExtResource("4_button")]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Hide"
+
+[node name="Content" type="MarginContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/BasicControls/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="Label" type="Label" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/BasicControls/MarginContainer/VBox/Content"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "D-pad: Move around
+A: Open / play
+B: Go back
+X: Shuffle (song lists)
+Left: Change sort order
+Right: Jump to the scroll bar for fast scrolling
+Select (Main Menu, nothing playing): App info
+Start + Select: Quit Songo#5"
+autowrap_mode = 3
+
+[node name="QuickMenu" type="PanelContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("3_section")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/QuickMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/QuickMenu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Header" type="HBoxContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/QuickMenu/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/QuickMenu/MarginContainer/VBox/Header"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "Quick Menu (hold Y)"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/QuickMenu/MarginContainer/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ToggleButton" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/QuickMenu/MarginContainer/VBox/Header" instance=ExtResource("4_button")]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Show"
+
+[node name="Content" type="MarginContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/QuickMenu/MarginContainer/VBox"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="Label" type="Label" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/QuickMenu/MarginContainer/VBox/Content"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "Up: Add/remove the focused song(s) in the target playlist
+Down: Queue the focused song
+Left / Right: Change the target playlist
+On the Main Menu, Left rotates the display instead"
+autowrap_mode = 3
+
+[node name="SongView" type="PanelContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("3_section")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/SongView"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/SongView/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Header" type="HBoxContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/SongView/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/SongView/MarginContainer/VBox/Header"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "Song View"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/SongView/MarginContainer/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ToggleButton" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/SongView/MarginContainer/VBox/Header" instance=ExtResource("4_button")]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Show"
+
+[node name="Content" type="MarginContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/SongView/MarginContainer/VBox"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="Label" type="Label" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/SongView/MarginContainer/VBox/Content"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "Left / L1: Restart song, or previous song
+Right / R1: Next song
+Up / L2: Seek backward
+Down / R2: Seek forward
+X: Toggle repeat
+Select: Song info
+Start: Lock, sleep or keep awake (set in Controller Settings)
+B: Back to browsing"
+autowrap_mode = 3
+
+[node name="SongFollow" type="PanelContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("3_section")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/SongFollow"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/SongFollow/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Header" type="HBoxContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/SongFollow/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/SongFollow/MarginContainer/VBox/Header"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "Browsing with Music Playing"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/SongFollow/MarginContainer/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ToggleButton" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/SongFollow/MarginContainer/VBox/Header" instance=ExtResource("4_button")]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Show"
+
+[node name="Content" type="MarginContainer" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/SongFollow/MarginContainer/VBox"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="Label" type="Label" parent="ScrollContainer/Sections/Controls/PanelContainer/MarginContainer/SubSections/SongFollow/MarginContainer/VBox/Content"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "L1 / R1: Previous / next song
+L2 / R2: Seek backward / forward
+Select: Return to the song view
+Start: Stop the music"
+autowrap_mode = 3
+
+[node name="TitleMargin" type="MarginContainer" parent="ScrollContainer/Sections/Controls"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -25
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/Sections/Controls/TitleMargin"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_title")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/Sections/Controls/TitleMargin/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Title" type="Label" parent="ScrollContainer/Sections/Controls/TitleMargin/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 24
+text = "Controls"

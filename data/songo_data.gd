@@ -8,7 +8,7 @@ const SAVE_PATH = "user://songo_data.res"
 # save. Older formats aren't read: DATA_VERSION RC7.2 (the move to
 # TagLibLibrary) busts saved data so the library is rebuilt by an import.
 const LIBRARY_PATH = "user://songo_library.bin"
-const VERSION = "v1.0.0 RC8"
+const VERSION = "v1.0.0 RC9"
 const DATA_VERSION = "v1.0.0 RC7.2"
 
 @export var music_directory_path = "No Path"
@@ -50,6 +50,10 @@ var importing: bool = false
 var import_quiet_scan: bool = false
 var playlists: Array[M3uCollection] = []
 var import_start_time = 0
+## How long the last import this session took, scan included, in msec.
+## -1 until one has run. Shown in the app info panel.
+var last_import_msec: int = -1
+var _import_began_msec: int = 0
 # Play counts changed since the last save (see save_listens).
 var listens_dirty: bool = false
 
@@ -271,6 +275,7 @@ func start_import():
 	if _import_thread and _import_thread.is_alive():
 		return  # already running
 	_stop_flag = false
+	_import_began_msec = Time.get_ticks_msec()
 	_import_thread = Thread.new()
 	_import_thread.start(Callable(self, "_thread_import"))
 
@@ -508,6 +513,7 @@ func safe_load_image(path: String) -> Image:
 func _on_import_early_exit():
 	if _import_thread and _import_thread.is_started():
 		_import_thread.wait_to_finish()
+	last_import_msec = Time.get_ticks_msec() - _import_began_msec
 	import_step = 0
 	importing = false
 	import_finished.emit()
@@ -524,6 +530,7 @@ func _on_album_image_rebuild_complete():
 func _on_import_complete():
 	if _import_thread and _import_thread.is_started():
 		_import_thread.wait_to_finish()
+	last_import_msec = Time.get_ticks_msec() - _import_began_msec
 	import_step = 0
 	save()
 

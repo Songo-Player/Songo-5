@@ -51,26 +51,31 @@ theme_override_constants/separation = 12
 alignment = 1
 
 [node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Path"
 horizontal_alignment = 2
 
 [node name="Label2" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Title"
 horizontal_alignment = 2
 
 [node name="Label3" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Album"
 horizontal_alignment = 2
 
 [node name="Label4" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Artist"
 horizontal_alignment = 2
 
 [node name="AlbumIdLiteralLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 text = "Id"
@@ -88,6 +93,7 @@ theme = ExtResource("1_ekxmw")
 theme_type_variation = &"SongoGrayInputPanel"
 
 [node name="FilePathLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/PanelContainer2"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
@@ -102,6 +108,7 @@ theme = ExtResource("1_ekxmw")
 theme_type_variation = &"SongoGrayInputPanel"
 
 [node name="TrackTitleLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/PanelContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
@@ -119,6 +126,7 @@ theme_type_variation = &"SongoGrayInputPanel"
 layout_mode = 2
 
 [node name="AlbumNameLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/PanelContainer3/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -131,6 +139,7 @@ font_color = Color(0.137255, 0.129412, 0.121569, 1)
 layout_mode = 2
 
 [node name="GoToAlbumButton" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/PanelContainer3/HBoxContainer/MarginContainer"]
+theme_type_variation = &"SongoSettingsButton"
 unique_name_in_owner = true
 layout_mode = 2
 
@@ -140,6 +149,7 @@ theme_override_constants/margin_left = 6
 theme_override_constants/margin_right = 6
 
 [node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/PanelContainer3/HBoxContainer/MarginContainer/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Go"
 
@@ -162,6 +172,7 @@ texture = ExtResource("4_8f0o0")
 expand_mode = 3
 
 [node name="ArtistNameLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer4/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -186,6 +197,7 @@ texture = ExtResource("5_fiya1")
 expand_mode = 3
 
 [node name="AlbumArtistLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer5/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -198,6 +210,7 @@ font_color = Color(0.137255, 0.129412, 0.121569, 1)
 layout_mode = 2
 
 [node name="GoToAlbumArtistButton" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer5/HBoxContainer/MarginContainer"]
+theme_type_variation = &"SongoSettingsButton"
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer5/HBoxContainer/MarginContainer"]
@@ -206,6 +219,7 @@ theme_override_constants/margin_left = 6
 theme_override_constants/margin_right = 6
 
 [node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer5/HBoxContainer/MarginContainer/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Go"
 
@@ -217,6 +231,7 @@ theme = ExtResource("1_ekxmw")
 theme_type_variation = &"SongoGrayInputPanel"
 
 [node name="MbAlbumIdLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/MbAlbumId"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.137255, 0.129412, 0.121569, 1)
@@ -245,10 +260,12 @@ theme_override_constants/margin_bottom = 2
 layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/Length/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Length:"
 
 [node name="LengthLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/Length/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 text = "342"
@@ -269,10 +286,12 @@ theme_override_constants/margin_bottom = 2
 layout_mode = 2
 
 [node name="label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/Genre/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Genre:"
 
 [node name="GenreLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/Genre/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 text = "Rock"
@@ -293,10 +312,12 @@ theme_override_constants/margin_bottom = 2
 layout_mode = 2
 
 [node name="label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/TrackNum/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Track:"
 
 [node name="TrackNumLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/TrackNum/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 text = "3"
@@ -317,10 +338,12 @@ theme_override_constants/margin_bottom = 2
 layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/DiscNum/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Disc:"
 
 [node name="DiscNumLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/DiscNum/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 text = "1"
@@ -341,10 +364,12 @@ theme_override_constants/margin_bottom = 2
 layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/Year/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Year:"
 
 [node name="YearLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/Year/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 text = "1998"
@@ -364,10 +389,12 @@ theme_override_constants/margin_bottom = 2
 layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/Bitrate/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Bitrate:"
 
 [node name="BitrateLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/Bitrate/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 text = "44"
@@ -387,10 +414,12 @@ theme_override_constants/margin_bottom = 2
 layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/SampleRate/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Sample Rate:"
 
 [node name="SampleRateLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/SampleRate/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 text = "44000"
@@ -410,10 +439,12 @@ theme_override_constants/margin_bottom = 2
 layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/FileSize/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "File Size:"
 
 [node name="FileSizeLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/FileSize/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 text = "450"
@@ -433,10 +464,12 @@ theme_override_constants/margin_bottom = 2
 layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/FileType/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "File Type:"
 
 [node name="FileTypeLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/FileType/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 text = "mp3"
@@ -454,6 +487,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
 [node name="HasLyricsLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/HasLyrics/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Has Lyrics"
 
@@ -472,10 +506,12 @@ theme_override_constants/margin_bottom = 2
 layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/ListenCount/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 layout_mode = 2
 text = "Listen count:"
 
 [node name="ListenCountLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/FlowContainer/ListenCount/MarginContainer/HBoxContainer"]
+theme_type_variation = &"SongoSettingsLabel"
 unique_name_in_owner = true
 layout_mode = 2
 text = "0"

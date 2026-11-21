@@ -10,7 +10,16 @@ var focus_return
 var _opened_frame := -1
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	resized.connect(_cap_card_width)
+	_cap_card_width()
+
+# Margin around the card at 4:3; wider screens add to the sides.
+const CARD_MARGIN := 50
+
+func _cap_card_width() -> void:
+	var side := UiHelper.capped_card_side_margin(size, CARD_MARGIN)
+	$MarginContainer.add_theme_constant_override("margin_left", side)
+	$MarginContainer.add_theme_constant_override("margin_right", side)
 
 func set_for_track(track: TagLibMusicRecord):
 	_opened_frame = Engine.get_process_frames()

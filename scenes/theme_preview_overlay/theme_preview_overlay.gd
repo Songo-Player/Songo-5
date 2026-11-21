@@ -45,8 +45,10 @@ func open() -> void:
 	_opened_frame = Engine.get_process_frames()
 	_open = true
 	UiHelper.open_overlay_panel(self)
-	for side in ["left", "top", "right", "bottom"]:
-		add_theme_constant_override("margin_" + side, EDGE_GAP)
+	add_theme_constant_override("margin_top", EDGE_GAP)
+	add_theme_constant_override("margin_bottom", EDGE_GAP)
+	_cap_card_width()
+	if not resized.is_connected(_cap_card_width): resized.connect(_cap_card_width)
 	if not resized.is_connected(_queue_fit): resized.connect(_queue_fit)
 	%PreviewFrame.resized.connect(_queue_fit)
 	_queue_fit()
@@ -54,6 +56,12 @@ func open() -> void:
 	_focus_default()
 
 var _fit_queued := false
+
+# No wider than the card would be on a 4:3 screen; wider screens add to the sides.
+func _cap_card_width() -> void:
+	var side := UiHelper.capped_card_side_margin(size, EDGE_GAP)
+	add_theme_constant_override("margin_left", side)
+	add_theme_constant_override("margin_right", side)
 
 func _queue_fit() -> void:
 	if _fit_queued: return

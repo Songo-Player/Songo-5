@@ -12,11 +12,12 @@ var keyboard: Control
 var flash_message_box: Control
 var overlay_window: Window
 var overlay_container: Control
-#var debug_info: Control
 var songo_settings = SongoSettings.get_instance()
 var transform_container: Control
 
 var focus_chain = []
+## Msec from launch until the first main menu was drawn; -1 until then.
+var boot_msec: int = -1
 var original_size = null
 
 
@@ -77,6 +78,13 @@ func apply_rotation():
 	transform_container.get_parent().rotation = deg_to_rad(degrees)
 
 	
+## Side margin that keeps a card spanning `area_size` no wider than it would be
+## on a 4:3 screen of the same height. Overlay cards stretch too far otherwise
+## on widescreen devices. Portrait and narrower areas just get `base_margin`.
+func capped_card_side_margin(area_size: Vector2, base_margin: int) -> int:
+	var max_width := area_size.y * 4.0 / 3.0
+	return base_margin + int(maxf(0.0, (area_size.x - max_width) / 2.0))
+
 func apply_content_margin(new_margin: int):
 	content_margin_container.add_theme_constant_override("margin_left", new_margin)
 	content_margin_container.add_theme_constant_override("margin_right", new_margin)

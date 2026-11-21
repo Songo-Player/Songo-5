@@ -2,6 +2,8 @@ extends MarginContainer
 class_name ThemeMainMenu
 
 const DEFAULT_SCENE_PATH = "res://internal_themes/SongoClassic/main_menu_3/main_menu_3.tscn"
+# Loaded by path when opened, so it doesn't compile before the first screen
+const APP_INFO_PANEL = "res://scenes/app_info_panel/app_info_panel.tscn"
 var songo_settings = SongoSettings.get_instance()
 var theme_element: Control
 var theme_path
@@ -24,7 +26,11 @@ func render_ui():
 	pass
 	
 func handle_input(delta: float):
-	pass
+	# While music plays, select belongs to the song follow (back to the song view)
+	if Input.is_action_just_pressed("select") && not SongoPlayer.is_playing():
+		# The overlay is set up just after boot; nothing to show it in before then
+		if UiHelper.overlay_container == null: return
+		load(APP_INFO_PANEL).instantiate().open()
 		
 func _setup_from_theme():
 	var new_element: Control
