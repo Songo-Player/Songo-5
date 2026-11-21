@@ -63,6 +63,7 @@ const CONTACT_ME_SUB_CONTAINER = SETTINGS_SUB_PATH + "/contact_me/contact_me.tsc
 const SUPPORT_ME_SUB_CONTAINER = SETTINGS_SUB_PATH + "/support_me/support_me.tscn"
 const CONTROLLER_SETTINGS_SUB_CONTAINER = SETTINGS_SUB_PATH + "/controller_settings/controller_settings.tscn"
 const SOUND_SETTINGS_SUB_CONTAINER = SETTINGS_SUB_PATH + "/sound_settings/sound_settings.tscn"
+const PLUGIN_MANAGEMENT_SUB_CONTAINER = SETTINGS_SUB_PATH + "/plugin_management/plugin_management.tscn"
 const HOW_TO_USE_SUB_CONTAINER = SETTINGS_SUB_PATH + "/how_to_use/how_to_use.tscn"
 
 
@@ -72,6 +73,7 @@ var settings_collection : Array[SettingRecord] = [
 	SettingRecord.new("Misc Feature Settings", "misc_feature_settings", false),
 	SettingRecord.new("Controller Settings", "controller_settings", false),
 	SettingRecord.new("Sound Settings", "sound_settings", false),
+	SettingRecord.new("Plugin Management", "plugin_management", false),
 	SettingRecord.new("How do I use this app?", "how_to_use", true),
 	SettingRecord.new("Development Credit", "settings_development_credit", true),
 	SettingRecord.new("Contact Me / Report a bug", "contact_me", true),
@@ -265,11 +267,19 @@ func sound_settings():
 	nav_label = ["Main Menu", "Settings", "Sound Settings"]
 	finish_up_nav()
 	
+func plugin_management():
+	clean_up_old_container()
+	active_container = load(PLUGIN_MANAGEMENT_SUB_CONTAINER).instantiate()
+	active_container.setup()
+	nav_label = ["Main Menu", "Settings", "Plugin Management"]
+	finish_up_nav()
+
+## A plugin's own settings page, opened from Plugin Management.
 func plugin_settings(plugin: SongoPlugin, scene_path: String):
 	clean_up_old_container()
 	active_container = load(scene_path).instantiate()
 	if active_container.has_method("setup"): active_container.setup(plugin)
-	nav_label = ["Main Menu", "Settings", plugin.plugin_name]
+	nav_label = ["Main Menu", "Settings", "Plugin Management", plugin.plugin_name]
 	finish_up_nav()
 
 ## Plugin items slot in ahead of Settings/Exit, which themes render as the

@@ -8,7 +8,7 @@ class_name SongoPlugin
 ## Settings are the plugin's own business: build a settings scene, point
 ## "settings_scene_path" in plugin.json at it (relative to the plugin root), and
 ## store values however suits the plugin (a Resource, ConfigFile, JSON...).
-## The page is linked from Settings under the plugin's name, and gets
+## The page is opened from Settings > Plugin Management, and gets
 ## setup(plugin) called before it's shown if it defines one. Like the built-in
 ## settings pages it should implement render_ui() and handle_input(delta),
 ## calling Controller.nav_back() on "back".

@@ -118,6 +118,8 @@ const JOY_BUTTON_NAMES = [
 @export var song_sleep_type = 0
 @export var theme_path = "res://internal_themes/SongoClassic"
 @export var target_fps_index = 2 # 60fps
+# Plugins (by plugin.json name) PluginManager skips loading. Set from Plugin Management.
+@export var disabled_plugins: Array[String] = []
 
 var song_sleep_timer:
 	get: return SONG_SLEEP_TIMES[song_sleep_timer_index]

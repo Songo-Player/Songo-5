@@ -14,17 +14,73 @@ const DEFAULT_ENTRY = "plugin.gd"
 
 var plugins: Array[SongoPlugin] = []
 
+## Every plugin found at boot, loaded or not, for Plugin Management. Keyed by
+## plugin name, in discovery order. Each entry:
+##   name, info (plugin.json), dir (where it was found),
+##   from_source (true when loaded straight from plugins_raw in the editor),
+##   instance (the SongoPlugin, or null if disabled / it failed to load),
+##   settings_scene (res:// path of its settings page, or ""),
+##   enabled_at_boot
+var discovered := {}
+
+var _songo_settings = SongoSettings.get_instance()
+
 func load_plugins() -> void:
 	for plugin_dir in get_plugin_dirs():
 		_load_plugin(plugin_dir)
 	plugins_loaded.emit()
+
+func is_enabled(plugin_name: String) -> bool:
+	return not _songo_settings.disabled_plugins.has(plugin_name)
+
+## Takes effect on the next launch; plugins can't be unloaded while running.
+func set_enabled(plugin_name: String, enabled: bool) -> void:
+	if enabled: _songo_settings.disabled_plugins.erase(plugin_name)
+	elif not _songo_settings.disabled_plugins.has(plugin_name):
+		_songo_settings.disabled_plugins.append(plugin_name)
+	_songo_settings.save()
+
+## Whether enabling/disabling or deleting it is waiting on a restart.
+func needs_restart(plugin_name: String) -> bool:
+	var entry: Dictionary = discovered.get(plugin_name, {})
+	if entry.is_empty(): return false
+	return is_enabled(plugin_name) != (entry.instance != null)
+
+func can_delete(plugin_name: String) -> bool:
+	var entry: Dictionary = discovered.get(plugin_name, {})
+	return not entry.is_empty() and not entry.from_source
+
+## Deletes the plugin's folder. A loaded plugin keeps running until the next
+## launch. Returns "" on success, otherwise what went wrong.
+func delete_plugin(plugin_name: String) -> String:
+	if not can_delete(plugin_name): return "This plugin can't be deleted"
+	var dir: String = ProjectSettings.globalize_path(discovered[plugin_name].dir)
+	var err := _remove_tree(dir)
+	if err != OK: return "Couldn't delete the plugin (%s)" % error_string(err)
+	discovered.erase(plugin_name)
+	_songo_settings.disabled_plugins.erase(plugin_name)
+	_songo_settings.save()
+	return ""
+
+func _remove_tree(path: String) -> Error:
+	var dir := DirAccess.open(path)
+	if dir == null: return DirAccess.get_open_error()
+	for file in dir.get_files():
+		var err := dir.remove(file)
+		if err != OK: return err
+	for sub_dir in dir.get_directories():
+		var err := _remove_tree(path.path_join(sub_dir))
+		if err != OK: return err
+	return DirAccess.remove_absolute(path)
 
 func get_plugin(plugin_name: String) -> SongoPlugin:
 	for plugin in plugins:
 		if plugin.plugin_name == plugin_name: return plugin
 	return null
 
-func get_plugin_dirs() -> Array[String]:
+## Folders plugins are loaded from, in priority order (a plugin found in an
+## earlier one wins over a copy with the same name in a later one).
+func get_plugin_roots() -> Array[String]:
 	var roots: Array[String] = []
 	# Running from the editor, load plugins straight from their source so
 	# edits don't need a repack. These win over packaged copies of the same name.
@@ -34,12 +90,23 @@ func get_plugin_dirs() -> Array[String]:
 	var adjacent_dir := _find_adjacent_plugins_dir()
 	if adjacent_dir != "":
 		roots.append(adjacent_dir)
+	return roots
 
+## Where a user can put plugins, as full paths for showing in the UI. The
+## songo_plugins folder next to Songo#5 is listed even if it doesn't exist yet.
+func get_install_dirs() -> Array[String]:
 	var dirs: Array[String] = []
-	for root in roots:
+	var adjacent_dir := _find_adjacent_plugins_dir()
+	if adjacent_dir == "":
+		adjacent_dir = OS.get_executable_path().get_base_dir().path_join(ADJACENT_PLUGINS_DIR_NAME)
+	dirs.append(adjacent_dir)
+	dirs.append(ProjectSettings.globalize_path(USER_PLUGINS_DIR))
+	return dirs
+
+func get_plugin_dirs() -> Array[String]:
+	var dirs: Array[String] = []
+	for root in get_plugin_roots():
 		for sub_dir in list_dir(root, true):
-			# Dot-prefixed folders in songo_plugins are disabled/ignored plugins.
-			if root == adjacent_dir && sub_dir.begins_with("."): continue
 			dirs.append(root.path_join(sub_dir))
 	return dirs
 
@@ -81,8 +148,20 @@ func _load_plugin(plugin_dir: String) -> void:
 		push_warning("PluginManager: no valid plugin.json in %s, skipping" % plugin_dir)
 		return
 	var plugin_name: String = info.get("name", plugin_dir.get_file())
-	if get_plugin(plugin_name) != null:
-		print("PluginManager: %s already loaded, skipping %s" % [plugin_name, plugin_dir])
+	if discovered.has(plugin_name):
+		print("PluginManager: %s already found, skipping %s" % [plugin_name, plugin_dir])
+		return
+	var entry := {
+		"name": plugin_name, "info": info, "dir": plugin_dir,
+		"from_source": plugin_dir.begins_with(RAW_PLUGINS_DIR),
+		"instance": null, "settings_scene": "",
+		# Whether this launch tried to load it, to tell a failed load from a
+		# pending enable.
+		"enabled_at_boot": is_enabled(plugin_name),
+	}
+	discovered[plugin_name] = entry
+	if not is_enabled(plugin_name):
+		print("PluginManager: %s is disabled, not loading it" % plugin_name)
 		return
 
 	var mount_path := plugin_dir
@@ -109,18 +188,17 @@ func _load_plugin(plugin_dir: String) -> void:
 	add_child(instance)
 	plugins.append(instance)
 	instance._plugin_ready()
-	_register_settings_page(instance)
+	entry.instance = instance
+	entry.settings_scene = _find_settings_scene(instance)
 	print("PluginManager: loaded %s %s from %s" % [plugin_name, info.get("version", ""), plugin_dir])
 
-# Links the plugin's own settings scene (plugin.json "settings_scene_path",
-# relative to the plugin root) from the Settings list, under the plugin's name.
-func _register_settings_page(plugin: SongoPlugin) -> void:
+# The plugin's own settings scene (plugin.json "settings_scene_path", relative
+# to the plugin root), opened from Plugin Management. "" if it has none.
+func _find_settings_scene(plugin: SongoPlugin) -> String:
 	var scene_path: String = plugin.plugin_info.get("settings_scene_path", "")
-	if scene_path.is_empty(): return
+	if scene_path.is_empty(): return ""
 	if not scene_path.begins_with("res://"): scene_path = plugin.resolve_path(scene_path)
 	if not ResourceLoader.exists(scene_path):
 		push_error("PluginManager: settings scene for %s not found at %s" % [plugin.plugin_name, scene_path])
-		return
-	var record := SettingRecord.new(plugin.plugin_name, "", false)
-	record.action = Controller.plugin_settings.bind(plugin, scene_path)
-	Controller.add_settings_record(record)
+		return ""
+	return scene_path

@@ -1,0 +1,123 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scenes/settings_container/sub_containers/plugin_management/plugin_management.gd" id="1_page"]
+[ext_resource type="Script" path="res://utilities/smooth_scroll_container.gd" id="2_scroll"]
+[ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="3_section"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_title"]
+bg_color = Color(0.130772, 0.130772, 0.130772, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="PluginManagementSubContainer" type="MarginContainer"]
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"SongoSettingsContentMargin"
+theme_override_constants/margin_top = 29
+theme_override_constants/margin_right = 4
+script = ExtResource("1_page")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+unique_name_in_owner = true
+clip_contents = false
+layout_mode = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+script = ExtResource("2_scroll")
+focus_search_root = NodePath("Card")
+
+[node name="Card" type="MarginContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/Card"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/Card/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 38
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PluginList" type="VBoxContainer" parent="ScrollContainer/Card/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Intro" type="PanelContainer" parent="ScrollContainer/Card/PanelContainer/MarginContainer/PluginList"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("3_section")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/Card/PanelContainer/MarginContainer/PluginList/Intro"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="ScrollContainer/Card/PanelContainer/MarginContainer/PluginList/Intro/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="FoldersHeading" type="Label" parent="ScrollContainer/Card/PanelContainer/MarginContainer/PluginList/Intro/MarginContainer/VBox"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 18
+text = "Plugin folders:"
+
+[node name="PluginDirs" type="VBoxContainer" parent="ScrollContainer/Card/PanelContainer/MarginContainer/PluginList/Intro/MarginContainer/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Label" type="Label" parent="ScrollContainer/Card/PanelContainer/MarginContainer/PluginList/Intro/MarginContainer/VBox"]
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "Put each plugin in its own folder inside one of these. Enabling, disabling or deleting a plugin only applies after Songo#5 is restarted."
+autowrap_mode = 3
+
+[node name="EmptyLabel" type="Label" parent="ScrollContainer/Card/PanelContainer/MarginContainer/PluginList/Intro/MarginContainer/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "No plugins installed."
+autowrap_mode = 3
+
+[node name="TitleMargin" type="MarginContainer" parent="ScrollContainer/Card"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -25
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/Card/TitleMargin"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_title")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/Card/TitleMargin/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PageLabel" type="Label" parent="ScrollContainer/Card/TitleMargin/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 24
+text = "Plugin Management"

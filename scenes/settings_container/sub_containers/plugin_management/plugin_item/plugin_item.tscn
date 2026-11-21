@@ -1,0 +1,81 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scenes/settings_container/sub_containers/plugin_management/plugin_item/plugin_item.gd" id="1_item"]
+[ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="2_section"]
+[ext_resource type="PackedScene" uid="uid://0m5yrmj03xdi" path="res://scenes/settings_container/settings_button.tscn" id="3_button"]
+
+[node name="PluginItem" type="PanelContainer"]
+theme_override_styles/panel = ExtResource("2_section")
+script = ExtResource("1_item")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Header" type="HBoxContainer" parent="MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="NameLabel" type="Label" parent="MarginContainer/VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 18
+text = "Plugin"
+text_overrun_behavior = 3
+
+[node name="StatusLabel" type="Label" parent="MarginContainer/VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "Enabled"
+
+[node name="DetailsLabel" type="Label" parent="MarginContainer/VBox"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.7)
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 12
+text = "v0.1 by Author"
+
+[node name="DescriptionLabel" type="Label" parent="MarginContainer/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongoSettingsLabel"
+theme_override_font_sizes/font_size = 14
+text = "Description"
+autowrap_mode = 3
+
+[node name="Buttons" type="HBoxContainer" parent="MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SettingsButton" parent="MarginContainer/VBox/Buttons" instance=ExtResource("3_button")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Settings"
+
+[node name="ToggleButton" parent="MarginContainer/VBox/Buttons" instance=ExtResource("3_button")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Disable"
+
+[node name="DeleteButton" parent="MarginContainer/VBox/Buttons" instance=ExtResource("3_button")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Delete"
