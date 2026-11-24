@@ -2,8 +2,17 @@ extends Node
 
 signal pseudo_sleep
 signal pseudo_sleep_wake
+## Fires when the internet check finishes. Themes show their network icon from
+## this: show network_connected in _ready, then connect a method to this signal
+## (a method rather than a lambda, so it's let go when the theme is swapped out).
+## Can fire more than once, so handle every emit, not just the first.
+signal network_status_checked(connected: bool)
 
 var fade_out_overlay: Control
+## Whether the internet check got through. false until the check finishes.
+var network_connected := false
+var _network_check_started := false
+const NETWORK_STATUS = "res://utilities/NetworkStatus.gd"
 
 #var songo_data = SongoDataResource.get_instance()
 var songo_settings = SongoSettings.get_instance()
@@ -42,10 +51,14 @@ func spawn_chai(args: Array) -> void:
 	if !chai_available: return
 	OS.create_process("chai", args)
 
+# songo.conf's no_bright_fade_available, which the launcher sets each launch: 0
+# when chai can read the brightness back, so screen fades dim the backlight, 1
+# when it can't, so Songo fades an overlay instead. Unset ("default", or no
+# songo.conf) is treated as 1.
 func set_backlight_info():
-	var env_no_fade = OS.get_environment("NO_BRIGHT_FADE_AVAILABLE")
-	if (env_no_fade && env_no_fade != ''):
-		no_bright_fade_available = env_no_fade == '1'
+	var conf_no_fade := SongoConf.get_value("no_bright_fade_available")
+	if conf_no_fade != "":
+		no_bright_fade_available = conf_no_fade == "1"
 	else:
 		no_bright_fade_available = true
 	
@@ -145,7 +158,21 @@ func wake_screen():
 		fade_out_overlay.modulate.a = 0.0
 		sleeping = false
 	pseudo_sleep_wake.emit()
-		
+
+## Checks for internet once, shortly after boot (songo_app starts it once the
+## main menu is up). Later calls do nothing: the status is never rechecked.
+## The checker is loaded here rather than at boot so it costs nothing until then.
+func check_network_status() -> void:
+	if _network_check_started: return
+	_network_check_started = true
+	var checker = load(NETWORK_STATUS).new()
+	checker.status_checked.connect(_on_network_status_checked)
+	checker.is_connected_to_network()
+
+func _on_network_status_checked(connected: bool) -> void:
+	network_connected = connected
+	network_status_checked.emit(connected)
+
 func set_battery_info_path():
 	if OS.get_name() == "Android":
 		set_android_battery_info_path()

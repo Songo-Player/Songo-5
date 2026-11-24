@@ -12,6 +12,17 @@ const ADJACENT_PLUGINS_DIR_NAME = "songo_plugins"
 const RAW_PLUGINS_DIR = "res://plugin_dev/plugins_raw"
 const DEFAULT_ENTRY = "plugin.gd"
 
+# Android only: an Android app has no folder beside it for songo_plugins, so the
+# devkit's Android release carries the packaged plugins in the APK as plain
+# files under bundled_plugins/ (never in the main pck), with a manifest.json of
+# each one's plugin.pck SHA-256. _install_bundled_plugins copies them into
+# USER_PLUGINS_DIR, where they're loaded, updated and deleted like any other
+# external plugin. No other build has bundled_plugins/.
+const BUNDLED_PLUGINS_DIR = "res://bundled_plugins"
+# What _install_bundled_plugins last did: the manifest it applied, the SHA-256
+# each plugin was installed with, and the bundled plugins the user deleted
+const BUNDLED_STATE_PATH = "user://bundled_plugins_state.json"
+
 var plugins: Array[SongoPlugin] = []
 
 ## Every plugin found at boot, loaded or not, for Plugin Management. Keyed by
@@ -19,32 +30,51 @@ var plugins: Array[SongoPlugin] = []
 ##   name, info (plugin.json), dir (where it was found),
 ##   from_source (true when loaded straight from plugins_raw in the editor),
 ##   instance (the SongoPlugin, or null if disabled / it failed to load),
-##   settings_scene (res:// path of its settings page, or ""),
-##   enabled_at_boot
+##   settings_scene (res:// path of its settings page, or "")
 var discovered := {}
 
 var _songo_settings = SongoSettings.get_instance()
 
+## Finds every installed plugin, then loads the enabled ones. Plugins are
+## disabled until they're enabled from Plugin Management.
 func load_plugins() -> void:
+	_install_bundled_plugins()
 	for plugin_dir in get_plugin_dirs():
-		_load_plugin(plugin_dir)
+		_discover_plugin(plugin_dir)
+	for entry in discovered.values():
+		if is_enabled(entry.name):
+			_instantiate_plugin(entry)
+		else:
+			print("PluginManager: %s is disabled, not loading it" % entry.name)
 	plugins_loaded.emit()
 
 func is_enabled(plugin_name: String) -> bool:
-	return not _songo_settings.disabled_plugins.has(plugin_name)
+	return _songo_settings.enabled_plugins.has(plugin_name)
 
-## Takes effect on the next launch; plugins can't be unloaded while running.
-func set_enabled(plugin_name: String, enabled: bool) -> void:
-	if enabled: _songo_settings.disabled_plugins.erase(plugin_name)
-	elif not _songo_settings.disabled_plugins.has(plugin_name):
-		_songo_settings.disabled_plugins.append(plugin_name)
+## Enabling loads the plugin right away. Disabling takes effect on the next
+## launch, since a running plugin can't be unloaded. Returns "" on success,
+## otherwise what went wrong (the plugin stays enabled, and loading is tried
+## again on the next launch).
+func set_enabled(plugin_name: String, enabled: bool) -> String:
+	if enabled:
+		if not _songo_settings.enabled_plugins.has(plugin_name):
+			_songo_settings.enabled_plugins.append(plugin_name)
+	else:
+		_songo_settings.enabled_plugins.erase(plugin_name)
 	_songo_settings.save()
+	if not enabled: return ""
+	var entry: Dictionary = discovered.get(plugin_name, {})
+	# Already running: it was disabled earlier this launch and is still loaded
+	if entry.is_empty() or entry.instance != null: return ""
+	if not _instantiate_plugin(entry):
+		return "Couldn't load %s" % plugin_name
+	return ""
 
-## Whether enabling/disabling or deleting it is waiting on a restart.
+## Whether it's been disabled but is still running until the next launch.
 func needs_restart(plugin_name: String) -> bool:
 	var entry: Dictionary = discovered.get(plugin_name, {})
 	if entry.is_empty(): return false
-	return is_enabled(plugin_name) != (entry.instance != null)
+	return entry.instance != null and not is_enabled(plugin_name)
 
 func can_delete(plugin_name: String) -> bool:
 	var entry: Dictionary = discovered.get(plugin_name, {})
@@ -57,10 +87,96 @@ func delete_plugin(plugin_name: String) -> String:
 	var dir: String = ProjectSettings.globalize_path(discovered[plugin_name].dir)
 	var err := _remove_tree(dir)
 	if err != OK: return "Couldn't delete the plugin (%s)" % error_string(err)
+	_note_bundled_plugin_deleted(discovered[plugin_name].dir)
 	discovered.erase(plugin_name)
-	_songo_settings.disabled_plugins.erase(plugin_name)
+	_songo_settings.enabled_plugins.erase(plugin_name)
 	_songo_settings.save()
 	return ""
+
+# Android: copies the APK's bundled plugins into USER_PLUGINS_DIR. Only does
+# anything when this APK's manifest differs from the last one applied, so
+# normal launches just read two small files. For each bundled plugin:
+# - one the user deleted (see _note_bundled_plugin_deleted) stays deleted
+# - a copy that isn't the one this installed (the user replaced or updated it
+#   themselves) is left alone
+# - otherwise it's installed, or updated to the APK's version
+func _install_bundled_plugins() -> void:
+	if not OS.has_feature("android"): return
+	var manifest := _read_json(BUNDLED_PLUGINS_DIR.path_join("manifest.json"))
+	var bundled: Dictionary = manifest.get("plugins", {})
+	if bundled.is_empty(): return
+	var state := _read_json(BUNDLED_STATE_PATH)
+	if JSON.stringify(state.get("manifest", {})) == JSON.stringify(bundled): return
+
+	var installed: Dictionary = state.get("installed", {})
+	var removed: Array = state.get("removed", [])
+	for folder in bundled:
+		var sha: String = bundled[folder]
+		if removed.has(folder): continue
+		var dest_pck := USER_PLUGINS_DIR.path_join(folder).path_join("plugin.pck")
+		if FileAccess.file_exists(dest_pck):
+			var current := FileAccess.get_sha256(dest_pck)
+			if current == sha:
+				installed[folder] = sha
+				continue
+			if current != installed.get(folder, ""):
+				print("PluginManager: keeping %s, it isn't the bundled copy" % folder)
+				continue
+		if _copy_bundled_plugin(folder):
+			installed[folder] = sha
+			print("PluginManager: installed bundled plugin %s" % folder)
+	_write_json(BUNDLED_STATE_PATH, {"manifest": bundled, "installed": installed, "removed": removed})
+
+# Copies one bundled plugin's plugin.json and plugin.pck into USER_PLUGINS_DIR.
+# Each file is written beside its destination first and renamed over it, so a
+# failed write never leaves a half-written plugin.pck to load.
+func _copy_bundled_plugin(folder: String) -> bool:
+	var dest := USER_PLUGINS_DIR.path_join(folder)
+	DirAccess.make_dir_recursive_absolute(dest)
+	for file_name in ["plugin.json", "plugin.pck"]:
+		var data := FileAccess.get_file_as_bytes(BUNDLED_PLUGINS_DIR.path_join(folder).path_join(file_name))
+		if data.is_empty():
+			push_error("PluginManager: bundled %s/%s is missing or empty" % [folder, file_name])
+			return false
+		var temp := dest.path_join(file_name + ".tmp")
+		var file := FileAccess.open(temp, FileAccess.WRITE)
+		if file == null:
+			push_error("PluginManager: couldn't write %s (%s)" % [temp, error_string(FileAccess.get_open_error())])
+			return false
+		file.store_buffer(data)
+		file.close()
+		var err := DirAccess.rename_absolute(temp, dest.path_join(file_name))
+		if err != OK:
+			push_error("PluginManager: couldn't move %s into place (%s)" % [temp, error_string(err)])
+			return false
+	return true
+
+# Remembers that the user deleted a plugin the APK installed, so updates don't
+# bring it back. Does nothing outside Android, or for plugins it didn't install.
+func _note_bundled_plugin_deleted(plugin_dir: String) -> void:
+	if not OS.has_feature("android") or not plugin_dir.begins_with(USER_PLUGINS_DIR): return
+	var state := _read_json(BUNDLED_STATE_PATH)
+	var installed: Dictionary = state.get("installed", {})
+	var folder := plugin_dir.get_file()
+	if not installed.has(folder): return
+	installed.erase(folder)
+	var removed: Array = state.get("removed", [])
+	if not removed.has(folder): removed.append(folder)
+	state["installed"] = installed
+	state["removed"] = removed
+	_write_json(BUNDLED_STATE_PATH, state)
+
+func _read_json(path: String) -> Dictionary:
+	if not FileAccess.file_exists(path): return {}
+	var json = JSON.parse_string(FileAccess.get_file_as_string(path))
+	return json if typeof(json) == TYPE_DICTIONARY else {}
+
+func _write_json(path: String, data: Dictionary) -> void:
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		push_error("PluginManager: couldn't write %s (%s)" % [path, error_string(FileAccess.get_open_error())])
+		return
+	file.store_string(JSON.stringify(data, "\t"))
 
 func _remove_tree(path: String) -> Error:
 	var dir := DirAccess.open(path)
@@ -142,7 +258,7 @@ func parse_plugin_json(plugin_dir: String) -> Dictionary:
 	var json = JSON.parse_string(file.get_as_text())
 	return json if typeof(json) == TYPE_DICTIONARY else {}
 
-func _load_plugin(plugin_dir: String) -> void:
+func _discover_plugin(plugin_dir: String) -> void:
 	var info := parse_plugin_json(plugin_dir)
 	if info.is_empty():
 		push_warning("PluginManager: no valid plugin.json in %s, skipping" % plugin_dir)
@@ -151,36 +267,35 @@ func _load_plugin(plugin_dir: String) -> void:
 	if discovered.has(plugin_name):
 		print("PluginManager: %s already found, skipping %s" % [plugin_name, plugin_dir])
 		return
-	var entry := {
+	discovered[plugin_name] = {
 		"name": plugin_name, "info": info, "dir": plugin_dir,
 		"from_source": plugin_dir.begins_with(RAW_PLUGINS_DIR),
 		"instance": null, "settings_scene": "",
-		# Whether this launch tried to load it, to tell a failed load from a
-		# pending enable.
-		"enabled_at_boot": is_enabled(plugin_name),
 	}
-	discovered[plugin_name] = entry
-	if not is_enabled(plugin_name):
-		print("PluginManager: %s is disabled, not loading it" % plugin_name)
-		return
 
+# Mounts a discovered plugin and starts it, at boot or when it's enabled while
+# Songo is running. Returns whether it loaded.
+func _instantiate_plugin(entry: Dictionary) -> bool:
+	var plugin_name: String = entry.name
+	var plugin_dir: String = entry.dir
+	var info: Dictionary = entry.info
 	var mount_path := plugin_dir
 	if not plugin_dir.begins_with(RAW_PLUGINS_DIR):
 		if not ProjectSettings.load_resource_pack(plugin_dir.path_join("plugin.pck")):
 			push_error("PluginManager: failed to mount %s/plugin.pck" % plugin_dir)
-			return
+			return false
 		mount_path = RAW_PLUGINS_DIR.path_join(plugin_dir.get_file())
 
 	var entry_path := mount_path.path_join(info.get("entry", DEFAULT_ENTRY))
 	if not ResourceLoader.exists(entry_path):
 		push_error("PluginManager: entry script not found at %s" % entry_path)
-		return
+		return false
 	var script = load(entry_path)
 	var instance = script.new() if script is GDScript else null
 	if not instance is SongoPlugin:
 		push_error("PluginManager: %s does not extend SongoPlugin" % entry_path)
 		if instance is Node: instance.free()
-		return
+		return false
 
 	instance.name = plugin_name.validate_node_name()
 	instance.plugin_info = info
@@ -191,6 +306,7 @@ func _load_plugin(plugin_dir: String) -> void:
 	entry.instance = instance
 	entry.settings_scene = _find_settings_scene(instance)
 	print("PluginManager: loaded %s %s from %s" % [plugin_name, info.get("version", ""), plugin_dir])
+	return true
 
 # The plugin's own settings scene (plugin.json "settings_scene_path", relative
 # to the plugin root), opened from Plugin Management. "" if it has none.

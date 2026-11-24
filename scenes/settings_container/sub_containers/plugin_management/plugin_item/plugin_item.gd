@@ -53,8 +53,8 @@ func _refresh() -> void:
 
 	if loaded and enabled: _set_status("Enabled", "good")
 	elif loaded: _set_status("Disabled · Restart to apply", "notice")
-	elif enabled and entry.enabled_at_boot: _set_status("Failed to load", "bad")
-	elif enabled: _set_status("Enabled · Restart to apply", "notice")
+	# Enabling loads it straight away, so enabled but not loaded means it failed
+	elif enabled: _set_status("Failed to load", "bad")
 	else: _set_status("Disabled", "off")
 
 	%ToggleButton.text = "Disable" if enabled else "Enable"
@@ -78,10 +78,14 @@ func _on_settings_pressed() -> void:
 
 func _on_toggle_pressed() -> void:
 	var enabling: bool = not PluginManager.is_enabled(plugin_name)
-	PluginManager.set_enabled(plugin_name, enabling)
+	var error := PluginManager.set_enabled(plugin_name, enabling)
 	_refresh()
-	if PluginManager.needs_restart(plugin_name):
-		UiHelper.flash_message("Restart Songo#5 to finish %s %s" % ["enabling" if enabling else "disabling", plugin_name])
+	if error != "":
+		UiHelper.flash_message(error)
+	elif enabling:
+		UiHelper.flash_message("%s enabled" % plugin_name)
+	elif PluginManager.needs_restart(plugin_name):
+		UiHelper.flash_message("Restart Songo#5 to finish disabling %s" % plugin_name)
 
 func _on_delete_pressed() -> void:
 	if not _confirming_delete:

@@ -32,18 +32,19 @@ const ACTION_BINDINGS = {
 	"select": "select_binding",
 }
 
-# Binding setting -> env var that overrides its default, e.g. SONGO_CTRL_ACCEPT=KEY_ENTER
-const BINDING_ENV_VARS = {
-	"confirm_binding": "SONGO_CTRL_ACCEPT",
-	"back_binding": "SONGO_CTRL_BACK",
-	"shuffle_binding": "SONGO_CTRL_SHUFFLE",
-	"quick_menu_binding": "SONGO_CTRL_QUICK_MENU",
-	"l1_binding": "SONGO_CTRL_L1",
-	"r1_binding": "SONGO_CTRL_R1",
-	"l2_binding": "SONGO_CTRL_L2",
-	"r2_binding": "SONGO_CTRL_R2",
-	"start_binding": "SONGO_CTRL_START",
-	"select_binding": "SONGO_CTRL_SELECT",
+# Binding setting -> songo.conf key that overrides its default (see SongoConf),
+# e.g. ctrl_accept=KEY_ENTER
+const BINDING_CONF_KEYS = {
+	"confirm_binding": "ctrl_accept",
+	"back_binding": "ctrl_back",
+	"shuffle_binding": "ctrl_shuffle",
+	"quick_menu_binding": "ctrl_quick_menu",
+	"l1_binding": "ctrl_l1",
+	"r1_binding": "ctrl_r1",
+	"l2_binding": "ctrl_l2",
+	"r2_binding": "ctrl_r2",
+	"start_binding": "ctrl_start",
+	"select_binding": "ctrl_select",
 }
 
 # Indexed by JoyButton value
@@ -116,10 +117,13 @@ const JOY_BUTTON_NAMES = [
 @export var use_generic_strategy = false
 @export var song_sleep_timer_index = 3 # 10s
 @export var song_sleep_type = 0
-@export var theme_path = "res://internal_themes/SongoClassic"
+# The theme picked in UI and Customization. "" until one is picked, which uses
+# the default theme (ThemeManager.default_theme_path: songo.conf's, or Songo Classic)
+@export var theme_path = ""
 @export var target_fps_index = 2 # 60fps
-# Plugins (by plugin.json name) PluginManager skips loading. Set from Plugin Management.
-@export var disabled_plugins: Array[String] = []
+# Plugins (by plugin.json name) PluginManager loads. Every plugin starts out
+# disabled until it's enabled from Plugin Management.
+@export var enabled_plugins: Array[String] = []
 
 var song_sleep_timer:
 	get: return SONG_SLEEP_TIMES[song_sleep_timer_index]
@@ -184,7 +188,8 @@ func has_custom_bindings() -> bool:
 		if not get(property).is_match(defaults[property]): return true
 	return false
 
-# Binding setting -> default event, including device specific SONGO_CTRL_* overrides
+# Binding setting -> default event, including songo.conf's ctrl_* overrides
+# (which the launcher fills in per CFW)
 static func default_bindings() -> Dictionary:
 	var defaults := {
 		"confirm_binding": joy_binding(JOY_BUTTON_A),
@@ -198,12 +203,12 @@ static func default_bindings() -> Dictionary:
 		"start_binding": joy_binding(JOY_BUTTON_START),
 		"select_binding": joy_binding(JOY_BUTTON_BACK),
 	}
-	for property in BINDING_ENV_VARS:
-		var value := OS.get_environment(BINDING_ENV_VARS[property]).strip_edges()
+	for property in BINDING_CONF_KEYS:
+		var value := SongoConf.get_value(BINDING_CONF_KEYS[property])
 		if value == "": continue
 		var binding := parse_binding(value)
 		if binding == null:
-			push_warning("%s: unknown binding \"%s\"" % [BINDING_ENV_VARS[property], value])
+			push_warning("songo.conf %s: unknown binding \"%s\"" % [BINDING_CONF_KEYS[property], value])
 			continue
 		defaults[property] = binding
 	return defaults

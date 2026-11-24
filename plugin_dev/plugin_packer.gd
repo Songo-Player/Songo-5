@@ -5,7 +5,7 @@ const PCK_ALIGNMENT := 32
 
 # Kept so the script still runs standalone from the editor's "Run" button.
 # Change this to pack a different plugin without a launcher script.
-const PLUGIN_DIR_NAME := "WebRadio"
+const PLUGIN_DIR_NAME := "Diagnostics"
 
 func _run() -> void:
 	pack_plugin(PLUGIN_DIR_NAME)

@@ -4,8 +4,21 @@ signal theme_updated
 signal theme_settings_updated
 var current_theme
 var theme_path
-var default_theme_path = "res://internal_themes/SongoClassic"
+## Songo Classic: the last fallback when no other theme can be found, and the
+## base theme whose settings every theme's are merged with (default_theme).
+const BASE_THEME_PATH = "res://internal_themes/SongoClassic"
+## The theme Songo uses until one is picked in UI and Customization, and when
+## the saved one can't be found: songo.conf's "theme" (see resolve_theme), or
+## Songo Classic when that's "default" or can't be found either.
+var default_theme_path: String:
+	get: return _get_default_theme_path()
+## Songo Classic's parsed theme.json, whose settings every theme's are merged with
 var default_theme
+const THEME_CONF_KEY = "theme"
+const INTERNAL_THEMES_DIR = "res://internal_themes"
+const USER_THEMES_DIR = "user://external_themes"
+const ADJACENT_THEMES_DIR_NAME = "songo_themes"
+var _default_theme_path := ""
 const THEMABLE_COMPONENTS = ["main_menu", "background_root", "header", "main_song_view", "footer", "song_follow", "collection_button", "collection_header"]
 var settings = {}
 var settings_info
@@ -17,10 +30,60 @@ func get_settings_path():
 	var version = current_theme["version"]
 	return ProjectSettings.globalize_path("user://theme-settings-%s-%s.json" % [name, version])
 
+## Whether a theme folder is there to use (it has a theme.json).
+func theme_exists(theme_dir: String) -> bool:
+	return theme_dir != "" and FileAccess.file_exists(theme_dir.path_join("theme.json"))
+
+## A theme folder for a name or path, or "" if there's no such theme. A path
+## (res://, user:// or an absolute one) is used as it is. A name is a theme's
+## folder name, looked for in Songo's internal themes, then user://external_themes,
+## then the songo_themes folder beside Songo (see find_songo_themes_dir).
+func resolve_theme(name_or_path: String) -> String:
+	name_or_path = name_or_path.strip_edges()
+	if name_or_path == "": return ""
+	if name_or_path.contains("/"):
+		return name_or_path if theme_exists(name_or_path) else ""
+	var dirs := [INTERNAL_THEMES_DIR, USER_THEMES_DIR]
+	var adjacent := find_songo_themes_dir()
+	if adjacent != "": dirs.append(adjacent)
+	for dir in dirs:
+		var candidate: String = dir.path_join(name_or_path)
+		if theme_exists(candidate): return candidate
+	return ""
+
+## The songo_themes folder beside Songo: next to the executable or up to 3
+## levels above it. "" if there isn't one.
+func find_songo_themes_dir() -> String:
+	var base := OS.get_executable_path().get_base_dir()
+	for i in range(4):
+		var candidate := base.path_join(ADJACENT_THEMES_DIR_NAME)
+		if DirAccess.dir_exists_absolute(candidate):
+			return candidate
+		base = base.get_base_dir()
+	return ""
+
+# Worked out once: songo.conf doesn't change while Songo runs
+func _get_default_theme_path() -> String:
+	if _default_theme_path != "": return _default_theme_path
+	_default_theme_path = BASE_THEME_PATH
+	var configured := SongoConf.get_value(THEME_CONF_KEY)
+	if configured != "":
+		var resolved := resolve_theme(configured)
+		if resolved != "":
+			_default_theme_path = resolved
+		else:
+			push_warning("ThemeManager: songo.conf theme \"%s\" wasn't found, using Songo Classic" % configured)
+	if not theme_exists(_default_theme_path):
+		_default_theme_path = BASE_THEME_PATH
+	return _default_theme_path
+
+## Applies a theme by folder. "" (no theme picked yet) or a theme that can't be
+## found uses the default theme (default_theme_path), and Songo Classic if that
+## can't be found either.
 func set_current_theme(theme_path_arg):
-	default_theme = parse_theme_json(default_theme_path)
-	var file := FileAccess.open(theme_path_arg+"/theme.json", FileAccess.READ)
-	if file == null: theme_path_arg = default_theme_path
+	default_theme = parse_theme_json(BASE_THEME_PATH)
+	if not theme_exists(theme_path_arg): theme_path_arg = default_theme_path
+	if not theme_exists(theme_path_arg): theme_path_arg = BASE_THEME_PATH
 	
 	var theme_pck := ProjectSettings.load_resource_pack(theme_path_arg+"/theme.pck")
 	if not theme_pck:

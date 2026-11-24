@@ -18,6 +18,7 @@ const OVERLAY_CONTAINER = "res://scenes/overlay_container/overlay_container.tscn
 const LRC_SCRAPE = "res://utilities/lrc_scrape.gd"
 const LRC_PROCESS = "res://utilities/lrc_process.gd"
 const SONG_BUTTON = "res://scenes/all_songs_container_v2/song_button_v2.tscn"
+const DEV_CTRL_REMAP = "res://scenes/dev_ctrl_remap/dev_ctrl_remap.gd"
 # Preloaded rather than a class_name, so it works before the editor rescans.
 const PreviewCapture = preload("res://utilities/preview_capture.gd")
 
@@ -68,7 +69,10 @@ func _ready() -> void:
 	# Before the first main menu so plugin menu items/settings pages are in place.
 	PluginManager.load_plugins()
 	Controller.main_menu()
-	if not capturing && songo_settings.auto_import && songo_data.music_directory_paths.size() > 0:
+	# songo.conf's pre_set_music_dir, added once. A newly added one is imported
+	# even without auto import, so its music is there straight away.
+	var pre_set_dir_added: bool = not capturing && songo_data.apply_pre_set_music_dir()
+	if not capturing && (songo_settings.auto_import || pre_set_dir_added) && songo_data.music_directory_paths.size() > 0:
 		songo_data.index_mp3s(true)
 	DeviceOS.apply_action_bindings()
 		
@@ -165,6 +169,8 @@ func _start_deferred_services():
 	await get_tree().process_frame
 	await get_tree().process_frame
 	UiHelper.boot_msec = Time.get_ticks_msec()
+	# Once per launch; themes' network icons show the result
+	DeviceOS.check_network_status()
 
 	# Last child of TransformContainer so it draws over everything, as it did
 	# when it was part of the scene
@@ -184,12 +190,21 @@ func _start_deferred_services():
 		lrc_scrape._on_started_new_song(current_song)
 		lrc_process._on_started_new_song(current_song)
 
-	if OS.get_environment("USE_SONGO_VOL_TCP_SERVER") == "1":
+	# songo.conf's volume_tcp_server, which the launcher sets each launch (the
+	# listener's script checks the same key; it's only loaded when it's on)
+	if SongoConf.get_value("volume_tcp_server") == "1":
 		var listener = _add_service("VolumeTcpListener", load("res://utilities/volume_tcp_listener/volume_tcp_listener.gd"))
 		listener.volume_updated.connect(overlay._on_volume_changed)
 
 	_preload_pages()
 	ThemeManager.theme_updated.connect(_preload_pages)
+
+	# Dev tool: songo.conf's dev_ctrl_remap=true asks for every control at
+	# launch (see dev_ctrl_remap.gd, only loaded then). After any boot import,
+	# as an import closes whatever the overlay is showing.
+	if SongoConf.get_value("dev_ctrl_remap").to_lower() == "true":
+		if songo_data.importing: await songo_data.import_finished
+		load(DEV_CTRL_REMAP).new().open()
 
 # The song list and song view, plus the current theme's parts of them. Opening
 # one before its load finishes is fine, load() waits for the threaded load.

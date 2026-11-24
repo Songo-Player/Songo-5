@@ -1,5 +1,10 @@
 extends Node
 class_name NetworkStatus
+## Checks for internet by fetching Google's generate_204 page. DeviceOS runs it
+## once per launch (DeviceOS.check_network_status); themes should show
+## DeviceOS.network_connected and listen to DeviceOS.network_status_checked
+## rather than running their own checks. Kept as a class so older themes that
+## still create one keep working.
 
 signal status_checked(connected: bool)
 

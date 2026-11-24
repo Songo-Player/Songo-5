@@ -100,7 +100,8 @@ func _add_to_display_order(key: String, depth: int, dependents: Dictionary, orde
 
 func setup():
 	theme_options = get_theme_options()
-	var possible_index = theme_options.find(songo_settings.theme_path)
+	# The theme in use, which is the default theme until one is picked
+	var possible_index = theme_options.find(ThemeManager.theme_path)
 	if possible_index >= 0: theme_index = possible_index
 	update_global_scale_ui()
 	update_content_margin_ui()
@@ -129,15 +130,6 @@ func get_theme_options_OLD():
 	print(dirs)
 	return dirs
 
-func _find_songo_themes_dir() -> String:
-	var base := OS.get_executable_path().get_base_dir()
-	for i in range(4):  # adjacent (0 levels up) + up to 3 levels above
-		var candidate := base + "/songo_themes"
-		if DirAccess.dir_exists_absolute(candidate):
-			return candidate
-		base = base.get_base_dir()
-	return ""
-
 func get_theme_options():
 	var dirs: Array[String] = [
 		"res://internal_themes/SongoClassic",
@@ -149,7 +141,7 @@ func get_theme_options():
 		
 	var paths := ["user://external_themes"]
 	# external themes sbc is just an easy way to include some themes
-	var external_themes_sbc := _find_songo_themes_dir()
+	var external_themes_sbc: String = ThemeManager.find_songo_themes_dir()
 	if external_themes_sbc != "":
 		paths.append(external_themes_sbc)
 		
@@ -189,7 +181,7 @@ func update_theme_options_ui():
 	if tex == null:
 		push_error("Failed to load preview image: " + preview_path)
 
-	var in_use: bool = displayed_theme == songo_settings.theme_path
+	var in_use: bool = displayed_theme == ThemeManager.theme_path
 	_preview_overlay.display({
 		"name": theme_info.get("name", ""),
 		"version": theme_info.get("version", ""),
@@ -219,7 +211,7 @@ func _on_theme_navigated(step: int):
 	update_theme_options_ui()
 
 func update_current_theme_ui():
-	var theme_info = ThemeManager.parse_theme_json(songo_settings.theme_path)
+	var theme_info = ThemeManager.parse_theme_json(ThemeManager.theme_path)
 	%ThemeDisplayLabel.text = theme_info["name"]
 	%ThemeSettingsLabel.text = "%s - Theme Settings" % theme_info["name"]
 	print(theme_options)
@@ -330,6 +322,6 @@ func _on_apply_theme_pressed() -> void:
 		UiHelper.flash_message("This theme is already being applied")
 
 func _on_settings_button_pressed() -> void:
-	var current = theme_options.find(songo_settings.theme_path)
+	var current = theme_options.find(ThemeManager.theme_path)
 	if current >= 0: theme_index = current
 	_open_theme_preview()

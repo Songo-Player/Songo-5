@@ -13,6 +13,9 @@ const DATA_VERSION = "v1.0.0 RC7.2"
 
 @export var music_directory_path = "No Path"
 @export var music_directory_paths = []
+# The songo.conf pre_set_music_dir last added (see apply_pre_set_music_dir), so
+# it's only added once: removing it in Settings sticks until the conf changes
+@export var pre_set_music_dir_applied = ""
 @export var data_version = ""
 @export var target_playlist_index: int = -1
 
@@ -590,3 +593,33 @@ func add_music_directory_path(path):
 			
 	music_directory_paths.append(path)
 	return true
+
+## Adds songo.conf's pre_set_music_dir (a full path) as a music directory, once:
+## only when it differs from the one last added, so removing it in Settings
+## sticks, and a new value in songo.conf is added. A path that isn't absolute,
+## or doesn't exist yet (eg: an SD card that isn't mounted), is tried again next
+## launch. Returns whether it was added, so the caller can import it.
+func apply_pre_set_music_dir() -> bool:
+	var path := SongoConf.get_value("pre_set_music_dir")
+	if path == "": return false
+	if path.length() > 1: path = path.rstrip("/")
+	if path == pre_set_music_dir_applied: return false
+	if not path.is_absolute_path():
+		push_warning("songo.conf pre_set_music_dir \"%s\" isn't a full path" % path)
+		return false
+	if not DirAccess.dir_exists_absolute(path):
+		push_warning("songo.conf pre_set_music_dir \"%s\" doesn't exist, trying again next launch" % path)
+		return false
+	# Folders picked in Settings can end in "/", which add_music_directory_path
+	# wouldn't see as the same folder
+	var added := false
+	if music_directory_paths.any(func(existing): return str(existing).rstrip("/") == path):
+		path_error = "This directory is already added."
+	else:
+		added = add_music_directory_path(path)
+	if not added:
+		# Already added, or inside/around one that is: nothing to do, ever
+		print("songo.conf pre_set_music_dir \"%s\" not added: %s" % [path, path_error])
+	pre_set_music_dir_applied = path
+	save()
+	return added

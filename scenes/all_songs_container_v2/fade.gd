@@ -67,7 +67,8 @@ func _update_mask() -> void:
 	# -------------------
 	# Apply texture
 	# -------------------
-	if _mask_texture == null:
+	# update() only takes an image of the texture's own size.
+	if _mask_texture == null or Vector2i(_mask_texture.get_size()) != Vector2i(w, h):
 		_mask_texture = ImageTexture.create_from_image(img)
 	else:
 		_mask_texture.update(img)

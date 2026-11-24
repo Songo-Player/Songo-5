@@ -1,0 +1,373 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://plugin_dev/plugins_raw/Diagnostics/settings/diagnostics_settings_page.gd" id="1_page"]
+[ext_resource type="Script" path="res://utilities/smooth_scroll_container.gd" id="2_scroll"]
+[ext_resource type="StyleBox" uid="uid://cnuxtoi7cj616" path="res://scenes/settings_container/settings_container_section.tres" id="3_section"]
+[ext_resource type="PackedScene" uid="uid://0m5yrmj03xdi" path="res://scenes/settings_container/settings_button.tscn" id="4_button"]
+[ext_resource type="Script" path="res://utilities/left_right_btn_container.gd" id="5_leftright"]
+[ext_resource type="Texture2D" uid="uid://cugg5pnrtgmxg" path="res://assets/arrowLeft.svg" id="6_left"]
+[ext_resource type="Texture2D" uid="uid://c8jp7o8xasf1x" path="res://assets/arrowRight.svg" id="7_right"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab"]
+bg_color = Color(0.130772, 0.130772, 0.130772, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="DiagnosticsSettingsPage" type="MarginContainer"]
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"SongoSettingsContentMargin"
+theme_override_constants/margin_top = 29
+theme_override_constants/margin_right = 4
+script = ExtResource("1_page")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+unique_name_in_owner = true
+clip_contents = false
+layout_mode = 2
+follow_focus = true
+script = ExtResource("2_scroll")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DiagnosticsSection" type="MarginContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 38
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="OverlayPanel" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("3_section")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/OverlayPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Settings" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/OverlayPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="OverlaySetting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/OverlayPanel/MarginContainer/Settings"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/OverlayPanel/MarginContainer/Settings/OverlaySetting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/OverlayPanel/MarginContainer/Settings/OverlaySetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
+layout_mode = 2
+text = "Show Overlay"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/OverlayPanel/MarginContainer/Settings/OverlaySetting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="OverlayEnabled" type="Label" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/OverlayPanel/MarginContainer/Settings/OverlaySetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
+text = "Enabled"
+
+[node name="OverlayDisabled" type="Label" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/OverlayPanel/MarginContainer/Settings/OverlaySetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
+text = "Disabled"
+
+[node name="OverlayButton" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/OverlayPanel/MarginContainer/Settings/OverlaySetting/Hbox" instance=ExtResource("4_button")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Enable"
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/OverlayPanel/MarginContainer/Settings/OverlaySetting"]
+theme_type_variation = &"SongoSettingsLabel"
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Shows Songo's resource use in a corner of the screen, over every page."
+autowrap_mode = 2
+
+[node name="PositionSetting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/OverlayPanel/MarginContainer/Settings"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/OverlayPanel/MarginContainer/Settings/PositionSetting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/OverlayPanel/MarginContainer/Settings/PositionSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
+layout_mode = 2
+text = "Position"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/OverlayPanel/MarginContainer/Settings/PositionSetting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PositionLabel" type="LineEdit" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/OverlayPanel/MarginContainer/Settings/PositionSetting/Hbox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/minimum_character_width = 9
+text = "Bottom Left"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/OverlayPanel/MarginContainer/Settings/PositionSetting/Hbox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+focus_mode = 2
+script = ExtResource("5_leftright")
+
+[node name="PositionLeft" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/OverlayPanel/MarginContainer/Settings/PositionSetting/Hbox/HBoxContainer" instance=ExtResource("4_button")]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+icon = ExtResource("6_left")
+
+[node name="PositionRight" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/OverlayPanel/MarginContainer/Settings/PositionSetting/Hbox/HBoxContainer" instance=ExtResource("4_button")]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+icon = ExtResource("7_right")
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/OverlayPanel/MarginContainer/Settings/PositionSetting"]
+theme_type_variation = &"SongoSettingsLabel"
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Which corner of the screen the overlay sits in."
+autowrap_mode = 2
+
+[node name="StatsPanel" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("3_section")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Settings" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="CpuSetting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/CpuSetting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/CpuSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
+layout_mode = 2
+text = "CPU Usage"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/CpuSetting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CpuEnabled" type="Label" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/CpuSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
+text = "Enabled"
+
+[node name="CpuDisabled" type="Label" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/CpuSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
+text = "Disabled"
+
+[node name="CpuButton" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/CpuSetting/Hbox" instance=ExtResource("4_button")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Enable"
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/CpuSetting"]
+theme_type_variation = &"SongoSettingsLabel"
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Songo's share of the whole CPU. On a 4 core device, one core kept fully busy shows as 25%."
+autowrap_mode = 2
+
+[node name="RamSetting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/RamSetting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/RamSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
+layout_mode = 2
+text = "RAM Usage"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/RamSetting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RamEnabled" type="Label" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/RamSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
+text = "Enabled"
+
+[node name="RamDisabled" type="Label" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/RamSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
+text = "Disabled"
+
+[node name="RamButton" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/RamSetting/Hbox" instance=ExtResource("4_button")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Enable"
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/RamSetting"]
+theme_type_variation = &"SongoSettingsLabel"
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Memory Songo is using, and its share of the device's RAM."
+autowrap_mode = 2
+
+[node name="FpsSetting" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hbox" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/FpsSetting"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/FpsSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
+layout_mode = 2
+text = "FPS"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/FpsSetting/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FpsEnabled" type="Label" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/FpsSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.913725, 0, 1)
+text = "Enabled"
+
+[node name="FpsDisabled" type="Label" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/FpsSetting/Hbox"]
+theme_type_variation = &"SongoSettingsLabel"
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.870588, 0, 0, 1)
+text = "Disabled"
+
+[node name="FpsButton" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/FpsSetting/Hbox" instance=ExtResource("4_button")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+text = "Enable"
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/FpsSetting"]
+theme_type_variation = &"SongoSettingsLabel"
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Frames drawn per second. It can't go above the Target FPS setting."
+autowrap_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -25
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tab")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PageLabel" type="Label" parent="ScrollContainer/VBoxContainer/DiagnosticsSection/MarginContainer/PanelContainer/MarginContainer"]
+theme_type_variation = &"SongoSettingsLabel"
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Diagnostics"
+
+[node name="MarginContainer3" type="MarginContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 6
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer/MarginContainer3"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="ResetToDefaultsButton" parent="ScrollContainer/VBoxContainer/MarginContainer3/PanelContainer" instance=ExtResource("4_button")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Reset to Defaults"
+
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/OverlayPanel/MarginContainer/Settings/OverlaySetting/Hbox/OverlayButton" to="." method="_on_overlay_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/OverlayPanel/MarginContainer/Settings/PositionSetting/Hbox/HBoxContainer/PositionLeft" to="." method="_on_position_left_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/OverlayPanel/MarginContainer/Settings/PositionSetting/Hbox/HBoxContainer/PositionRight" to="." method="_on_position_right_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/CpuSetting/Hbox/CpuButton" to="." method="_on_cpu_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/RamSetting/Hbox/RamButton" to="." method="_on_ram_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/DiagnosticsSection/PanelContainer/MarginContainer2/VBoxContainer/StatsPanel/MarginContainer/Settings/FpsSetting/Hbox/FpsButton" to="." method="_on_fps_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/MarginContainer3/PanelContainer/ResetToDefaultsButton" to="." method="_on_reset_to_defaults_button_pressed"]

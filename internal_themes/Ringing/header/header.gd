@@ -14,6 +14,8 @@ var icons = [
 ]
 
 func _ready() -> void:
+	_show_network_status(DeviceOS.network_connected)
+	DeviceOS.network_status_checked.connect(_show_network_status)
 	_update_widgets()
 	Controller.page_changed.connect(_on_page_changed)
 
@@ -22,7 +24,6 @@ func _on_timer_timeout() -> void:
 	
 func _update_widgets():
 	update_time()
-	network_check_display()
 	if DeviceOS.battery_info_path != "":
 		update_battery_async()
 	else:
@@ -62,13 +63,9 @@ func _update_battery_ui(capacity, status) -> void:
 func update_time():
 	%CurrentOsTimeLabel.text = songo_settings.formatted_time
 	
-func network_check_display():
-	var network_checker = NetworkStatus.new()
-	var network_connection_node = %NetworkConnection
-	network_checker.status_checked.connect(func(connected):
-		%NetworkConnection.visible = connected
-		)
-	network_checker.is_connected_to_network()
+# Songo checks for internet once after boot (see DeviceOS.network_status_checked)
+func _show_network_status(connected: bool) -> void:
+	%NetworkConnection.visible = connected
 	
 func _on_page_changed():
 	var new_header_label = Controller.nav_label[Controller.nav_label.size()-1]

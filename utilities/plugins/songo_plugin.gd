@@ -25,8 +25,11 @@ var plugin_path: String = ""
 var plugin_name: String:
 	get: return plugin_info.get("name", name)
 
-## Override this. Called once after the plugin is added to the tree, before
-## the main menu is first built, so menu items registered here show up right away.
+## Override this. Called once after the plugin is added to the tree: at boot,
+## before the main menu is first built, or right away when it's enabled from
+## Plugin Management while Songo is running (plugins start out disabled). Menu
+## items registered here show up the next time the main menu opens, so don't
+## count on running before the UI is up.
 func _plugin_ready() -> void:
 	pass
 
