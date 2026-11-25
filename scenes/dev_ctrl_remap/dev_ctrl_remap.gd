@@ -13,6 +13,7 @@ extends MarginContainer
 const CONF_KEY = "dev_ctrl_remap"
 # Margin around the card at 4:3; wider screens add to the sides (as the info panel)
 const CARD_MARGIN := 50
+const LABEL_MIN_WIDTH := 200
 # Each remappable action (SongoSettings.ACTION_BINDINGS), in the order asked
 # for, with its name on screen
 const STEPS = [
@@ -163,4 +164,8 @@ func _label(text: String) -> Label:
 	label.text = text
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	# Wrapped labels are first measured before they have a width, at about a line
+	# per letter. The panel grows to fit that and stays that tall, which put the
+	# card off the bottom of the screen.
+	label.custom_minimum_size.x = LABEL_MIN_WIDTH
 	return label

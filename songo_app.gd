@@ -12,8 +12,8 @@ var original_size
 var debug_press_count = 0
 var _last_back_msec := 0
 
-# Not part of songo_app.tscn: loaded on a worker thread while the theme and main
-# menu build, then added once the menu is up. See _start_deferred_services.
+# Not part of songo_app.tscn: loaded on worker threads once the main menu is up,
+# then added. See _start_deferred_services.
 const OVERLAY_CONTAINER = "res://scenes/overlay_container/overlay_container.tscn"
 const LRC_SCRAPE = "res://utilities/lrc_scrape.gd"
 const LRC_PROCESS = "res://utilities/lrc_process.gd"
@@ -27,8 +27,6 @@ const PreviewCapture = preload("res://utilities/preview_capture.gd")
 var _preloaded_pages := []
 
 func _ready() -> void:
-	for path in [OVERLAY_CONTAINER, LRC_SCRAPE, LRC_PROCESS]:
-		ResourceLoader.load_threaded_request(path)
 	var my_theme := load("res://assets/songo_base_theme.tres")
 	get_tree().root.theme = my_theme
 	Engine.physics_ticks_per_second = 1
@@ -169,6 +167,10 @@ func _start_deferred_services():
 	await get_tree().process_frame
 	await get_tree().process_frame
 	UiHelper.boot_msec = Time.get_ticks_msec()
+	# Not started earlier: loading on other threads while the theme and main menu
+	# load holds the main thread up on the resource loader's locks
+	for path in [OVERLAY_CONTAINER, LRC_SCRAPE, LRC_PROCESS]:
+		ResourceLoader.load_threaded_request(path)
 	# Once per launch; themes' network icons show the result
 	DeviceOS.check_network_status()
 
@@ -197,7 +199,7 @@ func _start_deferred_services():
 		listener.volume_updated.connect(overlay._on_volume_changed)
 
 	_preload_pages()
-	ThemeManager.theme_updated.connect(_preload_pages)
+	ThemeManager.theme_updated.connect(_preload_pages_after_switch)
 
 	# Dev tool: songo.conf's dev_ctrl_remap=true asks for every control at
 	# launch (see dev_ctrl_remap.gd, only loaded then). After any boot import,
@@ -205,6 +207,16 @@ func _start_deferred_services():
 	if SongoConf.get_value("dev_ctrl_remap").to_lower() == "true":
 		if songo_data.importing: await songo_data.import_finished
 		load(DEV_CTRL_REMAP).new().open()
+
+# A theme switch rebuilds the header, footer, main menu and so on over the
+# next frame or two, loading the new theme's scenes on the main thread. A
+# threaded load started alongside them that shares their scripts or fonts can
+# deadlock Godot's loader (the app freezes), so the preload waits for them.
+const THEME_SWITCH_SETTLE_FRAMES := 3
+func _preload_pages_after_switch():
+	for i in THEME_SWITCH_SETTLE_FRAMES:
+		await get_tree().process_frame
+	_preload_pages()
 
 # The song list and song view, plus the current theme's parts of them. Opening
 # one before its load finishes is fine, load() waits for the threaded load.

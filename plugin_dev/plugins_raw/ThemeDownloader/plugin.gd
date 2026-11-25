@@ -21,6 +21,12 @@ const WORK_DIR = "user://theme_downloader"
 # What was downloaded for each theme, to tell when the catalog has a newer one.
 const STATE_PATH = "user://theme_downloader/installed.json"
 
+# Download counts from GitHub's releases. GitHub allows 60 of these requests an
+# hour, so the answer, or a failure, is kept for COUNTS_KEEP seconds.
+const COUNTS_PATH = "user://theme_downloader/counts.json"
+const COUNTS_KEEP = 600
+const COUNTS_MAX_PAGES = 5
+
 enum CatalogState { EMPTY, LOADING, READY, FAILED }
 
 ## Where the theme list comes from. Downloads and previews given as relative
@@ -38,11 +44,15 @@ var _previews := {}
 var _preview_queue: Array[String] = []
 var _preview_request: HTTPRequest
 var _installed := {}
+# {"repo": String, "at": unix time of the last try, "counts": {theme id: count}}
+var _counts := {}
+var _counts_loading := false
 
 func _plugin_ready() -> void:
 	DirAccess.make_dir_recursive_absolute(WORK_DIR)
 	DirAccess.make_dir_recursive_absolute(THEMES_DIR)
-	_installed = _load_state()
+	_installed = _load_json(STATE_PATH)
+	_counts = _load_json(COUNTS_PATH)
 
 ##############################
 #          CATALOG           #
@@ -75,8 +85,10 @@ func _on_catalog_completed(result: int, code: int, _headers, body: PackedByteArr
 		if typeof(entry) != TYPE_DICTIONARY or entry.get("builtin", false): continue
 		if not _is_valid_id(str(entry.get("id", ""))) or not entry.get("download"): continue
 		catalog.append(entry)
+	_apply_counts()
 	catalog_state = CatalogState.READY
 	catalog_changed.emit()
+	_refresh_counts()
 	for entry in catalog:
 		_queue_preview(entry)
 
@@ -89,6 +101,89 @@ func get_entry(theme_id: String) -> Dictionary:
 	for entry in catalog:
 		if entry["id"] == theme_id: return entry
 	return {}
+
+##############################
+#      DOWNLOAD COUNTS       #
+##############################
+
+# The catalog's counts are from when it was last published. These are current,
+# and where they can't be fetched the catalog's stay.
+func _refresh_counts() -> void:
+	if _counts_loading: return
+	var repo := _releases_repo()
+	if repo.is_empty(): return
+	var age: float = Time.get_unix_time_from_system() - float(_counts.get("at", 0))
+	# A negative age means the clock was changed.
+	if _counts.get("repo") == repo and age >= 0.0 and age < COUNTS_KEEP: return
+	_counts_loading = true
+	_request_counts(repo, 1, {})
+
+# owner/name of the GitHub repo the catalog's downloads are released in.
+func _releases_repo() -> String:
+	var pattern := RegEx.create_from_string("^https://github\\.com/([\\w.-]+/[\\w.-]+)/releases/download/")
+	for entry in catalog:
+		var found := pattern.search(str(entry["download"]))
+		if found != null: return found.get_string(1)
+	return ""
+
+func _request_counts(repo: String, page: int, counts: Dictionary) -> void:
+	var request := _new_request()
+	request.request_completed.connect(_on_counts_completed.bind(repo, page, counts, request))
+	if request.request("https://api.github.com/repos/%s/releases?per_page=100&page=%d" % [repo, page]) != OK:
+		request.queue_free()
+		_finish_counts(repo, null)
+
+func _on_counts_completed(result: int, code: int, _headers, body: PackedByteArray, repo: String, page: int, counts: Dictionary, request: HTTPRequest) -> void:
+	request.queue_free()
+	var releases = JSON.parse_string(body.get_string_from_utf8()) if result == HTTPRequest.RESULT_SUCCESS and code == 200 else null
+	if typeof(releases) != TYPE_ARRAY:
+		_finish_counts(repo, null)
+		return
+	for release in releases:
+		var tag := str(release.get("tag_name", ""))
+		if tag.begins_with("theme-"):
+			var theme_id := tag.trim_prefix("theme-")
+			counts[theme_id] = _release_total(release, theme_id)
+	if releases.size() == 100 and page < COUNTS_MAX_PAGES:
+		_request_counts(repo, page + 1, counts)
+	else:
+		_finish_counts(repo, counts)
+
+# Added up as publish_releases.py's total_downloads does: the release's zip,
+# the ones it replaced, and the count carried over from those already deleted.
+func _release_total(release: Dictionary, theme_id: String) -> int:
+	var found := RegEx.create_from_string("(?s)<!-- songo-theme: (\\{.*?\\}) -->").search(str(release.get("body", "")))
+	var meta = JSON.parse_string(found.get_string(1)) if found != null else null
+	if typeof(meta) != TYPE_DICTIONARY: meta = {}
+	var by_asset: Dictionary = meta.get("retired", {}).duplicate()
+	for asset in release.get("assets", []):
+		# JSON numbers are floats here, and the notes key by whole-number text.
+		var key := str(int(asset["id"]))
+		if asset["name"] == theme_id + ".zip" or by_asset.has(key):
+			by_asset[key] = maxi(int(asset["download_count"]), int(by_asset.get(key, 0)))
+	var total := int(meta.get("carried", 0))
+	for count in by_asset.values(): total += int(count)
+	return total
+
+# Null counts mean they couldn't be fetched; the last ones known are kept.
+func _finish_counts(repo: String, counts) -> void:
+	_counts_loading = false
+	if counts == null:
+		counts = _counts.get("counts", {}) if _counts.get("repo") == repo else {}
+	_counts = {"repo": repo, "at": Time.get_unix_time_from_system(), "counts": counts}
+	_save_json(COUNTS_PATH, _counts)
+	if _apply_counts(): catalog_changed.emit()
+
+# Counts only ever go up, so the higher one is the newer. True if any changed.
+func _apply_counts() -> bool:
+	if _counts.is_empty() or _counts.get("repo") != _releases_repo(): return false
+	var changed := false
+	for entry in catalog:
+		var count := int(_counts["counts"].get(entry["id"], 0))
+		if entry.get("downloads") == null or count <= int(entry["downloads"]): continue
+		entry["downloads"] = count
+		changed = true
+	return changed
 
 ##############################
 #           STATUS           #
@@ -343,12 +438,15 @@ func _describe_failure(result: int, code: int) -> String:
 			return "Couldn't save the download"
 	return "The download failed (error %d)" % result
 
-func _load_state() -> Dictionary:
-	var file := FileAccess.open(STATE_PATH, FileAccess.READ)
+func _load_json(path: String) -> Dictionary:
+	var file := FileAccess.open(path, FileAccess.READ)
 	if file == null: return {}
 	var data = JSON.parse_string(file.get_as_text())
 	return data if typeof(data) == TYPE_DICTIONARY else {}
 
 func _save_state() -> void:
-	var file := FileAccess.open(STATE_PATH, FileAccess.WRITE)
-	if file != null: file.store_string(JSON.stringify(_installed, "\t"))
+	_save_json(STATE_PATH, _installed)
+
+func _save_json(path: String, data: Dictionary) -> void:
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	if file != null: file.store_string(JSON.stringify(data, "\t"))
