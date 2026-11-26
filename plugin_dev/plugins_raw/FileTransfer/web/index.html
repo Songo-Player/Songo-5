@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Songo#5 File Transfer</title>
+<style>
+:root { color-scheme: dark; --bg:#141414; --panel:#212121; --line:#3a3a3a; --text:#eee; --dim:#a5a5a5; --good:#3ddc5c; --bad:#ff6b6b; --accent:#7fb4ff; }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.45 system-ui, sans-serif; }
+main { max-width: 760px; margin: 0 auto; padding: 24px 16px 48px; }
+h1 { font-size: 24px; margin: 0 0 16px; }
+section { background: var(--panel); border-radius: 6px; padding: 16px; margin-bottom: 16px; }
+button, input[type=text] { font: inherit; color: inherit; background: #303030; border: 1px solid var(--line); border-radius: 4px; padding: 6px 12px; }
+button { cursor: pointer; }
+button:hover { background: #3c3c3c; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+#drop { border: 2px dashed var(--line); text-align: center; padding: 36px 16px; }
+#drop.over { border-color: var(--accent); background: #26303d; }
+#drop p { margin: 0 0 12px; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+#drop .row { justify-content: center; }
+.dim { color: var(--dim); font-size: 14px; }
+.bad { color: var(--bad); } .good { color: var(--good); }
+#crumbs button { padding: 2px 8px; }
+ul { list-style: none; padding: 0; margin: 12px 0 0; max-height: 320px; overflow-y: auto; }
+li { padding: 5px 2px; border-top: 1px solid var(--line); overflow-wrap: anywhere; }
+li button { background: none; border: 0; padding: 0; color: var(--accent); text-align: left; overflow-wrap: anywhere; }
+progress { width: 100%; height: 12px; accent-color: var(--good); }
+label { display: inline-flex; gap: 6px; align-items: center; }
+</style>
+</head>
+<body>
+<main>
+<h1>Songo#5 File Transfer</h1>
+
+<section id="pinPanel" hidden>
+	<form id="pinForm">
+		<p>Enter the PIN shown on your device's File Transfer page.</p>
+		<div class="row"><input id="pin" type="text" inputmode="numeric" maxlength="6" autocomplete="off" aria-label="PIN" size="8"><button>Connect</button></div>
+		<p id="pinError" class="bad" role="alert"></p>
+	</form>
+</section>
+
+<div id="app" hidden>
+	<section id="drop">
+		<p>Drop music files or folders here</p>
+		<div class="row">
+			<button id="pickFiles" type="button">Choose files</button>
+			<button id="pickFolder" type="button">Choose a folder</button>
+		</div>
+		<p class="dim" style="margin:12px 0 0">They go in <b id="target"></b></p>
+		<p class="row" style="margin:8px 0 0"><label class="dim"><input id="replace" type="checkbox"> Replace files that are already there</label></p>
+		<input id="files" type="file" multiple hidden>
+		<input id="folder" type="file" webkitdirectory hidden>
+	</section>
+
+	<section id="transfer" hidden>
+		<div class="row"><span id="status" style="flex:1;overflow-wrap:anywhere" role="status"></span><button id="cancel" type="button">Cancel</button></div>
+		<progress id="bar" max="1" value="0" aria-label="Transfer progress"></progress>
+		<div id="counts" class="dim"></div>
+		<ul id="problems"></ul>
+	</section>
+
+	<section>
+		<div id="crumbs" class="row"></div>
+		<div class="row" style="margin-top:8px"><button id="newFolder" type="button">New folder</button><span id="free" class="dim"></span></div>
+		<form id="folderForm" class="row" style="margin-top:8px" hidden><input id="folderName" type="text" aria-label="Folder name" placeholder="Folder name"><button>Use this folder</button></form>
+		<ul id="listing"></ul>
+	</section>
+</div>
+<p id="fatal" class="bad" role="alert"></p>
+</main>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+let info = null, pin = "", here = "", queue = [], running = false, cancelled = false;
+let totals = null;
+try { pin = sessionStorage.getItem("pin") || ""; } catch (e) {}
+
+function headers() { return pin ? {"X-Songo": "1", "X-Songo-Pin": pin} : {"X-Songo": "1"}; }
+
+async function api(path, params = {}, body = null) {
+	const query = new URLSearchParams(params).toString().replace(/\+/g, "%20");
+	const response = await fetch("/api/" + path + (query ? "?" + query : ""), body ? {method: "POST", headers: headers(), body: JSON.stringify(body)} : {headers: headers(), cache: "no-store"});
+	const data = await response.json();
+	if (response.status === 401) askPin(pin ? "That PIN isn't right. It changes after several wrong tries, so check the device." : "");
+	if (!response.ok) { const error = new Error(data.error); error.status = response.status; throw error; }
+	return data;
+}
+
+function askPin(message) {
+	$("app").hidden = true; $("pinPanel").hidden = false;
+	$("pinError").textContent = message; $("pin").value = ""; $("pin").focus();
+}
+
+async function open(path) {
+	const data = await api("list", path ? {path} : {});
+	here = path;
+	$("app").hidden = false; $("pinPanel").hidden = true; $("fatal").textContent = "";
+	render(data);
+}
+
+function render(data) {
+	const parts = here ? here.split("/") : [];
+	const crumbs = [info.folder || "Music", ...parts].map((name, i) => {
+		const button = document.createElement("button");
+		button.type = "button"; button.textContent = name;
+		button.onclick = () => go(parts.slice(0, i).join("/"));
+		return button;
+	});
+	$("crumbs").replaceChildren(...crumbs);
+	$("target").textContent = [info.folder || "Music", ...parts].join(" / ");
+	$("free").textContent = data.free > 0 ? size(data.free) + " free" : "";
+	const items = [];
+	for (const name of data.folders) {
+		const li = document.createElement("li"), button = document.createElement("button");
+		button.type = "button"; button.textContent = name + "/";
+		button.onclick = () => go(here ? here + "/" + name : name);
+		li.append(button); items.push(li);
+	}
+	for (const name of data.files) { const li = document.createElement("li"); li.textContent = name; items.push(li); }
+	if (!items.length) { const li = document.createElement("li"); li.className = "dim"; li.textContent = "Nothing here yet"; items.push(li); }
+	$("listing").replaceChildren(...items);
+}
+
+function go(path) {
+	$("folderForm").hidden = true;
+	open(path).catch(error => {
+		// A new folder isn't on the device until something is put in it
+		if (error.status === 404) { here = path; render({folders: [], files: [], free: 0}); }
+		else if (error.status !== 401) fail(error);
+	});
+}
+
+function fail(error) {
+	$("fatal").textContent = error instanceof TypeError ? "Can't reach the device. Check File Transfer is still started, then reload." : error.message;
+}
+
+function size(bytes) {
+	for (const unit of ["B", "KB", "MB", "GB"]) {
+		if (bytes < 1024 || unit === "GB") return bytes.toFixed(unit === "B" ? 0 : 1) + " " + unit;
+		bytes /= 1024;
+	}
+}
+
+// Folders arrive as entries that have to be walked; readEntries gives at most
+// 100 at a time.
+async function walk(entry, prefix, found) {
+	if (entry.name.startsWith(".")) return;
+	if (entry.isFile) {
+		const file = await new Promise((ok, no) => entry.file(ok, no));
+		found.push({file, path: prefix + entry.name});
+		return;
+	}
+	const reader = entry.createReader();
+	for (;;) {
+		const batch = await new Promise((ok, no) => reader.readEntries(ok, no));
+		if (!batch.length) break;
+		for (const child of batch) await walk(child, prefix + entry.name + "/", found);
+	}
+}
+
+function add(found) {
+	if (!found.length) return;
+	if (!running) { totals = {files: 0, bytes: 0, sent: 0, done: 0, skipped: 0, existing: 0, failed: 0}; $("problems").replaceChildren(); cancelled = false; folderImages = new Map(); coversSent = new Set(); }
+	const types = new Set(info.types);
+	for (const {file, path} of found) {
+		if (path.split("/").some(part => part.startsWith("."))) continue;
+		if (!path.includes(".") || !types.has(path.split(".").pop().toLowerCase())) { totals.skipped++; continue; }
+		totals.files++; totals.bytes += file.size;
+		const full = here ? here + "/" + path : path;
+		if (IMAGE.test(full) && !folderImages.has(folderOf(full))) folderImages.set(folderOf(full), file);
+		queue.push({file, path: full, replace: $("replace").checked, loaded: 0});
+	}
+	$("transfer").hidden = false;
+	if (!running) run(); else { progress(); wake(); }
+}
+
+// ---- Covers ----
+// Building album covers is nearly all of an import's work on a handheld, so it's
+// done here. Only the picture is read from a song, never its tags: Songo still
+// decides what album it's in. Anything not understood is left to the device.
+const COVER_SIDE = 500, IMAGE = /\.(png|jpe?g|webp)$/i, AUDIO = /\.(mp3|flac|ogg|opus|m4a|m4b|wav|aiff?)$/i;
+let folderImages = new Map(), coversSent = new Set();
+
+const folderOf = path => path.slice(0, path.lastIndexOf("/") + 1);
+const bytesOf = async (file, from, length) => new Uint8Array(await file.slice(from, from + length).arrayBuffer());
+const u32 = (b, i) => (b[i] << 24 | b[i + 1] << 16 | b[i + 2] << 8 | b[i + 3]) >>> 0;
+const le32 = (b, i) => (b[i + 3] << 24 | b[i + 2] << 16 | b[i + 1] << 8 | b[i]) >>> 0;
+const synchsafe = (b, i) => b[i] << 21 | b[i + 1] << 14 | b[i + 2] << 7 | b[i + 3];
+const ascii = (b, i, n) => String.fromCharCode(...b.subarray(i, i + n));
+const MAX_TAG = 32 << 20;
+
+// Front cover if there is one, else the first picture, as Songo picks
+const choose = pictures => (pictures.find(p => p.type === 3) || pictures[0] || {}).data || null;
+
+async function id3(file, at) {
+	const head = await bytesOf(file, at, 10);
+	if (ascii(head, 0, 3) !== "ID3") return null;
+	const version = head[3], size = synchsafe(head, 6);
+	// Whole-tag unsynchronisation and v2.2 are rare enough to leave to the device
+	if (version < 3 || version > 4 || size > MAX_TAG || (head[5] & 0x80)) return null;
+	const b = await bytesOf(file, at + 10, size);
+	let i = 0;
+	if (head[5] & 0x40) i = version === 4 ? synchsafe(b, 0) : u32(b, 0) + 4;
+	const pictures = [];
+	while (i + 10 <= b.length && b[i]) {
+		const id = ascii(b, i, 4), length = version === 4 ? synchsafe(b, i + 4) : u32(b, i + 4);
+		const start = i + 10, end = start + length;
+		if (end > b.length) break;
+		if (id === "APIC" && !b[i + 9]) {
+			let j = start + 1;
+			while (j < end && b[j]) j++;
+			const type = b[j + 1];
+			j += 2;
+			if (b[start] === 1 || b[start] === 2) { while (j + 1 < end && (b[j] || b[j + 1])) j += 2; j += 2; }
+			else { while (j < end && b[j]) j++; j++; }
+			if (j < end) pictures.push({type, data: b.slice(j, end)});
+		}
+		i = end;
+	}
+	return choose(pictures);
+}
+
+function flacPicture(b) {
+	let i = 8 + u32(b, 4);
+	i += 4 + u32(b, i) + 16;
+	const length = u32(b, i);
+	return i + 4 + length <= b.length ? {type: u32(b, 0), data: b.slice(i + 4, i + 4 + length)} : null;
+}
+
+async function flac(file) {
+	if (ascii(await bytesOf(file, 0, 4), 0, 4) !== "fLaC") return null;
+	const pictures = [];
+	for (let at = 4, last = false; !last;) {
+		const head = await bytesOf(file, at, 4);
+		if (head.length < 4) break;
+		const length = head[1] << 16 | head[2] << 8 | head[3];
+		last = !!(head[0] & 0x80);
+		if ((head[0] & 0x7f) === 6) { const picture = flacPicture(await bytesOf(file, at + 4, length)); if (picture) pictures.push(picture); }
+		at += 4 + length;
+	}
+	return choose(pictures);
+}
+
+// The comment header is the second packet, spread over as many pages as it needs
+async function ogg(file) {
+	const b = await bytesOf(file, 0, 8 << 20);
+	const packets = [[]];
+	for (let at = 0; at + 27 <= b.length && packets.length < 3;) {
+		if (ascii(b, at, 4) !== "OggS") return null;
+		const count = b[at + 26];
+		let data = at + 27 + count;
+		for (let s = 0; s < count && packets.length < 3; s++) {
+			const length = b[at + 27 + s];
+			packets[packets.length - 1].push(b.subarray(data, data + length));
+			data += length;
+			if (length < 255) packets.push([]);
+		}
+		at = data;
+	}
+	if (packets.length < 3) return null;
+	const c = new Uint8Array(await new Blob(packets[1]).arrayBuffer());
+	let i = ascii(c, 0, 8) === "OpusTags" ? 8 : ascii(c, 1, 6) === "vorbis" ? 7 : -1;
+	if (i < 0) return null;
+	i += 4 + le32(c, i);
+	const pictures = [];
+	let fields = le32(c, i);
+	for (i += 4; fields-- > 0 && i + 4 <= c.length;) {
+		const length = le32(c, i), KEY = "METADATA_BLOCK_PICTURE=";
+		if (ascii(c, i + 4, KEY.length).toUpperCase() === KEY) {
+			const text = new TextDecoder().decode(c.subarray(i + 4 + KEY.length, i + 4 + length));
+			const picture = flacPicture(Uint8Array.from(atob(text), ch => ch.charCodeAt(0)));
+			if (picture) pictures.push(picture);
+		}
+		i += 4 + length;
+	}
+	return choose(pictures);
+}
+
+async function mp4(file) {
+	// [start, end) of a child box's contents
+	const child = async (name, from, to) => {
+		for (let at = from; at + 8 <= to;) {
+			const head = await bytesOf(file, at, 16);
+			if (head.length < 8) return null;
+			let size = u32(head, 0), skip = 8;
+			if (size === 1) { size = u32(head, 8) * 2 ** 32 + u32(head, 12); skip = 16; }
+			else if (size === 0) size = to - at;
+			if (size < skip) return null;
+			if (ascii(head, 4, 4) === name) return [at + skip, at + size];
+			at += size;
+		}
+		return null;
+	};
+	let box = [0, file.size];
+	for (const name of ["moov", "udta", "meta", "ilst", "covr", "data"]) {
+		box = await child(name, box[0] + (name === "ilst" ? 4 : 0), box[1]);
+		if (!box) return null;
+	}
+	return box[1] - box[0] > MAX_TAG ? null : bytesOf(file, box[0] + 8, box[1] - box[0] - 8);
+}
+
+// WAV and AIFF keep an ID3 tag in a chunk
+async function riff(file) {
+	const little = ascii(await bytesOf(file, 0, 4), 0, 4) === "RIFF";
+	for (let at = 12; at + 8 <= file.size;) {
+		const head = await bytesOf(file, at, 8), length = little ? le32(head, 4) : u32(head, 4);
+		if (ascii(head, 0, 3).toUpperCase() === "ID3") return id3(file, at + 8);
+		at += 8 + length + length % 2;
+	}
+	return null;
+}
+
+function embedded(file, path) {
+	switch (path.split(".").pop().toLowerCase()) {
+		case "mp3": return id3(file, 0);
+		case "flac": return flac(file);
+		case "ogg": case "opus": return ogg(file);
+		case "m4a": case "m4b": return mp4(file);
+		default: return riff(file);
+	}
+}
+
+function fingerprint(b) {
+	let h = 2166136261;
+	for (let i = 0; i < b.length; i++) h = Math.imul(h ^ b[i], 16777619);
+	return b.length + ":" + (h >>> 0);
+}
+
+async function shrink(blob) {
+	const bitmap = await createImageBitmap(blob);
+	const scale = Math.min(1, COVER_SIDE / Math.min(bitmap.width, bitmap.height));
+	const canvas = document.createElement("canvas");
+	canvas.width = Math.max(1, Math.trunc(bitmap.width * scale)); canvas.height = Math.max(1, Math.trunc(bitmap.height * scale));
+	const context = canvas.getContext("2d");
+	context.imageSmoothingQuality = "high";
+	context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+	bitmap.close();
+	const encode = type => new Promise(ok => canvas.toBlob(ok, type, 0.9));
+	// Safari can't make WebP and gives a PNG instead
+	const webp = await encode("image/webp");
+	return webp && webp.type === "image/webp" ? webp : encode("image/jpeg");
+}
+
+// Covers are built one at a time, alongside the uploads. Each picture goes once
+// per folder; null when there's none to send. Never fails a transfer.
+let coverQueue = Promise.resolve();
+function buildCover(item) {
+	if (!info.covers || !AUDIO.test(item.path)) return Promise.resolve(null);
+	return coverQueue = coverQueue.then(async () => {
+		try {
+			if (cancelled) return null;
+			const folder = folderOf(item.path), inFolder = folderImages.get(folder);
+			const data = inFolder ? null : await embedded(item.file, item.path);
+			if (!inFolder && (!data || !data.length)) return null;
+			const key = folder + "\n" + (inFolder ? "folder" : fingerprint(data));
+			if (coversSent.has(key)) return null;
+			const blob = await shrink(inFolder || new Blob([data]));
+			coversSent.add(key);
+			return {key, blob};
+		} catch (error) { console.warn("No cover made for", item.path, error); return null; }
+	});
+}
+
+async function sendCover(item, building) {
+	const cover = await building;
+	if (!cover) return;
+	try {
+		const response = await fetch("/api/cover?path=" + encodeURIComponent(item.path), {method: "PUT", headers: headers(), body: cover.blob});
+		if (!response.ok) coversSent.delete(cover.key);
+	} catch (error) { coversSent.delete(cover.key); }
+}
+
+// Another file starts once less than this is left to send, so there's always
+// something on its way without big files competing to be written.
+const AHEAD_BYTES = 4 << 20, MAX_ACTIVE = 3, CHECK_BATCH = 200;
+let active = new Set();
+const left = () => [...active].reduce((sum, item) => sum + item.file.size - item.loaded, 0);
+
+async function run() {
+	running = true;
+	$("cancel").hidden = false;
+	const covers = new Set();
+	while (!cancelled && (queue.length || active.size || covers.size)) {
+		if (queue.length && active.size < MAX_ACTIVE && (!active.size || left() < AHEAD_BYTES)) {
+			if (queue[0].exists === undefined) { await checkExisting(); continue; }
+			const item = queue.shift();
+			if (item.exists) { totals.existing++; settle(item); continue; }
+			send(item, covers);
+			continue;
+		}
+		await new Promise(ok => wake = ok);
+	}
+	// Anything cancelled finishes stopping
+	while (active.size) await new Promise(ok => wake = ok);
+	running = false; queue = [];
+	$("cancel").hidden = true;
+	$("status").textContent = cancelled ? "Cancelled" : totals.failed ? "Finished with problems" : "Finished";
+	progress();
+	if (!$("app").hidden) go(here);
+}
+
+// Lets run() look again, after a file finishes or gets further along
+let wake = () => {};
+
+// Asks about many files at once rather than one request each
+async function checkExisting() {
+	const batch = queue.slice(0, CHECK_BATCH), asking = batch.filter(item => !item.replace);
+	try {
+		const exists = asking.length ? (await api("exists", {}, asking.map(item => item.path))).exists : [];
+		asking.forEach((item, i) => item.exists = exists[i]);
+		for (const item of batch) if (item.replace) item.exists = false;
+	} catch (error) { if (queue.length) problem(queue.shift(), error); }
+}
+
+async function send(item, covers) {
+	active.add(item);
+	$("status").textContent = item.path;
+	const building = buildCover(item);
+	try {
+		await upload(item);
+		totals.done++;
+		const sending = sendCover(item, building).then(() => { covers.delete(sending); wake(); });
+		covers.add(sending);
+	} catch (error) {
+		building.then(cover => cover && coversSent.delete(cover.key));
+		if (!cancelled) problem(item, error);
+	}
+	active.delete(item);
+	settle(item);
+	wake();
+}
+
+function settle(item) { totals.sent += item.file.size; progress(); }
+
+function problem(item, error) {
+	if (error.status === 409) { totals.existing++; return; }
+	totals.failed++;
+	const li = document.createElement("li"); li.className = "bad";
+	li.textContent = item.path + ": " + (error.status ? error.message : "connection lost");
+	$("problems").append(li);
+	// None of the rest would get through either
+	if (!error.status || error.status === 401 || error.status === 507) { totals.failed += queue.length; queue = []; }
+	if (!error.status) fail(new TypeError());
+	else if (error.status === 401) askPin("The PIN has changed, check the device.");
+}
+
+function upload(item) {
+	return new Promise((ok, no) => {
+		const query = "path=" + encodeURIComponent(item.path) + (item.replace ? "&replace=1" : "");
+		const request = item.request = new XMLHttpRequest();
+		request.open("PUT", "/api/upload?" + query);
+		for (const [name, value] of Object.entries(headers())) request.setRequestHeader(name, value);
+		request.setRequestHeader("Content-Type", "application/octet-stream");
+		request.upload.onprogress = event => { item.loaded = event.loaded; progress(); wake(); };
+		request.onload = () => {
+			if (request.status === 201) return ok();
+			const error = new Error("Failed"); error.status = request.status;
+			try { error.message = JSON.parse(request.responseText).error; } catch (e) {}
+			no(error);
+		};
+		request.onerror = request.onabort = () => no(new Error("connection lost"));
+		request.send(item.file);
+	});
+}
+
+function progress() {
+	const loaded = [...active].reduce((sum, item) => sum + item.loaded, 0);
+	$("bar").value = totals.bytes ? Math.min(1, (totals.sent + loaded) / totals.bytes) : 1;
+	const notes = [totals.done + " of " + totals.files + " sent"];
+	if (totals.existing) notes.push(totals.existing + " already there");
+	if (totals.skipped) notes.push(totals.skipped + " skipped (not music, artwork, lyrics or playlists)");
+	if (totals.failed) notes.push(totals.failed + " failed");
+	$("counts").textContent = notes.join(", ");
+}
+
+$("pinForm").onsubmit = event => {
+	event.preventDefault();
+	pin = $("pin").value.trim();
+	if (!pin) return;
+	open(here).then(() => { try { sessionStorage.setItem("pin", pin); } catch (e) {} })
+		.catch(error => { if (error.status !== 401) fail(error); });
+};
+$("pickFiles").onclick = () => $("files").click();
+$("pickFolder").onclick = () => $("folder").click();
+for (const id of ["files", "folder"]) $(id).onchange = event => {
+	add([...event.target.files].map(file => ({file, path: file.webkitRelativePath || file.name})));
+	event.target.value = "";
+};
+$("newFolder").onclick = () => { $("folderForm").hidden = !$("folderForm").hidden; $("folderName").focus(); };
+$("folderForm").onsubmit = event => {
+	event.preventDefault();
+	const name = $("folderName").value.trim().replace(/[\/\\<>:"|?*]/g, "_").replace(/^\.+|[. ]+$/g, "");
+	$("folderName").value = "";
+	if (name) go(here ? here + "/" + name : name);
+};
+$("cancel").onclick = () => { cancelled = true; queue = []; for (const item of active) item.request.abort(); wake(); };
+// Anywhere on the page, so a near miss doesn't make the browser open the file
+addEventListener("dragover", event => { event.preventDefault(); $("drop").classList.add("over"); });
+addEventListener("dragleave", event => { if (!event.relatedTarget) $("drop").classList.remove("over"); });
+addEventListener("drop", async event => {
+	event.preventDefault();
+	$("drop").classList.remove("over");
+	if ($("app").hidden) return;
+	// Entries have to be taken before the first await
+	const items = [...event.dataTransfer.items].filter(item => item.kind === "file");
+	const entries = items.map(item => item.webkitGetAsEntry && item.webkitGetAsEntry());
+	const files = [...event.dataTransfer.files];
+	const found = [];
+	try {
+		if (entries.some(Boolean)) for (const entry of entries) { if (entry) await walk(entry, "", found); }
+		else for (const file of files) found.push({file, path: file.name});
+	} catch (error) { $("fatal").textContent = "Some files couldn't be read."; }
+	add(found);
+});
+addEventListener("beforeunload", event => { if (running) event.preventDefault(); });
+
+(async () => {
+	try { info = await api("info"); if (info.pin && !pin) askPin(""); else await open(""); }
+	catch (error) { if (error.status !== 401) fail(error); }
+})();
+</script>
+</body>
+</html>

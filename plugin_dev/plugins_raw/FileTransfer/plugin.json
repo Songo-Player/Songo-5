@@ -1,0 +1,9 @@
+{
+	"name": "File Transfer",
+	"rootDir": "FileTransfer",
+	"version": "0.1",
+	"author": "Songo#5",
+	"description": "Copy music to this device from a web browser on the same network. Pick a music directory and start the server from its page in Settings, then drop files or folders onto the page it serves.",
+	"entry": "plugin.gd",
+	"settings_scene_path": "settings/file_transfer_settings_page.tscn"
+}

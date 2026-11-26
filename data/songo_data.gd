@@ -48,6 +48,15 @@ var import_notes = []
 var path_error = null
 var scale_components = []
 var importing: bool = false
+# Optional: given a song's path, returns the path of a ready-made cover for its
+# album (webp or jpg, already at most cover size), or "". The import moves it
+# into album_images instead of building one. Called on the import thread. Set by
+# the File Transfer plugin, which gets covers built by the sending browser.
+var cover_provider := Callable()
+# Optional: returns an Array of TagLibMusicRecords (GDTagLib.build_music_records)
+# already read for songs about to be imported, so their files aren't read again.
+# Out of date ones are ignored. Called on the import thread.
+var record_provider := Callable()
 # When true the scan step (import_step 0) runs without the import panel, which
 # only appears once the scan finds changes. Used for the auto import on boot.
 var import_quiet_scan: bool = false
@@ -346,11 +355,12 @@ func _thread_import():
 	# the SD card on handhelds; the separate prefetch thread keeps the card
 	# busy instead. The library stays readable from the main thread meanwhile.
 	var read_count := maxi(plan.added.size() + plan.changed.size(), 1)
+	var records: Array = record_provider.call() if record_provider.is_valid() else []
 	var result := library.update(all_paths, plan.changed,
 		func(done: int) -> bool:
 			call_deferred("_on_record_imported", done / float(read_count))
 			return _stop_flag,
-		{"threads": 1})
+		{"threads": 1, "records": records})
 
 	if _stop_flag or result.cancelled:
 		call_deferred("_on_import_early_exit")
@@ -421,6 +431,10 @@ func build_album_images(rebuild: bool = false, image_paths = null):
 		if Artwork.album_image_path(album.asset_id) != "":
 			continue
 			
+		if _use_provided_cover(album.asset_id, album_song_paths):
+			call_deferred("_increment_images_rebuilt")
+			continue
+
 		# --- Method 1: Look for image in same folder as any album song
 		for song_path in album_song_paths:
 			var song_dir = song_path.get_base_dir().simplify_path().to_utf8_buffer()
@@ -483,6 +497,15 @@ func build_album_images(rebuild: bool = false, image_paths = null):
 		call_deferred("_increment_images_rebuilt")
 
 		
+func _use_provided_cover(asset_id: String, song_paths: PackedStringArray) -> bool:
+	if not cover_provider.is_valid(): return false
+	for song_path in song_paths:
+		var provided: String = cover_provider.call(song_path)
+		if provided == "": continue
+		var dest := "user://album_images/%s.%s" % [asset_id, provided.get_extension()]
+		if DirAccess.rename_absolute(provided, dest) == OK: return true
+	return false
+
 func safe_load_image(path: String) -> Image:
 	var img := Image.new()
 	var err := img.load(path)
